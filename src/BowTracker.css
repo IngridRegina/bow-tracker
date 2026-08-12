@@ -556,6 +556,21 @@
   margin-left: auto;
 }
 
+/* On the narrowest boards the title's tracking and the head gap are worth ~7px
+   between them, which is the margin by which the longest label was dropping to
+   a second line. This block has to sit after the two rules it tightens: a
+   container query adds no specificity, so from further up the file the plain
+   rules below would simply win. */
+@container board (max-width: 254px) {
+  .bt-board-head {
+    gap: 6px;
+  }
+
+  .bt-board-title {
+    letter-spacing: 0.05em;
+  }
+}
+
 .bt-board-note {
   font: 14px var(--bt-body);
   color: var(--bt-ink-soft);
@@ -1187,6 +1202,12 @@
 
 .bt-countryrow[aria-pressed="true"] .bt-countryrow-n {
   color: var(--bt-gold);
+}
+
+/* the selected row is the band colour, which the darkest map step very nearly
+   is — without a ring the swatch vanishes into it */
+.bt-countryrow[aria-pressed="true"] .bt-map-swatch {
+  box-shadow: 0 0 0 1.5px var(--bt-band-soft);
 }
 
 .bt-map-members {

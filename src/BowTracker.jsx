@@ -167,7 +167,7 @@ const T = {
 
     topThree: "Los tres mejores esta semana",
     raw: "Bruto",
-    multiples: "% del poder",
+    multiples: "% poder",
     leadershipIn: "Liderazgo incluido",
     leadershipOut: "Liderazgo excluido",
     include: "Incluir",
