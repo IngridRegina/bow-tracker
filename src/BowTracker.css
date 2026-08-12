@@ -456,6 +456,9 @@
 .bt-swatch[data-tone="green"] { background: var(--bt-green); }
 .bt-swatch[data-tone="greenPlus"] { background: var(--bt-green-plus); }
 .bt-swatch[data-tone="band"] { background: var(--bt-band); }
+/* the stalled-might filter: the badge's amber, deepened so it does not read as
+   the amber "below target" bar sitting two chips along */
+.bt-swatch[data-tone="amberInk"] { background: var(--bt-amber-ink); }
 /* "silver only" needs its own colour or it duplicates the amber "below target"
    bar sitting next to it; the resource silver (#9aa0a6) is too pale to clear
    the 3:1 non-text minimum on this page, so it is deepened to 4.0:1 */

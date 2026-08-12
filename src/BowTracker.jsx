@@ -98,6 +98,7 @@ const T = {
     silverOnly: "Silver only",
     outsideFilter: "Far outside territory",
     twoWeeksMissed: "2 weeks missed",
+    stalledFilter: "Possibly inactive",
     donationRule: "“Donations met” currently means at least 20% of might given across all resources combined, even if some resources are below 5% or missing.",
 
     statsLine: (might, place) => `${might} might · ${place}`,
@@ -221,6 +222,7 @@ const T = {
     silverOnly: "Solo plata",
     outsideFilter: "Lejos del territorio",
     twoWeeksMissed: "2 semanas sin dar",
+    stalledFilter: "Posiblemente inactivos",
     donationRule: "“Donaciones cumplidas” significa al menos el 20% del poder donado entre todos los recursos combinados, aunque algunos estén por debajo del 5% o falten.",
 
     statsLine: (might, place) => `${might} de poder · ${place}`,
@@ -812,17 +814,18 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
   }, [members, week]);
 
   const extraCounts = useMemo(() => {
-    let noDon = 0, silver = 0, outside = 0;
+    let noDon = 0, silver = 0, outside = 0, stalled = 0;
     members.forEach((m) => {
       const don = evaluate(m, week).don;
       const gaveMandatory = RES.some((r) => (don[r] || 0) > 0);
       if (!m.inTerritory) outside++;
+      if (m.mightFlatDays >= STALL_DAYS) stalled++;
       if (!isNewThisWeek(m, week) && !gaveMandatory) {
         noDon++;
         if ((don.silver || 0) > 0) silver++;
       }
     });
-    return { noDon, silver, outside };
+    return { noDon, silver, outside, stalled };
   }, [members, week]);
 
   const part = useMemo(() => {
@@ -865,6 +868,7 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
     if (filter === "nodonation") return !isNewThisWeek(m, week) && !RES.some((r) => (e.don[r] || 0) > 0);
     if (filter === "silveronly") return !isNewThisWeek(m, week) && !RES.some((r) => (e.don[r] || 0) > 0) && (e.don.silver || 0) > 0;
     if (filter === "missed2") return missedTwoSet.has(m.id);
+    if (filter === "stalled") return m.mightFlatDays >= STALL_DAYS;
     return e.status === filter;
   };
 
@@ -882,6 +886,7 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
     ["all", t.everyone, members.length, "line"],
     statusChip("red"),
     ...(prevWeek ? [["missed2", t.twoWeeksMissed, missedTwo.length, "redInk"]] : []),
+    ["stalled", t.stalledFilter, extraCounts.stalled, "amberInk"],
     statusChip("yellow"),
     ["silveronly", t.silverOnly, extraCounts.silver, "silver"],
     statusChip("green"),
