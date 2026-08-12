@@ -1099,29 +1099,6 @@ export default function App() {
     return () => clearInterval(id);
   }, []);
 
-  // Page title + themed favicon (a gold bow & arrow on the heraldic band colour).
-  useEffect(() => {
-    document.title = "Brethren of War - Contribution Tracker";
-    const svg = [
-      "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'>",
-      "<rect x='2' y='2' width='60' height='60' rx='14' fill='#3A2416'/>",
-      "<path d='M26 10 Q10 32 26 54' fill='none' stroke='#C69A3E' stroke-width='5' stroke-linecap='round'/>",
-      "<line x1='26' y1='10' x2='26' y2='54' stroke='#C69A3E' stroke-width='3'/>",
-      "<line x1='22' y1='32' x2='50' y2='32' stroke='#E4C87E' stroke-width='4' stroke-linecap='round'/>",
-      "<path d='M45 26 L54 32 L45 38' fill='none' stroke='#E4C87E' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/>",
-      "</svg>",
-    ].join("");
-    const href = "data:image/svg+xml," + encodeURIComponent(svg);
-    let link = document.querySelector("link[rel='icon']");
-    if (!link) {
-      link = document.createElement("link");
-      link.rel = "icon";
-      document.head.appendChild(link);
-    }
-    link.type = "image/svg+xml";
-    link.href = href;
-  }, []);
-
   if (loading || !state) return <div className="bt-loading">{t.loading}</div>;
 
   const weekKeys = Object.keys(state.weeks).sort().reverse();
