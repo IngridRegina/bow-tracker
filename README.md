@@ -168,6 +168,28 @@ contributing will look quiet.
 There is no gold-ingot data. The `ingots` flag on each member is a manual field
 that nothing currently sets.
 
+### No "last seen"
+
+The client shows "last seen 28m ago" in the member list, but that value is not
+in any captured response. Checked: every request goes to the one realm
+endpoint; no field pairs a member with a recent timestamp (only join dates,
+event times and map objects); and comparing two captures 4h25m apart, no
+per-member field grows by that gap in either seconds or minutes, which is what
+an elapsed-time counter would have to do.
+
+`might-history.json` is the substitute. It records each member's might per day,
+and `mightFlatDays` counts the days since it last rose. Might only goes up
+through play, so a flat line usually means an absent player — though someone can
+log in daily without moving it, which is why the badge says "possibly inactive"
+and the tooltip explains the basis. Three days is the threshold (`STALL_DAYS`,
+mirrored in BowTracker.jsx).
+
+Only a build that actually observed the roster writes to this file or to
+`member-history.json`. A capture without a member list falls back to the
+previous roster, and recording that would date today's figures to that capture's
+day — which during the backfill gave a member a might reading four days before
+they joined.
+
 ### Territory
 
 There is no territory geometry in the captures — no polygon, no owned-tile

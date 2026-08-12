@@ -30,6 +30,12 @@ OVERRIDES_FILE = "overrides.json"
 # never says "X left" — departed members simply stop appearing in the roster —
 # so a leaving date can only be "the last day they were still listed".
 MEMBER_HISTORY = "member-history.json"
+# Might per member per day. The game does not send a last-online time — it is
+# shown in the client but never appears in any captured response — so a stalled
+# might is the closest thing to an activity signal we can actually derive.
+MIGHT_HISTORY = "might-history.json"
+# Days of flat might before a member is worth a second look.
+STALL_DAYS = 3
 STATE_FILE = "public/tracker-state.json"
 # Speedup item ids to hours, verified against the in-game log wording.
 # 2055 and 2056 are guesses at the 3-day and 7-day items; only 3 instances so far.
@@ -217,6 +223,11 @@ def week_start(day):
     return (d - timedelta(days=(d.weekday() + 1) % 7)).strftime("%Y-%m-%d")
 
 
+def daysbetween(a, b):
+    """Whole days from date string a to date string b."""
+    return (datetime.strptime(b, "%Y-%m-%d") - datetime.strptime(a, "%Y-%m-%d")).days
+
+
 def capture_day(events, chests, fallback_ts=None):
     """The game-day this capture was taken, read from the freshest thing in it
     rather than from the clock, so re-processing an old capture still dates its
@@ -354,10 +365,13 @@ def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
 
     if len(players) < max(10, len(prev_members) // 2) and prev_members:
         # A capture with no Members screen in it. Keep the roster we already had
-        # rather than wiping it.
+        # rather than wiping it — but remember that these figures were not
+        # actually observed now, so nothing dated gets written from them.
         members = list(prev_members.values())
+        roster_observed = False
         print(f"capture has no full member list ({len(players)} found), keeping {len(members)} known member(s)")
     else:
+        roster_observed = True
         members = build_members(players, prev_members, old_by_name, ranks_by_id, ranks_by_name, roster, overrides, capital)
     members.sort(key=lambda m: -m["might"])
 
@@ -462,7 +476,7 @@ def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
     if os.path.exists(MEMBER_HISTORY):
         history = json.load(open(MEMBER_HISTORY, encoding="utf-8"))
     seen_on = capture_day(events, chests)
-    for m in members:
+    for m in members if roster_observed else []:
         was = history.get(m["id"], {})
         history[m["id"]] = {
             "name": m["name"],
@@ -511,6 +525,35 @@ def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
           f" ({len(ghosts)} of them known only from contributions;"
           f" {len(strangers) - len(ghosts)} more skipped for having no name)"
           f" — this capture dated {seen_on}")
+
+    # Might per member per day, and from it the last day each one grew. Might
+    # only ever goes up through play, so a flat line means nobody has been
+    # building, researching or training — a decent proxy for an absent player,
+    # though a member can log in daily and still not move it.
+    mights = {}
+    if os.path.exists(MIGHT_HISTORY):
+        mights = json.load(open(MIGHT_HISTORY, encoding="utf-8"))
+    for m in members if roster_observed else []:
+        row = mights.setdefault(m["id"], {})
+        # highest reading that day: two captures on one day should not look
+        # like a fall
+        row[seen_on] = max(row.get(seen_on, 0), m["might"])
+    json.dump(mights, open(MIGHT_HISTORY, "w", encoding="utf-8"), indent=1)
+
+    for m in members:
+        days = sorted(mights.get(m["id"], {}).items())
+        rose_on = days[0][0] if days else None
+        for (_, before), (day, after) in zip(days, days[1:]):
+            if after > before:
+                rose_on = day
+        m["mightRoseOn"] = rose_on
+        m["mightFlatDays"] = daysbetween(rose_on, seen_on) if rose_on else None
+        m["daysTracked"] = len(days)
+
+    stalled = [m for m in members if (m["mightFlatDays"] or 0) >= STALL_DAYS]
+    print(f"might history: {len(mights)} member(s) tracked over"
+          f" {len({d for r in mights.values() for d in r})} day(s);"
+          f" {len(stalled)} flat for {STALL_DAYS}+ days")
 
     # Last day a member did something we can see: donated, sent speedups or
     # produced a clan chest. Not a login time — the game does not expose one —

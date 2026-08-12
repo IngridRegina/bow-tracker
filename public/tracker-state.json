@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-12T13:36:50Z",
+  "generatedAt": "2026-08-12T14:05:31Z",
   "capital": [
     660,
     432
@@ -17,6 +17,9 @@
       "firstSeen": "2026-07-16",
       "country": "EE",
       "utcOffset": 180,
+      "mightRoseOn": "2026-08-11",
+      "mightFlatDays": 0,
+      "daysTracked": 5,
       "lastActive": "2026-08-11"
     },
     {
@@ -31,6 +34,9 @@
       "firstSeen": "2026-07-02",
       "country": "US",
       "utcOffset": -420,
+      "mightRoseOn": "2026-08-11",
+      "mightFlatDays": 0,
+      "daysTracked": 5,
       "lastActive": "2026-08-11"
     },
     {
@@ -45,6 +51,9 @@
       "firstSeen": "2026-07-11",
       "country": "CA",
       "utcOffset": -480,
+      "mightRoseOn": "2026-08-07",
+      "mightFlatDays": 4,
+      "daysTracked": 5,
       "lastActive": "2026-08-01"
     },
     {
@@ -59,6 +68,9 @@
       "firstSeen": "2026-07-11",
       "country": "PL",
       "utcOffset": 60,
+      "mightRoseOn": "2026-08-11",
+      "mightFlatDays": 0,
+      "daysTracked": 5,
       "lastActive": "2026-08-11"
     },
     {
@@ -73,6 +85,9 @@
       "firstSeen": "2026-08-04",
       "country": "GB",
       "utcOffset": 60,
+      "mightRoseOn": "2026-08-11",
+      "mightFlatDays": 0,
+      "daysTracked": 5,
       "lastActive": "2026-08-10"
     },
     {
@@ -87,6 +102,9 @@
       "firstSeen": "2026-08-07",
       "country": "CA",
       "utcOffset": -240,
+      "mightRoseOn": "2026-08-11",
+      "mightFlatDays": 0,
+      "daysTracked": 4,
       "lastActive": "2026-08-10"
     },
     {
@@ -101,6 +119,9 @@
       "firstSeen": "2026-08-05",
       "country": "US",
       "utcOffset": -420,
+      "mightRoseOn": "2026-08-11",
+      "mightFlatDays": 0,
+      "daysTracked": 5,
       "lastActive": "2026-08-11"
     },
     {
@@ -115,6 +136,9 @@
       "firstSeen": "2026-08-07",
       "country": "US",
       "utcOffset": -360,
+      "mightRoseOn": "2026-08-11",
+      "mightFlatDays": 0,
+      "daysTracked": 5,
       "lastActive": "2026-08-11"
     },
     {
@@ -129,6 +153,9 @@
       "firstSeen": "2026-07-02",
       "country": "ES",
       "utcOffset": 60,
+      "mightRoseOn": "2026-08-11",
+      "mightFlatDays": 0,
+      "daysTracked": 5,
       "lastActive": "2026-08-11"
     },
     {
@@ -143,6 +170,9 @@
       "firstSeen": "2026-07-15",
       "country": "SK",
       "utcOffset": 60,
+      "mightRoseOn": "2026-08-11",
+      "mightFlatDays": 0,
+      "daysTracked": 5,
       "lastActive": "2026-08-11"
     },
     {
@@ -157,6 +187,9 @@
       "firstSeen": "2026-08-04",
       "country": "ZA",
       "utcOffset": 120,
+      "mightRoseOn": "2026-08-10",
+      "mightFlatDays": 1,
+      "daysTracked": 5,
       "lastActive": "2026-08-08"
     },
     {
@@ -171,6 +204,9 @@
       "firstSeen": "2026-07-22",
       "country": "YE",
       "utcOffset": 180,
+      "mightRoseOn": "2026-08-11",
+      "mightFlatDays": 0,
+      "daysTracked": 5,
       "lastActive": "2026-08-11"
     },
     {
@@ -185,6 +221,9 @@
       "firstSeen": "2026-07-16",
       "country": "FR",
       "utcOffset": 60,
+      "mightRoseOn": "2026-08-11",
+      "mightFlatDays": 0,
+      "daysTracked": 5,
       "lastActive": "2026-08-10"
     },
     {
@@ -199,6 +238,9 @@
       "firstSeen": "2026-07-10",
       "country": "GB",
       "utcOffset": 60,
+      "mightRoseOn": "2026-08-11",
+      "mightFlatDays": 0,
+      "daysTracked": 5,
       "lastActive": "2026-08-11"
     },
     {
@@ -213,6 +255,9 @@
       "firstSeen": "2026-08-05",
       "country": "PL",
       "utcOffset": 60,
+      "mightRoseOn": "2026-08-11",
+      "mightFlatDays": 0,
+      "daysTracked": 5,
       "lastActive": "2026-08-11"
     },
     {
@@ -227,6 +272,9 @@
       "firstSeen": "2026-07-22",
       "country": "AU",
       "utcOffset": 570,
+      "mightRoseOn": "2026-08-11",
+      "mightFlatDays": 0,
+      "daysTracked": 5,
       "lastActive": "2026-08-11"
     },
     {
@@ -241,6 +289,9 @@
       "firstSeen": "2026-07-08",
       "country": "FR",
       "utcOffset": 60,
+      "mightRoseOn": "2026-08-11",
+      "mightFlatDays": 0,
+      "daysTracked": 5,
       "lastActive": "2026-08-11"
     },
     {
@@ -255,6 +306,9 @@
       "firstSeen": "2026-07-16",
       "country": "DE",
       "utcOffset": 60,
+      "mightRoseOn": "2026-08-11",
+      "mightFlatDays": 0,
+      "daysTracked": 5,
       "lastActive": "2026-08-11"
     },
     {
@@ -269,6 +323,9 @@
       "firstSeen": "2026-07-31",
       "country": "BR",
       "utcOffset": -180,
+      "mightRoseOn": "2026-08-11",
+      "mightFlatDays": 0,
+      "daysTracked": 5,
       "lastActive": "2026-08-11"
     },
     {
@@ -283,6 +340,9 @@
       "firstSeen": "2026-07-16",
       "country": "PL",
       "utcOffset": 60,
+      "mightRoseOn": "2026-08-11",
+      "mightFlatDays": 0,
+      "daysTracked": 5,
       "lastActive": "2026-08-10"
     },
     {
@@ -297,6 +357,9 @@
       "firstSeen": "2026-07-03",
       "country": "HU",
       "utcOffset": 60,
+      "mightRoseOn": "2026-08-11",
+      "mightFlatDays": 0,
+      "daysTracked": 5,
       "lastActive": "2026-08-09"
     },
     {
@@ -311,6 +374,9 @@
       "firstSeen": "2026-07-08",
       "country": "AT",
       "utcOffset": 180,
+      "mightRoseOn": "2026-08-10",
+      "mightFlatDays": 1,
+      "daysTracked": 5,
       "lastActive": "2026-08-06"
     },
     {
@@ -325,6 +391,9 @@
       "firstSeen": "2026-07-08",
       "country": "PL",
       "utcOffset": 60,
+      "mightRoseOn": "2026-08-10",
+      "mightFlatDays": 1,
+      "daysTracked": 5,
       "lastActive": "2026-08-10"
     },
     {
@@ -339,6 +408,9 @@
       "firstSeen": "2026-07-24",
       "country": "DE",
       "utcOffset": 60,
+      "mightRoseOn": "2026-08-11",
+      "mightFlatDays": 0,
+      "daysTracked": 5,
       "lastActive": "2026-08-11"
     },
     {
@@ -353,6 +425,9 @@
       "firstSeen": "2026-07-22",
       "country": "FR",
       "utcOffset": 60,
+      "mightRoseOn": "2026-08-11",
+      "mightFlatDays": 0,
+      "daysTracked": 5,
       "lastActive": "2026-08-10"
     },
     {
@@ -367,6 +442,9 @@
       "firstSeen": "2026-07-26",
       "country": "HR",
       "utcOffset": 60,
+      "mightRoseOn": "2026-08-07",
+      "mightFlatDays": 4,
+      "daysTracked": 5,
       "lastActive": "2026-07-30"
     },
     {
@@ -381,6 +459,9 @@
       "firstSeen": "2026-07-02",
       "country": "TR",
       "utcOffset": 120,
+      "mightRoseOn": "2026-08-10",
+      "mightFlatDays": 1,
+      "daysTracked": 5,
       "lastActive": "2026-08-08"
     },
     {
@@ -395,6 +476,9 @@
       "firstSeen": "2026-07-30",
       "country": "PT",
       "utcOffset": 60,
+      "mightRoseOn": "2026-08-11",
+      "mightFlatDays": 0,
+      "daysTracked": 5,
       "lastActive": "2026-08-10"
     },
     {
@@ -409,6 +493,9 @@
       "firstSeen": "2026-07-13",
       "country": "IE",
       "utcOffset": 60,
+      "mightRoseOn": "2026-08-07",
+      "mightFlatDays": 4,
+      "daysTracked": 5,
       "lastActive": "2026-07-28"
     },
     {
@@ -423,6 +510,9 @@
       "firstSeen": "2026-07-30",
       "country": "HU",
       "utcOffset": 60,
+      "mightRoseOn": "2026-08-10",
+      "mightFlatDays": 1,
+      "daysTracked": 5,
       "lastActive": "2026-08-10"
     },
     {
@@ -437,6 +527,9 @@
       "firstSeen": "2026-07-14",
       "country": "IT",
       "utcOffset": 60,
+      "mightRoseOn": "2026-08-07",
+      "mightFlatDays": 4,
+      "daysTracked": 5,
       "lastActive": "2026-08-06"
     },
     {
@@ -451,6 +544,9 @@
       "firstSeen": "2026-07-09",
       "country": "ES",
       "utcOffset": 60,
+      "mightRoseOn": "2026-08-11",
+      "mightFlatDays": 0,
+      "daysTracked": 5,
       "lastActive": "2026-08-11"
     },
     {
@@ -465,6 +561,9 @@
       "firstSeen": "2026-07-13",
       "country": "ES",
       "utcOffset": 60,
+      "mightRoseOn": "2026-08-11",
+      "mightFlatDays": 0,
+      "daysTracked": 5,
       "lastActive": "2026-08-11"
     },
     {
@@ -479,6 +578,9 @@
       "firstSeen": "2026-07-09",
       "country": "PL",
       "utcOffset": 60,
+      "mightRoseOn": "2026-08-09",
+      "mightFlatDays": 2,
+      "daysTracked": 5,
       "lastActive": "2026-08-09"
     },
     {
@@ -493,6 +595,9 @@
       "firstSeen": "2026-07-08",
       "country": "BR",
       "utcOffset": -180,
+      "mightRoseOn": "2026-08-11",
+      "mightFlatDays": 0,
+      "daysTracked": 5,
       "lastActive": "2026-08-02"
     },
     {
@@ -507,6 +612,9 @@
       "firstSeen": "2026-07-14",
       "country": "YE",
       "utcOffset": 180,
+      "mightRoseOn": "2026-08-09",
+      "mightFlatDays": 2,
+      "daysTracked": 5,
       "lastActive": "2026-08-09"
     },
     {
@@ -521,6 +629,9 @@
       "firstSeen": "2026-07-11",
       "country": "IT",
       "utcOffset": 60,
+      "mightRoseOn": "2026-08-07",
+      "mightFlatDays": 4,
+      "daysTracked": 5,
       "lastActive": "2026-07-28"
     },
     {
@@ -535,6 +646,9 @@
       "firstSeen": "2026-07-06",
       "country": "IT",
       "utcOffset": 60,
+      "mightRoseOn": "2026-08-10",
+      "mightFlatDays": 1,
+      "daysTracked": 5,
       "lastActive": "2026-08-10"
     },
     {
@@ -549,6 +663,9 @@
       "firstSeen": "2026-08-08",
       "country": "GB",
       "utcOffset": 60,
+      "mightRoseOn": "2026-08-11",
+      "mightFlatDays": 0,
+      "daysTracked": 3,
       "lastActive": "2026-08-10"
     },
     {
@@ -563,6 +680,9 @@
       "firstSeen": "2026-07-24",
       "country": "EG",
       "utcOffset": 120,
+      "mightRoseOn": "2026-08-11",
+      "mightFlatDays": 0,
+      "daysTracked": 5,
       "lastActive": "2026-08-05"
     },
     {
@@ -577,6 +697,9 @@
       "firstSeen": "2026-07-25",
       "country": "PE",
       "utcOffset": -300,
+      "mightRoseOn": "2026-08-11",
+      "mightFlatDays": 0,
+      "daysTracked": 5,
       "lastActive": "2026-08-06"
     },
     {
@@ -591,6 +714,9 @@
       "firstSeen": "2026-07-23",
       "country": "US",
       "utcOffset": -300,
+      "mightRoseOn": "2026-08-10",
+      "mightFlatDays": 1,
+      "daysTracked": 5,
       "lastActive": "2026-08-10"
     },
     {
@@ -605,6 +731,9 @@
       "firstSeen": "2026-07-26",
       "country": "UG",
       "utcOffset": 180,
+      "mightRoseOn": "2026-08-07",
+      "mightFlatDays": 4,
+      "daysTracked": 5,
       "lastActive": "2026-08-03"
     },
     {
@@ -619,6 +748,9 @@
       "firstSeen": "2026-07-27",
       "country": "US",
       "utcOffset": -300,
+      "mightRoseOn": "2026-08-11",
+      "mightFlatDays": 0,
+      "daysTracked": 5,
       "lastActive": "2026-07-28"
     },
     {
@@ -633,6 +765,9 @@
       "firstSeen": "2026-07-19",
       "country": "IT",
       "utcOffset": 60,
+      "mightRoseOn": "2026-08-11",
+      "mightFlatDays": 0,
+      "daysTracked": 5,
       "lastActive": null
     },
     {
@@ -647,6 +782,9 @@
       "firstSeen": "2026-08-01",
       "country": "GB",
       "utcOffset": 60,
+      "mightRoseOn": "2026-08-09",
+      "mightFlatDays": 2,
+      "daysTracked": 5,
       "lastActive": "2026-08-09"
     },
     {
@@ -661,6 +799,9 @@
       "firstSeen": "2026-07-23",
       "country": "HU",
       "utcOffset": 60,
+      "mightRoseOn": "2026-08-08",
+      "mightFlatDays": 3,
+      "daysTracked": 5,
       "lastActive": "2026-07-30"
     },
     {
@@ -675,6 +816,9 @@
       "firstSeen": "2026-08-11",
       "country": "US",
       "utcOffset": -360,
+      "mightRoseOn": "2026-08-11",
+      "mightFlatDays": 0,
+      "daysTracked": 1,
       "lastActive": "2026-08-11"
     },
     {
@@ -689,6 +833,9 @@
       "firstSeen": "2026-08-05",
       "country": "DE",
       "utcOffset": 60,
+      "mightRoseOn": "2026-08-11",
+      "mightFlatDays": 0,
+      "daysTracked": 5,
       "lastActive": "2026-08-11"
     },
     {
@@ -703,6 +850,9 @@
       "firstSeen": "2026-07-20",
       "country": "AR",
       "utcOffset": -180,
+      "mightRoseOn": "2026-08-11",
+      "mightFlatDays": 0,
+      "daysTracked": 5,
       "lastActive": "2026-08-11"
     }
   ],

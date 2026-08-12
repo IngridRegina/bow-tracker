@@ -1718,6 +1718,11 @@
   color: var(--bt-ink-soft);
 }
 
+.bt-fact-aside[data-warn] {
+  color: var(--bt-amber-ink);
+  font-weight: 600;
+}
+
 .bt-fact-none {
   font: 13px var(--bt-body);
   color: var(--bt-ink-soft);

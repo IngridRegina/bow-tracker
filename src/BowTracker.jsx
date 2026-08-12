@@ -26,6 +26,9 @@ const MAX_MEMBERS = 60;
 const DONATION_PCT = 0.05;
 const CHEST_TARGET = 3;
 const EXCEED_MARGIN = 0.5; // 50% past both targets earns the darker green
+// Days of unmoved might before a member is flagged. Mirrors STALL_DAYS in
+// build_state.py, which is what computes mightFlatDays.
+const STALL_DAYS = 3;
 
 /* ---- resource icons (lucide; colour comes from CSS) ----------- */
 const RES_ICON = {
@@ -126,6 +129,11 @@ const T = {
     fTimezone: "Timezone",
     fLastActive: "Last contribution",
     fJoined: "Joined",
+    fMight: "Might",
+    mightFlat: (n) => `flat for ${n} day${n === 1 ? "" : "s"}`,
+    mightRose: (n) => (n === 0 ? "rose today" : n === 1 ? "rose yesterday" : `rose ${n} days ago`),
+    mightUntracked: "only one day tracked",
+    inactiveWhy: (n) => `Might has not moved in ${n} days. It only ever goes up through play, so a flat line usually means nobody is home — but a member can log in daily without shifting it.`,
     unknownField: "not set",
     daysAgo: (n) => (n === 0 ? "today" : n === 1 ? "yesterday" : `${n} days ago`),
     localTimeNow: (s) => `${s} their time`,
@@ -244,6 +252,11 @@ const T = {
     fTimezone: "Zona horaria",
     fLastActive: "Última aportación",
     fJoined: "Se unió",
+    fMight: "Poder",
+    mightFlat: (n) => `sin cambios desde hace ${n} día${n === 1 ? "" : "s"}`,
+    mightRose: (n) => (n === 0 ? "subió hoy" : n === 1 ? "subió ayer" : `subió hace ${n} días`),
+    mightUntracked: "solo un día registrado",
+    inactiveWhy: (n) => `El poder no se mueve desde hace ${n} días. Solo sube jugando, así que un poder plano suele significar ausencia, aunque alguien puede entrar a diario sin moverlo.`,
     unknownField: "sin definir",
     daysAgo: (n) => (n === 0 ? "hoy" : n === 1 ? "ayer" : `hace ${n} días`),
     localTimeNow: (s) => `${s} su hora`,
@@ -946,8 +959,8 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
                               {t.newThisWeek.toUpperCase()}
                             </span>
                           )}
-                          {m.inactive && (
-                            <span className="bt-badge" data-tone="amber">
+                          {m.mightFlatDays >= STALL_DAYS && (
+                            <span className="bt-badge" data-tone="amber" title={t.inactiveWhy(m.mightFlatDays)}>
                               {t.inactive.toUpperCase()}
                             </span>
                           )}
@@ -1040,6 +1053,19 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
                           <div className="bt-fact">
                             <dt>{t.fJoined}</dt>
                             <dd>{shortDate(m.firstSeen, lang)}</dd>
+                          </div>
+                          <div className="bt-fact">
+                            <dt>{t.fMight}</dt>
+                            <dd>
+                              {fmt(e.might)}
+                              <span className="bt-fact-aside" data-warn={m.mightFlatDays >= STALL_DAYS ? "" : undefined}>
+                                {m.daysTracked < 2
+                                  ? t.mightUntracked
+                                  : m.mightFlatDays >= STALL_DAYS
+                                    ? t.mightFlat(m.mightFlatDays)
+                                    : t.mightRose(m.mightFlatDays)}
+                              </span>
+                            </dd>
                           </div>
                         </dl>
                       </div>
