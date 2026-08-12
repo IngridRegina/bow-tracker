@@ -168,6 +168,23 @@ contributing will look quiet.
 There is no gold-ingot data. The `ingots` flag on each member is a manual field
 that nothing currently sets.
 
+### Territory
+
+There is no territory geometry in the captures — no polygon, no owned-tile
+list. What is there is map objects: 43-field rows carrying a type, an owning
+clan and a position, which include the clan capital and its towers.
+
+Those are real, but a capture only holds the part of the map the client had
+open at the time, so tower counts swing between 0 and 31 across the captures on
+file. Only the capital is stable, appearing at (660, 432) in every capture that
+covers it. So `inTerritory` still means "within `CAPITAL_RADIUS` tiles of the
+capital", but the capital is now read from the capture rather than hardcoded,
+falling back to the previous state and then to the constant.
+
+The radius stays a judgement call, and a safe one: members sit either within 23
+tiles of the capital or beyond 141, with nothing in between, so anything from
+24 to 140 gives the same answer.
+
 ### overrides.json
 
 Some members leave the timezone blank in their game profile. `overrides.json`

@@ -16,6 +16,7 @@ import base64
 import os
 import json
 import re
+from collections import Counter
 from datetime import datetime, timedelta, timezone
 
 from mp import MP
@@ -62,10 +63,20 @@ BOUNDARY_UTC_HOUR = 17
 # 20 hours, so subtract that to get when the chest was actually made.
 CHEST_TTL = 20 * 3600
 
-# Clan capital, taken from the densest cluster of member coordinates.
-# Members within CAPITAL_RADIUS tiles are treated as living in clan territory.
-CAPITAL = (659, 445)
+# Where the clan's capital sits, and how far out still counts as "near".
+#
+# The captures do carry real clan structures — the capital and its towers, as
+# map objects owning a position — but only whatever part of the map the client
+# had loaded at the time, so tower counts swing between 0 and 31 from one
+# capture to the next. There is no territory polygon or tile list anywhere in
+# them. The capital is the one piece that is stable, so it is read from the
+# capture when present (see find_capital) and this constant is only the
+# fallback for a capture that does not include it.
+CAPITAL = (660, 432)
 CAPITAL_RADIUS = 60
+
+# Map objects are 43-field rows; these are the type codes we care about.
+OBJ_CLAN_CAPITAL = 10001
 
 
 # ---------------------------------------------------------------- decoding
@@ -127,6 +138,18 @@ def is_clan_member(row):
     )
 
 
+def is_map_object(row):
+    """A thing standing on the map: 43 fields, an owner at [4], a type at [3]
+    and its position at [17] as [realm, x, y]."""
+    return (
+        isinstance(row, list) and len(row) == 43
+        and isinstance(row[3], int)
+        and isinstance(row[4], list) and len(row[4]) == 1
+        and isinstance(row[17], list) and len(row[17]) == 3
+        and all(isinstance(v, int) for v in row[17])
+    )
+
+
 def is_event(row):
     return (
         isinstance(row, list) and len(row) == 6
@@ -137,7 +160,7 @@ def is_event(row):
 
 
 def read_hars(paths):
-    players, events, chests, roster = {}, {}, {}, {}
+    players, events, chests, roster, map_objects = {}, {}, {}, {}, []
     for path in paths:
         for entry in json.load(open(path, encoding="utf-8"))["log"]["entries"]:
             if entry["request"]["method"] != "POST":
@@ -160,7 +183,10 @@ def read_hars(paths):
                             "coords": row[15] if isinstance(row[15], list) else None,
                             "country": row[3] if isinstance(row[3], str) else "",
                             "tz": row[21] if len(row) > 21 and isinstance(row[21], str) else "",
+                            "clan_entity": row[11][0] if isinstance(row[11], list) and row[11] else None,
                         }
+                    elif is_map_object(row):
+                        map_objects.append({"type": row[3], "owner": row[4][0], "pos": (row[17][1], row[17][2])})
                     elif is_clan_member(row):
                         roster[row[0][0]] = {"rank": row[1], "joined": row[2]}
                     elif is_chest_list(row):
@@ -173,7 +199,7 @@ def read_hars(paths):
                             "ts": row[4],
                             "amounts": row[5][0] if isinstance(row[5][0], dict) else {},
                         }
-    return players, events, chests, roster
+    return players, events, chests, roster, map_objects
 
 
 # ---------------------------------------------------------------- dates
@@ -187,14 +213,25 @@ def week_start(day):
     return (d - timedelta(days=(d.weekday() + 1) % 7)).strftime("%Y-%m-%d")
 
 
-def in_territory(coords):
+def find_capital(map_objects, players):
+    """The clan's capital as the game reports it, or None if this capture did
+    not happen to include that part of the map."""
+    entities = Counter(p["clan_entity"] for p in players.values() if p.get("clan_entity"))
+    if not entities:
+        return None
+    ours = entities.most_common(1)[0][0]
+    spots = Counter(o["pos"] for o in map_objects if o["owner"] == ours and o["type"] == OBJ_CLAN_CAPITAL)
+    return spots.most_common(1)[0][0] if spots else None
+
+
+def in_territory(coords, capital):
     if not coords or len(coords) < 3:
         return False
-    dx, dy = coords[1] - CAPITAL[0], coords[2] - CAPITAL[1]
+    dx, dy = coords[1] - capital[0], coords[2] - capital[1]
     return (dx * dx + dy * dy) ** 0.5 <= CAPITAL_RADIUS
 
 
-def build_members(players, prev_members, old_by_name, ranks_by_id, ranks_by_name, roster=None, overrides=None):
+def build_members(players, prev_members, old_by_name, ranks_by_id, ranks_by_name, roster=None, overrides=None, capital=CAPITAL):
     """One record per current clan member, keeping flags from previous state.
 
     Rank and join date both come from the capture's own clan roster when it is
@@ -222,7 +259,7 @@ def build_members(players, prev_members, old_by_name, ranks_by_id, ranks_by_name
             "might": p["might"],
             "level": p["level"],
             "rank": rank or ranks_by_id.get(str(pid)) or ranks_by_name.get(p["name"]) or prev.get("rank") or "Veteran",
-            "inTerritory": in_territory(p["coords"]),
+            "inTerritory": in_territory(p["coords"], capital),
             "inactive": prev.get("inactive", False),
             "ingots": prev.get("ingots", False),
             "firstSeen": joined or prev.get("firstSeen") or today,
@@ -239,7 +276,7 @@ def build_members(players, prev_members, old_by_name, ranks_by_id, ranks_by_name
 # ---------------------------------------------------------------- build
 
 def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
-    players, events, chests, roster = read_hars(har_paths)
+    players, events, chests, roster, map_objects = read_hars(har_paths)
 
     # A permanent id -> name map of everyone ever seen, so people who have since
     # left the clan still show a name rather than a bare id in the "former
@@ -294,13 +331,21 @@ def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
         for m in old.get("members", []):
             old_by_name[m["name"]] = m
 
+    # Read the capital off the capture; fall back to the last one we knew, then
+    # to the constant, since a capture only carries the map region the client
+    # had open and may not include it at all.
+    found_capital = find_capital(map_objects, players)
+    capital = tuple(found_capital or prev_state.get("capital") or CAPITAL)
+    print(f"clan capital: {capital}"
+          + ("" if found_capital else "  (not in this capture, kept from before)"))
+
     if len(players) < max(10, len(prev_members) // 2) and prev_members:
         # A capture with no Members screen in it. Keep the roster we already had
         # rather than wiping it.
         members = list(prev_members.values())
         print(f"capture has no full member list ({len(players)} found), keeping {len(members)} known member(s)")
     else:
-        members = build_members(players, prev_members, old_by_name, ranks_by_id, ranks_by_name, roster, overrides)
+        members = build_members(players, prev_members, old_by_name, ranks_by_id, ranks_by_name, roster, overrides, capital)
     members.sort(key=lambda m: -m["might"])
 
     if roster:
@@ -500,7 +545,8 @@ def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
     # When this run happened, so the page can show "last updated".
     generated_at = datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
 
-    state = {"generatedAt": generated_at, "members": members, "currentWeek": current, "weeks": weeks}
+    state = {"generatedAt": generated_at, "capital": list(capital), "members": members,
+             "currentWeek": current, "weeks": weeks}
     json.dump(state, open("public/tracker-state.json", "w", encoding="utf-8"), indent=2)
 
     print(f"members: {len(members)}   weeks: {len(weeks)}   current: {current}")
