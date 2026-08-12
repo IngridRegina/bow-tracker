@@ -26,6 +26,10 @@ LEDGER = "chest-ledger.json"
 EVENT_LEDGER = "event-ledger.json"
 NAMES_FILE = "names.json"
 OVERRIDES_FILE = "overrides.json"
+# Who has ever been in the clan, and when we last saw them in it. The game
+# never says "X left" — departed members simply stop appearing in the roster —
+# so a leaving date can only be "the last day they were still listed".
+MEMBER_HISTORY = "member-history.json"
 STATE_FILE = "public/tracker-state.json"
 # Speedup item ids to hours, verified against the in-game log wording.
 # 2055 and 2056 are guesses at the 3-day and 7-day items; only 3 instances so far.
@@ -211,6 +215,15 @@ def game_day(ts):
 def week_start(day):
     d = datetime.strptime(day, "%Y-%m-%d")
     return (d - timedelta(days=(d.weekday() + 1) % 7)).strftime("%Y-%m-%d")
+
+
+def capture_day(events, chests, fallback_ts=None):
+    """The game-day this capture was taken, read from the freshest thing in it
+    rather than from the clock, so re-processing an old capture still dates its
+    roster correctly."""
+    stamps = [e["ts"] for e in events.values()]
+    stamps += [c["ts"] - CHEST_TTL for c in chests.values()]
+    return game_day(max(stamps) if stamps else (fallback_ts or datetime.now(timezone.utc).timestamp()))
 
 
 def find_capital(map_objects, players):
@@ -442,6 +455,37 @@ def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
     json.dump(elog, open(EVENT_LEDGER, "w", encoding="utf-8"), indent=1)
     print(f"event ledger: {before_e} known, {len(elog) - before_e} new, {len(elog)} total")
 
+    # Everyone who has ever been in the clan, with the last day we saw them in
+    # it. Current members are refreshed; anyone in the ledger who is no longer
+    # on the roster becomes a former member, dated to their last sighting.
+    history = {}
+    if os.path.exists(MEMBER_HISTORY):
+        history = json.load(open(MEMBER_HISTORY, encoding="utf-8"))
+    seen_on = capture_day(events, chests)
+    for m in members:
+        was = history.get(m["id"], {})
+        history[m["id"]] = {
+            "name": m["name"],
+            "rank": m["rank"],
+            "might": m["might"],
+            "joined": m["firstSeen"],
+            # never walk the last sighting backwards when an older capture is
+            # re-processed after a newer one
+            "lastSeen": max(seen_on, was.get("lastSeen", "")),
+        }
+    json.dump(history, open(MEMBER_HISTORY, "w", encoding="utf-8"), indent=1)
+
+    current_member_ids = {m["id"] for m in members}
+    # not `former`: that name is taken further down by the per-week list of
+    # people who contributed to a week but are no longer on the roster
+    former_members = sorted(
+        ({"id": k, **v} for k, v in history.items() if k not in current_member_ids),
+        key=lambda m: (m["lastSeen"], m["name"]),
+        reverse=True,
+    )
+    print(f"member history: {len(history)} ever seen, {len(former_members)} no longer in the clan"
+          f" (this capture dated {seen_on})")
+
     # Last day a member did something we can see: donated, sent speedups or
     # produced a clan chest. Not a login time — the game does not expose one —
     # so someone playing without contributing looks quiet here.
@@ -546,7 +590,7 @@ def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
     generated_at = datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
 
     state = {"generatedAt": generated_at, "capital": list(capital), "members": members,
-             "currentWeek": current, "weeks": weeks}
+             "formerMembers": former_members, "currentWeek": current, "weeks": weeks}
     json.dump(state, open("public/tracker-state.json", "w", encoding="utf-8"), indent=2)
 
     print(f"members: {len(members)}   weeks: {len(weeks)}   current: {current}")

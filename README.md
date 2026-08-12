@@ -185,6 +185,25 @@ The radius stays a judgement call, and a safe one: members sit either within 23
 tiles of the capital or beyond 141, with nothing in between, so anything from
 24 to 140 gives the same answer.
 
+### Former members
+
+The game records a join date but never a departure — someone who leaves simply
+stops appearing in the clan roster, though they remain visible as a player.
+
+So `member-history.json` keeps everyone who has ever been on the roster, with
+their join date and the last day they were still listed. Each build refreshes
+the current members and treats the rest as former; the state file gets a
+`formerMembers` array, shown as a collapsible section under the member list.
+
+The date is "last listed", not "left". It is only as precise as the capture
+cadence: with daily captures it is right to within a day, and a gap in captures
+widens it. The history was backfilled by replaying every capture in order, so
+it reaches back to the first one on file.
+
+Because of that replay, `capture_day()` dates a build from the freshest
+timestamp *inside* the capture rather than from the clock — otherwise
+re-processing an old capture would stamp today's date on a months-old roster.
+
 ### overrides.json
 
 Some members leave the timezone blank in their game profile. `overrides.json`

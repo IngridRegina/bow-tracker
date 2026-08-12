@@ -1,12 +1,6 @@
 {
-  "Enfir": "Veteran",
-  "Cefym": "Veteran",
   "Tojalkis": "Veteran",
-  "Nimloting": "Veteran",
-  "Tygoran": "Veteran",
   "Ilanor": "Soldier",
-  "Ilvenel": "Soldier",
-  "Doukree": "Soldier",
   "Cordamath": "Soldier",
   "1378684537558": {
     "name": "Morana",
@@ -20,8 +14,8 @@
   },
   "1378684644457": {
     "name": "rei rick",
-    "might": 79694,
-    "rank": "Soldier"
+    "might": 80544,
+    "rank": "Veteran"
   },
   "1378684639399": {
     "name": "Enaning",
@@ -261,6 +255,36 @@
   "1378684719707": {
     "name": "Kathrirana",
     "might": 26801,
+    "rank": "Veteran"
+  },
+  "1378684778749": {
+    "name": "Enfir",
+    "might": 134474,
+    "rank": "Officer"
+  },
+  "1378684642808": {
+    "name": "Cefym",
+    "might": 95299,
+    "rank": "Veteran"
+  },
+  "1378684590391": {
+    "name": "Ilvenel",
+    "might": 47194,
+    "rank": "Soldier"
+  },
+  "1378684709194": {
+    "name": "Nimloting",
+    "might": 49546,
+    "rank": "Soldier"
+  },
+  "1378684545655": {
+    "name": "Doukree",
+    "might": 45680,
+    "rank": "Soldier"
+  },
+  "1378684601147": {
+    "name": "Tygoran",
+    "might": 28031,
     "rank": "Veteran"
   }
 }

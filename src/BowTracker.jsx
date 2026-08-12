@@ -144,6 +144,12 @@ const T = {
       "Timezones come from each member's game profile, which stores whatever their clock said when they filled it in, so it does not follow daylight saving. Each one is corrected against their country's real offset today" +
       (n > 0 ? `, which currently moves ${n} of them by an hour.` : "."),
 
+    formerTitle: "No longer in the clan",
+    formerCount: (n) => `${n} member${n === 1 ? "" : "s"}`,
+    formerNote:
+      "The game never records a departure, so these are dated to the last day they still appeared on the clan roster. They may have left, been removed, or the clan may simply not have been captured that day.",
+    fLastListed: "Last listed",
+
     legend: "Colour key",
     cRed: "nothing given",
     cYellow: "below target",
@@ -252,6 +258,12 @@ const T = {
     tzCaveat: (n) =>
       "Las zonas horarias vienen del perfil de cada miembro, que guarda lo que marcaba su reloj al rellenarlo, así que no siguen el horario de verano. Cada una se corrige con el desfase real de su país hoy" +
       (n > 0 ? `, lo que ahora mueve ${n} una hora.` : "."),
+
+    formerTitle: "Ya no están en el clan",
+    formerCount: (n) => `${n} miembro${n === 1 ? "" : "s"}`,
+    formerNote:
+      "El juego no registra las salidas, así que la fecha es el último día en que aparecieron en la lista del clan. Puede que se fueran, que los expulsaran, o que ese día no se capturara el clan.",
+    fLastListed: "Visto por última vez",
 
     legend: "Clave de colores",
     cRed: "no han dado nada",
@@ -763,7 +775,7 @@ function Timing({ t, members }) {
 }
 
 /* ---- ledger -------------------------------------------------- */
-function Ledger({ t, lang, members, week, prevWeek }) {
+function Ledger({ t, lang, members, week, prevWeek, former }) {
   const [open, setOpen] = useState(null);
   const [filter, setFilter] = useState("all");
 
@@ -1033,7 +1045,44 @@ function Ledger({ t, lang, members, week, prevWeek }) {
           </section>
         );
       })}
+
+      <FormerMembers t={t} lang={lang} former={former} />
     </div>
+  );
+}
+
+/* ---- former members --------------------------------------------
+   Collapsed by default: it is history, not something to scan every visit. */
+function FormerMembers({ t, lang, former }) {
+  const [open, setOpen] = useState(false);
+  if (!former || former.length === 0) return null;
+
+  return (
+    <section className="bt-former">
+      <button className="bt-former-head" onClick={() => setOpen(!open)} aria-expanded={open}>
+        <span className="bt-former-title">{t.formerTitle}</span>
+        <span className="bt-former-count">{t.formerCount(former.length)}</span>
+        <span className="bt-former-toggle">{open ? "−" : "+"}</span>
+      </button>
+
+      {open && (
+        <>
+          <ul className="bt-former-list">
+            {former.map((m) => (
+              <li key={m.id}>
+                <span className="bt-former-name">{m.name}</span>
+                <span className="bt-former-rank">{t.ranks[m.rank] || m.rank}</span>
+                <span className="bt-former-might">{compact(m.might)}</span>
+                <span className="bt-former-dates">
+                  {t.fJoined} {shortDate(m.joined, lang)} · {t.fLastListed} {shortDate(m.lastSeen, lang)}
+                </span>
+              </li>
+            ))}
+          </ul>
+          <p className="bt-rule-note">{t.formerNote}</p>
+        </>
+      )}
+    </section>
   );
 }
 
@@ -1189,7 +1238,9 @@ export default function App() {
                 </button>
               ))}
             </nav>
-            {view === "ledger" && <Ledger t={t} lang={lang} members={state.members} week={week} prevWeek={prevWeek} />}
+            {view === "ledger" && (
+              <Ledger t={t} lang={lang} members={state.members} week={week} prevWeek={prevWeek} former={state.formerMembers} />
+            )}
             {view === "timing" && <Timing t={t} members={state.members} />}
             {view === "map" && (
               <Suspense fallback={<p className="bt-empty">{t.loading}</p>}>
