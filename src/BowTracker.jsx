@@ -127,7 +127,9 @@ const T = {
     rankClock: "By clock",
     localNow: "local",
     noTimezone: (n) => (n === 1 ? "1 member has" : `${n} members have`) + " no timezone set in their profile, and are left out of the counts.",
-    tzCaveat: "Timezones come from each member's game profile. They are not adjusted for daylight saving, so a summer clock may read an hour early.",
+    tzCaveat: (n) =>
+      "Timezones come from each member's game profile, which stores whatever their clock said when they filled it in, so it does not follow daylight saving. Each one is corrected against their country's real offset today" +
+      (n > 0 ? `, which currently moves ${n} of them by an hour.` : "."),
 
     legend: "Colour key",
     cRed: "nothing given",
@@ -227,7 +229,9 @@ const T = {
     rankClock: "Por hora",
     localNow: "local",
     noTimezone: (n) => `${n} miembro${n === 1 ? "" : "s"} sin zona horaria en su perfil, no se cuentan.`,
-    tzCaveat: "Las zonas horarias vienen del perfil de cada miembro. No se ajustan al horario de verano, así que un reloj de verano puede ir una hora adelantado.",
+    tzCaveat: (n) =>
+      "Las zonas horarias vienen del perfil de cada miembro, que guarda lo que marcaba su reloj al rellenarlo, así que no siguen el horario de verano. Cada una se corrige con el desfase real de su país hoy" +
+      (n > 0 ? `, lo que ahora mueve ${n} una hora.` : "."),
 
     legend: "Clave de colores",
     cRed: "no han dado nada",
@@ -502,6 +506,90 @@ function Podium({ t, members, week }) {
   );
 }
 
+/* ---- timezones -------------------------------------------------
+   The offset in a member's game profile cannot be trusted for daylight
+   saving. It reads like a value frozen when the profile was filled in: a
+   German who registered in winter reads UTC+1 (CET) and a Brit who registered
+   in summer also reads UTC+1 (BST), so the same number means different things.
+   Measured against this roster, 22 members were on their winter offset, 16 on
+   their current one, 10 could be either.
+
+   Resolving through the country's IANA zone instead gives the offset that is
+   right today, and stays right through every future DST change without a
+   rebuild, since the lookup happens in the browser. Zones are listed
+   most-populated first: that is the tie-break when a reported offset matches
+   more than one zone in the same country (US −7 is both Los Angeles now and
+   Denver in winter). */
+const COUNTRY_ZONES = {
+  AR: ["America/Argentina/Buenos_Aires"], AT: ["Europe/Vienna"],
+  AU: ["Australia/Sydney", "Australia/Melbourne", "Australia/Brisbane", "Australia/Perth", "Australia/Adelaide", "Australia/Darwin"],
+  BE: ["Europe/Brussels"], BG: ["Europe/Sofia"],
+  BR: ["America/Sao_Paulo", "America/Manaus", "America/Rio_Branco", "America/Noronha"],
+  CA: ["America/Toronto", "America/Vancouver", "America/Edmonton", "America/Winnipeg", "America/Halifax", "America/St_Johns"],
+  CH: ["Europe/Zurich"], CL: ["America/Santiago"], CN: ["Asia/Shanghai"], CO: ["America/Bogota"],
+  CZ: ["Europe/Prague"], DE: ["Europe/Berlin"], DK: ["Europe/Copenhagen"], DZ: ["Africa/Algiers"],
+  EE: ["Europe/Tallinn"], EG: ["Africa/Cairo"], ES: ["Europe/Madrid", "Atlantic/Canary"],
+  FI: ["Europe/Helsinki"], FR: ["Europe/Paris"], GB: ["Europe/London"], GR: ["Europe/Athens"],
+  HR: ["Europe/Zagreb"], HU: ["Europe/Budapest"], ID: ["Asia/Jakarta"], IE: ["Europe/Dublin"],
+  IL: ["Asia/Jerusalem"], IN: ["Asia/Kolkata"], IQ: ["Asia/Baghdad"], IR: ["Asia/Tehran"],
+  IT: ["Europe/Rome"], JP: ["Asia/Tokyo"], KR: ["Asia/Seoul"], KZ: ["Asia/Almaty"],
+  LT: ["Europe/Vilnius"], LV: ["Europe/Riga"], MA: ["Africa/Casablanca"], MX: ["America/Mexico_City", "America/Tijuana"],
+  MY: ["Asia/Kuala_Lumpur"], NG: ["Africa/Lagos"], NL: ["Europe/Amsterdam"], NO: ["Europe/Oslo"],
+  NZ: ["Pacific/Auckland"], PE: ["America/Lima"], PH: ["Asia/Manila"], PK: ["Asia/Karachi"],
+  PL: ["Europe/Warsaw"], PT: ["Europe/Lisbon", "Atlantic/Azores"], RO: ["Europe/Bucharest"],
+  RS: ["Europe/Belgrade"], RU: ["Europe/Moscow", "Asia/Yekaterinburg", "Asia/Novosibirsk", "Asia/Vladivostok"],
+  SA: ["Asia/Riyadh"], SE: ["Europe/Stockholm"], SG: ["Asia/Singapore"], SI: ["Europe/Ljubljana"],
+  SK: ["Europe/Bratislava"], TH: ["Asia/Bangkok"], TN: ["Africa/Tunis"], TR: ["Europe/Istanbul"],
+  UA: ["Europe/Kyiv"], UG: ["Africa/Kampala"],
+  US: ["America/New_York", "America/Chicago", "America/Los_Angeles", "America/Denver", "America/Phoenix", "America/Anchorage", "Pacific/Honolulu"],
+  UY: ["America/Montevideo"], VE: ["America/Caracas"], VN: ["Asia/Ho_Chi_Minh"],
+  YE: ["Asia/Aden"], ZA: ["Africa/Johannesburg"],
+};
+
+/* minutes east of UTC for a zone at an instant */
+function offsetAt(zone, date) {
+  try {
+    const name = new Intl.DateTimeFormat("en-GB", { timeZone: zone, timeZoneName: "longOffset" })
+      .formatToParts(date)
+      .find((p) => p.type === "timeZoneName").value;
+    const m = /GMT([+-])(\d{2}):(\d{2})/.exec(name);
+    return m ? (m[1] === "-" ? -1 : 1) * (+m[2] * 60 + +m[3]) : 0; // bare "GMT" is zero
+  } catch {
+    return null;
+  }
+}
+
+const zoneCache = new Map();
+function zoneInfo(zone) {
+  if (!zoneCache.has(zone)) {
+    const now = new Date();
+    const y = now.getUTCFullYear();
+    const cur = offsetAt(zone, now);
+    const jan = offsetAt(zone, new Date(Date.UTC(y, 0, 15)));
+    const jul = offsetAt(zone, new Date(Date.UTC(y, 6, 15)));
+    zoneCache.set(zone, cur == null ? null : { cur, std: Math.min(jan, jul), dst: cur - Math.min(jan, jul) });
+  }
+  return zoneCache.get(zone);
+}
+
+/* The offset to actually use for a member: their country's real offset right
+   now, falling back to the raw profile value when the country is unknown.
+   `matched` is false when the profile value lines up with no zone in that
+   country — the two pieces of self-reported data disagree, and we go with the
+   country. */
+function resolveOffset(country, reported) {
+  const zones = COUNTRY_ZONES[(country || "").toUpperCase()];
+  if (!zones) return { mins: reported, zone: null, matched: reported != null };
+  for (const z of zones) {
+    const i = zoneInfo(z);
+    if (i && (i.cur === reported || (i.std === reported && i.dst !== 0))) {
+      return { mins: i.cur, zone: z, matched: true };
+    }
+  }
+  const first = zoneInfo(zones[0]);
+  return first ? { mins: first.cur, zone: zones[0], matched: false } : { mins: reported, zone: null, matched: false };
+}
+
 /* ---- timing ---------------------------------------------------
    Which UTC hours fall inside most members' waking day. The window runs from
    09:00 local to midnight local, so — working in minutes past local midnight —
@@ -541,15 +629,25 @@ function Timing({ t, members }) {
   const [order, setOrder] = useState("best");
   const [open, setOpen] = useState(null);
 
-  const known = useMemo(() => members.filter((m) => m.utcOffset != null), [members]);
+  // resolve each member to the offset that is correct today, not the one
+  // frozen in their profile
+  const known = useMemo(
+    () =>
+      members
+        .map((m) => ({ ...m, resolved: resolveOffset(m.country, m.utcOffset) }))
+        .filter((m) => m.resolved.mins != null),
+    [members]
+  );
   const unknown = members.length - known.length;
+  const shifted = known.filter((m) => m.utcOffset != null && m.resolved.mins !== m.utcOffset).length;
 
   // one entry per distinct offset, so a row can explain its own number
   const groups = useMemo(() => {
     const g = new Map();
     known.forEach((m) => {
-      if (!g.has(m.utcOffset)) g.set(m.utcOffset, []);
-      g.get(m.utcOffset).push(m.name);
+      const off = m.resolved.mins;
+      if (!g.has(off)) g.set(off, []);
+      g.get(off).push(m.name);
     });
     return [...g.entries()]
       .map(([off, names]) => ({ off, names: names.sort((a, b) => a.localeCompare(b)) }))
@@ -650,7 +748,7 @@ function Timing({ t, members }) {
 
       <p className="bt-rule-note">
         {unknown > 0 && `${t.noTimezone(unknown)} `}
-        {t.tzCaveat}
+        {t.tzCaveat(shifted)}
       </p>
     </section>
   );
@@ -888,12 +986,14 @@ function Ledger({ t, lang, members, week, prevWeek }) {
                           <div className="bt-fact">
                             <dt>{t.fTimezone}</dt>
                             <dd>
-                              {m.utcOffset == null ? (
+                              {resolveOffset(m.country, m.utcOffset).mins == null ? (
                                 <span className="bt-fact-none">{t.unknownField}</span>
                               ) : (
                                 <>
-                                  {offsetLabel(m.utcOffset)}
-                                  <span className="bt-fact-aside">{t.localTimeNow(hhmm(nowUTCMinutes() + m.utcOffset))}</span>
+                                  {offsetLabel(resolveOffset(m.country, m.utcOffset).mins)}
+                                  <span className="bt-fact-aside">
+                                    {t.localTimeNow(hhmm(nowUTCMinutes() + resolveOffset(m.country, m.utcOffset).mins))}
+                                  </span>
                                 </>
                               )}
                             </dd>

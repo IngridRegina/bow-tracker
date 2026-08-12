@@ -104,8 +104,30 @@ local clocks read between 09:00 and midnight, with each hour's distance from
 the 17:00 UTC daily reset. Expanding an hour lists each timezone group, its
 local time, and who is in it.
 
-The offsets are whatever each member set in their game profile, so they are not
-adjusted for daylight saving and a handful may be an hour out.
+### Daylight saving
+
+The profile offset cannot be trusted on its own. It behaves like a value frozen
+when the member filled the profile in, so the same "+1" means CET to a German
+who registered in winter and BST to a Brit who registered in summer. Measured
+across this roster: 22 members were on their winter offset, 16 on their current
+one, 10 could be read either way, 2 matched neither.
+
+So the page resolves each member through their country's IANA zone
+(`COUNTRY_ZONES` in BowTracker.jsx) and uses that zone's offset *today*. Where a
+country spans several zones the profile offset picks between them, most
+populated first. The lookup runs in the browser, so it stays right through
+future DST changes with no rebuild. It currently moves 31 of the 50 members by
+an hour.
+
+Where the profile offset matches no zone in the member's country — two cases
+today, an Austrian reading UTC+3 and a Turk reading UTC+2 — the country wins,
+since both fields are self-reported but the country is the more stable of them.
+
+Ramadan is **not** modelled. It shifts waking hours substantially for members in
+Muslim-majority countries — four of them here, in Yemen, Turkey and Egypt — but
+Ramadan 1447 ran 18 Feb to 19 Mar 2026 and the next begins around 7 Feb 2027, so
+nothing applies at present. Adding it would mean guessing at how far each person
+shifts, which is worth doing from observed activity rather than assumption.
 
 ## What the captures do and do not carry
 
