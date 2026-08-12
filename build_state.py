@@ -478,13 +478,37 @@ def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
     current_member_ids = {m["id"] for m in members}
     # not `former`: that name is taken further down by the per-week list of
     # people who contributed to a week but are no longer on the roster
-    former_members = sorted(
-        ({"id": k, **v} for k, v in history.items() if k not in current_member_ids),
-        key=lambda m: (m["lastSeen"], m["name"]),
-        reverse=True,
-    )
+    former_members = [
+        {"id": k, **v, "via": "roster"}
+        for k, v in history.items()
+        if k not in current_member_ids
+    ]
+
+    # People who show up in the ledgers having donated, sent speedups or made
+    # chests for the clan, but who were gone before any capture caught them on
+    # the roster. All we can say is the last day they contributed — no rank, no
+    # join date, and a name only if some capture happened to include them as a
+    # player.
+    contributed = {}
+    for e in elog.values():
+        pid = str(e["player_id"])
+        contributed[pid] = max(contributed.get(pid, ""), game_day(int(e["ts"])))
+    for c in ledger.values():
+        pid = str(c["producer"])
+        contributed[pid] = max(contributed.get(pid, ""), game_day(int(c["ts"]) - CHEST_TTL))
+
+    ghosts = [
+        {"id": pid, "name": names.get(pid), "lastSeen": day, "via": "contributions"}
+        for pid, day in contributed.items()
+        if pid not in history and pid not in current_member_ids
+    ]
+    former_members = sorted(former_members + ghosts,
+                            key=lambda m: (m["lastSeen"], m.get("name") or ""), reverse=True)
+
+    named = sum(1 for g in ghosts if g["name"])
     print(f"member history: {len(history)} ever seen, {len(former_members)} no longer in the clan"
-          f" (this capture dated {seen_on})")
+          f" ({len(ghosts)} of them known only from contributions, {named} with a name)"
+          f" — this capture dated {seen_on}")
 
     # Last day a member did something we can see: donated, sent speedups or
     # produced a clan chest. Not a login time — the game does not expose one —

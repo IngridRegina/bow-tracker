@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-12T13:00:38Z",
+  "generatedAt": "2026-08-12T13:23:42Z",
   "capital": [
     660,
     432
@@ -713,7 +713,8 @@
       "rank": "Veteran",
       "might": 95299,
       "joined": "2026-07-04",
-      "lastSeen": "2026-08-10"
+      "lastSeen": "2026-08-10",
+      "via": "roster"
     },
     {
       "id": "1378684644457",
@@ -721,7 +722,8 @@
       "rank": "Veteran",
       "might": 80544,
       "joined": "2026-08-07",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "via": "roster"
     },
     {
       "id": "1378684601147",
@@ -729,7 +731,8 @@
       "rank": "Veteran",
       "might": 28031,
       "joined": "2026-07-26",
-      "lastSeen": "2026-08-08"
+      "lastSeen": "2026-08-08",
+      "via": "roster"
     },
     {
       "id": "1378684709194",
@@ -737,7 +740,8 @@
       "rank": "Soldier",
       "might": 49546,
       "joined": "2026-07-11",
-      "lastSeen": "2026-08-08"
+      "lastSeen": "2026-08-08",
+      "via": "roster"
     },
     {
       "id": "1378684590391",
@@ -745,7 +749,8 @@
       "rank": "Soldier",
       "might": 47194,
       "joined": "2026-07-30",
-      "lastSeen": "2026-08-08"
+      "lastSeen": "2026-08-08",
+      "via": "roster"
     },
     {
       "id": "1378684545655",
@@ -753,7 +758,14 @@
       "rank": "Soldier",
       "might": 45680,
       "joined": "2026-07-30",
-      "lastSeen": "2026-08-08"
+      "lastSeen": "2026-08-08",
+      "via": "roster"
+    },
+    {
+      "id": "1378684510856",
+      "name": "Tojalkis",
+      "lastSeen": "2026-08-07",
+      "via": "contributions"
     },
     {
       "id": "1378684778749",
@@ -761,7 +773,44 @@
       "rank": "Officer",
       "might": 134474,
       "joined": "2026-07-14",
-      "lastSeen": "2026-08-07"
+      "lastSeen": "2026-08-07",
+      "via": "roster"
+    },
+    {
+      "id": "1378684572293",
+      "name": "angel",
+      "lastSeen": "2026-08-05",
+      "via": "contributions"
+    },
+    {
+      "id": "1378684708552",
+      "name": null,
+      "lastSeen": "2026-07-30",
+      "via": "contributions"
+    },
+    {
+      "id": "1378684791381",
+      "name": null,
+      "lastSeen": "2026-07-28",
+      "via": "contributions"
+    },
+    {
+      "id": "1378684572961",
+      "name": "Mebar",
+      "lastSeen": "2026-07-27",
+      "via": "contributions"
+    },
+    {
+      "id": "1378684789453",
+      "name": null,
+      "lastSeen": "2026-07-26",
+      "via": "contributions"
+    },
+    {
+      "id": "1378684619541",
+      "name": null,
+      "lastSeen": "2026-07-25",
+      "via": "contributions"
     }
   ],
   "currentWeek": "2026-08-09",

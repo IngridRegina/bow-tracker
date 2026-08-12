@@ -200,6 +200,13 @@ cadence: with daily captures it is right to within a day, and a gap in captures
 widens it. The history was backfilled by replaying every capture in order, so
 it reaches back to the first one on file.
 
+A second group comes from the ledgers alone: people who donated, sent speedups
+or made chests for the clan but were gone before any capture caught them on the
+roster. They carry `via: "contributions"`, and all that can be said of them is
+the last day they gave something — no rank, no join date, and a name only where
+some capture happened to include them as a player. The list marks them with a
+dashed border and dates them "last contributed" rather than "last listed".
+
 Because of that replay, `capture_day()` dates a build from the freshest
 timestamp *inside* the capture rather than from the clock — otherwise
 re-processing an old capture would stamp today's date on a months-old roster.

@@ -147,8 +147,12 @@ const T = {
     formerTitle: "No longer in the clan",
     formerCount: (n) => `${n} member${n === 1 ? "" : "s"}`,
     formerNote:
-      "The game never records a departure, so these are dated to the last day they still appeared on the clan roster. They may have left, been removed, or the clan may simply not have been captured that day.",
+      "The game never records a departure, so these are dated to the last day there is any sign of them. They may have left, been removed, or the clan may simply not have been captured that day.",
+    formerGhostNote: (n) =>
+      `${n === 1 ? "One of them is" : `${n} of them are`} known only from the donation and chest ledgers — they were gone before any capture caught them on the roster, so there is no rank or join date, and a name only where a capture happened to include them.`,
     fLastListed: "Last listed",
+    fLastGave: "Last contributed",
+    unnamedMember: "Name never captured",
 
     legend: "Colour key",
     cRed: "nothing given",
@@ -262,8 +266,12 @@ const T = {
     formerTitle: "Ya no están en el clan",
     formerCount: (n) => `${n} miembro${n === 1 ? "" : "s"}`,
     formerNote:
-      "El juego no registra las salidas, así que la fecha es el último día en que aparecieron en la lista del clan. Puede que se fueran, que los expulsaran, o que ese día no se capturara el clan.",
+      "El juego no registra las salidas, así que la fecha es el último día en que hay rastro de ellos. Puede que se fueran, que los expulsaran, o que ese día no se capturara el clan.",
+    formerGhostNote: (n) =>
+      `${n === 1 ? "De uno de ellos solo hay rastro" : `De ${n} de ellos solo hay rastro`} en los registros de donaciones y cofres: ya no estaban cuando se capturó la lista, así que no hay rango ni fecha de ingreso, y solo hay nombre si alguna captura llegó a incluirlos.`,
     fLastListed: "Visto por última vez",
+    fLastGave: "Última aportación",
+    unnamedMember: "Nombre nunca capturado",
 
     legend: "Clave de colores",
     cRed: "no han dado nada",
@@ -1056,6 +1064,7 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
 function FormerMembers({ t, lang, former }) {
   const [open, setOpen] = useState(false);
   if (!former || former.length === 0) return null;
+  const ghosts = former.filter((m) => m.via === "contributions").length;
 
   return (
     <section className="bt-former">
@@ -1068,18 +1077,33 @@ function FormerMembers({ t, lang, former }) {
       {open && (
         <>
           <ul className="bt-former-list">
-            {former.map((m) => (
-              <li key={m.id}>
-                <span className="bt-former-name">{m.name}</span>
-                <span className="bt-former-rank">{t.ranks[m.rank] || m.rank}</span>
-                <span className="bt-former-might">{compact(m.might)}</span>
-                <span className="bt-former-dates">
-                  {t.fJoined} {shortDate(m.joined, lang)} · {t.fLastListed} {shortDate(m.lastSeen, lang)}
-                </span>
-              </li>
-            ))}
+            {former.map((m) => {
+              const ghost = m.via === "contributions";
+              return (
+                <li key={m.id} data-ghost={ghost ? "" : undefined}>
+                  <span className="bt-former-name" data-unnamed={m.name ? undefined : ""}>
+                    {m.name || t.unnamedMember}
+                  </span>
+                  {!ghost && <span className="bt-former-rank">{t.ranks[m.rank] || m.rank}</span>}
+                  {!ghost && <span className="bt-former-might">{compact(m.might)}</span>}
+                  <span className="bt-former-dates">
+                    {ghost ? (
+                      <>
+                        {t.fLastGave} {shortDate(m.lastSeen, lang)}
+                      </>
+                    ) : (
+                      <>
+                        {t.fJoined} {shortDate(m.joined, lang)} · {t.fLastListed} {shortDate(m.lastSeen, lang)}
+                      </>
+                    )}
+                  </span>
+                </li>
+              );
+            })}
           </ul>
-          <p className="bt-rule-note">{t.formerNote}</p>
+          <p className="bt-rule-note">
+            {t.formerNote} {ghosts > 0 && t.formerGhostNote(ghosts)}
+          </p>
         </>
       )}
     </section>
