@@ -115,8 +115,9 @@ const T = {
     fJoined: "Joined",
     unknownField: "not set",
     daysAgo: (n) => (n === 0 ? "today" : n === 1 ? "yesterday" : `${n} days ago`),
+    localTimeNow: (s) => `${s} their time`,
     timingTitle: "When is the clan awake?",
-    timingIntro: "How many members are probably up at each hour — anyone for whom it is between 09:00 and midnight. Times are shown on your clock, with UTC in brackets.",
+    timingIntro: "How many members have a local clock between 09:00 and midnight at each hour. Times are on your own clock, with UTC alongside.",
     timingBest: (n, total, times) => `Best coverage is ${n} of ${total}, at ${times}.`,
     atReset: "daily reset",
     beforeReset: (h) => `${h}h before reset`,
@@ -124,7 +125,7 @@ const T = {
     membersAwake: "awake",
     rankBest: "Best first",
     rankClock: "By clock",
-    localNow: "for them",
+    localNow: "local",
     noTimezone: (n) => (n === 1 ? "1 member has" : `${n} members have`) + " no timezone set in their profile, and are left out of the counts.",
     tzCaveat: "Timezones come from each member's game profile. They are not adjusted for daylight saving, so a summer clock may read an hour early.",
 
@@ -214,8 +215,9 @@ const T = {
     fJoined: "Se unió",
     unknownField: "sin definir",
     daysAgo: (n) => (n === 0 ? "hoy" : n === 1 ? "ayer" : `hace ${n} días`),
+    localTimeNow: (s) => `${s} su hora`,
     timingTitle: "¿Cuándo está despierto el clan?",
-    timingIntro: "Cuántos miembros están probablemente despiertos a cada hora: aquellos para quienes son entre las 09:00 y medianoche. Las horas son las de tu reloj, con UTC entre paréntesis.",
+    timingIntro: "Cuántos miembros tienen su hora local entre las 09:00 y medianoche en cada hora. Las horas son las de tu reloj, con UTC al lado.",
     timingBest: (n, total, times) => `La mejor cobertura es ${n} de ${total}, a las ${times}.`,
     atReset: "reinicio diario",
     beforeReset: (h) => `${h}h antes del reinicio`,
@@ -223,7 +225,7 @@ const T = {
     membersAwake: "despiertos",
     rankBest: "Mejores primero",
     rankClock: "Por hora",
-    localNow: "para ellos",
+    localNow: "local",
     noTimezone: (n) => `${n} miembro${n === 1 ? "" : "s"} sin zona horaria en su perfil, no se cuentan.`,
     tzCaveat: "Las zonas horarias vienen del perfil de cada miembro. No se ajustan al horario de verano, así que un reloj de verano puede ir una hora adelantado.",
 
@@ -891,9 +893,7 @@ function Ledger({ t, lang, members, week, prevWeek }) {
                               ) : (
                                 <>
                                   {offsetLabel(m.utcOffset)}
-                                  <span className="bt-fact-aside">
-                                    {hhmm(nowUTCMinutes() + m.utcOffset)} {t.localNow}
-                                  </span>
+                                  <span className="bt-fact-aside">{t.localTimeNow(hhmm(nowUTCMinutes() + m.utcOffset))}</span>
                                 </>
                               )}
                             </dd>
