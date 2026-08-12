@@ -1,0 +1,13 @@
+# Cache rules. These live here rather than in netlify.toml because Netlify only
+# guarantees netlify.toml is picked up for builds it runs itself — for manual
+# `netlify deploy --dir=dist` the reliable place is a _headers file inside the
+# published directory. Vite copies public/ into dist/, so this ships with it.
+
+# Hashed filenames, safe to cache forever.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Replaced on every deploy and read on page load, so it must never be served
+# stale. This also keeps the Last-Modified fallback for "last updated" honest.
+/tracker-state.json
+  Cache-Control: public, max-age=0, must-revalidate

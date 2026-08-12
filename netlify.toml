@@ -1,0 +1,16 @@
+# Netlify settings for the Brethren of War tracker.
+#
+# Deploys are driven from the command line (see deploy.sh) rather than from a
+# connected Git repo, so [build] mostly documents intent — it is what runs if
+# you ever connect the repo or use `netlify deploy --build`.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "24"
+
+# Cache headers deliberately live in public/_headers, not here: Netlify only
+# guarantees this file is read for builds it runs itself, and these deploys are
+# pushed from the CLI. Keeping them in one place avoids two sources of truth.

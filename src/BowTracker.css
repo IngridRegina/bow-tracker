@@ -1,0 +1,988 @@
+/* ===============================================================
+   Brethren of War — clan contribution ledger
+   All presentation for BowTracker.jsx lives here.
+
+   Conventions
+   - every class is prefixed `bt-`
+   - variants ride on data-attributes (data-status, data-tone,
+     data-accent, data-place) so colours stay in this file
+   - the only value JSX is allowed to set is --bt-pct on the meter
+=============================================================== */
+
+/* ---- palette -------------------------------------------------
+   Warm heraldic tones, but flat and modern rather than parchment.
+   Contrast checked against WCAG AA (see notes inline).
+--------------------------------------------------------------- */
+.bt-root,
+.bt-loading {
+  --bt-bg: #f3eee6;              /* page */
+  --bt-panel: #ffffff;           /* cards */
+  --bt-panel-alt: #faf7f1;       /* subtle striping */
+  --bt-ink: #20160c;             /* primary text — 13.9:1 on panel */
+  --bt-ink-soft: #6b5a45;        /* secondary text — 5.1:1 on panel (AA) */
+  --bt-line: #e4dbcc;            /* hairlines */
+  --bt-line-strong: #cfc3ae;
+  --bt-band: #3a2416;            /* header / rank bars */
+  --bt-band-ink: #f3eee6;        /* text on band — 11.2:1 */
+  --bt-band-soft: #c9b79a;       /* secondary text on the band */
+  --bt-band-rule: rgba(255, 255, 255, 0.1);
+  --bt-gold: #c69a3e;            /* accent */
+  --bt-gold-light: #e4c87e;
+
+  /* status — backgrounds pale, bars saturated for the 4px marker */
+  --bt-red: #b23b2e;
+  --bt-red-bg: #f7ded8;
+  --bt-red-ink: #8a2a20;         /* 5.6:1 on red-bg */
+  --bt-amber: #b9791a;
+  --bt-amber-bg: #f8e9cc;
+  --bt-amber-ink: #7e5310;       /* 5.4:1 on amber-bg */
+  --bt-green: #5b9a34;           /* "met" — bright grass */
+  --bt-green-bg: #e4f0d4;
+  --bt-green-ink: #3c6b1c;       /* 5.2:1 on green-bg */
+  --bt-green-plus: #1f5b4a;      /* "well above" — deep teal-green, clearly different hue */
+  --bt-green-plus-bg: #c3e2d8;
+  --bt-green-plus-ink: #154236;  /* 6.8:1 on green-plus-bg */
+
+  /* podium medals */
+  --bt-medal-1: #c69a3e;
+  --bt-medal-2: #9a9a9a;
+  --bt-medal-3: #b07a44;
+
+  /* resource marks */
+  --bt-res-lumber: #7a5230;      /* timber brown */
+  --bt-res-stone: #78808a;       /* slate grey */
+  --bt-res-iron: #4a5568;        /* steel */
+  --bt-res-food: #c6902e;        /* golden grain */
+  --bt-res-silver: #9aa0a6;      /* silver */
+  --bt-res-tractates: #a63c30;   /* red book cover */
+
+  --bt-display: "Fraunces", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --bt-body: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --bt-data: "IBM Plex Mono", "SF Mono", "Roboto Mono", Menlo, monospace;
+}
+
+/* ---- shells --------------------------------------------------- */
+.bt-loading {
+  background: var(--bt-bg);
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  font: 16px var(--bt-body);
+  color: var(--bt-ink-soft);
+}
+
+/* text-align:left here undoes the centring #root inherits from index.css */
+.bt-root {
+  background: var(--bt-bg);
+  min-height: 100vh;
+  width: 100%;
+  color: var(--bt-ink);
+  font: 15px/1.55 var(--bt-body);
+  position: relative;
+  text-align: left;
+}
+
+/* paints the page colour behind any overscroll */
+.bt-backdrop {
+  position: fixed;
+  inset: 0;
+  background: var(--bt-bg);
+  z-index: -1;
+}
+
+.bt-header {
+  background: var(--bt-band);
+  border-bottom: 3px solid var(--bt-gold);
+}
+
+.bt-header-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 16px 24px;
+}
+
+.bt-header-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.bt-header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* a flex row purely so the select keeps its natural width instead of being
+   stretched by the column stack it sits in */
+.bt-header-select {
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* Only the inner group wraps. Keeping the outer row nowrap and top-aligned
+   pins the language button to the header's first row, instead of letting it
+   ride down to whatever line the wrapped content ends on. */
+.bt-header-bar {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+  gap: 14px;
+}
+
+.bt-header-main {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.bt-header-end {
+  flex: none;
+  margin-left: auto;
+}
+
+.bt-h1 {
+  margin: 0;
+  font: 600 24px var(--bt-display);
+  color: var(--bt-band-ink);
+  letter-spacing: 0.01em;
+}
+
+.bt-members {
+  font: 600 14px var(--bt-data);
+  color: var(--bt-gold-light);
+  letter-spacing: 0.03em;
+}
+
+/* "last updated" — quieter than the members line it sits beside */
+.bt-updated {
+  font: 14px var(--bt-data);
+  color: var(--bt-band-soft);
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  cursor: help;
+}
+
+.bt-updated-line {
+  text-align: left;
+}
+
+.bt-week-select {
+  background-color: rgba(255, 255, 255, 0.08);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4L6 8L10 4' fill='none' stroke='%23F3EEE6' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px;
+  color: var(--bt-band-ink);
+  border: 1px solid var(--bt-gold);
+  border-radius: 8px;
+  padding: 6px 30px 6px 12px;
+  font: 14px var(--bt-data);
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+/* the dropdown list itself is painted by the OS, so it needs dark text */
+.bt-week-select option {
+  color: #000;
+}
+
+.bt-lang {
+  background: transparent;
+  color: var(--bt-gold);
+  border: 1px solid var(--bt-gold);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font: 600 14px var(--bt-data);
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.bt-main {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 28px 24px 48px;
+  container-type: inline-size;
+}
+
+.bt-empty {
+  font: 16px var(--bt-body);
+  color: var(--bt-ink-soft);
+}
+
+/* ---- resource icons ------------------------------------------- */
+/* Lucide ships these as outlines with fill="none". Filling with a washed-out
+   tint of the stroke colour keeps the outline reading as the darker edge. */
+.bt-res-icon {
+  flex: none;
+  vertical-align: -2px;
+  fill: color-mix(in srgb, currentColor 50%, transparent);
+}
+
+.bt-res-icon[data-res="lumber"] { color: var(--bt-res-lumber); }
+.bt-res-icon[data-res="stone"] { color: var(--bt-res-stone); }
+.bt-res-icon[data-res="iron"] { color: var(--bt-res-iron); }
+.bt-res-icon[data-res="food"] { color: var(--bt-res-food); }
+.bt-res-icon[data-res="silver"] { color: var(--bt-res-silver); }
+.bt-res-icon[data-res="tractates"] { color: var(--bt-res-tractates); }
+
+/* ---- buttons -------------------------------------------------- */
+.bt-btn {
+  background: var(--bt-panel);
+  color: var(--bt-ink);
+  border: 1px solid var(--bt-line-strong);
+  border-radius: 8px;
+  padding: 7px 13px;
+  font: 500 14px var(--bt-body);
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s;
+  white-space: nowrap;
+}
+
+.bt-btn[data-ghost] {
+  background: transparent;
+}
+
+.bt-btn[aria-pressed="true"] {
+  background: var(--bt-band);
+  color: var(--bt-band-ink);
+  border-color: var(--bt-band);
+}
+
+/* A two-state segmented control — the active option is highlighted, so
+   clicking an option selects that view rather than toggling to its opposite. */
+.bt-seg {
+  display: inline-flex;
+  border: 1px solid var(--bt-line-strong);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--bt-panel);
+}
+
+.bt-seg-btn {
+  background: transparent;
+  color: var(--bt-ink-soft);
+  border: none;
+  padding: 7px 13px;
+  font: 500 14px var(--bt-body);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.12s, color 0.12s;
+}
+
+.bt-seg-btn + .bt-seg-btn {
+  border-left: 1px solid var(--bt-line-strong);
+}
+
+.bt-seg-btn[aria-pressed="true"] {
+  background: var(--bt-band);
+  color: var(--bt-band-ink);
+  font-weight: 600;
+}
+
+/* The Raw / % of might switch shares a board-card header with the title. What
+   decides whether it fits beside that title is the width of the one card, not
+   of the page — so it is sized off the card's own container (see the `board`
+   container on .bt-podium-cell). Full size needs ~150px next to a ~68px title;
+   below that it runs one step down rather than dropping to a second line,
+   which would push this card's list out of line with the other three. */
+.bt-seg--inline .bt-seg-btn {
+  padding: 6px 11px;
+  font-size: 13px;
+}
+
+@container board (min-width: 272px) {
+  .bt-seg--inline .bt-seg-btn {
+    padding: 7px 13px;
+    font-size: 14px;
+  }
+}
+
+/* narrowest the boards ever get (4-up on a ~1000px page) */
+@container board (max-width: 254px) {
+  .bt-seg--inline .bt-seg-btn {
+    padding: 5px 9px;
+    font-size: 12px;
+  }
+}
+
+
+/* ---- cards ---------------------------------------------------- */
+.bt-card {
+  background: var(--bt-panel);
+  border: 1px solid var(--bt-line);
+  border-top: 3px solid var(--bt-line-strong);
+  border-radius: 12px;
+  padding: 16px 18px;
+  box-shadow: 0 1px 2px rgba(45, 30, 15, 0.04);
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.bt-card[data-accent="gold"] { border-top-color: var(--bt-gold); }
+.bt-card[data-accent="amber"] { border-top-color: var(--bt-amber); }
+.bt-card[data-accent="line"] { border-top-color: var(--bt-line-strong); }
+
+/* ---- meters --------------------------------------------------- */
+/* Column layout + margin-top:auto on the track keeps every bar on the
+   container's bottom edge, so a label that wraps to two lines doesn't
+   drag its bar out of line with the others. */
+.bt-meter {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.bt-meter[data-tone="neutral"] { --bt-meter-bar: var(--bt-gold); }
+.bt-meter[data-tone="high"] { --bt-meter-bar: var(--bt-green); }
+.bt-meter[data-tone="low"] { --bt-meter-bar: var(--bt-amber); }
+
+.bt-meter-head {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.bt-meter-value {
+  font: 700 28px var(--bt-display);
+  color: var(--bt-ink);
+  line-height: 1;
+}
+
+.bt-meter-denom {
+  font: 14px var(--bt-data);
+  color: var(--bt-ink-soft);
+}
+
+.bt-meter-pct {
+  font: 600 14px var(--bt-data);
+  color: var(--bt-meter-bar);
+  margin-left: auto;
+}
+
+.bt-meter-label {
+  font: 14px var(--bt-body);
+  color: var(--bt-ink-soft);
+  margin: 6px 0 10px;
+}
+
+.bt-meter-track {
+  height: 6px;
+  margin-top: auto;
+  background: var(--bt-line);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.bt-meter-fill {
+  width: var(--bt-pct, 0%);
+  height: 100%;
+  background: var(--bt-meter-bar);
+  border-radius: 99px;
+}
+
+/* ---- swatches (shared by the legend and the filter chips) ------ */
+.bt-swatch {
+  flex: none;
+  background: var(--bt-line-strong);
+}
+
+.bt-swatch[data-tone="red"] { background: var(--bt-red); }
+.bt-swatch[data-tone="redInk"] { background: var(--bt-red-ink); }
+.bt-swatch[data-tone="amber"] { background: var(--bt-amber); }
+.bt-swatch[data-tone="green"] { background: var(--bt-green); }
+.bt-swatch[data-tone="greenPlus"] { background: var(--bt-green-plus); }
+.bt-swatch[data-tone="band"] { background: var(--bt-band); }
+/* "silver only" needs its own colour or it duplicates the amber "below target"
+   bar sitting next to it; the resource silver (#9aa0a6) is too pale to clear
+   the 3:1 non-text minimum on this page, so it is deepened to 4.0:1 */
+.bt-swatch[data-tone="silver"] { background: #6f757c; }
+
+.bt-swatch--dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  margin-right: 3px;
+}
+
+.bt-swatch--bar {
+  width: 4px;
+  height: 15px;
+  border-radius: 2px;
+  margin-right: 4px;
+}
+
+/* ---- podium --------------------------------------------------- */
+.bt-podium {
+  margin-bottom: 32px;
+}
+
+.bt-podium-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.bt-h2 {
+  font: 600 19px var(--bt-display);
+  margin: 0;
+  color: var(--bt-ink);
+}
+
+.bt-podium-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.bt-toggle-label {
+  font: 600 13px var(--bt-body);
+  letter-spacing: 0.04em;
+  color: var(--bt-ink-soft);
+}
+
+/* Same stepping as .bt-participation: the three boards plus leadership go
+   4 → 2×2 → stacked, never leaving one card alone on a row. Thresholds are
+   where four / two 230px columns stop fitting. */
+.bt-podium-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  align-items: stretch;
+}
+
+@container (max-width: 968px) {
+  .bt-podium-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@container (max-width: 476px) {
+  .bt-podium-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.bt-podium-cell {
+  min-width: 0;
+  height: 100%;
+  /* so the card header can size its controls off the card, not the page */
+  container: board / inline-size;
+}
+
+.bt-board-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 2px;
+}
+
+.bt-board-title {
+  font: 600 14px var(--bt-body);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bt-ink-soft);
+}
+
+.bt-board-seg {
+  margin-left: auto;
+}
+
+.bt-board-note {
+  font: 14px var(--bt-body);
+  color: var(--bt-ink-soft);
+  margin-bottom: 10px;
+  opacity: 0.85;
+}
+
+.bt-board-blank {
+  font: 14px var(--bt-body);
+  color: var(--bt-ink-soft);
+}
+
+.bt-board-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 0;
+}
+
+.bt-board-row + .bt-board-row {
+  border-top: 1px solid var(--bt-line);
+}
+
+.bt-board-place {
+  font: 700 14px var(--bt-data);
+  width: 16px;
+  flex: none;
+  color: var(--bt-ink-soft);
+}
+
+.bt-board-place[data-place="1"] { color: var(--bt-medal-1); }
+.bt-board-place[data-place="2"] { color: var(--bt-medal-2); }
+.bt-board-place[data-place="3"] { color: var(--bt-medal-3); }
+
+.bt-board-name {
+  font: 500 16px var(--bt-body);
+  color: var(--bt-ink);
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bt-board-value {
+  font: 600 14px var(--bt-data);
+  color: var(--bt-ink);
+  flex: none;
+  margin-left: auto;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* leadership — shares the row with the podium boxes */
+.bt-leaders {
+  background: var(--bt-band);
+  border: 1px solid var(--bt-band);
+  border-top: 3px solid var(--bt-gold);
+  border-radius: 12px;
+  padding: 16px 18px;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.bt-leaders-title {
+  font: 600 14px var(--bt-body);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bt-gold);
+}
+
+.bt-leaders-note {
+  font: 14px var(--bt-body);
+  color: var(--bt-band-soft);
+  margin-bottom: 10px;
+}
+
+.bt-leaders-blank {
+  font: 14px var(--bt-body);
+  color: var(--bt-band-soft);
+}
+
+.bt-leader-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 0;
+}
+
+.bt-leader-row + .bt-leader-row {
+  border-top: 1px solid var(--bt-band-rule);
+}
+
+.bt-leader-name {
+  font: 500 16px var(--bt-body);
+  color: var(--bt-band-ink);
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bt-leader-total {
+  font: 600 14px var(--bt-data);
+  color: var(--bt-band-ink);
+  flex: none;
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+}
+
+.bt-leader-pct {
+  font: 14px var(--bt-data);
+  color: var(--bt-gold);
+  min-width: 52px;
+  text-align: right;
+  flex: none;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- participation -------------------------------------------- */
+/* A fixed 4-up grid rather than auto-fit, so the meters never strand one
+   on a row of its own: they go 4 → 2×2 → stacked. The breakpoints are
+   container queries on .bt-main, measured from where four 190px columns
+   stop fitting inside the card's padding. */
+.bt-participation {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+  background: var(--bt-panel);
+  border: 1px solid var(--bt-line);
+  border-radius: 12px;
+  padding: 20px 22px;
+  margin-bottom: 32px; /* matches .bt-podium's margin-bottom above it */
+}
+
+@container (max-width: 878px) {
+  .bt-participation {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@container (max-width: 450px) {
+  .bt-participation {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ---- legend --------------------------------------------------- */
+.bt-legend {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+  padding: 0 2px;
+}
+
+.bt-legend-title {
+  font: 600 14px var(--bt-body);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bt-ink-soft);
+}
+
+.bt-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font: 14px var(--bt-body);
+  color: var(--bt-ink-soft);
+  margin-right: 6px;
+}
+
+@media (max-width: 640px) {
+  .bt-legend {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
+
+.bt-rule-note {
+  font: 13px var(--bt-body);
+  color: var(--bt-ink-soft);
+  margin-bottom: 32px; /* matches the gap above the colour key */
+  padding: 0 2px;
+  width: 100%;
+}
+
+/* ---- filter chips --------------------------------------------- */
+.bt-chips {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 26px;
+}
+
+.bt-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bt-panel);
+  color: var(--bt-ink);
+  border: 1px solid var(--bt-line);
+  border-radius: 8px;
+  padding: 6px 12px 6px 10px;
+  font: 500 14px var(--bt-body);
+  cursor: pointer;
+}
+
+.bt-chip[aria-pressed="true"] {
+  background: var(--bt-band);
+  color: var(--bt-band-ink);
+  border-color: var(--bt-band);
+}
+
+.bt-chip-count {
+  font: 600 14px var(--bt-data);
+  color: var(--bt-ink-soft);
+  margin-left: 6px;
+}
+
+.bt-chip[aria-pressed="true"] .bt-chip-count {
+  color: var(--bt-gold);
+}
+
+/* ---- rank groups ---------------------------------------------- */
+.bt-rank-group {
+  margin-bottom: 28px;
+}
+
+.bt-rank-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 12px;
+}
+
+.bt-rank-title {
+  font: 600 14px var(--bt-body);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bt-band);
+  margin: 0;
+}
+
+.bt-rank-count {
+  font: 600 14px var(--bt-data);
+  color: var(--bt-ink-soft);
+  background: var(--bt-line);
+  border-radius: 99px;
+  padding: 1px 9px;
+}
+
+.bt-rank-rule {
+  flex: 1;
+  height: 1px;
+  background: var(--bt-line);
+}
+
+.bt-rank-blank {
+  font: 14px var(--bt-body);
+  color: var(--bt-ink-soft);
+  padding: 4px 2px;
+}
+
+.bt-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ---- member rows ---------------------------------------------- */
+.bt-member {
+  background: var(--bt-panel);
+  border: 1px solid var(--bt-line);
+  border-left: 4px solid var(--bt-tone);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.bt-member[data-status="red"] {
+  --bt-tone: var(--bt-red);
+  --bt-tone-ink: var(--bt-red-ink);
+}
+
+.bt-member[data-status="yellow"] {
+  --bt-tone: var(--bt-amber);
+  --bt-tone-ink: var(--bt-amber-ink);
+}
+
+.bt-member[data-status="green"] {
+  --bt-tone: var(--bt-green);
+  --bt-tone-ink: var(--bt-green-ink);
+}
+
+.bt-member[data-status="greenPlus"] {
+  --bt-tone: var(--bt-green-plus);
+  --bt-tone-ink: var(--bt-green-plus-ink);
+}
+
+/* An explicit grid at every width, never a wrapping flex row. Wrapping only
+   lets the browser choose which item drops to the next line, and at in-between
+   widths it picked the toggle — stranding a lone "+" on a row of its own.
+   Here the toggle owns a column that spans both rows, so it cannot move; only
+   the layout of the two text blocks changes across the breakpoint below. */
+.bt-member-summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-areas: "main figures toggle";
+  align-items: center;
+  gap: 4px 12px;
+  cursor: pointer;
+  padding: 12px 12px 12px 14px;
+}
+
+.bt-member-main {
+  grid-area: main;
+  min-width: 0;
+}
+
+.bt-member-nameline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.bt-member-name {
+  font: 600 16px var(--bt-body);
+  color: var(--bt-ink);
+}
+
+.bt-badge {
+  font: 600 11px var(--bt-body);
+  letter-spacing: 0.06em;
+  border-radius: 5px;
+  padding: 2px 6px;
+}
+
+.bt-badge[data-tone="green"] {
+  color: var(--bt-green-ink);
+  background: var(--bt-green-bg);
+}
+
+.bt-badge[data-tone="amber"] {
+  color: var(--bt-amber-ink);
+  background: var(--bt-amber-bg);
+}
+
+.bt-member-stats {
+  font: 14px var(--bt-data);
+  color: var(--bt-ink-soft);
+  margin-top: 3px;
+}
+
+.bt-member-right {
+  grid-area: figures;
+  text-align: right;
+  font: 14px var(--bt-data);
+}
+
+.bt-member-donation {
+  color: var(--bt-tone-ink);
+  font-weight: 600;
+}
+
+.bt-member-donation[data-met] {
+  color: var(--bt-green-ink);
+}
+
+.bt-member-sub {
+  color: var(--bt-ink-soft);
+  margin-top: 2px;
+}
+
+.bt-member-toggle {
+  /* width, not flex-basis — this is a grid item, where a basis is ignored and
+     the hit area would collapse to the width of the glyph. */
+  grid-area: toggle;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  color: var(--bt-ink-soft);
+  font: 26px/1 var(--bt-data);
+  transition: background 0.12s, color 0.12s;
+}
+
+.bt-member-summary:hover .bt-member-toggle {
+  background: var(--bt-panel-alt);
+  color: var(--bt-ink);
+}
+
+/* Below the width where the name block and the figures can sit side by side,
+   the figures move under the name. A container query, not a media query: what
+   matters is the space the row actually has, not the size of the screen. */
+@container (max-width: 760px) {
+  .bt-member-summary {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "main toggle"
+      "figures toggle";
+    gap: 8px;
+    padding: 12px 10px 12px 14px;
+  }
+
+  .bt-member-right {
+    text-align: left;
+  }
+
+  .bt-member-toggle {
+    align-self: center;
+  }
+
+  /* Mono at 14px eats a narrow screen three lines at a time. */
+  .bt-member-stats,
+  .bt-member-right {
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .bt-list {
+    gap: 12px;
+  }
+}
+
+.bt-member-detail {
+  padding: 6px 14px 16px 18px;
+  border-top: 1px solid var(--bt-line);
+  background: var(--bt-panel-alt);
+}
+
+/* ---- resource breakdown table --------------------------------- */
+.bt-res-table {
+  border-collapse: collapse;
+  width: 100%;
+  font: 14px var(--bt-data);
+}
+
+.bt-res-name {
+  padding: 4px 10px 4px 0;
+  color: var(--bt-ink-soft);
+  white-space: nowrap;
+}
+
+.bt-res-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bt-res-word {
+  font-family: var(--bt-body);
+}
+
+.bt-res-given {
+  padding: 4px 12px;
+  text-align: right;
+  color: var(--bt-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.bt-res-need {
+  padding: 4px 12px;
+  color: var(--bt-ink-soft);
+  white-space: nowrap;
+}
+
+/* the -ink variants, not the marker colours: these glyphs are text and the
+   bar greens/reds only clear 3:1, which is the non-text threshold */
+.bt-res-ok {
+  padding: 4px 0;
+  color: var(--bt-red-ink);
+  font-weight: 700;
+}
+
+.bt-res-ok[data-ok] {
+  color: var(--bt-green-ink);
+}
