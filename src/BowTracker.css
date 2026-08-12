@@ -848,6 +848,13 @@
 
 /* ---- timing view ---------------------------------------------- */
 
+.bt-timing-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
 .bt-timing-intro {
   font: 14px var(--bt-body);
   color: var(--bt-ink-soft);

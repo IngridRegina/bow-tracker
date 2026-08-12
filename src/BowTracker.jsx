@@ -147,6 +147,11 @@ const T = {
     membersAwake: "awake",
     rankBest: "Best first",
     rankClock: "By clock",
+    whoCounts: "Count",
+    countAll: "Everyone",
+    countActive: "Active only",
+    excludedNote: (n) =>
+      `${n} member${n === 1 ? "" : "s"} left out as probably not around: might flat for ${STALL_DAYS}+ days, or nothing contributed in ${STALL_DAYS}+ days.`,
     localNow: "local",
     noTimezone: (n) => (n === 1 ? "1 member has" : `${n} members have`) + " no timezone set in their profile, and are left out of the counts.",
     tzCaveat: (n) =>
@@ -271,6 +276,11 @@ const T = {
     membersAwake: "despiertos",
     rankBest: "Mejores primero",
     rankClock: "Por hora",
+    whoCounts: "Contar",
+    countAll: "Todos",
+    countActive: "Solo activos",
+    excludedNote: (n) =>
+      `${n} miembro${n === 1 ? "" : "s"} fuera del recuento por parecer ausentes: poder sin cambios ${STALL_DAYS}+ días, o sin aportar nada en ${STALL_DAYS}+ días.`,
     localNow: "local",
     noTimezone: (n) => `${n} miembro${n === 1 ? "" : "s"} sin zona horaria en su perfil, no se cuentan.`,
     tzCaveat: (n) =>
@@ -662,18 +672,36 @@ const offsetLabel = (mins) => {
 
 function Timing({ t, members }) {
   const [order, setOrder] = useState("best");
+  const [activeOnly, setActiveOnly] = useState(false);
   const [open, setOpen] = useState(null);
+
+  /* "Quiet" means nothing has moved for a few days: might flat, or no
+     donation, speedup or chest. Measured against the freshest contribution in
+     the data rather than the wall clock, so the count does not creep upward
+     just because the page has been left open or the state file is a day old. */
+  const asOf = useMemo(
+    () => members.reduce((a, m) => (m.lastActive && m.lastActive > a ? m.lastActive : a), ""),
+    [members]
+  );
+  const isQuiet = (m) => {
+    if (m.mightFlatDays >= STALL_DAYS) return true;
+    if (!m.lastActive) return true;
+    return asOf ? daysBetween(m.lastActive, asOf) >= STALL_DAYS : false;
+  };
 
   // resolve each member to the offset that is correct today, not the one
   // frozen in their profile
   const known = useMemo(
     () =>
       members
+        .filter((m) => !activeOnly || !isQuiet(m))
         .map((m) => ({ ...m, resolved: resolveOffset(m.country, m.utcOffset) }))
         .filter((m) => m.resolved.mins != null),
-    [members]
+    [members, activeOnly, asOf]
   );
-  const unknown = members.length - known.length;
+  const counted = members.filter((m) => !activeOnly || !isQuiet(m)).length;
+  const unknown = counted - known.length;
+  const excluded = activeOnly ? members.length - counted : 0;
   const shifted = known.filter((m) => m.utcOffset != null && m.resolved.mins !== m.utcOffset).length;
 
   // one entry per distinct offset, so a row can explain its own number
@@ -727,14 +755,25 @@ function Timing({ t, members }) {
     <section>
       <div className="bt-podium-head">
         <h2 className="bt-h2">{t.timingTitle}</h2>
-        <Segmented
-          options={[
-            { value: "best", label: t.rankBest },
-            { value: "clock", label: t.rankClock },
-          ]}
-          value={order}
-          onChange={setOrder}
-        />
+        <div className="bt-timing-controls">
+          <span className="bt-toggle-label">{t.whoCounts}</span>
+          <Segmented
+            options={[
+              { value: false, label: t.countAll },
+              { value: true, label: t.countActive },
+            ]}
+            value={activeOnly}
+            onChange={setActiveOnly}
+          />
+          <Segmented
+            options={[
+              { value: "best", label: t.rankBest },
+              { value: "clock", label: t.rankClock },
+            ]}
+            value={order}
+            onChange={setOrder}
+          />
+        </div>
       </div>
 
       <p className="bt-timing-intro">
@@ -788,6 +827,7 @@ function Timing({ t, members }) {
       </div>
 
       <p className="bt-rule-note">
+        {excluded > 0 && `${t.excludedNote(excluded)} `}
         {unknown > 0 && `${t.noTimezone(unknown)} `}
         {t.tzCaveat(shifted)}
       </p>
