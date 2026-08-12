@@ -29,6 +29,8 @@ const EXCEED_MARGIN = 0.5; // 50% past both targets earns the darker green
 // Days of unmoved might before a member is flagged. Mirrors STALL_DAYS in
 // build_state.py, which is what computes mightFlatDays.
 const STALL_DAYS = 3;
+// Size of the "the people who actually carry the clan" cut in Good times.
+const TOP_N = 15;
 
 /* ---- resource icons (lucide; colour comes from CSS) ----------- */
 const RES_ICON = {
@@ -147,11 +149,12 @@ const T = {
     membersAwake: "awake",
     rankBest: "Best first",
     rankClock: "By clock",
-    whoCounts: "Count",
     countAll: "Everyone",
     countActive: "Active only",
+    countTop: `Top ${TOP_N}`,
     excludedNote: (n) =>
       `${n} member${n === 1 ? "" : "s"} left out as probably not around: might flat for ${STALL_DAYS}+ days, or nothing contributed in ${STALL_DAYS}+ days.`,
+    topNote: `Counting only the ${TOP_N} members who produced the most chests and donated the most over the last two weeks. Each is scored on its share of the clan's best in that period, so neither measure drowns out the other.`,
     localNow: "local",
     noTimezone: (n) => (n === 1 ? "1 member has" : `${n} members have`) + " no timezone set in their profile, and are left out of the counts.",
     tzCaveat: (n) =>
@@ -276,11 +279,12 @@ const T = {
     membersAwake: "despiertos",
     rankBest: "Mejores primero",
     rankClock: "Por hora",
-    whoCounts: "Contar",
     countAll: "Todos",
     countActive: "Solo activos",
+    countTop: `Top ${TOP_N}`,
     excludedNote: (n) =>
       `${n} miembro${n === 1 ? "" : "s"} fuera del recuento por parecer ausentes: poder sin cambios ${STALL_DAYS}+ días, o sin aportar nada en ${STALL_DAYS}+ días.`,
+    topNote: `Contando solo a los ${TOP_N} miembros que más cofres han producido y más han donado en las últimas dos semanas. Cada uno se puntúa según su parte del mejor del clan en ese periodo, para que ninguna de las dos medidas ahogue a la otra.`,
     localNow: "local",
     noTimezone: (n) => `${n} miembro${n === 1 ? "" : "s"} sin zona horaria en su perfil, no se cuentan.`,
     tzCaveat: (n) =>
@@ -670,10 +674,37 @@ const offsetLabel = (mins) => {
   return `UTC${mins < 0 ? "−" : "+"}${Math.floor(a / 60)}${rest ? ":" + String(rest).padStart(2, "0") : ""}`;
 };
 
-function Timing({ t, members }) {
+function Timing({ t, members, week, prevWeek }) {
   const [order, setOrder] = useState("best");
-  const [activeOnly, setActiveOnly] = useState(false);
+  const [who, setWho] = useState("all");
   const [open, setOpen] = useState(null);
+
+  /* The heaviest contributors of the last fortnight. Chests come in tens and
+     donations in millions, so each is scored as a fraction of the clan's best
+     in the period and the two are added — otherwise donations alone would
+     decide the order. */
+  const topIds = useMemo(() => {
+    const weeks = [week, prevWeek].filter(Boolean);
+    const totals = members.map((m) => {
+      let chests = 0;
+      let donated = 0;
+      weeks.forEach((w) => {
+        chests += Object.values((w.chests && w.chests[m.id]) || {}).reduce((a, b) => a + b, 0);
+        const don = (w.donations && w.donations[m.id]) || {};
+        donated += RES.reduce((a, r) => a + (don[r] || 0), 0);
+      });
+      return { id: m.id, chests, donated };
+    });
+    const bestChests = Math.max(1, ...totals.map((x) => x.chests));
+    const bestDonated = Math.max(1, ...totals.map((x) => x.donated));
+    return new Set(
+      totals
+        .map((x) => ({ id: x.id, score: x.chests / bestChests + x.donated / bestDonated }))
+        .sort((a, b) => b.score - a.score)
+        .slice(0, TOP_N)
+        .map((x) => x.id)
+    );
+  }, [members, week, prevWeek]);
 
   /* "Quiet" means nothing has moved for a few days: might flat, or no
      donation, speedup or chest. Measured against the freshest contribution in
@@ -692,19 +723,24 @@ function Timing({ t, members }) {
     [asOf]
   );
 
+  const inScope = useCallback(
+    (m) => (who === "active" ? !isQuiet(m) : who === "top" ? topIds.has(m.id) : true),
+    [who, isQuiet, topIds]
+  );
+
   // resolve each member to the offset that is correct today, not the one
   // frozen in their profile
   const known = useMemo(
     () =>
       members
-        .filter((m) => !activeOnly || !isQuiet(m))
+        .filter(inScope)
         .map((m) => ({ ...m, resolved: resolveOffset(m.country, m.utcOffset) }))
         .filter((m) => m.resolved.mins != null),
-    [members, activeOnly, isQuiet]
+    [members, inScope]
   );
-  const counted = members.filter((m) => !activeOnly || !isQuiet(m)).length;
+  const counted = members.filter(inScope).length;
   const unknown = counted - known.length;
-  const excluded = activeOnly ? members.length - counted : 0;
+  const excluded = who === "active" ? members.length - counted : 0;
   const shifted = known.filter((m) => m.utcOffset != null && m.resolved.mins !== m.utcOffset).length;
 
   // one entry per distinct offset, so a row can explain its own number
@@ -759,14 +795,14 @@ function Timing({ t, members }) {
       <div className="bt-podium-head">
         <h2 className="bt-h2">{t.timingTitle}</h2>
         <div className="bt-timing-controls">
-          <span className="bt-toggle-label">{t.whoCounts}</span>
           <Segmented
             options={[
-              { value: false, label: t.countAll },
-              { value: true, label: t.countActive },
+              { value: "all", label: t.countAll },
+              { value: "active", label: t.countActive },
+              { value: "top", label: t.countTop },
             ]}
-            value={activeOnly}
-            onChange={setActiveOnly}
+            value={who}
+            onChange={setWho}
           />
           <Segmented
             options={[
@@ -830,6 +866,7 @@ function Timing({ t, members }) {
       </div>
 
       <p className="bt-rule-note">
+        {who === "top" && `${t.topNote} `}
         {excluded > 0 && `${t.excludedNote(excluded)} `}
         {unknown > 0 && `${t.noTimezone(unknown)} `}
         {t.tzCaveat(shifted)}
@@ -1335,7 +1372,7 @@ export default function App() {
             {view === "ledger" && (
               <Ledger t={t} lang={lang} members={state.members} week={week} prevWeek={prevWeek} former={state.formerMembers} />
             )}
-            {view === "timing" && <Timing t={t} members={state.members} />}
+            {view === "timing" && <Timing t={t} members={state.members} week={week} prevWeek={prevWeek} />}
             {view === "map" && (
               <Suspense fallback={<p className="bt-empty">{t.loading}</p>}>
                 <WorldMap t={t} lang={lang} members={state.members} />
