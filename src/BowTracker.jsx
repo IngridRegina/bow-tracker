@@ -115,7 +115,7 @@ const T = {
 
     tabLedger: "Ledger",
     tabTiming: "Good times",
-    tabMap: "World map",
+    tabMap: "Map",
     mapTitle: "Where the clan is",
     mapIntro: (c, n) => `${n} members across ${c} countries. Pick a country on the map or in the list to see who is there.`,
     mapHint: "Nothing selected yet.",
@@ -224,7 +224,7 @@ const T = {
 
     tabLedger: "Registro",
     tabTiming: "Buenas horas",
-    tabMap: "Mapa mundial",
+    tabMap: "Mapa",
     mapTitle: "Dónde está el clan",
     mapIntro: (c, n) => `${n} miembros en ${c} países. Elige un país en el mapa o en la lista para ver quién está allí.`,
     mapHint: "Nada seleccionado todavía.",

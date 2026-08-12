@@ -64,6 +64,57 @@
   --bt-data: "IBM Plex Mono", "SF Mono", "Roboto Mono", Menlo, monospace;
 }
 
+/* ---- scrollable lists ------------------------------------------
+   A slim scrollbar plus a shadow at whichever end has more content past it.
+   The shadows are pure CSS: two gradients painted in the surface colour that
+   scroll *with* the content and so slide away from the ends, sitting over two
+   fixed shadow gradients. When you reach an end its cover arrives and hides
+   the shadow. This matters because Safari and every touch browser hide the
+   scrollbar until you are already scrolling, so the bar alone never tells you
+   there is more to see. */
+.bt-scrolls {
+  --bt-scroll-surface: var(--bt-bg);
+  --bt-scroll-fade: rgba(243, 238, 230, 0); /* --bt-bg at zero alpha */
+
+  overflow-y: auto;
+  /* keeps the last few pixels of a row off the scrollbar */
+  padding-right: 10px;
+
+  background:
+    linear-gradient(var(--bt-scroll-surface) 35%, var(--bt-scroll-fade)) center top,
+    linear-gradient(var(--bt-scroll-fade), var(--bt-scroll-surface) 65%) center bottom,
+    radial-gradient(farthest-side at 50% 0, rgba(32, 22, 12, 0.16), rgba(32, 22, 12, 0)) center top,
+    radial-gradient(farthest-side at 50% 100%, rgba(32, 22, 12, 0.16), rgba(32, 22, 12, 0)) center bottom;
+  background-repeat: no-repeat;
+  background-size: 100% 30px, 100% 30px, 100% 12px, 100% 12px;
+  background-attachment: local, local, scroll, scroll;
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--bt-line-strong) transparent;
+}
+
+.bt-scrolls::-webkit-scrollbar {
+  width: 10px;
+}
+
+.bt-scrolls::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* the transparent border plus background-clip is what makes the thumb read as
+   a slim pill with breathing room rather than filling the whole gutter */
+.bt-scrolls::-webkit-scrollbar-thumb {
+  background: var(--bt-line-strong);
+  background-clip: padding-box;
+  border: 3px solid transparent;
+  border-radius: 99px;
+}
+
+.bt-scrolls::-webkit-scrollbar-thumb:hover {
+  background: var(--bt-ink-soft);
+  background-clip: padding-box;
+}
+
 /* ---- shells --------------------------------------------------- */
 .bt-loading {
   background: var(--bt-bg);
@@ -1082,12 +1133,13 @@
 .bt-countrylist {
   list-style: none;
   margin: 0;
-  padding: 0;
+  /* only the list's own indent — the right padding is the scrollbar gutter
+     from .bt-scrolls and must survive */
+  padding-inline-start: 0;
   display: flex;
   flex-direction: column;
   gap: 2px;
   max-height: 296px;
-  overflow-y: auto;
 }
 
 @container (max-width: 640px) {
@@ -1166,9 +1218,11 @@
 .bt-map-memberlist {
   list-style: none;
   margin: 0;
-  padding: 0;
-  overflow-y: auto;
+  padding-inline-start: 0;
   min-height: 0;
+  /* this one scrolls inside a white card, so its fades are white */
+  --bt-scroll-surface: var(--bt-panel);
+  --bt-scroll-fade: rgba(255, 255, 255, 0);
 }
 
 .bt-map-memberlist li {

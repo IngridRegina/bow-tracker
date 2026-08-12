@@ -124,7 +124,7 @@ export default function WorldMap({ t, lang, members }) {
       {/* Doubles as the table view: every country and count is readable here
           without interpreting a colour, and it drives the same selection. */}
       <div className="bt-map-cols">
-        <ol className="bt-countrylist">
+        <ol className="bt-countrylist bt-scrolls">
           {counts.map((c) => (
             <li key={c.cc}>
               <button className="bt-countryrow" aria-pressed={c.cc === chosen} onClick={() => setSelected(c.cc === chosen ? null : c.cc)}>
@@ -142,7 +142,7 @@ export default function WorldMap({ t, lang, members }) {
               <h3 className="bt-map-members-title">
                 {countryName(chosen, lang)} <span>{t.memberCount(byCountry.get(chosen).length)}</span>
               </h3>
-              <ul className="bt-map-memberlist">
+              <ul className="bt-map-memberlist bt-scrolls">
                 {byCountry
                   .get(chosen)
                   .slice()
