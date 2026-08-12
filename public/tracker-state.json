@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-12T09:03:59Z",
+  "generatedAt": "2026-08-12T09:18:12Z",
   "members": [
     {
       "id": "1378684787925",
@@ -12,7 +12,7 @@
       "ingots": false,
       "firstSeen": "2026-07-16",
       "country": "EE",
-      "utcOffset": null,
+      "utcOffset": 180,
       "lastActive": "2026-08-11"
     },
     {

@@ -24,6 +24,7 @@ REALM_URL = re.compile(r"/rubens-realm\d+")
 LEDGER = "chest-ledger.json"
 EVENT_LEDGER = "event-ledger.json"
 NAMES_FILE = "names.json"
+OVERRIDES_FILE = "overrides.json"
 STATE_FILE = "public/tracker-state.json"
 # Speedup item ids to hours, verified against the in-game log wording.
 # 2055 and 2056 are guesses at the 3-day and 7-day items; only 3 instances so far.
@@ -48,6 +49,11 @@ def parse_tz(s):
     """The member's UTC offset in minutes east of UTC, or None if not set."""
     m = TZ_RE.match(s or "")
     return None if not m else -int(m.group(1)) * 60 + -int(m.group(2))
+
+
+def first_set(*values):
+    """First value that is not None. Unlike `or`, keeps a legitimate 0."""
+    return next((v for v in values if v is not None), None)
 
 # Day and week both roll at 20:00 Estonian summer time == 17:00 UTC.
 BOUNDARY_UTC_HOUR = 17
@@ -188,7 +194,7 @@ def in_territory(coords):
     return (dx * dx + dy * dy) ** 0.5 <= CAPITAL_RADIUS
 
 
-def build_members(players, prev_members, old_by_name, ranks_by_id, ranks_by_name, roster=None):
+def build_members(players, prev_members, old_by_name, ranks_by_id, ranks_by_name, roster=None, overrides=None):
     """One record per current clan member, keeping flags from previous state.
 
     Rank and join date both come from the capture's own clan roster when it is
@@ -198,11 +204,13 @@ def build_members(players, prev_members, old_by_name, ranks_by_id, ranks_by_name
     ranks.json is only a fallback now, for captures without a roster.
     """
     roster = roster or {}
+    overrides = overrides or {}
     today = game_day(datetime.now(timezone.utc).timestamp())
     out = []
     for pid, p in players.items():
         prev = prev_members.get(str(pid)) or old_by_name.get(p["name"], {})
         entry = roster.get(pid, {})
+        over = overrides.get(str(pid), {})
         rank = RANK_CODES.get(entry.get("rank"))
         # The roster carries the real join timestamp, so prefer it over the
         # "first capture we saw them in" guess — that one is only right for
@@ -220,9 +228,10 @@ def build_members(players, prev_members, old_by_name, ranks_by_id, ranks_by_name
             "firstSeen": joined or prev.get("firstSeen") or today,
             # profile country, ISO 3166-1 alpha-2
             "country": p.get("country") or prev.get("country") or "",
-            # minutes east of UTC; kept from the previous state when a capture
-            # happens not to carry it, since it rarely changes
-            "utcOffset": parse_tz(p.get("tz")) if parse_tz(p.get("tz")) is not None else prev.get("utcOffset"),
+            # minutes east of UTC. What the game reports wins; overrides.json
+            # fills in members who left the field blank in their profile, and
+            # the previous state covers a capture that happened not to carry it
+            "utcOffset": first_set(parse_tz(p.get("tz")), over.get("utcOffset"), prev.get("utcOffset")),
         })
     return out
 
@@ -253,6 +262,11 @@ def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
     json.dump(ledger, open(LEDGER, "w", encoding="utf-8"), indent=1)
     print(f"chest ledger: {before} known, {len(ledger) - before} new, {len(ledger)} total")
     players = {pid: p for pid, p in players.items() if p["clan"] == clan}
+
+    # Hand-set values for anything the game leaves blank, keyed by player id.
+    overrides = {}
+    if os.path.exists(OVERRIDES_FILE):
+        overrides = {k: v for k, v in json.load(open(OVERRIDES_FILE, encoding="utf-8")).items() if k.isdigit()}
 
     prev_state = {}
     if os.path.exists(STATE_FILE):
@@ -286,7 +300,7 @@ def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
         members = list(prev_members.values())
         print(f"capture has no full member list ({len(players)} found), keeping {len(members)} known member(s)")
     else:
-        members = build_members(players, prev_members, old_by_name, ranks_by_id, ranks_by_name, roster)
+        members = build_members(players, prev_members, old_by_name, ranks_by_id, ranks_by_name, roster, overrides)
     members.sort(key=lambda m: -m["might"])
 
     if roster:

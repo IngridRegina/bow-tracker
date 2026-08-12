@@ -1227,6 +1227,50 @@
   color: var(--bt-green-ink);
 }
 
+/* Below ~430px the four columns cannot hold six-figure numbers and the "of N"
+   column runs off the card, which clips because .bt-member hides overflow.
+   Give each resource two lines instead: name on the first, the figures on the
+   second, tick still on the right across both. */
+@container (max-width: 430px) {
+  .bt-res-table tr {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) 1.5em;
+    grid-template-areas:
+      "name  name  ok"
+      "given need  ok";
+    align-items: baseline;
+    padding: 5px 0;
+  }
+
+  .bt-res-table tr + tr {
+    border-top: 1px solid var(--bt-line);
+  }
+
+  .bt-res-name {
+    grid-area: name;
+    padding: 0 0 2px;
+  }
+
+  .bt-res-given {
+    grid-area: given;
+    padding: 0 8px 0 0;
+    text-align: left;
+    font-weight: 600;
+  }
+
+  .bt-res-need {
+    grid-area: need;
+    padding: 0;
+  }
+
+  .bt-res-ok {
+    grid-area: ok;
+    align-self: center;
+    padding: 0;
+    text-align: right;
+  }
+}
+
 /* ---- member facts (below the donation table) ------------------- */
 .bt-facts {
   display: grid;

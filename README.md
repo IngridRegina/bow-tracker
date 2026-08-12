@@ -120,6 +120,20 @@ contributing will look quiet.
 There is no gold-ingot data. The `ingots` flag on each member is a manual field
 that nothing currently sets.
 
+### overrides.json
+
+Some members leave the timezone blank in their game profile. `overrides.json`
+fills those in by player id:
+
+```json
+{ "1378684787925": { "name": "Indira", "utcOffset": 180 } }
+```
+
+`utcOffset` is minutes east of UTC — UTC+3 is `180`, UTC-7 is `-420`, UTC+5:30
+is `330`. The `name` is only there to make the file readable. Whatever the game
+reports always wins, so an override is used only where the capture is blank and
+stops applying by itself if the member fills the field in later.
+
 ## Notes
 
 - `build_state.py` stamps `generatedAt` into the state file; the page shows it

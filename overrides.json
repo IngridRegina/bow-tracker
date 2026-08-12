@@ -1,0 +1,7 @@
+{
+  "_comment": "Manual per-member values, keyed by player id. Used only where the capture has nothing, so anything the game does report still wins. utcOffset is minutes east of UTC (UTC+3 = 180, UTC-7 = -420, UTC+5:30 = 330).",
+  "1378684787925": {
+    "name": "Indira",
+    "utcOffset": 180
+  }
+}
