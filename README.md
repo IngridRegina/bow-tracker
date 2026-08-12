@@ -61,6 +61,30 @@ build the site, publish.
 ./deploy.sh ~/Downloads/totalbattle_com.har
 ```
 
+## Ranks
+
+Clan ranks come from the capture itself — the roster carries a rank code per
+member (`[[player_id], code, joined_ts]`), mapped by `RANK_CODES` in
+build_state.py:
+
+| code | rank |
+|------|----------|
+| 1    | Leader   |
+| 2    | Superior |
+| 3    | Officer  |
+| 4    | Veteran  |
+| 5    | Soldier  |
+
+Codes 1, 2, 4 and 5 are confirmed against every capture on file. Code 3 was in
+use until the 2026-08-11 reshuffle and its label is inferred from its position
+in the ladder. Code 6 has never appeared, so the site's "Member" rank is never
+produced. An unrecognised code prints a warning and falls back to ranks.json.
+
+`ranks.json` is no longer the source of truth. It is rewritten from each build,
+keyed by player id, and is only consulted when a capture arrives without a
+roster. Being keyed by id matters: the clan has two players called Aydaen and
+two called Enaning, which name-keyed entries could not tell apart.
+
 ## Notes
 
 - `build_state.py` stamps `generatedAt` into the state file; the page shows it
