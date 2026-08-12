@@ -1,6 +1,12 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, lazy, Suspense } from "react";
 import { Anvil, Stone, TreePine, Wheat, Coins, Book } from "lucide-react";
+import { fmt, compact, fmtHours, countryName } from "./format.js";
 import "./BowTracker.css";
+
+/* The map carries the world atlas with it — around half the built bundle — so
+   it is a separate chunk fetched the first time that tab is opened rather than
+   on every visit to the ledger. */
+const WorldMap = lazy(() => import("./WorldMap.jsx"));
 
 /* ===============================================================
    Brethren of War — clan contribution ledger
@@ -109,6 +115,13 @@ const T = {
 
     tabLedger: "Ledger",
     tabTiming: "Good times",
+    tabMap: "World map",
+    mapTitle: "Where the clan is",
+    mapIntro: (c, n) => `${n} members across ${c} countries. Pick a country on the map or in the list to see who is there.`,
+    mapHint: "Nothing selected yet.",
+    memberCount: (n) => `${n} member${n === 1 ? "" : "s"}`,
+    noCountry: (n) => (n === 1 ? "1 member has" : `${n} members have`) + " no country in their profile.",
+    notOnMap: (list) => `Not drawable on this map: ${list}.`,
     fCountry: "Country",
     fTimezone: "Timezone",
     fLastActive: "Last contribution",
@@ -211,6 +224,13 @@ const T = {
 
     tabLedger: "Registro",
     tabTiming: "Buenas horas",
+    tabMap: "Mapa mundial",
+    mapTitle: "Dónde está el clan",
+    mapIntro: (c, n) => `${n} miembros en ${c} países. Elige un país en el mapa o en la lista para ver quién está allí.`,
+    mapHint: "Nada seleccionado todavía.",
+    memberCount: (n) => `${n} miembro${n === 1 ? "" : "s"}`,
+    noCountry: (n) => (n === 1 ? "1 miembro no tiene" : `${n} miembros no tienen`) + " país en su perfil.",
+    notOnMap: (list) => `No se pueden dibujar en este mapa: ${list}.`,
     fCountry: "País",
     fTimezone: "Zona horaria",
     fLastActive: "Última aportación",
@@ -288,20 +308,6 @@ function isNewThisWeek(member, week) {
   return member.firstSeen && weekStartOf(member.firstSeen) === week.start;
 }
 
-const fmt = (n) => (n || 0).toLocaleString("en-US");
-const compact = (n) => {
-  const v = n || 0;
-  if (v >= 1e9) return (v / 1e9).toFixed(1).replace(/\.0$/, "") + "B";
-  if (v >= 1e6) return (v / 1e6).toFixed(1).replace(/\.0$/, "") + "M";
-  if (v >= 1e4) return Math.round(v / 1e3) + "k";
-  return fmt(v);
-};
-const fmtHours = (h) => {
-  const v = Math.round(h || 0);
-  if (v < 24) return v + "h";
-  const d = Math.floor(v / 24);
-  return v % 24 ? `${d}d ${v % 24}h` : `${d}d`;
-};
 
 /* ---- scoring ------------------------------------------------- */
 function evaluate(member, week) {
@@ -602,15 +608,6 @@ const hhmm = (mins) => {
   return `${String(Math.floor(m / 60)).padStart(2, "0")}:${String(m % 60).padStart(2, "0")}`;
 };
 
-/* No flag emoji here: Windows has no glyphs for regional-indicator pairs, so
-   they fall back to the two bare letters and read as a typo next to the name. */
-const countryName = (cc, lang) => {
-  try {
-    return new Intl.DisplayNames([lang === "es" ? "es" : "en"], { type: "region" }).of(cc.toUpperCase());
-  } catch {
-    return cc;
-  }
-};
 
 const daysBetween = (from, to) => Math.round((new Date(to + "T12:00:00Z") - new Date(from + "T12:00:00Z")) / 86400000);
 
@@ -1174,16 +1171,19 @@ export default function App() {
               {[
                 ["ledger", t.tabLedger],
                 ["timing", t.tabTiming],
+                ["map", t.tabMap],
               ].map(([k, label]) => (
                 <button key={k} className="bt-viewtab" onClick={() => setView(k)} aria-current={view === k ? "page" : undefined}>
                   {label}
                 </button>
               ))}
             </nav>
-            {view === "ledger" ? (
-              <Ledger t={t} lang={lang} members={state.members} week={week} prevWeek={prevWeek} />
-            ) : (
-              <Timing t={t} members={state.members} />
+            {view === "ledger" && <Ledger t={t} lang={lang} members={state.members} week={week} prevWeek={prevWeek} />}
+            {view === "timing" && <Timing t={t} members={state.members} />}
+            {view === "map" && (
+              <Suspense fallback={<p className="bt-empty">{t.loading}</p>}>
+                <WorldMap t={t} lang={lang} members={state.members} />
+              </Suspense>
             )}
           </>
         )}

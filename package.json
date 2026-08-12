@@ -10,9 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "d3-geo": "^3.1.1",
     "lucide-react": "^1.31.0",
     "react": "^19.2.8",
-    "react-dom": "^19.2.8"
+    "react-dom": "^19.2.8",
+    "topojson-client": "^3.1.0",
+    "world-atlas": "^2.0.2"
   },
   "devDependencies": {
     "@types/react": "^19.2.17",

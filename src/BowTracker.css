@@ -970,6 +970,223 @@
   .bt-tz-names { grid-area: names; }
 }
 
+/* ---- world map -------------------------------------------------
+   Sequential choropleth: one hue, light→dark, five steps. The colour carries
+   magnitude only — every country and count is also spelled out in the list
+   beside it, so nothing depends on reading a shade. */
+.bt-map-wrap {
+  background: var(--bt-panel);
+  border: 1px solid var(--bt-line);
+  border-radius: 12px;
+  padding: 8px 10px 10px;
+  margin-bottom: 18px;
+}
+
+.bt-map {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.bt-country {
+  fill: var(--bt-line);
+  stroke: var(--bt-panel);
+  stroke-width: 0.5;
+  transition: fill 0.12s;
+}
+
+.bt-country[data-step="0"] { fill: #c69a3e; }
+.bt-country[data-step="1"] { fill: #a87c28; }
+.bt-country[data-step="2"] { fill: #87611c; }
+.bt-country[data-step="3"] { fill: #654613; }
+.bt-country[data-step="4"] { fill: #422c0c; }
+
+.bt-country[data-step] {
+  cursor: pointer;
+}
+
+.bt-country[data-step]:hover {
+  stroke: var(--bt-ink);
+  stroke-width: 1;
+}
+
+/* the 2px surface ring that lifts a selected mark off its neighbours */
+.bt-country[data-on] {
+  stroke: var(--bt-ink);
+  stroke-width: 2;
+  paint-order: stroke;
+}
+
+.bt-country:focus-visible {
+  outline: none;
+  stroke: var(--bt-ink);
+  stroke-width: 2;
+}
+
+.bt-map-key {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0 4px;
+  font: 13px var(--bt-data);
+  color: var(--bt-ink-soft);
+}
+
+.bt-map-key li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bt-map-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  flex: none;
+  background: var(--bt-line);
+}
+
+.bt-map-swatch[data-step="0"] { background: #c69a3e; }
+.bt-map-swatch[data-step="1"] { background: #a87c28; }
+.bt-map-swatch[data-step="2"] { background: #87611c; }
+.bt-map-swatch[data-step="3"] { background: #654613; }
+.bt-map-swatch[data-step="4"] { background: #422c0c; }
+
+.bt-map-cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+@container (max-width: 640px) {
+  .bt-map-cols {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.bt-countrylist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 380px;
+  overflow-y: auto;
+}
+
+.bt-countryrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font: 14px var(--bt-body);
+  color: var(--bt-ink);
+  cursor: pointer;
+  text-align: left;
+}
+
+.bt-countryrow:hover {
+  background: var(--bt-panel-alt);
+}
+
+.bt-countryrow[aria-pressed="true"] {
+  background: var(--bt-band);
+  color: var(--bt-band-ink);
+}
+
+.bt-countryrow-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bt-countryrow-n {
+  font: 600 14px var(--bt-data);
+  color: var(--bt-ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.bt-countryrow[aria-pressed="true"] .bt-countryrow-n {
+  color: var(--bt-gold);
+}
+
+.bt-map-members {
+  background: var(--bt-panel);
+  border: 1px solid var(--bt-line);
+  border-radius: 12px;
+  padding: 14px 16px;
+  min-height: 120px;
+}
+
+.bt-map-members-title {
+  font: 600 17px var(--bt-display);
+  color: var(--bt-ink);
+  margin: 0 0 10px;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.bt-map-members-title span {
+  font: 13px var(--bt-body);
+  color: var(--bt-ink-soft);
+}
+
+.bt-map-memberlist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.bt-map-memberlist li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: baseline;
+  gap: 12px;
+  padding: 6px 0;
+}
+
+.bt-map-memberlist li + li {
+  border-top: 1px solid var(--bt-line);
+}
+
+.bt-map-member-name {
+  font: 500 15px var(--bt-body);
+  color: var(--bt-ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bt-map-member-rank {
+  font: 12px var(--bt-body);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--bt-ink-soft);
+}
+
+.bt-map-member-might {
+  font: 600 14px var(--bt-data);
+  color: var(--bt-ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.bt-map-hint {
+  margin: 0;
+  font: 14px var(--bt-body);
+  color: var(--bt-ink-soft);
+}
+
 /* ---- rank groups ---------------------------------------------- */
 .bt-rank-group {
   margin-bottom: 28px;
