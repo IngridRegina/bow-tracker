@@ -36,12 +36,15 @@
   --bt-amber: #b9791a;
   --bt-amber-bg: #f8e9cc;
   --bt-amber-ink: #7e5310;       /* 5.4:1 on amber-bg */
-  --bt-green: #5b9a34;           /* "met" — bright grass */
+  /* The two greens are one hue a lightness step apart rather than two hues:
+     "met" is the lighter, "well above" the fuller. They separate by 0.117 in
+     OKLab lightness, and the pale badge tint plus the ink colours below carry
+     the same distinction in text, which is what the labels actually read. */
+  --bt-green: #7fc04a;           /* "met" — light grass */
   --bt-green-bg: #e4f0d4;
-  --bt-green-ink: #3c6b1c;       /* 5.2:1 on green-bg */
-  --bt-green-plus: #1f5b4a;      /* "well above" — deep teal-green, clearly different hue */
-  --bt-green-plus-bg: #c3e2d8;
-  --bt-green-plus-ink: #154236;  /* 6.8:1 on green-plus-bg */
+  --bt-green-ink: #3c6b1c;       /* 5.4:1 on green-bg, 6.3:1 on panel */
+  --bt-green-plus: #5b9a34;      /* "well above" — the fuller grass */
+  --bt-green-plus-ink: #2f5617;  /* 8.5:1 on panel */
 
   /* podium medals */
   --bt-medal-1: #c69a3e;
