@@ -730,10 +730,51 @@
   color: var(--bt-gold);
 }
 
-/* ---- timing view ---------------------------------------------- */
-.bt-tabs {
-  margin-bottom: 22px;
+/* ---- view tabs -------------------------------------------------
+   These change the whole page, so they are underlined tabs rather than the
+   bordered pills used for in-page filters — different shape, not just a
+   different colour. They sit on a rule that runs the full width, which reads
+   as "everything below belongs to the selected tab". */
+.bt-viewtabs {
+  display: flex;
+  gap: 4px;
+  margin: 0 0 24px;
+  border-bottom: 2px solid var(--bt-line);
 }
+
+.bt-viewtab {
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  border-radius: 6px 6px 0 0;
+  padding: 9px 16px;
+  font: 600 16px var(--bt-display);
+  letter-spacing: 0.01em;
+  color: var(--bt-ink-soft);
+  cursor: pointer;
+  transition: color 0.12s, border-color 0.12s, background 0.12s;
+}
+
+.bt-viewtab:hover {
+  color: var(--bt-ink);
+  background: var(--bt-panel-alt);
+}
+
+.bt-viewtab[aria-current] {
+  color: var(--bt-ink);
+  border-bottom-color: var(--bt-gold);
+}
+
+@container (max-width: 640px) {
+  .bt-viewtab {
+    flex: 1 1 0;
+    padding: 10px 8px;
+    font-size: 15px;
+  }
+}
+
+/* ---- timing view ---------------------------------------------- */
 
 .bt-timing-intro {
   font: 14px var(--bt-body);
@@ -768,7 +809,7 @@
 
 .bt-slot-head {
   display: grid;
-  grid-template-columns: 5.5em 11em minmax(80px, 1fr) 11em 34px;
+  grid-template-columns: 12.5em 11em minmax(80px, 1fr) 11em 34px;
   align-items: center;
   gap: 12px;
   width: 100%;
@@ -788,6 +829,15 @@
   font: 600 17px var(--bt-data);
   color: var(--bt-ink);
   font-variant-numeric: tabular-nums;
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.bt-slot-utc {
+  font: 13px var(--bt-data);
+  color: var(--bt-ink-soft);
 }
 
 .bt-slot-reset {
@@ -1175,4 +1225,44 @@
 
 .bt-res-ok[data-ok] {
   color: var(--bt-green-ink);
+}
+
+/* ---- member facts (below the donation table) ------------------- */
+.bt-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 10px 18px;
+  margin: 14px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--bt-line);
+}
+
+.bt-fact dt {
+  font: 600 11px var(--bt-body);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bt-ink-soft);
+  margin-bottom: 2px;
+}
+
+.bt-fact dd {
+  margin: 0;
+  font: 14px var(--bt-data);
+  color: var(--bt-ink);
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+/* the softer half of a fact: "4 days ago", "18:42 their time" */
+.bt-fact-aside {
+  font: 13px var(--bt-body);
+  color: var(--bt-ink-soft);
+}
+
+.bt-fact-none {
+  font: 13px var(--bt-body);
+  color: var(--bt-ink-soft);
+  font-style: italic;
 }

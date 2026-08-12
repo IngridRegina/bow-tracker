@@ -152,6 +152,7 @@ def read_hars(paths):
                             "level": row[7] if isinstance(row[7], int) else 0,
                             "clan": row[13] if isinstance(row[13], str) else "",
                             "coords": row[15] if isinstance(row[15], list) else None,
+                            "country": row[3] if isinstance(row[3], str) else "",
                             "tz": row[21] if len(row) > 21 and isinstance(row[21], str) else "",
                         }
                     elif is_clan_member(row):
@@ -217,6 +218,8 @@ def build_members(players, prev_members, old_by_name, ranks_by_id, ranks_by_name
             "inactive": prev.get("inactive", False),
             "ingots": prev.get("ingots", False),
             "firstSeen": joined or prev.get("firstSeen") or today,
+            # profile country, ISO 3166-1 alpha-2
+            "country": p.get("country") or prev.get("country") or "",
             # minutes east of UTC; kept from the previous state when a capture
             # happens not to carry it, since it rarely changes
             "utcOffset": parse_tz(p.get("tz")) if parse_tz(p.get("tz")) is not None else prev.get("utcOffset"),
@@ -379,6 +382,22 @@ def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
         elog[key] = {"player_id": e["player_id"], "kind": e["kind"], "ts": e["ts"], "amounts": amounts}
     json.dump(elog, open(EVENT_LEDGER, "w", encoding="utf-8"), indent=1)
     print(f"event ledger: {before_e} known, {len(elog) - before_e} new, {len(elog)} total")
+
+    # Last day a member did something we can see: donated, sent speedups or
+    # produced a clan chest. Not a login time — the game does not expose one —
+    # so someone playing without contributing looks quiet here.
+    last_act = {}
+    for e in elog.values():
+        pid = str(e["player_id"])
+        last_act[pid] = max(last_act.get(pid, 0), int(e["ts"]))
+    for c in ledger.values():
+        pid = str(c["producer"])
+        last_act[pid] = max(last_act.get(pid, 0), int(c["ts"]) - CHEST_TTL)
+    for m in members:
+        ts = last_act.get(m["id"])
+        m["lastActive"] = game_day(ts) if ts else None
+    seen = sum(1 for m in members if m["lastActive"])
+    print(f"last contribution known for {seen}/{len(members)} member(s)")
 
     weeks = {}
 

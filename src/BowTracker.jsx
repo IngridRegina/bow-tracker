@@ -109,8 +109,15 @@ const T = {
 
     tabLedger: "Ledger",
     tabTiming: "Good times",
+    fCountry: "Country",
+    fTimezone: "Timezone",
+    fLastActive: "Last contribution",
+    fJoined: "Joined",
+    unknownField: "not set",
+    daysAgo: (n) => (n === 0 ? "today" : n === 1 ? "yesterday" : `${n} days ago`),
+    localTimeNow: (s) => `${s} their time`,
     timingTitle: "When is the clan awake?",
-    timingIntro: "How many members have a local clock between 09:00 and midnight at each hour. All times UTC.",
+    timingIntro: "How many members have a local clock between 09:00 and midnight at each hour. Times are on your own clock, with UTC alongside.",
     timingBest: (n, total, times) => `Best coverage is ${n} of ${total}, at ${times}.`,
     atReset: "daily reset",
     beforeReset: (h) => `${h}h before reset`,
@@ -202,8 +209,15 @@ const T = {
 
     tabLedger: "Registro",
     tabTiming: "Buenas horas",
+    fCountry: "País",
+    fTimezone: "Zona horaria",
+    fLastActive: "Última aportación",
+    fJoined: "Se unió",
+    unknownField: "sin definir",
+    daysAgo: (n) => (n === 0 ? "hoy" : n === 1 ? "ayer" : `hace ${n} días`),
+    localTimeNow: (s) => `${s} su hora`,
     timingTitle: "¿Cuándo está despierto el clan?",
-    timingIntro: "Cuántos miembros tienen su hora local entre las 09:00 y medianoche en cada hora. Todas las horas en UTC.",
+    timingIntro: "Cuántos miembros tienen su hora local entre las 09:00 y medianoche en cada hora. Las horas son las de tu reloj, con UTC al lado.",
     timingBest: (n, total, times) => `La mejor cobertura es ${n} de ${total}, a las ${times}.`,
     atReset: "reinicio diario",
     beforeReset: (h) => `${h}h antes del reinicio`,
@@ -500,6 +514,23 @@ const hhmm = (mins) => {
   return `${String(Math.floor(m / 60)).padStart(2, "0")}:${String(m % 60).padStart(2, "0")}`;
 };
 
+/* No flag emoji here: Windows has no glyphs for regional-indicator pairs, so
+   they fall back to the two bare letters and read as a typo next to the name. */
+const countryName = (cc, lang) => {
+  try {
+    return new Intl.DisplayNames([lang === "es" ? "es" : "en"], { type: "region" }).of(cc.toUpperCase());
+  } catch {
+    return cc;
+  }
+};
+
+const daysBetween = (from, to) => Math.round((new Date(to + "T12:00:00Z") - new Date(from + "T12:00:00Z")) / 86400000);
+
+const nowUTCMinutes = () => {
+  const d = new Date();
+  return d.getUTCHours() * 60 + d.getUTCMinutes();
+};
+
 const offsetLabel = (mins) => {
   const a = Math.abs(mins);
   const rest = a % 60;
@@ -538,9 +569,17 @@ function Timing({ t, members }) {
     [groups, known.length]
   );
 
+  // Times are shown on the reader's own clock, with UTC alongside. The rows
+  // are still keyed by UTC hour; only the label and the clock ordering shift.
+  const viewerOffset = -new Date().getTimezoneOffset();
+  const localOf = (hour) => (((hour * 60 + viewerOffset) % 1440) + 1440) % 1440;
+
   const best = rows.reduce((a, r) => Math.max(a, r.n), 0);
-  const bestHours = rows.filter((r) => r.n === best).map((r) => hhmm(r.hour * 60));
-  const shown = order === "best" ? [...rows].sort((a, b) => b.n - a.n || a.hour - b.hour) : rows;
+  const bestHours = rows.filter((r) => r.n === best).map((r) => hhmm(localOf(r.hour)));
+  const shown =
+    order === "best"
+      ? [...rows].sort((a, b) => b.n - a.n || localOf(a.hour) - localOf(b.hour))
+      : [...rows].sort((a, b) => localOf(a.hour) - localOf(b.hour));
 
   // reset sits at BOUNDARY_UTC_HOUR; express every other hour relative to it
   const resetLabel = (hour) => {
@@ -575,7 +614,10 @@ function Timing({ t, members }) {
           return (
             <div className="bt-slot" key={r.hour} data-best={r.n === best ? "" : undefined} data-reset={r.hour === BOUNDARY_UTC_HOUR ? "" : undefined}>
               <button className="bt-slot-head" onClick={() => setOpen(isOpen ? null : r.hour)} aria-expanded={isOpen}>
-                <span className="bt-slot-time">{hhmm(r.hour * 60)}</span>
+                <span className="bt-slot-time">
+                  {hhmm(localOf(r.hour))}
+                  <span className="bt-slot-utc">({hhmm(r.hour * 60)} UTC)</span>
+                </span>
                 <span className="bt-slot-reset">{resetLabel(r.hour)}</span>
                 <span className="bt-slot-track">
                   <span className="bt-slot-fill" style={{ "--bt-pct": `${r.pct}%` }} />
@@ -828,6 +870,52 @@ function Ledger({ t, lang, members, week, prevWeek }) {
                             })}
                           </tbody>
                         </table>
+
+                        <dl className="bt-facts">
+                          <div className="bt-fact">
+                            <dt>{t.fCountry}</dt>
+                            <dd>
+                              {m.country ? (
+                                <>
+                                  {countryName(m.country, lang)}
+                                  <span className="bt-fact-aside">{m.country.toUpperCase()}</span>
+                                </>
+                              ) : (
+                                <span className="bt-fact-none">{t.unknownField}</span>
+                              )}
+                            </dd>
+                          </div>
+                          <div className="bt-fact">
+                            <dt>{t.fTimezone}</dt>
+                            <dd>
+                              {m.utcOffset == null ? (
+                                <span className="bt-fact-none">{t.unknownField}</span>
+                              ) : (
+                                <>
+                                  {offsetLabel(m.utcOffset)}
+                                  <span className="bt-fact-aside">{t.localTimeNow(hhmm(nowUTCMinutes() + m.utcOffset))}</span>
+                                </>
+                              )}
+                            </dd>
+                          </div>
+                          <div className="bt-fact">
+                            <dt>{t.fLastActive}</dt>
+                            <dd>
+                              {m.lastActive ? (
+                                <>
+                                  {shortDate(m.lastActive, lang)}
+                                  <span className="bt-fact-aside">{t.daysAgo(Math.max(0, daysBetween(m.lastActive, todayISO())))}</span>
+                                </>
+                              ) : (
+                                <span className="bt-fact-none">{t.nothingYet}</span>
+                              )}
+                            </dd>
+                          </div>
+                          <div className="bt-fact">
+                            <dt>{t.fJoined}</dt>
+                            <dd>{shortDate(m.firstSeen, lang)}</dd>
+                          </div>
+                        </dl>
                       </div>
                     )}
                   </div>
@@ -1003,16 +1091,18 @@ export default function App() {
           <p className="bt-empty">{t.empty}</p>
         ) : (
           <>
-            <div className="bt-tabs">
-              <Segmented
-                options={[
-                  { value: "ledger", label: t.tabLedger },
-                  { value: "timing", label: t.tabTiming },
-                ]}
-                value={view}
-                onChange={setView}
-              />
-            </div>
+            {/* deliberately not a Segmented: this switches the whole page, so
+                it should not look like the in-page filters and view toggles */}
+            <nav className="bt-viewtabs">
+              {[
+                ["ledger", t.tabLedger],
+                ["timing", t.tabTiming],
+              ].map(([k, label]) => (
+                <button key={k} className="bt-viewtab" onClick={() => setView(k)} aria-current={view === k ? "page" : undefined}>
+                  {label}
+                </button>
+              ))}
+            </nav>
             {view === "ledger" ? (
               <Ledger t={t} lang={lang} members={state.members} week={week} prevWeek={prevWeek} />
             ) : (

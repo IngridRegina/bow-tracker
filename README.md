@@ -107,6 +107,19 @@ local time, and who is in it.
 The offsets are whatever each member set in their game profile, so they are not
 adjusted for daylight saving and a handful may be an hour out.
 
+## What the captures do and do not carry
+
+Per member, taken straight from the capture: name, might, level, coordinates,
+country (ISO alpha-2), timezone, clan rank and join date.
+
+`lastActive` is **derived**, not read: it is the most recent day a member
+donated, sent speedups or produced a clan chest, taken from the two ledgers.
+The game exposes no login time, so a member who plays daily without
+contributing will look quiet.
+
+There is no gold-ingot data. The `ingots` flag on each member is a manual field
+that nothing currently sets.
+
 ## Notes
 
 - `build_state.py` stamps `generatedAt` into the state file; the page shows it

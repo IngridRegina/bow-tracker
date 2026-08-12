@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-12T08:48:55Z",
+  "generatedAt": "2026-08-12T09:03:59Z",
   "members": [
     {
       "id": "1378684787925",
@@ -11,7 +11,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-16",
-      "utcOffset": null
+      "country": "EE",
+      "utcOffset": null,
+      "lastActive": "2026-08-11"
     },
     {
       "id": "1378684568874",
@@ -23,7 +25,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-02",
-      "utcOffset": -420
+      "country": "US",
+      "utcOffset": -420,
+      "lastActive": "2026-08-11"
     },
     {
       "id": "1378684741662",
@@ -35,7 +39,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-11",
-      "utcOffset": -480
+      "country": "CA",
+      "utcOffset": -480,
+      "lastActive": "2026-08-01"
     },
     {
       "id": "1378684656971",
@@ -47,7 +53,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-11",
-      "utcOffset": 60
+      "country": "PL",
+      "utcOffset": 60,
+      "lastActive": "2026-08-11"
     },
     {
       "id": "1378684736429",
@@ -59,7 +67,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-08-04",
-      "utcOffset": 60
+      "country": "GB",
+      "utcOffset": 60,
+      "lastActive": "2026-08-10"
     },
     {
       "id": "1378684537558",
@@ -71,7 +81,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-08-07",
-      "utcOffset": -240
+      "country": "CA",
+      "utcOffset": -240,
+      "lastActive": "2026-08-10"
     },
     {
       "id": "1378684799791",
@@ -83,7 +95,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-08-05",
-      "utcOffset": -420
+      "country": "US",
+      "utcOffset": -420,
+      "lastActive": "2026-08-11"
     },
     {
       "id": "1378684639872",
@@ -95,7 +109,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-08-07",
-      "utcOffset": -360
+      "country": "US",
+      "utcOffset": -360,
+      "lastActive": "2026-08-11"
     },
     {
       "id": "1378684591930",
@@ -107,7 +123,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-02",
-      "utcOffset": 60
+      "country": "ES",
+      "utcOffset": 60,
+      "lastActive": "2026-08-11"
     },
     {
       "id": "1378684727618",
@@ -119,7 +137,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-15",
-      "utcOffset": 60
+      "country": "SK",
+      "utcOffset": 60,
+      "lastActive": "2026-08-11"
     },
     {
       "id": "1378684763225",
@@ -131,7 +151,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-08-04",
-      "utcOffset": 120
+      "country": "ZA",
+      "utcOffset": 120,
+      "lastActive": "2026-08-08"
     },
     {
       "id": "1378684597161",
@@ -143,7 +165,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-22",
-      "utcOffset": 180
+      "country": "YE",
+      "utcOffset": 180,
+      "lastActive": "2026-08-11"
     },
     {
       "id": "1378684747176",
@@ -155,7 +179,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-16",
-      "utcOffset": 60
+      "country": "FR",
+      "utcOffset": 60,
+      "lastActive": "2026-08-10"
     },
     {
       "id": "1378684546217",
@@ -167,7 +193,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-10",
-      "utcOffset": 60
+      "country": "GB",
+      "utcOffset": 60,
+      "lastActive": "2026-08-11"
     },
     {
       "id": "1378684677949",
@@ -179,7 +207,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-08-05",
-      "utcOffset": 60
+      "country": "PL",
+      "utcOffset": 60,
+      "lastActive": "2026-08-11"
     },
     {
       "id": "1378684773181",
@@ -191,7 +221,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-22",
-      "utcOffset": 570
+      "country": "AU",
+      "utcOffset": 570,
+      "lastActive": "2026-08-11"
     },
     {
       "id": "1378684697174",
@@ -203,7 +235,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-08",
-      "utcOffset": 60
+      "country": "FR",
+      "utcOffset": 60,
+      "lastActive": "2026-08-11"
     },
     {
       "id": "1378684780963",
@@ -215,7 +249,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-16",
-      "utcOffset": 60
+      "country": "DE",
+      "utcOffset": 60,
+      "lastActive": "2026-08-11"
     },
     {
       "id": "1378684613683",
@@ -227,7 +263,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-31",
-      "utcOffset": -180
+      "country": "BR",
+      "utcOffset": -180,
+      "lastActive": "2026-08-11"
     },
     {
       "id": "1378684571224",
@@ -239,7 +277,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-16",
-      "utcOffset": 60
+      "country": "PL",
+      "utcOffset": 60,
+      "lastActive": "2026-08-10"
     },
     {
       "id": "1378684575159",
@@ -251,7 +291,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-03",
-      "utcOffset": 60
+      "country": "HU",
+      "utcOffset": 60,
+      "lastActive": "2026-08-09"
     },
     {
       "id": "1378684514657",
@@ -263,7 +305,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-08",
-      "utcOffset": 180
+      "country": "AT",
+      "utcOffset": 180,
+      "lastActive": "2026-08-06"
     },
     {
       "id": "1378684639399",
@@ -275,7 +319,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-08",
-      "utcOffset": 60
+      "country": "PL",
+      "utcOffset": 60,
+      "lastActive": "2026-08-10"
     },
     {
       "id": "1378684792656",
@@ -287,7 +333,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-24",
-      "utcOffset": 60
+      "country": "DE",
+      "utcOffset": 60,
+      "lastActive": "2026-08-11"
     },
     {
       "id": "1378684511363",
@@ -299,7 +347,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-22",
-      "utcOffset": 60
+      "country": "FR",
+      "utcOffset": 60,
+      "lastActive": "2026-08-10"
     },
     {
       "id": "1378684703780",
@@ -311,7 +361,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-26",
-      "utcOffset": 60
+      "country": "HR",
+      "utcOffset": 60,
+      "lastActive": "2026-07-30"
     },
     {
       "id": "1378684562709",
@@ -323,7 +375,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-02",
-      "utcOffset": 120
+      "country": "TR",
+      "utcOffset": 120,
+      "lastActive": "2026-08-08"
     },
     {
       "id": "1378684749987",
@@ -335,7 +389,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-30",
-      "utcOffset": 60
+      "country": "PT",
+      "utcOffset": 60,
+      "lastActive": "2026-08-10"
     },
     {
       "id": "1378684688674",
@@ -347,7 +403,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-13",
-      "utcOffset": 60
+      "country": "IE",
+      "utcOffset": 60,
+      "lastActive": "2026-07-28"
     },
     {
       "id": "1378684619021",
@@ -359,7 +417,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-30",
-      "utcOffset": 60
+      "country": "HU",
+      "utcOffset": 60,
+      "lastActive": "2026-08-10"
     },
     {
       "id": "1378684775951",
@@ -371,7 +431,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-14",
-      "utcOffset": 60
+      "country": "IT",
+      "utcOffset": 60,
+      "lastActive": "2026-08-06"
     },
     {
       "id": "1378684720666",
@@ -383,7 +445,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-09",
-      "utcOffset": 60
+      "country": "ES",
+      "utcOffset": 60,
+      "lastActive": "2026-08-11"
     },
     {
       "id": "1378684657563",
@@ -395,7 +459,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-13",
-      "utcOffset": 60
+      "country": "ES",
+      "utcOffset": 60,
+      "lastActive": "2026-08-11"
     },
     {
       "id": "1378684670914",
@@ -407,7 +473,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-09",
-      "utcOffset": 60
+      "country": "PL",
+      "utcOffset": 60,
+      "lastActive": "2026-08-09"
     },
     {
       "id": "1378684706132",
@@ -419,7 +487,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-08",
-      "utcOffset": -180
+      "country": "BR",
+      "utcOffset": -180,
+      "lastActive": "2026-08-02"
     },
     {
       "id": "1378684759883",
@@ -431,7 +501,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-14",
-      "utcOffset": 180
+      "country": "YE",
+      "utcOffset": 180,
+      "lastActive": "2026-08-09"
     },
     {
       "id": "1378684736721",
@@ -443,7 +515,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-11",
-      "utcOffset": 60
+      "country": "IT",
+      "utcOffset": 60,
+      "lastActive": "2026-07-28"
     },
     {
       "id": "1378684670695",
@@ -455,7 +529,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-06",
-      "utcOffset": 60
+      "country": "IT",
+      "utcOffset": 60,
+      "lastActive": "2026-08-10"
     },
     {
       "id": "1378684780597",
@@ -467,7 +543,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-08-08",
-      "utcOffset": 60
+      "country": "GB",
+      "utcOffset": 60,
+      "lastActive": "2026-08-10"
     },
     {
       "id": "1378684538880",
@@ -479,7 +557,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-24",
-      "utcOffset": 120
+      "country": "EG",
+      "utcOffset": 120,
+      "lastActive": "2026-08-05"
     },
     {
       "id": "1378684697100",
@@ -491,7 +571,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-25",
-      "utcOffset": -300
+      "country": "PE",
+      "utcOffset": -300,
+      "lastActive": "2026-08-06"
     },
     {
       "id": "1378684801426",
@@ -503,7 +585,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-23",
-      "utcOffset": -300
+      "country": "US",
+      "utcOffset": -300,
+      "lastActive": "2026-08-10"
     },
     {
       "id": "1378684586910",
@@ -515,7 +599,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-26",
-      "utcOffset": 180
+      "country": "UG",
+      "utcOffset": 180,
+      "lastActive": "2026-08-03"
     },
     {
       "id": "1378684801550",
@@ -527,7 +613,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-27",
-      "utcOffset": -300
+      "country": "US",
+      "utcOffset": -300,
+      "lastActive": "2026-07-28"
     },
     {
       "id": "1378684574924",
@@ -539,7 +627,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-19",
-      "utcOffset": 60
+      "country": "IT",
+      "utcOffset": 60,
+      "lastActive": null
     },
     {
       "id": "1378684774484",
@@ -551,7 +641,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-08-01",
-      "utcOffset": 60
+      "country": "GB",
+      "utcOffset": 60,
+      "lastActive": "2026-08-09"
     },
     {
       "id": "1378684788125",
@@ -563,7 +655,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-23",
-      "utcOffset": 60
+      "country": "HU",
+      "utcOffset": 60,
+      "lastActive": "2026-07-30"
     },
     {
       "id": "1378684725045",
@@ -575,7 +669,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-08-11",
-      "utcOffset": -360
+      "country": "US",
+      "utcOffset": -360,
+      "lastActive": "2026-08-11"
     },
     {
       "id": "1378684737584",
@@ -587,7 +683,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-20",
-      "utcOffset": -180
+      "country": "AR",
+      "utcOffset": -180,
+      "lastActive": "2026-08-11"
     },
     {
       "id": "1378684719707",
@@ -599,7 +697,9 @@
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-08-05",
-      "utcOffset": 60
+      "country": "DE",
+      "utcOffset": 60,
+      "lastActive": "2026-08-10"
     }
   ],
   "currentWeek": "2026-08-09",
