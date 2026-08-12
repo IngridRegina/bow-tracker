@@ -486,9 +486,9 @@ def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
 
     # People who show up in the ledgers having donated, sent speedups or made
     # chests for the clan, but who were gone before any capture caught them on
-    # the roster. All we can say is the last day they contributed — no rank, no
-    # join date, and a name only if some capture happened to include them as a
-    # player.
+    # the roster. All we can say is the last day they contributed — no rank and
+    # no join date. Ones we have no name for are skipped: a bare id tells the
+    # reader nothing they can act on.
     contributed = {}
     for e in elog.values():
         pid = str(e["player_id"])
@@ -497,17 +497,19 @@ def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
         pid = str(c["producer"])
         contributed[pid] = max(contributed.get(pid, ""), game_day(int(c["ts"]) - CHEST_TTL))
 
+    strangers = [pid for pid, _ in contributed.items()
+                 if pid not in history and pid not in current_member_ids]
     ghosts = [
-        {"id": pid, "name": names.get(pid), "lastSeen": day, "via": "contributions"}
-        for pid, day in contributed.items()
-        if pid not in history and pid not in current_member_ids
+        {"id": pid, "name": names[pid], "lastSeen": contributed[pid], "via": "contributions"}
+        for pid in strangers
+        if names.get(pid)
     ]
     former_members = sorted(former_members + ghosts,
-                            key=lambda m: (m["lastSeen"], m.get("name") or ""), reverse=True)
+                            key=lambda m: (m["lastSeen"], m["name"]), reverse=True)
 
-    named = sum(1 for g in ghosts if g["name"])
     print(f"member history: {len(history)} ever seen, {len(former_members)} no longer in the clan"
-          f" ({len(ghosts)} of them known only from contributions, {named} with a name)"
+          f" ({len(ghosts)} of them known only from contributions;"
+          f" {len(strangers) - len(ghosts)} more skipped for having no name)"
           f" — this capture dated {seen_on}")
 
     # Last day a member did something we can see: donated, sent speedups or

@@ -1679,15 +1679,9 @@
   color: var(--bt-ink-soft);
 }
 
-/* known only from the ledgers: no rank or might to show, so the name spans */
+/* known only from the ledgers: no rank or might to show */
 .bt-former-list li[data-ghost] {
   border-style: dashed;
-}
-
-.bt-former-name[data-unnamed] {
-  font-style: italic;
-  font-weight: 500;
-  color: var(--bt-line-strong);
 }
 
 /* ---- member facts (below the donation table) ------------------- */

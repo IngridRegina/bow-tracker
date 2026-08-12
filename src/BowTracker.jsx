@@ -149,10 +149,9 @@ const T = {
     formerNote:
       "The game never records a departure, so these are dated to the last day there is any sign of them. They may have left, been removed, or the clan may simply not have been captured that day.",
     formerGhostNote: (n) =>
-      `${n === 1 ? "One of them is" : `${n} of them are`} known only from the donation and chest ledgers — they were gone before any capture caught them on the roster, so there is no rank or join date, and a name only where a capture happened to include them.`,
+      `${n === 1 ? "One of them is" : `${n} of them are`} known only from the donation and chest ledgers — they were gone before any capture caught them on the roster, so there is no rank or join date.`,
     fLastListed: "Last listed",
     fLastGave: "Last contributed",
-    unnamedMember: "Name never captured",
 
     legend: "Colour key",
     cRed: "nothing given",
@@ -268,10 +267,9 @@ const T = {
     formerNote:
       "El juego no registra las salidas, así que la fecha es el último día en que hay rastro de ellos. Puede que se fueran, que los expulsaran, o que ese día no se capturara el clan.",
     formerGhostNote: (n) =>
-      `${n === 1 ? "De uno de ellos solo hay rastro" : `De ${n} de ellos solo hay rastro`} en los registros de donaciones y cofres: ya no estaban cuando se capturó la lista, así que no hay rango ni fecha de ingreso, y solo hay nombre si alguna captura llegó a incluirlos.`,
+      `${n === 1 ? "De uno de ellos solo hay rastro" : `De ${n} de ellos solo hay rastro`} en los registros de donaciones y cofres: ya no estaban cuando se capturó la lista, así que no hay rango ni fecha de ingreso.`,
     fLastListed: "Visto por última vez",
     fLastGave: "Última aportación",
-    unnamedMember: "Nombre nunca capturado",
 
     legend: "Clave de colores",
     cRed: "no han dado nada",
@@ -1081,9 +1079,7 @@ function FormerMembers({ t, lang, former }) {
               const ghost = m.via === "contributions";
               return (
                 <li key={m.id} data-ghost={ghost ? "" : undefined}>
-                  <span className="bt-former-name" data-unnamed={m.name ? undefined : ""}>
-                    {m.name || t.unnamedMember}
-                  </span>
+                  <span className="bt-former-name">{m.name}</span>
                   {!ghost && <span className="bt-former-rank">{t.ranks[m.rank] || m.rank}</span>}
                   {!ghost && <span className="bt-former-might">{compact(m.might)}</span>}
                   <span className="bt-former-dates">

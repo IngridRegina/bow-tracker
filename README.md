@@ -203,9 +203,14 @@ it reaches back to the first one on file.
 A second group comes from the ledgers alone: people who donated, sent speedups
 or made chests for the clan but were gone before any capture caught them on the
 roster. They carry `via: "contributions"`, and all that can be said of them is
-the last day they gave something — no rank, no join date, and a name only where
-some capture happened to include them as a player. The list marks them with a
-dashed border and dates them "last contributed" rather than "last listed".
+the last day they gave something — no rank and no join date. The list marks them
+with a dashed border and dates them "last contributed" rather than "last
+listed".
+
+Ones with no name are dropped rather than shown as a bare id. A name only
+exists where some capture happened to include them as a player, which for these
+three is because they turned up later in another clan. The build prints how
+many were skipped.
 
 Because of that replay, `capture_day()` dates a build from the freshest
 timestamp *inside* the capture rather than from the clock — otherwise

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-12T13:23:42Z",
+  "generatedAt": "2026-08-12T13:36:50Z",
   "capital": [
     660,
     432
@@ -783,33 +783,9 @@
       "via": "contributions"
     },
     {
-      "id": "1378684708552",
-      "name": null,
-      "lastSeen": "2026-07-30",
-      "via": "contributions"
-    },
-    {
-      "id": "1378684791381",
-      "name": null,
-      "lastSeen": "2026-07-28",
-      "via": "contributions"
-    },
-    {
       "id": "1378684572961",
       "name": "Mebar",
       "lastSeen": "2026-07-27",
-      "via": "contributions"
-    },
-    {
-      "id": "1378684789453",
-      "name": null,
-      "lastSeen": "2026-07-26",
-      "via": "contributions"
-    },
-    {
-      "id": "1378684619541",
-      "name": null,
-      "lastSeen": "2026-07-25",
       "via": "contributions"
     }
   ],
