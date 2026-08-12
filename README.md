@@ -63,8 +63,9 @@ build the site, publish.
 
 ## Ranks
 
-Clan ranks come from the capture itself — the roster carries a rank code per
-member (`[[player_id], code, joined_ts]`), mapped by `RANK_CODES` in
+Clan ranks and join dates both come from the capture itself. The roster carries
+one row per member, `[[player_id], rank_code, joined_ts]`, where `joined_ts` is
+when they joined the clan and `rank_code` maps through `RANK_CODES` in
 build_state.py:
 
 | code | rank |
@@ -79,6 +80,11 @@ Codes 1, 2, 4 and 5 are confirmed against every capture on file. Code 3 was in
 use until the 2026-08-11 reshuffle and its label is inferred from its position
 in the ladder. Code 6 has never appeared, so the site's "Member" rank is never
 produced. An unrecognised code prints a warning and falls back to ranks.json.
+
+`firstSeen` is the real join date from the roster, falling back to "first
+capture we saw them in" only when a capture has no roster. The two are not the
+same thing: before this, everyone already in the clan when tracking began was
+stamped with the date of the first capture.
 
 `ranks.json` is no longer the source of truth. It is rewritten from each build,
 keyed by player id, and is only consulted when a capture arrives without a

@@ -119,7 +119,7 @@ def is_event(row):
 
 
 def read_hars(paths):
-    players, events, chests, clan_ranks = {}, {}, {}, {}
+    players, events, chests, roster = {}, {}, {}, {}
     for path in paths:
         for entry in json.load(open(path, encoding="utf-8"))["log"]["entries"]:
             if entry["request"]["method"] != "POST":
@@ -142,7 +142,7 @@ def read_hars(paths):
                             "coords": row[15] if isinstance(row[15], list) else None,
                         }
                     elif is_clan_member(row):
-                        clan_ranks[row[0][0]] = row[1]
+                        roster[row[0][0]] = {"rank": row[1], "joined": row[2]}
                     elif is_chest_list(row):
                         for cid, pid, ctype, ts, _a, _b in row:
                             chests[cid] = {"producer": pid[0], "type": ctype, "ts": ts}
@@ -153,7 +153,7 @@ def read_hars(paths):
                             "ts": row[4],
                             "amounts": row[5][0] if isinstance(row[5][0], dict) else {},
                         }
-    return players, events, chests, clan_ranks
+    return players, events, chests, roster
 
 
 # ---------------------------------------------------------------- dates
@@ -174,33 +174,36 @@ def in_territory(coords):
     return (dx * dx + dy * dy) ** 0.5 <= CAPITAL_RADIUS
 
 
-def build_members(players, prev_members, old_by_name, ranks_by_id, ranks_by_name, clan_ranks=None):
+def build_members(players, prev_members, old_by_name, ranks_by_id, ranks_by_name, roster=None):
     """One record per current clan member, keeping flags from previous state.
 
-    Rank comes from the capture's own roster when it is there. That is both
-    current (it picks up promotions and demotions on its own) and keyed by
-    player id, so the two Aydaens and the two Enanings resolve correctly —
-    which name-keyed ranks.json entries cannot do. ranks.json is only a
-    fallback now, for captures that do not include the clan roster.
+    Rank and join date both come from the capture's own clan roster when it is
+    there. That is current (promotions and demotions are picked up on their
+    own) and keyed by player id, so the two Aydaens and the two Enanings
+    resolve correctly — which name-keyed ranks.json entries cannot do.
+    ranks.json is only a fallback now, for captures without a roster.
     """
-    clan_ranks = clan_ranks or {}
+    roster = roster or {}
     today = game_day(datetime.now(timezone.utc).timestamp())
     out = []
     for pid, p in players.items():
         prev = prev_members.get(str(pid)) or old_by_name.get(p["name"], {})
-        from_capture = RANK_CODES.get(clan_ranks.get(pid))
+        entry = roster.get(pid, {})
+        rank = RANK_CODES.get(entry.get("rank"))
+        # The roster carries the real join timestamp, so prefer it over the
+        # "first capture we saw them in" guess — that one is only right for
+        # members who arrived after tracking started.
+        joined = game_day(entry["joined"]) if entry.get("joined") else None
         out.append({
             "id": str(pid),                       # game player id, stable across renames
             "name": p["name"],
             "might": p["might"],
             "level": p["level"],
-            "rank": from_capture or ranks_by_id.get(str(pid)) or ranks_by_name.get(p["name"]) or prev.get("rank") or "Veteran",
+            "rank": rank or ranks_by_id.get(str(pid)) or ranks_by_name.get(p["name"]) or prev.get("rank") or "Veteran",
             "inTerritory": in_territory(p["coords"]),
             "inactive": prev.get("inactive", False),
             "ingots": prev.get("ingots", False),
-            # First capture this member appeared in. Since captures are daily,
-            # this is their join date to within a day. Never overwritten once set.
-            "firstSeen": prev.get("firstSeen") or today,
+            "firstSeen": joined or prev.get("firstSeen") or today,
         })
     return out
 
@@ -208,7 +211,7 @@ def build_members(players, prev_members, old_by_name, ranks_by_id, ranks_by_name
 # ---------------------------------------------------------------- build
 
 def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
-    players, events, chests, clan_ranks = read_hars(har_paths)
+    players, events, chests, roster = read_hars(har_paths)
 
     # A permanent id -> name map of everyone ever seen, so people who have since
     # left the clan still show a name rather than a bare id in the "former
@@ -264,18 +267,19 @@ def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
         members = list(prev_members.values())
         print(f"capture has no full member list ({len(players)} found), keeping {len(members)} known member(s)")
     else:
-        members = build_members(players, prev_members, old_by_name, ranks_by_id, ranks_by_name, clan_ranks)
+        members = build_members(players, prev_members, old_by_name, ranks_by_id, ranks_by_name, roster)
     members.sort(key=lambda m: -m["might"])
 
-    if clan_ranks:
-        got = sum(1 for m in members if int(m["id"]) in clan_ranks)
+    if roster:
+        got = sum(1 for m in members if int(m["id"]) in roster)
         spread = {}
         for m in members:
-            code = clan_ranks.get(int(m["id"]))
+            code = roster.get(int(m["id"]), {}).get("rank")
             if code:
-                spread[RANK_CODES.get(code, f"code {code}")] = spread.get(RANK_CODES.get(code, f"code {code}"), 0) + 1
-        print(f"clan roster: ranks read from capture for {got}/{len(members)} member(s)  {spread}")
-        unknown = sorted({c for c in clan_ranks.values() if c not in RANK_CODES})
+                label = RANK_CODES.get(code, f"code {code}")
+                spread[label] = spread.get(label, 0) + 1
+        print(f"clan roster: rank + join date read from capture for {got}/{len(members)} member(s)  {spread}")
+        unknown = sorted({e["rank"] for e in roster.values() if e["rank"] not in RANK_CODES})
         if unknown:
             print(f"  !! unrecognised rank code(s) {unknown} — add them to RANK_CODES")
 
@@ -284,7 +288,7 @@ def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
     # tracker-state.json — the site kept showing the default Veteran until the
     # next run happened to read the rank back in.
     if merge_path or ranks_by_id or ranks_by_name:
-        missing = [m for m in members if int(m["id"]) not in clan_ranks
+        missing = [m for m in members if int(m["id"]) not in roster
                    and m["name"] not in old_by_name
                    and m["id"] not in ranks_by_id and m["name"] not in ranks_by_name]
         if missing:

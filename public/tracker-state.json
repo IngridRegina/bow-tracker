@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-12T08:06:44Z",
+  "generatedAt": "2026-08-12T08:28:12Z",
   "members": [
     {
       "id": "1378684787925",
@@ -10,7 +10,7 @@
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-16"
     },
     {
       "id": "1378684568874",
@@ -21,7 +21,7 @@
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-02"
     },
     {
       "id": "1378684741662",
@@ -32,7 +32,7 @@
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-11"
     },
     {
       "id": "1378684656971",
@@ -43,7 +43,7 @@
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-11"
     },
     {
       "id": "1378684736429",
@@ -54,7 +54,7 @@
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-08-03"
+      "firstSeen": "2026-08-04"
     },
     {
       "id": "1378684537558",
@@ -65,7 +65,7 @@
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-08-03"
+      "firstSeen": "2026-08-07"
     },
     {
       "id": "1378684799791",
@@ -76,7 +76,7 @@
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-08-03"
+      "firstSeen": "2026-08-05"
     },
     {
       "id": "1378684639872",
@@ -87,7 +87,7 @@
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-08-03"
+      "firstSeen": "2026-08-07"
     },
     {
       "id": "1378684591930",
@@ -98,7 +98,7 @@
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-02"
     },
     {
       "id": "1378684727618",
@@ -109,7 +109,7 @@
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-15"
     },
     {
       "id": "1378684763225",
@@ -120,7 +120,7 @@
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-08-03"
+      "firstSeen": "2026-08-04"
     },
     {
       "id": "1378684597161",
@@ -131,7 +131,7 @@
       "inTerritory": false,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-22"
     },
     {
       "id": "1378684747176",
@@ -142,7 +142,7 @@
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-16"
     },
     {
       "id": "1378684546217",
@@ -153,7 +153,7 @@
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-10"
     },
     {
       "id": "1378684677949",
@@ -164,7 +164,7 @@
       "inTerritory": false,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-08-03"
+      "firstSeen": "2026-08-05"
     },
     {
       "id": "1378684773181",
@@ -175,7 +175,7 @@
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-22"
     },
     {
       "id": "1378684697174",
@@ -186,7 +186,7 @@
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-08"
     },
     {
       "id": "1378684780963",
@@ -197,7 +197,7 @@
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-16"
     },
     {
       "id": "1378684613683",
@@ -208,7 +208,7 @@
       "inTerritory": false,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-31"
     },
     {
       "id": "1378684571224",
@@ -219,7 +219,7 @@
       "inTerritory": false,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-16"
     },
     {
       "id": "1378684575159",
@@ -230,7 +230,7 @@
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-03"
     },
     {
       "id": "1378684514657",
@@ -241,7 +241,7 @@
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-08"
     },
     {
       "id": "1378684639399",
@@ -252,7 +252,7 @@
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-08"
     },
     {
       "id": "1378684792656",
@@ -263,7 +263,7 @@
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-24"
     },
     {
       "id": "1378684511363",
@@ -274,7 +274,7 @@
       "inTerritory": false,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-22"
     },
     {
       "id": "1378684703780",
@@ -285,7 +285,7 @@
       "inTerritory": false,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-26"
     },
     {
       "id": "1378684562709",
@@ -296,7 +296,7 @@
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-02"
     },
     {
       "id": "1378684749987",
@@ -307,7 +307,7 @@
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-08-03"
+      "firstSeen": "2026-07-30"
     },
     {
       "id": "1378684688674",
@@ -318,7 +318,7 @@
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-13"
     },
     {
       "id": "1378684619021",
@@ -329,7 +329,7 @@
       "inTerritory": false,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-30"
     },
     {
       "id": "1378684775951",
@@ -340,7 +340,7 @@
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-14"
     },
     {
       "id": "1378684720666",
@@ -351,7 +351,7 @@
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-09"
     },
     {
       "id": "1378684657563",
@@ -362,7 +362,7 @@
       "inTerritory": false,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-13"
     },
     {
       "id": "1378684670914",
@@ -373,7 +373,7 @@
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-09"
     },
     {
       "id": "1378684706132",
@@ -384,7 +384,7 @@
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-08"
     },
     {
       "id": "1378684759883",
@@ -395,7 +395,7 @@
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-14"
     },
     {
       "id": "1378684736721",
@@ -406,7 +406,7 @@
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-11"
     },
     {
       "id": "1378684670695",
@@ -417,7 +417,7 @@
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-06"
     },
     {
       "id": "1378684780597",
@@ -428,7 +428,7 @@
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-08-03"
+      "firstSeen": "2026-08-08"
     },
     {
       "id": "1378684538880",
@@ -439,7 +439,7 @@
       "inTerritory": false,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-24"
     },
     {
       "id": "1378684697100",
@@ -450,7 +450,7 @@
       "inTerritory": false,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-25"
     },
     {
       "id": "1378684801426",
@@ -461,7 +461,7 @@
       "inTerritory": false,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-23"
     },
     {
       "id": "1378684586910",
@@ -472,7 +472,7 @@
       "inTerritory": false,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-26"
     },
     {
       "id": "1378684801550",
@@ -483,7 +483,7 @@
       "inTerritory": false,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-27"
     },
     {
       "id": "1378684574924",
@@ -494,7 +494,7 @@
       "inTerritory": false,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-19"
     },
     {
       "id": "1378684774484",
@@ -505,7 +505,7 @@
       "inTerritory": false,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-08-01"
     },
     {
       "id": "1378684788125",
@@ -516,7 +516,7 @@
       "inTerritory": false,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-23"
     },
     {
       "id": "1378684725045",
@@ -538,7 +538,7 @@
       "inTerritory": false,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-01"
+      "firstSeen": "2026-07-20"
     },
     {
       "id": "1378684719707",
@@ -549,7 +549,7 @@
       "inTerritory": false,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-08-03"
+      "firstSeen": "2026-08-05"
     }
   ],
   "currentWeek": "2026-08-09",
