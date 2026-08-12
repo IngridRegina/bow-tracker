@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, lazy, Suspense } from "react";
+import React, { useState, useEffect, useMemo, useCallback, lazy, Suspense } from "react";
 import { Anvil, Stone, TreePine, Wheat, Coins, Book } from "lucide-react";
 import { fmt, compact, fmtHours, countryName } from "./format.js";
 import "./BowTracker.css";
@@ -683,11 +683,14 @@ function Timing({ t, members }) {
     () => members.reduce((a, m) => (m.lastActive && m.lastActive > a ? m.lastActive : a), ""),
     [members]
   );
-  const isQuiet = (m) => {
-    if (m.mightFlatDays >= STALL_DAYS) return true;
-    if (!m.lastActive) return true;
-    return asOf ? daysBetween(m.lastActive, asOf) >= STALL_DAYS : false;
-  };
+  const isQuiet = useCallback(
+    (m) => {
+      if (m.mightFlatDays >= STALL_DAYS) return true;
+      if (!m.lastActive) return true;
+      return asOf ? daysBetween(m.lastActive, asOf) >= STALL_DAYS : false;
+    },
+    [asOf]
+  );
 
   // resolve each member to the offset that is correct today, not the one
   // frozen in their profile
@@ -697,7 +700,7 @@ function Timing({ t, members }) {
         .filter((m) => !activeOnly || !isQuiet(m))
         .map((m) => ({ ...m, resolved: resolveOffset(m.country, m.utcOffset) }))
         .filter((m) => m.resolved.mins != null),
-    [members, activeOnly, asOf]
+    [members, activeOnly, isQuiet]
   );
   const counted = members.filter((m) => !activeOnly || !isQuiet(m)).length;
   const unknown = counted - known.length;
