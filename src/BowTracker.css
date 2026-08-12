@@ -798,9 +798,16 @@
   overflow: hidden;
 }
 
-/* the hour with the widest coverage, and the reset hour itself */
-.bt-slot[data-best] {
-  border-left-color: var(--bt-green);
+/* Graded by how much of the clan is up: deep green at the peak, a lighter
+   green either side of it, amber where it is still worth calling, neutral
+   where it is not. The reset hour keeps the gold marker whatever its tier. */
+.bt-slot[data-tier="best"] { --bt-tier: var(--bt-green-plus); }
+.bt-slot[data-tier="good"] { --bt-tier: var(--bt-green); }
+.bt-slot[data-tier="ok"] { --bt-tier: var(--bt-amber); }
+.bt-slot[data-tier="low"] { --bt-tier: var(--bt-line-strong); }
+
+.bt-slot {
+  border-left-color: var(--bt-tier);
 }
 
 .bt-slot[data-reset] {
@@ -861,12 +868,8 @@
   display: block;
   width: var(--bt-pct, 0%);
   height: 100%;
-  background: var(--bt-line-strong);
+  background: var(--bt-tier, var(--bt-line-strong));
   border-radius: 99px;
-}
-
-.bt-slot[data-best] .bt-slot-fill {
-  background: var(--bt-green);
 }
 
 .bt-slot-count {
@@ -880,8 +883,13 @@
   color: var(--bt-line-strong);
 }
 
+/* the count is text, so it takes the readable ink of its tier, not the bar
+   colour — amber at marker strength is only 3.8:1 */
+.bt-slot[data-tier="best"] .bt-slot-count { color: var(--bt-green-plus-ink); }
+.bt-slot[data-tier="good"] .bt-slot-count { color: var(--bt-green-ink); }
+.bt-slot[data-tier="ok"] .bt-slot-count { color: var(--bt-amber-ink); }
+
 .bt-slot[data-best] .bt-slot-count {
-  color: var(--bt-green-ink);
   font-weight: 600;
 }
 
@@ -995,11 +1003,10 @@
   transition: fill 0.12s;
 }
 
-.bt-country[data-step="0"] { fill: #c69a3e; }
-.bt-country[data-step="1"] { fill: #a87c28; }
-.bt-country[data-step="2"] { fill: #87611c; }
-.bt-country[data-step="3"] { fill: #654613; }
-.bt-country[data-step="4"] { fill: #422c0c; }
+.bt-country[data-step="0"] { fill: #d9ad4e; }
+.bt-country[data-step="1"] { fill: #a87227; }
+.bt-country[data-step="2"] { fill: #70430f; }
+.bt-country[data-step="3"] { fill: #3a2208; }
 
 .bt-country[data-step] {
   cursor: pointer;
@@ -1049,17 +1056,18 @@
   background: var(--bt-line);
 }
 
-.bt-map-swatch[data-step="0"] { background: #c69a3e; }
-.bt-map-swatch[data-step="1"] { background: #a87c28; }
-.bt-map-swatch[data-step="2"] { background: #87611c; }
-.bt-map-swatch[data-step="3"] { background: #654613; }
-.bt-map-swatch[data-step="4"] { background: #422c0c; }
+.bt-map-swatch[data-step="0"] { background: #d9ad4e; }
+.bt-map-swatch[data-step="1"] { background: #a87227; }
+.bt-map-swatch[data-step="2"] { background: #70430f; }
+.bt-map-swatch[data-step="3"] { background: #3a2208; }
 
+/* stretch, not start: the two columns then share the row's height, so the
+   member panel is never a short card floating beside a long list */
 .bt-map-cols {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
   gap: 16px;
-  align-items: start;
+  align-items: stretch;
 }
 
 @container (max-width: 640px) {
@@ -1075,8 +1083,14 @@
   display: flex;
   flex-direction: column;
   gap: 2px;
-  max-height: 380px;
+  max-height: 296px;
   overflow-y: auto;
+}
+
+@container (max-width: 640px) {
+  .bt-countrylist {
+    max-height: 208px;
+  }
 }
 
 .bt-countryrow {
@@ -1125,7 +1139,11 @@
   border: 1px solid var(--bt-line);
   border-radius: 12px;
   padding: 14px 16px;
-  min-height: 120px;
+  /* a column so a long roster scrolls inside the card rather than stretching
+     it past the country list beside it */
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 
 .bt-map-members-title {
@@ -1146,6 +1164,8 @@
   list-style: none;
   margin: 0;
   padding: 0;
+  overflow-y: auto;
+  min-height: 0;
 }
 
 .bt-map-memberlist li {

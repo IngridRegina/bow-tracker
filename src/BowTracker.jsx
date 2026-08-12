@@ -603,6 +603,11 @@ function resolveOffset(country, reported) {
    value is already reduced modulo a day. */
 const AWAKE_FROM = 9 * 60;
 
+/* How good an hour is, as a share of the clan. Four bands rather than one
+   highlight, so the shoulders either side of the peak are readable as "still
+   most people" instead of collapsing into the same grey as the dead hours. */
+const tierOf = (pct) => (pct >= 90 ? "best" : pct >= 70 ? "good" : pct >= 45 ? "ok" : "low");
+
 const hhmm = (mins) => {
   const m = ((mins % 1440) + 1440) % 1440;
   return `${String(Math.floor(m / 60)).padStart(2, "0")}:${String(m % 60).padStart(2, "0")}`;
@@ -707,7 +712,13 @@ function Timing({ t, members }) {
         {shown.map((r) => {
           const isOpen = open === r.hour;
           return (
-            <div className="bt-slot" key={r.hour} data-best={r.n === best ? "" : undefined} data-reset={r.hour === BOUNDARY_UTC_HOUR ? "" : undefined}>
+            <div
+              className="bt-slot"
+              key={r.hour}
+              data-tier={tierOf(r.pct)}
+              data-best={r.n === best ? "" : undefined}
+              data-reset={r.hour === BOUNDARY_UTC_HOUR ? "" : undefined}
+            >
               <button className="bt-slot-head" onClick={() => setOpen(isOpen ? null : r.hour)} aria-expanded={isOpen}>
                 <span className="bt-slot-time">
                   {hhmm(localOf(r.hour))}

@@ -17,13 +17,15 @@ const ISO_NUMERIC_TO_ALPHA2 = Object.fromEntries(
     .map((p) => p.split(":"))
 );
 
-/* Sequential ramp, one hue light→dark, validated against the page surface:
-   monotone lightness, visible gaps between steps, and a light end that still
-   clears 2:1 so "one member" cannot be mistaken for "none". The lightest step
-   is the palette's own gold. */
-const MAP_STEPS = ["#c69a3e", "#a87c28", "#87611c", "#654613", "#422c0c"];
-const bucketOf = (n) => (n >= 6 ? 4 : n >= 4 ? 3 : n - 1);
-const BUCKET_LABEL = ["1", "2", "3", "4–5", "6+"];
+/* Sequential ramp, one hue light→dark, validated against the white card the
+   map sits on: monotone lightness, and a light end still clearing 2:1 so "one
+   member" cannot be mistaken for "none". Four steps rather than five — the
+   same lightness range split fewer ways gives gaps of ~0.17 instead of ~0.10,
+   which is the difference between steps you can tell apart at country size and
+   steps you cannot. */
+const MAP_STEPS = ["#d9ad4e", "#a87227", "#70430f", "#3a2208"];
+const bucketOf = (n) => (n >= 5 ? 3 : n - 1);
+const BUCKET_LABEL = ["1", "2", "3", "4+"];
 
 // Antarctica is in the atlas but has no members and eats a third of the frame
 const WORLD = feature(worldTopo, worldTopo.objects.countries).features.filter((f) => f.id !== "010");
