@@ -730,6 +730,196 @@
   color: var(--bt-gold);
 }
 
+/* ---- timing view ---------------------------------------------- */
+.bt-tabs {
+  margin-bottom: 22px;
+}
+
+.bt-timing-intro {
+  font: 14px var(--bt-body);
+  color: var(--bt-ink-soft);
+  margin: 0 0 18px;
+  max-width: 70ch;
+}
+
+.bt-slots {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+.bt-slot {
+  background: var(--bt-panel);
+  border: 1px solid var(--bt-line);
+  border-left: 4px solid var(--bt-line-strong);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* the hour with the widest coverage, and the reset hour itself */
+.bt-slot[data-best] {
+  border-left-color: var(--bt-green);
+}
+
+.bt-slot[data-reset] {
+  border-left-color: var(--bt-gold);
+}
+
+.bt-slot-head {
+  display: grid;
+  grid-template-columns: 5.5em 11em minmax(80px, 1fr) 11em 34px;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  padding: 10px 10px 10px 14px;
+  font: inherit;
+}
+
+.bt-slot-head:hover {
+  background: var(--bt-panel-alt);
+}
+
+.bt-slot-time {
+  font: 600 17px var(--bt-data);
+  color: var(--bt-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.bt-slot-reset {
+  font: 13px var(--bt-body);
+  color: var(--bt-ink-soft);
+}
+
+.bt-slot[data-reset] .bt-slot-reset {
+  color: var(--bt-amber-ink);
+  font-weight: 600;
+}
+
+.bt-slot-track {
+  height: 8px;
+  background: var(--bt-line);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.bt-slot-fill {
+  display: block;
+  width: var(--bt-pct, 0%);
+  height: 100%;
+  background: var(--bt-line-strong);
+  border-radius: 99px;
+}
+
+.bt-slot[data-best] .bt-slot-fill {
+  background: var(--bt-green);
+}
+
+.bt-slot-count {
+  font: 14px var(--bt-data);
+  color: var(--bt-ink-soft);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.bt-slot-count .bt-slot-total {
+  color: var(--bt-line-strong);
+}
+
+.bt-slot[data-best] .bt-slot-count {
+  color: var(--bt-green-ink);
+  font-weight: 600;
+}
+
+.bt-slot-toggle {
+  justify-self: center;
+  color: var(--bt-ink-soft);
+  font: 22px/1 var(--bt-data);
+}
+
+.bt-slot-detail {
+  border-top: 1px solid var(--bt-line);
+  background: var(--bt-panel-alt);
+  padding: 8px 14px 12px 18px;
+}
+
+.bt-tzrow {
+  display: grid;
+  grid-template-columns: 6.5em 8.5em minmax(0, 1fr) 1.5em;
+  align-items: baseline;
+  gap: 10px;
+  padding: 4px 0;
+  font: 13px var(--bt-data);
+  color: var(--bt-ink-soft);
+}
+
+.bt-tzrow + .bt-tzrow {
+  border-top: 1px solid var(--bt-line);
+}
+
+.bt-tz-off {
+  color: var(--bt-ink);
+  font-weight: 600;
+}
+
+.bt-tz-local {
+  font-variant-numeric: tabular-nums;
+}
+
+.bt-tz-names {
+  font-family: var(--bt-body);
+  overflow-wrap: anywhere;
+}
+
+.bt-tz-flag {
+  text-align: right;
+  font-weight: 700;
+  color: var(--bt-red-ink);
+}
+
+.bt-tzrow[data-awake] {
+  color: var(--bt-ink);
+}
+
+.bt-tzrow[data-awake] .bt-tz-flag {
+  color: var(--bt-green-ink);
+}
+
+/* stack the head at narrow widths rather than crushing five columns */
+@container (max-width: 700px) {
+  .bt-slot-head {
+    grid-template-columns: minmax(0, 1fr) 34px;
+    grid-template-areas:
+      "time toggle"
+      "reset toggle"
+      "track toggle"
+      "count toggle";
+    gap: 6px 10px;
+  }
+
+  .bt-slot-time { grid-area: time; }
+  .bt-slot-reset { grid-area: reset; }
+  .bt-slot-track { grid-area: track; }
+  .bt-slot-count { grid-area: count; text-align: left; }
+  .bt-slot-toggle { grid-area: toggle; align-self: center; }
+
+  .bt-tzrow {
+    grid-template-columns: 6.5em minmax(0, 1fr) 1.5em;
+    grid-template-areas:
+      "off local flag"
+      "names names names";
+  }
+
+  .bt-tz-off { grid-area: off; }
+  .bt-tz-local { grid-area: local; }
+  .bt-tz-flag { grid-area: flag; }
+  .bt-tz-names { grid-area: names; }
+}
+
 /* ---- rank groups ---------------------------------------------- */
 .bt-rank-group {
   margin-bottom: 28px;

@@ -37,6 +37,18 @@ RESOURCES = {2: "silver", 3: "lumber", 4: "iron", 5: "stone", 6: "food", 20: "tr
 # be five deep, so "Member" in the site's RANKS list is simply never produced.
 RANK_CODES = {1: "Leader", 2: "Superior", 3: "Officer", 4: "Veteran", 5: "Soldier"}
 
+# Player rows carry the member's timezone as a display string, oddly encoded:
+# the hours negated, then a literal '0', then the minutes negated. So UTC+1:00
+# is "(UTC-100)" — that is "-1", "0", "0", not minus one hundred minutes — and
+# UTC+3:30 is "(UTC-30-30)". Verified against every value in every capture.
+TZ_RE = re.compile(r"^\(UTC([+-]\d{1,2})0(-?\d+)\)$")
+
+
+def parse_tz(s):
+    """The member's UTC offset in minutes east of UTC, or None if not set."""
+    m = TZ_RE.match(s or "")
+    return None if not m else -int(m.group(1)) * 60 + -int(m.group(2))
+
 # Day and week both roll at 20:00 Estonian summer time == 17:00 UTC.
 BOUNDARY_UTC_HOUR = 17
 
@@ -140,6 +152,7 @@ def read_hars(paths):
                             "level": row[7] if isinstance(row[7], int) else 0,
                             "clan": row[13] if isinstance(row[13], str) else "",
                             "coords": row[15] if isinstance(row[15], list) else None,
+                            "tz": row[21] if len(row) > 21 and isinstance(row[21], str) else "",
                         }
                     elif is_clan_member(row):
                         roster[row[0][0]] = {"rank": row[1], "joined": row[2]}
@@ -204,6 +217,9 @@ def build_members(players, prev_members, old_by_name, ranks_by_id, ranks_by_name
             "inactive": prev.get("inactive", False),
             "ingots": prev.get("ingots", False),
             "firstSeen": joined or prev.get("firstSeen") or today,
+            # minutes east of UTC; kept from the previous state when a capture
+            # happens not to carry it, since it rarely changes
+            "utcOffset": parse_tz(p.get("tz")) if parse_tz(p.get("tz")) is not None else prev.get("utcOffset"),
         })
     return out
 

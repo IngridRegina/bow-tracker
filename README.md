@@ -91,6 +91,22 @@ keyed by player id, and is only consulted when a capture arrives without a
 roster. Being keyed by id matters: the clan has two players called Aydaen and
 two called Enaning, which name-keyed entries could not tell apart.
 
+## Timezones and the "Good times" tab
+
+Player rows carry the member's timezone, encoded oddly: the hours negated, then
+a literal `0`, then the minutes negated. `(UTC-100)` is UTC+1:00 — "-1", "0",
+"0", not minus a hundred minutes — and `(UTC-30-30)` is UTC+3:30. `parse_tz()`
+decodes it to `utcOffset`, minutes east of UTC, and it round-trips every value
+in every capture on file.
+
+The "Good times" tab uses that to show, for each UTC hour, how many members'
+local clocks read between 09:00 and midnight, with each hour's distance from
+the 17:00 UTC daily reset. Expanding an hour lists each timezone group, its
+local time, and who is in it.
+
+The offsets are whatever each member set in their game profile, so they are not
+adjusted for daylight saving and a handful may be an hour out.
+
 ## Notes
 
 - `build_state.py` stamps `generatedAt` into the state file; the page shows it

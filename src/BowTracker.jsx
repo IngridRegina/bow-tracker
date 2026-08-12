@@ -107,6 +107,21 @@ const T = {
     recoveredNote: "gave nothing last week but donated this week:",
     inactive: "possibly inactive",
 
+    tabLedger: "Ledger",
+    tabTiming: "Good times",
+    timingTitle: "When is the clan awake?",
+    timingIntro: "How many members have a local clock between 09:00 and midnight at each hour. All times UTC.",
+    timingBest: (n, total, times) => `Best coverage is ${n} of ${total}, at ${times}.`,
+    atReset: "daily reset",
+    beforeReset: (h) => `${h}h before reset`,
+    afterReset: (h) => `${h}h after reset`,
+    membersAwake: "awake",
+    rankBest: "Best first",
+    rankClock: "By clock",
+    localNow: "local",
+    noTimezone: (n) => (n === 1 ? "1 member has" : `${n} members have`) + " no timezone set in their profile, and are left out of the counts.",
+    tzCaveat: "Timezones come from each member's game profile. They are not adjusted for daylight saving, so a summer clock may read an hour early.",
+
     legend: "Colour key",
     cRed: "nothing given",
     cYellow: "below target",
@@ -184,6 +199,21 @@ const T = {
     recoveredTitle: "Volvieron a donar esta semana",
     recoveredNote: "no dieron nada la semana pasada pero donaron esta:",
     inactive: "posiblemente inactivo",
+
+    tabLedger: "Registro",
+    tabTiming: "Buenas horas",
+    timingTitle: "¿Cuándo está despierto el clan?",
+    timingIntro: "Cuántos miembros tienen su hora local entre las 09:00 y medianoche en cada hora. Todas las horas en UTC.",
+    timingBest: (n, total, times) => `La mejor cobertura es ${n} de ${total}, a las ${times}.`,
+    atReset: "reinicio diario",
+    beforeReset: (h) => `${h}h antes del reinicio`,
+    afterReset: (h) => `${h}h después del reinicio`,
+    membersAwake: "despiertos",
+    rankBest: "Mejores primero",
+    rankClock: "Por hora",
+    localNow: "local",
+    noTimezone: (n) => `${n} miembro${n === 1 ? "" : "s"} sin zona horaria en su perfil, no se cuentan.`,
+    tzCaveat: "Las zonas horarias vienen del perfil de cada miembro. No se ajustan al horario de verano, así que un reloj de verano puede ir una hora adelantado.",
 
     legend: "Clave de colores",
     cRed: "no han dado nada",
@@ -458,6 +488,132 @@ function Podium({ t, members, week }) {
   );
 }
 
+/* ---- timing ---------------------------------------------------
+   Which UTC hours fall inside most members' waking day. The window runs from
+   09:00 local to midnight local, so — working in minutes past local midnight —
+   a member is awake whenever their local time is at or past 09:00, since the
+   value is already reduced modulo a day. */
+const AWAKE_FROM = 9 * 60;
+
+const hhmm = (mins) => {
+  const m = ((mins % 1440) + 1440) % 1440;
+  return `${String(Math.floor(m / 60)).padStart(2, "0")}:${String(m % 60).padStart(2, "0")}`;
+};
+
+const offsetLabel = (mins) => {
+  const a = Math.abs(mins);
+  const rest = a % 60;
+  return `UTC${mins < 0 ? "−" : "+"}${Math.floor(a / 60)}${rest ? ":" + String(rest).padStart(2, "0") : ""}`;
+};
+
+function Timing({ t, members }) {
+  const [order, setOrder] = useState("best");
+  const [open, setOpen] = useState(null);
+
+  const known = useMemo(() => members.filter((m) => m.utcOffset != null), [members]);
+  const unknown = members.length - known.length;
+
+  // one entry per distinct offset, so a row can explain its own number
+  const groups = useMemo(() => {
+    const g = new Map();
+    known.forEach((m) => {
+      if (!g.has(m.utcOffset)) g.set(m.utcOffset, []);
+      g.get(m.utcOffset).push(m.name);
+    });
+    return [...g.entries()]
+      .map(([off, names]) => ({ off, names: names.sort((a, b) => a.localeCompare(b)) }))
+      .sort((a, b) => a.off - b.off);
+  }, [known]);
+
+  const rows = useMemo(
+    () =>
+      Array.from({ length: 24 }, (_, hour) => {
+        const per = groups.map((g) => {
+          const local = (((hour * 60 + g.off) % 1440) + 1440) % 1440;
+          return { ...g, local, awake: local >= AWAKE_FROM };
+        });
+        const n = per.reduce((a, g) => a + (g.awake ? g.names.length : 0), 0);
+        return { hour, per, n, pct: Math.round((n / Math.max(known.length, 1)) * 100) };
+      }),
+    [groups, known.length]
+  );
+
+  const best = rows.reduce((a, r) => Math.max(a, r.n), 0);
+  const bestHours = rows.filter((r) => r.n === best).map((r) => hhmm(r.hour * 60));
+  const shown = order === "best" ? [...rows].sort((a, b) => b.n - a.n || a.hour - b.hour) : rows;
+
+  // reset sits at BOUNDARY_UTC_HOUR; express every other hour relative to it
+  const resetLabel = (hour) => {
+    let d = hour - BOUNDARY_UTC_HOUR;
+    if (d > 12) d -= 24;
+    if (d <= -12) d += 24;
+    if (d === 0) return t.atReset;
+    return d > 0 ? t.afterReset(d) : t.beforeReset(-d);
+  };
+
+  return (
+    <section>
+      <div className="bt-podium-head">
+        <h2 className="bt-h2">{t.timingTitle}</h2>
+        <Segmented
+          options={[
+            { value: "best", label: t.rankBest },
+            { value: "clock", label: t.rankClock },
+          ]}
+          value={order}
+          onChange={setOrder}
+        />
+      </div>
+
+      <p className="bt-timing-intro">
+        {t.timingIntro} {t.timingBest(best, known.length, bestHours.join(", "))}
+      </p>
+
+      <div className="bt-slots">
+        {shown.map((r) => {
+          const isOpen = open === r.hour;
+          return (
+            <div className="bt-slot" key={r.hour} data-best={r.n === best ? "" : undefined} data-reset={r.hour === BOUNDARY_UTC_HOUR ? "" : undefined}>
+              <button className="bt-slot-head" onClick={() => setOpen(isOpen ? null : r.hour)} aria-expanded={isOpen}>
+                <span className="bt-slot-time">{hhmm(r.hour * 60)}</span>
+                <span className="bt-slot-reset">{resetLabel(r.hour)}</span>
+                <span className="bt-slot-track">
+                  <span className="bt-slot-fill" style={{ "--bt-pct": `${r.pct}%` }} />
+                </span>
+                <span className="bt-slot-count">
+                  {r.n}
+                  <span className="bt-slot-total">/{known.length}</span> {t.membersAwake}
+                </span>
+                <span className="bt-slot-toggle">{isOpen ? "−" : "+"}</span>
+              </button>
+
+              {isOpen && (
+                <div className="bt-slot-detail">
+                  {r.per.map((g) => (
+                    <div className="bt-tzrow" key={g.off} data-awake={g.awake ? "" : undefined}>
+                      <span className="bt-tz-off">{offsetLabel(g.off)}</span>
+                      <span className="bt-tz-local">
+                        {hhmm(g.local)} {t.localNow}
+                      </span>
+                      <span className="bt-tz-names">{g.names.join(", ")}</span>
+                      <span className="bt-tz-flag">{g.awake ? "✓" : "✗"}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      <p className="bt-rule-note">
+        {unknown > 0 && `${t.noTimezone(unknown)} `}
+        {t.tzCaveat}
+      </p>
+    </section>
+  );
+}
+
 /* ---- ledger -------------------------------------------------- */
 function Ledger({ t, lang, members, week, prevWeek }) {
   const [open, setOpen] = useState(null);
@@ -701,6 +857,7 @@ export default function App() {
     }
   });
   const [loading, setLoading] = useState(true);
+  const [view, setView] = useState("ledger");
   const [updatedAt, setUpdatedAt] = useState(null);
   const [tick, setTick] = useState(() => new Date());
   const [isMobile, setIsMobile] = useState(() => {
@@ -845,7 +1002,23 @@ export default function App() {
         {state.members.length === 0 ? (
           <p className="bt-empty">{t.empty}</p>
         ) : (
-          <Ledger t={t} lang={lang} members={state.members} week={week} prevWeek={prevWeek} />
+          <>
+            <div className="bt-tabs">
+              <Segmented
+                options={[
+                  { value: "ledger", label: t.tabLedger },
+                  { value: "timing", label: t.tabTiming },
+                ]}
+                value={view}
+                onChange={setView}
+              />
+            </div>
+            {view === "ledger" ? (
+              <Ledger t={t} lang={lang} members={state.members} week={week} prevWeek={prevWeek} />
+            ) : (
+              <Timing t={t} members={state.members} />
+            )}
+          </>
         )}
       </main>
     </div>
