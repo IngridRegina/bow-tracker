@@ -429,6 +429,21 @@
   margin: 6px 0 10px;
 }
 
+/* week-on-week movement, in percentage points */
+.bt-meter-delta {
+  font: 13px var(--bt-body);
+  color: var(--bt-ink-soft);
+  margin: -4px 0 8px;
+}
+
+.bt-meter-delta[data-dir="up"] {
+  color: var(--bt-green-plus-ink);
+}
+
+.bt-meter-delta[data-dir="down"] {
+  color: var(--bt-red-ink);
+}
+
 .bt-meter-track {
   height: 6px;
   margin-top: auto;

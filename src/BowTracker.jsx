@@ -84,6 +84,7 @@ const T = {
     producedChests: "produced chests",
     gaveSpeedups: "gave clan speedups",
     membersInside: "members live in or close to territory",
+    vsLastWeek: "vs last week",
     formerAlso: "Also contributed this week, no longer in the clan:",
     fDonated: "donated",
     fChests: "produced chests",
@@ -215,6 +216,7 @@ const T = {
     producedChests: "han producido cofres",
     gaveSpeedups: "han dado aceleraciones",
     membersInside: "miembros viven en o cerca del territorio",
+    vsLastWeek: "frente a la semana pasada",
     formerAlso: "También contribuyeron esta semana, ya no están en el clan:",
     fDonated: "donaron",
     fChests: "produjeron cofres",
@@ -426,7 +428,7 @@ function Segmented({ options, value, onChange, inline }) {
   );
 }
 
-function Meter({ label, n, denom, tone, plain }) {
+function Meter({ label, n, denom, tone, plain, delta, deltaLabel }) {
   const pct = Math.round((n / Math.max(denom, 1)) * 100);
   return (
     <div className="bt-meter" data-tone={tone === "neutral" ? "neutral" : pct >= 50 ? "high" : "low"}>
@@ -436,6 +438,12 @@ function Meter({ label, n, denom, tone, plain }) {
         {!plain && <span className="bt-meter-pct">{pct}%</span>}
       </div>
       <div className="bt-meter-label">{label}</div>
+      {delta != null && (
+        <div className="bt-meter-delta" data-dir={delta > 0 ? "up" : delta < 0 ? "down" : "flat"}>
+          {delta > 0 ? "+" : delta < 0 ? "−" : "±"}
+          {Math.abs(delta)}% {deltaLabel}
+        </div>
+      )}
       {!plain && (
         <div className="bt-meter-track">
           <div className="bt-meter-fill" style={{ "--bt-pct": `${pct}%` }} />
@@ -915,28 +923,52 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
     return { noDon, silver, outside, stalled };
   }, [members, week]);
 
-  /* Territory is recorded per week — each member's last known position by the
-     end of that week — so the meter shows who lived there then, not who lives
-     there now, and the denominator is the clan as it was that week. Weeks
-     built before positions were kept fall back to today's answer. */
-  const territory = useMemo(() => {
-    if (week.inTerritory) return { inside: week.inTerritory.length, of: week.territoryOf ?? members.length };
-    return { inside: members.filter((m) => m.inTerritory).length, of: members.length };
-  }, [week, members]);
+  /* Participation for one week, counted only over the members who had joined
+     by the end of it. Otherwise last week's percentages are dragged down by
+     people who were not in the clan yet, and the week-on-week comparison
+     measures recruitment rather than effort.
 
-  const part = useMemo(() => {
-    let donors = 0, chesters = 0, speeders = 0, outside = 0;
-    members.forEach((m) => {
-      const e = evaluate(m, week);
-      if (ALL_RES.some((r) => (e.don[r] || 0) > 0)) {
-        donors++;
-        if (!m.inTerritory) outside++;
-      }
-      if (e.chestTotal > 0) chesters++;
-      if (e.speedupHours > 0) speeders++;
-    });
-    return { donors, chesters, speeders, outside, total: members.length };
-  }, [members, week]);
+     Territory comes from the week itself — each member's last known position
+     by that week's end — falling back to today's answer for weeks recorded
+     before positions were kept. */
+  const partFor = useCallback(
+    (wk) => {
+      if (!wk) return null;
+      const end = iso(new Date(new Date(wk.start + "T12:00:00Z").getTime() + 6 * 86400000));
+      const pool = members.filter((m) => !m.firstSeen || m.firstSeen <= end);
+      let donors = 0, chesters = 0, speeders = 0, outside = 0;
+      pool.forEach((m) => {
+        const e = evaluate(m, wk);
+        if (ALL_RES.some((r) => (e.don[r] || 0) > 0)) {
+          donors++;
+          if (!m.inTerritory) outside++;
+        }
+        if (e.chestTotal > 0) chesters++;
+        if (e.speedupHours > 0) speeders++;
+      });
+      return {
+        donors,
+        chesters,
+        speeders,
+        outside,
+        total: pool.length,
+        inside: wk.inTerritory ? wk.inTerritory.length : pool.filter((m) => m.inTerritory).length,
+        insideOf: wk.territoryOf ?? pool.length,
+      };
+    },
+    [members]
+  );
+
+  const part = useMemo(() => partFor(week), [partFor, week]);
+  const before = useMemo(() => partFor(prevWeek), [partFor, prevWeek]);
+
+  /* How much the number of people changed, relative to last week: 19 donors
+     becoming 22 is +16%. Deliberately not the change in the percentage shown
+     above it — that would be a change in the clan's *share*, which moves in
+     the opposite direction when the clan grows faster than participation, and
+     reads as a fall on a week where more people actually took part.
+     Undefined rather than +100% when last week was zero. */
+  const shift = (now, was) => (!before || !was ? null : Math.round(((now - was) / was) * 100));
 
   // Gave any mandatory resource in a given week?
   const gaveMandatoryIn = (wk, id) => !!wk && RES.some((r) => (((wk.donations && wk.donations[id]) || {})[r] || 0) > 0);
@@ -996,10 +1028,34 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
 
       {/* participation */}
       <div className="bt-participation">
-        <Meter label={`${t.donated} ${t.thisWeek}`} n={part.donors} denom={part.total} />
-        <Meter label={`${t.producedChests} ${t.thisWeek}`} n={part.chesters} denom={part.total} />
-        <Meter label={`${t.gaveSpeedups} ${t.thisWeek}`} n={part.speeders} denom={part.total} />
-        <Meter label={t.membersInside} n={territory.inside} denom={territory.of} />
+        <Meter
+          label={`${t.donated} ${t.thisWeek}`}
+          n={part.donors}
+          denom={part.total}
+          delta={shift(part.donors, before && before.donors)}
+          deltaLabel={t.vsLastWeek}
+        />
+        <Meter
+          label={`${t.producedChests} ${t.thisWeek}`}
+          n={part.chesters}
+          denom={part.total}
+          delta={shift(part.chesters, before && before.chesters)}
+          deltaLabel={t.vsLastWeek}
+        />
+        <Meter
+          label={`${t.gaveSpeedups} ${t.thisWeek}`}
+          n={part.speeders}
+          denom={part.total}
+          delta={shift(part.speeders, before && before.speeders)}
+          deltaLabel={t.vsLastWeek}
+        />
+        <Meter
+          label={t.membersInside}
+          n={part.inside}
+          denom={part.insideOf}
+          delta={shift(part.inside, before && before.inside)}
+          deltaLabel={t.vsLastWeek}
+        />
       </div>
 
       {/* colour legend — inline, above the list */}
