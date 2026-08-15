@@ -286,5 +286,15 @@
     "name": "Tygoran",
     "might": 28031,
     "rank": "Veteran"
+  },
+  "1378684521491": {
+    "name": "Meninad",
+    "might": 96976,
+    "rank": "Soldier"
+  },
+  "1378684680194": {
+    "name": "Karohan",
+    "might": 145080,
+    "rank": "Veteran"
   }
 }

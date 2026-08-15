@@ -645,11 +645,25 @@ def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
             for day, n in days.items():
                 existing[day] = max(existing.get(day, 0), n)
 
-    # Might snapshot per week. Only current might is known, so older weeks
-    # inherit it; correct going forward, approximate for history.
-    for w in weeks.values():
+    # The donation target is a share of might, and might climbs all week, so
+    # measuring against the current figure moves the goalposts: give exactly
+    # the required amount on Monday and you are short again by Friday through
+    # nothing but playing. Each week's target is therefore frozen to the
+    # earliest might recorded inside that week.
+    #
+    # Weeks older than might-history.json have nothing to freeze to and fall
+    # back to the current figure, which is the previous behaviour and still an
+    # over-estimate for anyone who has grown since.
+    for wkey, w in weeks.items():
         for m in members:
-            w["mights"][m["id"]] = m["might"]
+            seen = mights.get(m["id"], {})
+            within = sorted(d for d in seen if week_start(d) == wkey)
+            w["mights"][m["id"]] = seen[within[0]] if within else m["might"]
+
+    baselined = sum(1 for w in weeks.values() for m in members
+                    if any(week_start(d) == w["start"] for d in mights.get(m["id"], {})))
+    print(f"week targets: {baselined} member-week(s) frozen to a start-of-week might,"
+          f" the rest fall back to the current figure")
 
     today = game_day(datetime.now(timezone.utc).timestamp())
     current = week_start(today)

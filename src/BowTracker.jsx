@@ -101,7 +101,8 @@ const T = {
     outsideFilter: "Far outside territory",
     twoWeeksMissed: "2 weeks missed",
     stalledFilter: "Possibly inactive",
-    donationRule: "“Donations met” currently means at least 20% of might given across all resources combined, even if some resources are below 5% or missing.",
+    donationRule:
+      "“Donations met” currently means at least 20% of might given across all resources combined, even if some resources are below 5% or missing. The target is a share of the might each member had at the start of the week, so it does not climb as they grow — meet it on Monday and it stays met.",
 
     statsLine: (might, place) => `${might} might · ${place}`,
     donationsOk: "donations met",
@@ -231,7 +232,8 @@ const T = {
     outsideFilter: "Lejos del territorio",
     twoWeeksMissed: "2 semanas sin dar",
     stalledFilter: "Posiblemente inactivos",
-    donationRule: "“Donaciones cumplidas” significa al menos el 20% del poder donado entre todos los recursos combinados, aunque algunos estén por debajo del 5% o falten.",
+    donationRule:
+      "“Donaciones cumplidas” significa al menos el 20% del poder donado entre todos los recursos combinados, aunque algunos estén por debajo del 5% o falten. El objetivo se calcula sobre el poder que cada miembro tenía al empezar la semana, así que no sube según crecen: si se cumple el lunes, sigue cumplido.",
 
     statsLine: (might, place) => `${might} de poder · ${place}`,
     donationsOk: "donaciones cumplidas",
@@ -359,8 +361,13 @@ function isNewThisWeek(member, week) {
 /* ---- scoring ------------------------------------------------- */
 function evaluate(member, week) {
   const elapsed = daysElapsed(week.start);
-  const might = (week.mights && week.mights[member.id]) ?? member.might;
-  const need = Math.round(might * DONATION_PCT);
+  /* Two different mights. The target is a share of what the member had at the
+     start of the week, frozen by build_state.py, so a week's goal cannot move
+     while it is being played. Everything shown to the reader is their might
+     now, which is the number they see in game. */
+  const might = member.might ?? (week.mights && week.mights[member.id]);
+  const targetMight = (week.mights && week.mights[member.id]) ?? member.might;
+  const need = Math.round(targetMight * DONATION_PCT);
   const don = (week.donations && week.donations[member.id]) || {};
   const chestDays = (week.chests && week.chests[member.id]) || {};
   const chestTotal = Object.values(chestDays).reduce((a, b) => a + b, 0);
@@ -372,9 +379,9 @@ function evaluate(member, week) {
   const anyDonation = ALL_RES.some((r) => (don[r] || 0) > 0);
 
   const mandatoryTotal = RES.reduce((a, r) => a + (don[r] || 0), 0);
-  const donationOk = donationMet || mandatoryTotal >= might * DONATION_PCT * 4;
+  const donationOk = donationMet || mandatoryTotal >= targetMight * DONATION_PCT * 4;
 
-  const exceedsDonation = mandatoryTotal >= might * DONATION_PCT * 4 * (1 + EXCEED_MARGIN);
+  const exceedsDonation = mandatoryTotal >= targetMight * DONATION_PCT * 4 * (1 + EXCEED_MARGIN);
   const exceedsChests = chestAvg >= CHEST_TARGET * (1 + EXCEED_MARGIN);
 
   // NOTE: goal status is currently based on donations only.
@@ -384,7 +391,7 @@ function evaluate(member, week) {
   else if (donationOk /* && chestMet */) status = exceedsDonation /* && exceedsChests */ ? "greenPlus" : "green";
   else status = "yellow";
 
-  return { might, need, don, chestTotal, chestAvg, speedupHours, donationMet, chestMet, status, missing: RES.filter((r) => (don[r] || 0) < need) };
+  return { might, targetMight, need, don, chestTotal, chestAvg, speedupHours, donationMet, chestMet, status, missing: RES.filter((r) => (don[r] || 0) < need) };
 }
 
 /* Maps a status onto its swatch tone and its label in T. The colours

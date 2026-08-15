@@ -61,6 +61,27 @@ build the site, publish.
 ./deploy.sh ~/Downloads/totalbattle_com.har
 ```
 
+## The donation target
+
+The weekly goal is 5% of might per resource, or 20% of might across all four
+combined. Might climbs all week through ordinary play, so measuring against the
+current figure moved the goalposts: donate exactly 5% on Monday, grow through
+the week, and by Friday the same donation was short of a target that had risen
+underneath it.
+
+Each week's target is now frozen to the earliest might recorded for that member
+*inside* that week, taken from `might-history.json` and stored in
+`weeks[week].mights`. Meeting the goal on Monday keeps it met.
+
+The two mights are kept apart in `evaluate()`: `targetMight` drives the goal,
+`might` is what the reader sees. The page shows a member's current might, which
+is the number they see in game — showing the frozen baseline would have put a
+stale figure next to "flat for 4 days", which is derived from current might.
+
+Weeks that predate `might-history.json` have nothing to freeze to and fall back
+to current might, the old behaviour. That over-estimates the target for anyone
+who has grown since, and cannot be fixed retroactively.
+
 ## Ranks
 
 Clan ranks and join dates both come from the capture itself. The roster carries
