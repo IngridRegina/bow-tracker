@@ -211,7 +211,31 @@ previous roster, and recording that would date today's figures to that capture's
 day — which during the backfill gave a member a might reading four days before
 they joined.
 
-### Territory
+### Territory per week
+
+`inTerritory` on a member is where they live now. The participation meter needs
+where people lived *then*, or every week shows the same number and there is no
+way to see anyone move in.
+
+`coords-history.json` records each member's city coordinates per day. For each
+week, `build_state.py` takes every member's last known position as of that
+week's end and stores the resulting id list as `weeks[week].inTerritory`, with
+`territoryOf` as the number of members who had joined by then and
+`territoryGuessed` as how many had no position on file that far back and reused
+today's answer.
+
+Coordinates rather than a yes/no, so the answer can be recomputed if the
+capital moves or `CAPITAL_RADIUS` is retuned. The file stays out of `public/`
+— the site only needs the counts.
+
+Weeks before positions were kept are approximations: 19 and 26 July are wholly
+guessed, 2 August has one guess, 9 August is fully observed.
+
+Only the meter is week-aware. The "Far outside territory" chip and the label on
+each member row still describe where that member is now, which is what you act
+on.
+
+### Territory detection
 
 There is no territory geometry in the captures — no polygon, no owned-tile
 list. What is there is map objects: 43-field rows carrying a type, an owning

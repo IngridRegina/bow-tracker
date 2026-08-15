@@ -34,6 +34,10 @@ MEMBER_HISTORY = "member-history.json"
 # shown in the client but never appears in any captured response — so a stalled
 # might is the closest thing to an activity signal we can actually derive.
 MIGHT_HISTORY = "might-history.json"
+# Where each member's city sat, per day. Kept as coordinates rather than a
+# yes/no so the answer can be recomputed if the capital moves or the radius is
+# retuned, and kept out of public/ since the site only ever needs the counts.
+COORDS_HISTORY = "coords-history.json"
 # Days of flat might before a member is worth a second look.
 STALL_DAYS = 3
 STATE_FILE = "public/tracker-state.json"
@@ -555,6 +559,18 @@ def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
           f" {len({d for r in mights.values() for d in r})} day(s);"
           f" {len(stalled)} flat for {STALL_DAYS}+ days")
 
+    # City position per member per day, so "how many live in territory" can be
+    # answered for a past week rather than only for today.
+    coords_hist = {}
+    if os.path.exists(COORDS_HISTORY):
+        coords_hist = json.load(open(COORDS_HISTORY, encoding="utf-8"))
+    if roster_observed:
+        for pid, p in players.items():
+            c = p.get("coords")
+            if c and len(c) >= 3:
+                coords_hist.setdefault(str(pid), {})[seen_on] = [c[1], c[2]]
+        json.dump(coords_hist, open(COORDS_HISTORY, "w", encoding="utf-8"), indent=1)
+
     # Last day a member did something we can see: donated, sent speedups or
     # produced a clan chest. Not a login time — the game does not expose one —
     # so someone playing without contributing looks quiet here.
@@ -664,6 +680,37 @@ def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
                     if any(week_start(d) == w["start"] for d in mights.get(m["id"], {})))
     print(f"week targets: {baselined} member-week(s) frozen to a start-of-week might,"
           f" the rest fall back to the current figure")
+
+    # Who lived in clan territory in each week: each member's last known
+    # position as of that week's end, so a week reflects where people were
+    # then rather than where they are now. Anyone who had not joined by then is
+    # left out entirely, and anyone with no position on file that far back
+    # falls back to today's answer — the old behaviour, counted and flagged.
+    for wkey, w in weeks.items():
+        wk_end = (datetime.strptime(wkey, "%Y-%m-%d") + timedelta(days=6)).strftime("%Y-%m-%d")
+        inside, guessed, counted = [], 0, 0
+        for m in members:
+            if m.get("firstSeen") and m["firstSeen"] > wk_end:
+                continue
+            counted += 1
+            seen = coords_hist.get(m["id"], {})
+            upto = sorted(d for d in seen if d <= wk_end)
+            if upto:
+                x, y = seen[upto[-1]]
+                here = in_territory([0, x, y], capital)
+            else:
+                here = m["inTerritory"]
+                guessed += 1
+            if here:
+                inside.append(m["id"])
+        w["inTerritory"] = inside
+        w["territoryOf"] = counted
+        w["territoryGuessed"] = guessed
+
+    tally = ", ".join(f"{k} {len(weeks[k]['inTerritory'])}/{weeks[k]['territoryOf']}"
+                      + (f" ({weeks[k]['territoryGuessed']} guessed)" if weeks[k]["territoryGuessed"] else "")
+                      for k in sorted(weeks))
+    print(f"in territory by week: {tally}")
 
     today = game_day(datetime.now(timezone.utc).timestamp())
     current = week_start(today)

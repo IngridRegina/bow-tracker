@@ -915,6 +915,15 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
     return { noDon, silver, outside, stalled };
   }, [members, week]);
 
+  /* Territory is recorded per week — each member's last known position by the
+     end of that week — so the meter shows who lived there then, not who lives
+     there now, and the denominator is the clan as it was that week. Weeks
+     built before positions were kept fall back to today's answer. */
+  const territory = useMemo(() => {
+    if (week.inTerritory) return { inside: week.inTerritory.length, of: week.territoryOf ?? members.length };
+    return { inside: members.filter((m) => m.inTerritory).length, of: members.length };
+  }, [week, members]);
+
   const part = useMemo(() => {
     let donors = 0, chesters = 0, speeders = 0, outside = 0;
     members.forEach((m) => {
@@ -990,7 +999,7 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
         <Meter label={`${t.donated} ${t.thisWeek}`} n={part.donors} denom={part.total} />
         <Meter label={`${t.producedChests} ${t.thisWeek}`} n={part.chesters} denom={part.total} />
         <Meter label={`${t.gaveSpeedups} ${t.thisWeek}`} n={part.speeders} denom={part.total} />
-        <Meter label={t.membersInside} n={part.total - extraCounts.outside} denom={part.total} />
+        <Meter label={t.membersInside} n={territory.inside} denom={territory.of} />
       </div>
 
       {/* colour legend — inline, above the list */}

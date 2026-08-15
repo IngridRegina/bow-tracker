@@ -4,12 +4,12 @@
   "Cordamath": "Soldier",
   "1378684537558": {
     "name": "Morana",
-    "might": 440424,
+    "might": 468589,
     "rank": "Veteran"
   },
   "1378684639872": {
     "name": "Melinad",
-    "might": 310462,
+    "might": 420101,
     "rank": "Veteran"
   },
   "1378684644457": {
@@ -19,7 +19,7 @@
   },
   "1378684639399": {
     "name": "Enaning",
-    "might": 95382,
+    "might": 110836,
     "rank": "Veteran"
   },
   "1378684586910": {
@@ -29,128 +29,128 @@
   },
   "1378684780597": {
     "name": "Arfiring",
-    "might": 48351,
+    "might": 51981,
     "rank": "Veteran"
   },
   "1378684725045": {
     "name": "Frostterror",
-    "might": 28195,
-    "rank": "Soldier"
+    "might": 32982,
+    "rank": "Veteran"
   },
   "1378684787925": {
     "name": "Indira",
-    "might": 2182531,
+    "might": 2394191,
     "rank": "Superior"
   },
   "1378684568874": {
     "name": "Cordamath II",
-    "might": 1884649,
+    "might": 2096139,
     "rank": "Leader"
   },
   "1378684741662": {
     "name": "Bellona",
     "might": 718439,
-    "rank": "Superior"
+    "rank": "Veteran"
   },
   "1378684656971": {
     "name": "Rili",
-    "might": 613010,
+    "might": 737403,
     "rank": "Veteran"
   },
   "1378684736429": {
     "name": "Ironshaper",
-    "might": 568892,
+    "might": 569927,
     "rank": "Veteran"
   },
   "1378684799791": {
     "name": "Morgoth",
-    "might": 369895,
+    "might": 470045,
     "rank": "Veteran"
   },
   "1378684591930": {
     "name": "Mordriel",
-    "might": 279167,
+    "might": 315557,
     "rank": "Superior"
   },
   "1378684727618": {
     "name": "igorinus I",
-    "might": 245889,
+    "might": 254604,
     "rank": "Veteran"
   },
   "1378684763225": {
     "name": "Lorduing",
-    "might": 244682,
+    "might": 280306,
     "rank": "Veteran"
   },
   "1378684597161": {
     "name": "Bantrius",
-    "might": 235093,
+    "might": 263656,
     "rank": "Veteran"
   },
   "1378684747176": {
     "name": "Ballalace",
-    "might": 227603,
+    "might": 229197,
     "rank": "Veteran"
   },
   "1378684546217": {
     "name": "Tureglil",
-    "might": 172111,
+    "might": 199796,
     "rank": "Veteran"
   },
   "1378684677949": {
     "name": "Zajac",
-    "might": 127926,
+    "might": 150099,
     "rank": "Veteran"
   },
   "1378684773181": {
     "name": "Taugal",
-    "might": 120229,
-    "rank": "Veteran"
+    "might": 136107,
+    "rank": "Officer"
   },
   "1378684697174": {
     "name": "Goshura",
-    "might": 119330,
+    "might": 124270,
     "rank": "Veteran"
   },
   "1378684780963": {
     "name": "Painmoon",
-    "might": 118895,
+    "might": 166062,
     "rank": "Veteran"
   },
   "1378684613683": {
     "name": "Keanef",
-    "might": 112940,
+    "might": 114358,
     "rank": "Veteran"
   },
   "1378684571224": {
     "name": "Akinolabar",
-    "might": 109862,
+    "might": 131309,
     "rank": "Veteran"
   },
   "1378684575159": {
     "name": "Luchneen",
-    "might": 104273,
+    "might": 107796,
     "rank": "Veteran"
   },
   "1378684514657": {
     "name": "Keralak",
-    "might": 99134,
+    "might": 101849,
     "rank": "Veteran"
   },
   "1378684792656": {
     "name": "Elrining",
-    "might": 94907,
+    "might": 99550,
     "rank": "Veteran"
   },
   "1378684511363": {
     "name": "Direwalker",
-    "might": 90389,
+    "might": 95263,
     "rank": "Soldier"
   },
   "1378684703780": {
     "name": "Fabrinir",
     "might": 89989,
-    "rank": "Veteran"
+    "rank": "Soldier"
   },
   "1378684562709": {
     "name": "\u041c\u0438\u043b\u044c\u0433\u0435\u043b\u044c\u0440\u0435\u043d",
@@ -159,17 +159,17 @@
   },
   "1378684749987": {
     "name": "Felora",
-    "might": 77423,
+    "might": 138265,
     "rank": "Veteran"
   },
   "1378684688674": {
     "name": "Forceworm",
-    "might": 71306,
+    "might": 71541,
     "rank": "Veteran"
   },
   "1378684619021": {
     "name": "Aydaen",
-    "might": 71296,
+    "might": 76181,
     "rank": "Soldier"
   },
   "1378684775951": {
@@ -179,17 +179,17 @@
   },
   "1378684720666": {
     "name": "Sador",
-    "might": 64497,
+    "might": 65152,
     "rank": "Veteran"
   },
   "1378684657563": {
     "name": "Elrodad",
-    "might": 61704,
+    "might": 70508,
     "rank": "Veteran"
   },
   "1378684670914": {
     "name": "Lirosin",
-    "might": 57963,
+    "might": 67874,
     "rank": "Veteran"
   },
   "1378684706132": {
@@ -209,37 +209,37 @@
   },
   "1378684670695": {
     "name": "Mirador",
-    "might": 53559,
+    "might": 54124,
     "rank": "Veteran"
   },
   "1378684538880": {
     "name": "Aydaen",
-    "might": 42805,
+    "might": 44592,
     "rank": "Soldier"
   },
   "1378684697100": {
     "name": "Rain",
-    "might": 42671,
+    "might": 46791,
     "rank": "Veteran"
   },
   "1378684801426": {
     "name": "Elrohan",
-    "might": 40903,
+    "might": 43643,
     "rank": "Veteran"
   },
   "1378684801550": {
     "name": "Kalas",
-    "might": 36137,
+    "might": 42590,
     "rank": "Soldier"
   },
   "1378684574924": {
     "name": "Lelinil",
-    "might": 33290,
+    "might": 33616,
     "rank": "Veteran"
   },
   "1378684774484": {
     "name": "Rainterror",
-    "might": 31375,
+    "might": 32065,
     "rank": "Soldier"
   },
   "1378684788125": {
@@ -249,12 +249,12 @@
   },
   "1378684737584": {
     "name": "Tugore",
-    "might": 26634,
+    "might": 35900,
     "rank": "Veteran"
   },
   "1378684719707": {
     "name": "Kathrirana",
-    "might": 26801,
+    "might": 30375,
     "rank": "Veteran"
   },
   "1378684778749": {
@@ -289,12 +289,17 @@
   },
   "1378684521491": {
     "name": "Meninad",
-    "might": 96976,
+    "might": 97001,
     "rank": "Soldier"
   },
   "1378684680194": {
     "name": "Karohan",
-    "might": 145080,
+    "might": 145940,
     "rank": "Veteran"
+  },
+  "1378684748097": {
+    "name": "Morad",
+    "might": 53602,
+    "rank": "Soldier"
   }
 }
