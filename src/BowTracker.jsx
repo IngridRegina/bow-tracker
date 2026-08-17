@@ -1147,10 +1147,14 @@ function MemberRow({ t, lang, m, e, week, isOpen, onToggle, quality, spanLabel }
             <div className="bt-qbreak">
               <div className="bt-qbreak-head">
                 <span className="bt-qbreak-title">{t.qualityTitle}</span>
-                <span className="bt-quality" data-band={qualityBand(quality.score)}>
-                  {quality.score}
+                {/* one unit: wrapped apart, a bare "/ 100" on its own line
+                    reads as belonging to nothing */}
+                <span className="bt-qbreak-score">
+                  <span className="bt-quality" data-band={qualityBand(quality.score)}>
+                    {quality.score}
+                  </span>
+                  <span className="bt-qbreak-of">/ 100</span>
                 </span>
-                <span className="bt-qbreak-of">/ 100</span>
                 {/* which weeks the contribution parts were totalled over —
                     without this a speedup score looks wrong on a week where
                     nobody sent any */}

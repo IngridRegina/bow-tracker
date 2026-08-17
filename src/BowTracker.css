@@ -1514,8 +1514,15 @@
 .bt-qbreak-head {
   display: flex;
   align-items: center;
-  gap: 8px;
+  flex-wrap: wrap;
+  gap: 4px 8px;
   margin-bottom: 8px;
+}
+
+/* neither of these reads as anything broken across two lines */
+.bt-qbreak-title,
+.bt-qbreak-of {
+  white-space: nowrap;
 }
 
 .bt-qbreak-title {
@@ -1530,10 +1537,35 @@
   color: var(--bt-ink-soft);
 }
 
+/* keeps the score with its denominator when the head wraps */
+.bt-qbreak-score {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  gap: 6px;
+}
+
 .bt-qbreak-span {
   margin-left: auto;
   font: 12px var(--bt-body);
   color: var(--bt-ink-soft);
+}
+
+/* All four on one line need a container of 374px in English and 458px in
+   Spanish, whose title and week range are both far longer ("PUNTUACION DE
+   CALIDAD" is 154px against 92px). The threshold covers the worse of the two, so
+   English gives up an inline range between 374 and 460px where it would have
+   fit; the alternative is a rule that is wrong in one language.
+
+   Below it the range takes a full row of its own. Squeezed into the same line at
+   a 320px screen it had 235px to share and broke "QUALITY SCORE", "/ 100" and
+   the range itself across two and three lines each.
+   (Below the rules it overrides: a container query adds no specificity.) */
+@container (max-width: 460px) {
+  .bt-qbreak-span {
+    flex: 1 0 100%;
+    margin-left: 0;
+  }
 }
 
 .bt-qbreak-list {
