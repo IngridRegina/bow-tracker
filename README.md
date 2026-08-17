@@ -85,11 +85,17 @@ Measured over the **selected week and the one before it**. A single week is too
 thin: on the Monday of a new week nobody has produced anything and the ranking
 is noise.
 
-A measure nobody in the clan scored on is **dropped**, not counted as zero for
-everyone, and the remaining weights are scaled back to 100. Without that, a
-week with no clan build running silently caps every score at 85 and puts the
-colour bands out of step with the highest reachable total. The two July weeks
-predate chests entirely and score out of 75 renormalised.
+Because the span is two weeks, a score can reflect a week you are not looking
+at: with no speedups sent in the week of 16 Aug, the speedup component still
+scores from the week of 9 Aug. That is intended, but it is not guessable from
+the numbers, so the breakdown names the weeks it covers.
+
+A measure nobody in the clan scored on **over the whole span** is dropped, not
+counted as zero for everyone, and the remaining weights are scaled back to 100.
+Without that, a span with no clan build running at all silently caps every score
+at 85 and puts the colour bands out of step with the highest reachable total.
+Two weeks makes this rare — the July weeks, which predate chests entirely, are
+the only case in the data so far and score out of 75 renormalised.
 
 Sorting by quality drops the rank grouping, since the point is one ranking
 across the whole roster. Every row shows its score in both views, and opening a

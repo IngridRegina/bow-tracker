@@ -177,6 +177,8 @@ const T = {
     qualityTitle: "Quality score",
     qualityWhy: "Donations against their own target, chests and speedups against the clan's best, living in territory, and days since their might last moved. Open the row for the breakdown.",
     qualityNotCounted: "nobody scored — not counted",
+    qualityOverWeeks: (from, to) => `weeks of ${from} and ${to}`,
+    qualityOverWeek: (from) => `week of ${from}`,
     qualityParts: {
       donations: "Donations vs target",
       chests: "Chests",
@@ -324,6 +326,8 @@ const T = {
     qualityTitle: "Puntuación de calidad",
     qualityWhy: "Donaciones frente a su propio objetivo, cofres y aceleraciones frente al mejor del clan, vivir en el territorio y los días desde que su poder cambió. Abre la fila para ver el desglose.",
     qualityNotCounted: "nadie ha puntuado, no se cuenta",
+    qualityOverWeeks: (from, to) => `semanas del ${from} y del ${to}`,
+    qualityOverWeek: (from) => `semana del ${from}`,
     qualityParts: {
       donations: "Donaciones vs objetivo",
       chests: "Cofres",
@@ -975,7 +979,7 @@ function Timing({ t, members, week, prevWeek }) {
 
 /* One row of the member list. Extracted so the rank-grouped and
    quality-sorted views render exactly the same thing. */
-function MemberRow({ t, lang, m, e, week, isOpen, onToggle, quality }) {
+function MemberRow({ t, lang, m, e, week, isOpen, onToggle, quality, spanLabel }) {
   return (
     <div className="bt-member" data-status={e.status}>
       <div className="bt-member-summary" onClick={onToggle}>
@@ -1111,6 +1115,10 @@ function MemberRow({ t, lang, m, e, week, isOpen, onToggle, quality }) {
                   {quality.score}
                 </span>
                 <span className="bt-qbreak-of">/ 100</span>
+                {/* which weeks the contribution parts were totalled over —
+                    without this a speedup score looks wrong on a week where
+                    nobody sent any */}
+                {spanLabel && <span className="bt-qbreak-span">{spanLabel}</span>}
               </div>
               <ul className="bt-qbreak-list">
                 {Object.entries(QUALITY_WEIGHTS).map(([key, weight]) => (
@@ -1171,6 +1179,11 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
     };
     return totals.map((x) => ({ ...x, q: qualityOf(x.m, x.span, bests) }));
   }, [members, week, prevWeek]);
+
+  // spelled out on the breakdown, since the row above it shows one week only
+  const qualitySpan = prevWeek
+    ? t.qualityOverWeeks(shortDate(prevWeek.start, lang), shortDate(week.start, lang))
+    : t.qualityOverWeek(shortDate(week.start, lang));
 
   const rows = useMemo(() => {
     const byRank = {};
@@ -1395,6 +1408,7 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
                   e={e}
                   week={week}
                   quality={q}
+                  spanLabel={qualitySpan}
                   isOpen={open === m.id}
                   onToggle={() => setOpen(open === m.id ? null : m.id)}
                 />
@@ -1430,6 +1444,7 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
                   e={e}
                   week={week}
                   quality={q}
+                  spanLabel={qualitySpan}
                   isOpen={open === m.id}
                   onToggle={() => setOpen(open === m.id ? null : m.id)}
                 />

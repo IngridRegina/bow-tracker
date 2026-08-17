@@ -1375,6 +1375,12 @@
   color: var(--bt-ink-soft);
 }
 
+.bt-qbreak-span {
+  margin-left: auto;
+  font: 12px var(--bt-body);
+  color: var(--bt-ink-soft);
+}
+
 .bt-qbreak-list {
   list-style: none;
   margin: 0;
