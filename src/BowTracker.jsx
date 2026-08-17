@@ -172,8 +172,10 @@ const T = {
     fLastListed: "Last listed",
     fLastGave: "Last contributed",
 
+    sortBy: "Sort",
     sortRank: "By rank",
-    sortQuality: "By quality",
+    sortWorst: "Worst first",
+    sortBest: "Best first",
     qualityTitle: "Quality score",
     qualityWhy: "Donations against their own target, chests and speedups against the clan's best, living in territory, and days since their might last moved. Open the row for the breakdown.",
     qualityNotCounted: "nobody scored — not counted",
@@ -321,8 +323,10 @@ const T = {
     fLastListed: "Visto por última vez",
     fLastGave: "Última aportación",
 
+    sortBy: "Orden",
     sortRank: "Por rango",
-    sortQuality: "Por calidad",
+    sortWorst: "Peores primero",
+    sortBest: "Mejores primero",
     qualityTitle: "Puntuación de calidad",
     qualityWhy: "Donaciones frente a su propio objetivo, cofres y aceleraciones frente al mejor del clan, vivir en el territorio y los días desde que su poder cambió. Abre la fila para ver el desglose.",
     qualityNotCounted: "nadie ha puntuado, no se cuenta",
@@ -1379,10 +1383,12 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
       </div>
 
       <div className="bt-sortbar">
+        <span className="bt-toggle-label">{t.sortBy}</span>
         <Segmented
           options={[
             { value: "rank", label: t.sortRank },
-            { value: "quality", label: t.sortQuality },
+            { value: "worst", label: t.sortWorst },
+            { value: "best", label: t.sortBest },
           ]}
           value={sort}
           onChange={setSort}
@@ -1390,15 +1396,19 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
       </div>
 
       {/* Quality view drops the rank grouping: the point is one ranking across
-          the whole roster, which rank sections would cut into pieces. */}
-      {sort === "quality" && (
+          the whole roster, which rank sections would cut into pieces. Ties break
+          on might descending either way — among equally poor scores the largest
+          account is the one worth looking at first. */}
+      {sort !== "rank" && (
         <>
           <p className="bt-rule-note">{t.qualityNote}</p>
           <div className="bt-list">
             {scored
               .filter((x) => passesFilter(x.m, x.e))
               .slice()
-              .sort((a, b) => b.q.score - a.q.score || b.e.might - a.e.might)
+              .sort((a, b) =>
+                sort === "worst" ? a.q.score - b.q.score || b.e.might - a.e.might : b.q.score - a.q.score || b.e.might - a.e.might
+              )
               .map(({ m, e, q }) => (
                 <MemberRow
                   key={m.id}

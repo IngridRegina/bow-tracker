@@ -1315,7 +1315,10 @@
    where a gradient is not, and the exact number is printed inside the pill. */
 .bt-sortbar {
   display: flex;
+  align-items: center;
   justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
   margin-bottom: 14px;
 }
 

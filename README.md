@@ -97,10 +97,16 @@ at 85 and puts the colour bands out of step with the highest reachable total.
 Two weeks makes this rare — the July weeks, which predate chests entirely, are
 the only case in the data so far and score out of 75 renormalised.
 
-Sorting by quality drops the rank grouping, since the point is one ranking
-across the whole roster. Every row shows its score in both views, and opening a
-row shows the part-by-part breakdown — a ranking someone might act on has to be
-arguable with.
+The sort control offers **By rank / Worst first / Best first**. Worst first
+comes first of the two quality orders because that is the working use: finding
+who to chase, not admiring the top. Ties break on might descending either way,
+so among equally poor scores the largest account is listed first — a 718k
+account gone quiet matters more than a 54k one.
+
+Both quality orders drop the rank grouping, since the point is one ranking
+across the whole roster. Every row shows its score in all three views, and
+opening a row shows the part-by-part breakdown — a ranking someone might act on
+has to be arguable with.
 
 Note that the donation part follows the clan's own "20% combined" rule, so a
 member can score full marks on donations while the row still reads "2 short":
