@@ -63,16 +63,16 @@ build the site, publish.
 
 ## Quality score
 
-The member list can be sorted by a single 0–100 score, five weighted parts:
+The member list can be sorted by a single 0–100 score, six weighted parts:
 
 | part | weight | measured against |
 |---|---|---|
 | donations | 32 | the member's own target |
 | chests | 22 | the best in the clan over the span |
 | speedups | 13 | the best in the clan over the span |
-| recently active | 14 | days since their might last moved, zero at 7 |
+| recently active | 18 | days since their might last moved, zero at 7 |
 | in territory | 9 | yes or no |
-| might in clan | 10 | their position in the clan by might |
+| might in clan | 6 | their position in the clan by might |
 
 Might is scored by **position in the clan**, not as a share of the largest
 account: might spans 28k to 2.9M here, so a share would leave everyone outside
@@ -81,9 +81,14 @@ people. It carries the smallest weight because it mostly reflects how long
 someone has played, and weighing it heavily would rank veterans above the people
 doing the work.
 
-Note the interaction with worst-first: because size raises the score, a large
-dormant account climbs out of the bottom. Bellona — 718k, nine days of flat
-might, nothing given — was #1 worst before might was added and is #13 after.
+Activity is deliberately 3:1 over might, because the two pull against each other
+on the same member and a comparison of weights alone is misleading. At 14 vs 10
+activity already led on paper, yet a large dormant account was refunded most of
+what its stall cost: Bellona, 718k and flat nine days, took -14 for the stall and
++9.4 straight back for its size, a net -4.6, which left it at #13 in worst-first
+rather than near the top. At 18 vs 6 the same member nets -12.4 and sits at #5,
+and might still separates the roster instead of becoming noise. Judge the two by
+that net figure rather than by the weights side by side.
 
 Donations are scored against each member's own target, not as a raw amount —
 ranking on resources alone would just sort by might, putting a 2.4M account

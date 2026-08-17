@@ -193,7 +193,7 @@ const T = {
       might: "Might in clan",
     },
     qualityNote:
-      "Quality is one score out of 100 over the selected week and the one before it, so a week that has only just started is not judged on two days of data. Donations count against each member's own target; chests and speedups against the best in the clan over the same span; plus living in territory, how recently their might moved, and where their might places them in the clan. That last one is worth only 10, since might mostly reflects how long someone has played. Anything nobody scored on at all is left out rather than counted as zero for everyone. Open any row to see how its score was reached.",
+      "Quality is one score out of 100 over the selected week and the one before it, so a week that has only just started is not judged on two days of data. Donations count against each member's own target; chests and speedups against the best in the clan over the same span; plus living in territory, how recently their might moved, and where their might places them in the clan. That last one is worth only 6, since might mostly reflects how long someone has played. Anything nobody scored on at all is left out rather than counted as zero for everyone. Open any row to see how its score was reached.",
 
     ranks: { Leader: "Leader", Superior: "Superior", Officer: "Officer", Veteran: "Veteran", Member: "Member", Soldier: "Soldier" },
     res: { lumber: "Lumber", stone: "Stone", iron: "Iron", food: "Food", silver: "Silver", tractates: "Sci. tractates" },
@@ -342,7 +342,7 @@ const T = {
       might: "Poder en el clan",
     },
     qualityNote:
-      "La calidad es una puntuación sobre 100 de la semana elegida y la anterior, para que una semana recién empezada no se juzgue con dos días de datos. Las donaciones se miden frente al objetivo de cada miembro; los cofres y las aceleraciones frente al mejor del clan en ese periodo; más vivir en el territorio, lo reciente que sea el cambio de su poder y la posición de su poder dentro del clan, que solo vale 10 porque el poder refleja sobre todo el tiempo jugado. Lo que nadie ha puntuado se excluye en vez de contar como cero para todos. Abre cualquier fila para ver cómo se ha calculado.",
+      "La calidad es una puntuación sobre 100 de la semana elegida y la anterior, para que una semana recién empezada no se juzgue con dos días de datos. Las donaciones se miden frente al objetivo de cada miembro; los cofres y las aceleraciones frente al mejor del clan en ese periodo; más vivir en el territorio, lo reciente que sea el cambio de su poder y la posición de su poder dentro del clan, que solo vale 6 porque el poder refleja sobre todo el tiempo jugado. Lo que nadie ha puntuado se excluye en vez de contar como cero para todos. Abre cualquier fila para ver cómo se ha calculado.",
 
     ranks: { Leader: "Líder", Superior: "Superior", Officer: "Oficial", Veteran: "Veterano", Member: "Miembro", Soldier: "Soldado" },
     res: { lumber: "Madera", stone: "Piedra", iron: "Hierro", food: "Comida", silver: "Plata", tractates: "Tratados" },
@@ -451,7 +451,13 @@ function evaluate(member, week) {
    they have played, so letting it weigh heavily would rank veterans above
    people actually doing the work. The other five keep their previous
    proportions to each other, scaled down to make room. */
-const QUALITY_WEIGHTS = { donations: 32, chests: 22, speedups: 13, territory: 9, activity: 14, might: 10 };
+/* Activity outweighs might by 3:1 deliberately. At 14 vs 10 it already led on
+   paper, but the two pull against each other on the same member, and a large
+   dormant account was being refunded most of what its stall cost: the biggest
+   one here, flat 9 days, took -14 for the stall and +9.4 straight back for its
+   size, a net -4.6. At 18/6 that net is -12.4, and might still separates the
+   roster rather than becoming noise. */
+const QUALITY_WEIGHTS = { donations: 32, chests: 22, speedups: 13, territory: 9, activity: 18, might: 6 };
 // Flat-might days at which the activity component reaches zero.
 const QUALITY_STALE_AT = 7;
 
