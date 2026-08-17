@@ -459,7 +459,7 @@
   border-radius: 99px;
 }
 
-/* ---- swatches (shared by the legend and the filter chips) ------ */
+/* ---- swatches (the filter chips carry them) -------------------- */
 .bt-swatch {
   flex: none;
   background: var(--bt-line-strong);
@@ -478,13 +478,6 @@
    bar sitting next to it; the resource silver (#9aa0a6) is too pale to clear
    the 3:1 non-text minimum on this page, so it is deepened to 4.0:1 */
 .bt-swatch[data-tone="silver"] { background: #6f757c; }
-
-.bt-swatch--dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 3px;
-  margin-right: 3px;
-}
 
 .bt-swatch--bar {
   width: 4px;
@@ -737,41 +730,6 @@
   }
 }
 
-/* ---- legend --------------------------------------------------- */
-.bt-legend {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin-bottom: 10px;
-  padding: 0 2px;
-}
-
-.bt-legend-title {
-  font: 600 14px var(--bt-body);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--bt-ink-soft);
-}
-
-.bt-legend-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font: 14px var(--bt-body);
-  color: var(--bt-ink-soft);
-  margin-right: 6px;
-}
-
-@media (max-width: 640px) {
-  .bt-legend {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-}
-
 .bt-rule-note {
   font: 13px var(--bt-body);
   color: var(--bt-ink-soft);
@@ -780,12 +738,92 @@
   width: 100%;
 }
 
-/* ---- filter chips --------------------------------------------- */
+/* ---- filter + sort controls ------------------------------------
+   One bordered block, because filtering and sorting both answer "what does the
+   list show" and reading them as two unrelated widgets is what made the old
+   right-aligned sort row look orphaned. Its own outline is what lets the block
+   sit tight to the list below without the chips looking like list content.
+
+   The status chips are also the colour key: same swatch, same wording, so a
+   separate key said everything twice and has been dropped. */
+.bt-controls {
+  border: 1px solid var(--bt-line);
+  border-radius: 12px;
+  padding: 12px 14px 14px;
+  margin-bottom: 26px;
+}
+
+/* space-between rather than an auto margin on the sort group: flex justifies
+   each wrapped line on its own, so a lone item lands at the line's start. The
+   sort group therefore sits right while it shares the line with the label, and
+   left once it drops below — an auto margin would leave it hanging right. */
+.bt-controls-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.bt-controls-label {
+  font: 600 12px var(--bt-body);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--bt-ink-soft);
+}
+
+.bt-controls-sort {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .bt-chips {
   display: flex;
+  align-items: center;
   gap: 10px;
   flex-wrap: wrap;
-  margin-bottom: 26px;
+}
+
+/* the second group cuts the roster on axes unrelated to the status scale, so it
+   gets a rule — side by side they would read as more steps of the same scale */
+.bt-chips[data-group="other"] {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--bt-line);
+}
+
+/* sits right after the last status chip, not pushed to the row's end: the rule
+   it reveals is what "below target" and "met" mean */
+.bt-info {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  display: inline-grid;
+  place-items: center;
+  background: var(--bt-panel);
+  color: var(--bt-ink-soft);
+  border: 1px solid var(--bt-line-strong);
+  border-radius: 50%;
+  font: 600 14px var(--bt-display);
+  cursor: pointer;
+}
+
+.bt-info:hover,
+.bt-info[aria-expanded="true"] {
+  background: var(--bt-band);
+  color: var(--bt-band-ink);
+  border-color: var(--bt-band);
+}
+
+.bt-rule-note--inset {
+  margin: 12px 0 0;
+  padding: 9px 12px;
+  background: var(--bt-panel-alt);
+  border-left: 3px solid var(--bt-gold);
+  border-radius: 0 6px 6px 0;
+  width: auto;
 }
 
 .bt-chip {
@@ -1313,15 +1351,6 @@
 /* ---- quality score ---------------------------------------------
    Banded rather than a continuous ramp: four steps are readable at a glance
    where a gradient is not, and the exact number is printed inside the pill. */
-.bt-sortbar {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 14px;
-}
-
 .bt-quality {
   flex: none;
   min-width: 2.4em;

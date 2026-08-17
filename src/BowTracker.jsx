@@ -172,6 +172,8 @@ const T = {
     fLastListed: "Last listed",
     fLastGave: "Last contributed",
 
+    filterLabel: "Filter",
+    ruleInfo: "What counts as donations met?",
     sortBy: "Sort",
     sortRank: "By rank",
     sortWorst: "Worst first",
@@ -191,12 +193,6 @@ const T = {
     },
     qualityNote:
       "Quality is one score out of 100 over the selected week and the one before it, so a week that has only just started is not judged on two days of data. Donations count against each member's own target; chests and speedups against the best in the clan over the same span; plus living in territory, how recently their might moved, and where their might places them in the clan — that last one worth only 10, since might mostly reflects how long someone has played. Anything nobody scored on at all is left out rather than counted as zero for everyone. Open any row to see how its score was reached.",
-
-    legend: "Colour key",
-    cRed: "nothing given",
-    cYellow: "below target",
-    cGreen: "target met",
-    cGreenPlus: "well above target",
 
     ranks: { Leader: "Leader", Superior: "Superior", Officer: "Officer", Veteran: "Veteran", Member: "Member", Soldier: "Soldier" },
     res: { lumber: "Lumber", stone: "Stone", iron: "Iron", food: "Food", silver: "Silver", tractates: "Sci. tractates" },
@@ -324,6 +320,8 @@ const T = {
     fLastListed: "Visto por última vez",
     fLastGave: "Última aportación",
 
+    filterLabel: "Filtro",
+    ruleInfo: "¿Qué cuenta como donaciones cumplidas?",
     sortBy: "Orden",
     sortRank: "Por rango",
     sortWorst: "Peores primero",
@@ -343,12 +341,6 @@ const T = {
     },
     qualityNote:
       "La calidad es una puntuación sobre 100 de la semana elegida y la anterior, para que una semana recién empezada no se juzgue con dos días de datos. Las donaciones se miden frente al objetivo de cada miembro; los cofres y las aceleraciones frente al mejor del clan en ese periodo; más vivir en el territorio, lo reciente que sea el cambio de su poder y la posición de su poder dentro del clan, que solo vale 10 porque el poder refleja sobre todo el tiempo jugado. Lo que nadie ha puntuado se excluye en vez de contar como cero para todos. Abre cualquier fila para ver cómo se ha calculado.",
-
-    legend: "Clave de colores",
-    cRed: "no han dado nada",
-    cYellow: "por debajo del objetivo",
-    cGreen: "objetivo cumplido",
-    cGreenPlus: "muy por encima del objetivo",
 
     ranks: { Leader: "Líder", Superior: "Superior", Officer: "Oficial", Veteran: "Veterano", Member: "Miembro", Soldier: "Soldado" },
     res: { lumber: "Madera", stone: "Piedra", iron: "Hierro", food: "Comida", silver: "Plata", tractates: "Tratados" },
@@ -1189,6 +1181,7 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
   const [open, setOpen] = useState(null);
   const [filter, setFilter] = useState("all");
   const [sort, setSort] = useState("rank");
+  const [showRule, setShowRule] = useState(false);
 
   /* Quality is measured over the selected week and the one before it. A single
      week is too thin: on the Monday of a new week nobody has produced much of
@@ -1314,16 +1307,23 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
   // two are exclusive: gave nothing at all vs gave something but missed the
   // target. The "nodonation" filter (gave no mandatory resource, but possibly
   // silver) is still implemented below — it just has no chip at the moment.
+  /* Two groups. The first is the four statuses that colour a member's left
+     border, in the order they run from worst to best, preceded by the reset —
+     these carry the swatch, so together they are the colour key and there is no
+     separate one. The second is other cuts of the roster, which share no scale
+     with the first and would read as part of it if they sat in the same row. */
   const statusChip = (k) => [k, t[STATUS[k].key], counts[k], STATUS[k].tone];
-  const chips = [
+  const statusFilters = [
     ["all", t.everyone, members.length, "line"],
     statusChip("red"),
-    ...(prevWeek ? [["missed2", t.twoWeeksMissed, missedTwo.length, "redInk"]] : []),
-    ["stalled", t.stalledFilter, extraCounts.stalled, "amberInk"],
     statusChip("yellow"),
-    ["silveronly", t.silverOnly, extraCounts.silver, "silver"],
     statusChip("green"),
     statusChip("greenPlus"),
+  ];
+  const otherFilters = [
+    ...(prevWeek ? [["missed2", t.twoWeeksMissed, missedTwo.length, "redInk"]] : []),
+    ["stalled", t.stalledFilter, extraCounts.stalled, "amberInk"],
+    ["silveronly", t.silverOnly, extraCounts.silver, "silver"],
     ["outside", t.outsideFilter, extraCounts.outside, "band"],
   ];
 
@@ -1363,48 +1363,50 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
         />
       </div>
 
-      {/* colour legend — inline, above the list */}
-      <div className="bt-legend">
-        <span className="bt-legend-title">{t.legend}</span>
-        {[
-          ["red", t.cRed],
-          ["amber", t.cYellow],
-          ["green", t.cGreen],
-          ["greenPlus", t.cGreenPlus],
-        ].map(([tone, label]) => (
-          <span key={label} className="bt-legend-item">
-            <span className="bt-swatch bt-swatch--dot" data-tone={tone} />
-            {label}
-          </span>
+      {/* one block for everything that changes what the list shows */}
+      <section className="bt-controls" aria-label={t.filterLabel}>
+        <div className="bt-controls-head">
+          <span className="bt-controls-label">{t.filterLabel}</span>
+          <div className="bt-controls-sort">
+            <span className="bt-toggle-label">{t.sortBy}</span>
+            <Segmented
+              options={[
+                { value: "rank", label: t.sortRank },
+                { value: "worst", label: t.sortWorst },
+                { value: "best", label: t.sortBest },
+              ]}
+              value={sort}
+              onChange={setSort}
+            />
+          </div>
+        </div>
+
+        {[statusFilters, otherFilters].map((group, i) => (
+          <div className="bt-chips" key={i} data-group={i === 0 ? "status" : "other"}>
+            {group.map(([k, label, n, tone]) => (
+              <button key={k} className="bt-chip" onClick={() => setFilter(k)} aria-pressed={filter === k}>
+                <span className="bt-swatch bt-swatch--bar" data-tone={tone} />
+                {label}
+                <span className="bt-chip-count">{n}</span>
+              </button>
+            ))}
+            {/* the rule sits with the statuses, since it defines what "met" means */}
+            {i === 0 && (
+              <button
+                className="bt-info"
+                onClick={() => setShowRule(!showRule)}
+                aria-expanded={showRule}
+                aria-label={t.ruleInfo}
+                title={t.ruleInfo}
+              >
+                i
+              </button>
+            )}
+          </div>
         ))}
-      </div>
 
-      {/* donation rule note */}
-      <div className="bt-rule-note">{t.donationRule}</div>
-
-      {/* filter chips */}
-      <div className="bt-chips">
-        {chips.map(([k, label, n, tone]) => (
-          <button key={k} className="bt-chip" onClick={() => setFilter(k)} aria-pressed={filter === k}>
-            <span className="bt-swatch bt-swatch--bar" data-tone={tone} />
-            {label}
-            <span className="bt-chip-count">{n}</span>
-          </button>
-        ))}
-      </div>
-
-      <div className="bt-sortbar">
-        <span className="bt-toggle-label">{t.sortBy}</span>
-        <Segmented
-          options={[
-            { value: "rank", label: t.sortRank },
-            { value: "worst", label: t.sortWorst },
-            { value: "best", label: t.sortBest },
-          ]}
-          value={sort}
-          onChange={setSort}
-        />
-      </div>
+        {showRule && <p className="bt-rule-note bt-rule-note--inset">{t.donationRule}</p>}
+      </section>
 
       {/* Quality view drops the rank grouping: the point is one ranking across
           the whole roster, which rank sections would cut into pieces. Ties break
