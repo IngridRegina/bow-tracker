@@ -459,32 +459,24 @@
   border-radius: 99px;
 }
 
-/* ---- swatches (the filter chips carry them) -------------------- */
+/* ---- swatches --------------------------------------------------
+   Only the four status filters take one, so only the four status colours are
+   listed. A square rather than a bar, matching the shape a colour key uses; the
+   filters that cut the roster on other axes carry no swatch at all, since they
+   have no colour in the list to point at. */
 .bt-swatch {
   flex: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  margin-right: 3px;
   background: var(--bt-line-strong);
 }
 
 .bt-swatch[data-tone="red"] { background: var(--bt-red); }
-.bt-swatch[data-tone="redInk"] { background: var(--bt-red-ink); }
 .bt-swatch[data-tone="amber"] { background: var(--bt-amber); }
 .bt-swatch[data-tone="green"] { background: var(--bt-green); }
 .bt-swatch[data-tone="greenPlus"] { background: var(--bt-green-plus); }
-.bt-swatch[data-tone="band"] { background: var(--bt-band); }
-/* the stalled-might filter: the badge's amber, deepened so it does not read as
-   the amber "below target" bar sitting two chips along */
-.bt-swatch[data-tone="amberInk"] { background: var(--bt-amber-ink); }
-/* "silver only" needs its own colour or it duplicates the amber "below target"
-   bar sitting next to it; the resource silver (#9aa0a6) is too pale to clear
-   the 3:1 non-text minimum on this page, so it is deepened to 4.0:1 */
-.bt-swatch[data-tone="silver"] { background: #6f757c; }
-
-.bt-swatch--bar {
-  width: 4px;
-  height: 15px;
-  border-radius: 2px;
-  margin-right: 4px;
-}
 
 /* ---- podium --------------------------------------------------- */
 .bt-podium {
@@ -733,23 +725,20 @@
 .bt-rule-note {
   font: 13px var(--bt-body);
   color: var(--bt-ink-soft);
-  margin-bottom: 32px; /* matches the gap above the colour key */
+  margin-bottom: 32px;
   padding: 0 2px;
   width: 100%;
 }
 
 /* ---- filter + sort controls ------------------------------------
-   One bordered block, because filtering and sorting both answer "what does the
-   list show" and reading them as two unrelated widgets is what made the old
-   right-aligned sort row look orphaned. Its own outline is what lets the block
-   sit tight to the list below without the chips looking like list content.
+   Filtering and sorting both answer "what does the list show", so they share a
+   labelled block: FILTER left, SORT right, one row of chips under both. No
+   outline and no internal rules — the label and the gap do the grouping, and
+   the chips read as one set of filters rather than two.
 
    The status chips are also the colour key: same swatch, same wording, so a
    separate key said everything twice and has been dropped. */
 .bt-controls {
-  border: 1px solid var(--bt-line);
-  border-radius: 12px;
-  padding: 12px 14px 14px;
   margin-bottom: 26px;
 }
 
@@ -786,28 +775,29 @@
   flex-wrap: wrap;
 }
 
-/* the second group cuts the roster on axes unrelated to the status scale, so it
-   gets a rule — side by side they would read as more steps of the same scale */
-.bt-chips[data-group="other"] {
-  margin-top: 12px;
-  padding-top: 12px;
-  border-top: 1px solid var(--bt-line);
+/* ---- info tooltip ----------------------------------------------- */
+.bt-tip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
 }
 
-/* sits right after the last status chip, not pushed to the row's end: the rule
-   it reveals is what "below target" and "met" mean */
 .bt-info {
   flex: none;
-  width: 26px;
-  height: 26px;
+  width: 20px;
+  height: 20px;
   display: inline-grid;
   place-items: center;
   background: var(--bt-panel);
   color: var(--bt-ink-soft);
   border: 1px solid var(--bt-line-strong);
   border-radius: 50%;
-  font: 600 14px var(--bt-display);
-  cursor: pointer;
+  /* the label around it is uppercase and letter-spaced; the glyph is neither */
+  font: 600 12px var(--bt-display);
+  letter-spacing: 0;
+  text-transform: none;
+  cursor: help;
 }
 
 .bt-info:hover,
@@ -817,13 +807,52 @@
   border-color: var(--bt-band);
 }
 
-.bt-rule-note--inset {
-  margin: 12px 0 0;
-  padding: 9px 12px;
-  background: var(--bt-panel-alt);
-  border-left: 3px solid var(--bt-gold);
-  border-radius: 0 6px 6px 0;
-  width: auto;
+/* Opens rightwards from the block's left edge, which is why the button lives in
+   the header and not among the chips: from a fixed left anchor the bubble can
+   never run off either edge. Sized in cqw against .bt-main so it also fits a
+   phone. visibility rather than display so it can transition. */
+.bt-tip-body {
+  position: absolute;
+  top: calc(100% + 9px);
+  left: 0;
+  z-index: 20;
+  width: max-content;
+  max-width: min(380px, 88cqw);
+  padding: 10px 12px;
+  background: var(--bt-band);
+  color: var(--bt-band-ink);
+  border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(32, 22, 12, 0.22);
+  font: 400 13px/1.5 var(--bt-body);
+  letter-spacing: 0;
+  text-transform: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 120ms ease, visibility 120ms;
+}
+
+/* the little pointer back to the button */
+.bt-tip-body::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: 14px;
+  width: 9px;
+  height: 9px;
+  background: inherit;
+  transform: rotate(45deg);
+  border-radius: 2px;
+}
+
+/* Keyed off the button, not the wrapper: .bt-tip also wraps the FILTER label,
+   and hovering a section heading should not pop a paragraph. The sibling
+   combinator works because the bubble follows the button in the markup.
+   Hover and focus for a pointer or keyboard, data-open for a tap. */
+.bt-info:hover + .bt-tip-body,
+.bt-info:focus-visible + .bt-tip-body,
+.bt-tip-body[data-open] {
+  opacity: 1;
+  visibility: visible;
 }
 
 .bt-chip {

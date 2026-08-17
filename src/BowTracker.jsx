@@ -1307,24 +1307,21 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
   // two are exclusive: gave nothing at all vs gave something but missed the
   // target. The "nodonation" filter (gave no mandatory resource, but possibly
   // silver) is still implemented below — it just has no chip at the moment.
-  /* Two groups. The first is the four statuses that colour a member's left
-     border, in the order they run from worst to best, preceded by the reset —
-     these carry the swatch, so together they are the colour key and there is no
-     separate one. The second is other cuts of the roster, which share no scale
-     with the first and would read as part of it if they sat in the same row. */
+  /* One row. Only the four statuses take a swatch, because only they have a
+     colour to key: it is the same square that borders the member's row, which
+     is what makes a separate colour key unnecessary. The cuts after them are
+     not points on that scale, so a swatch there would invent a meaning. */
   const statusChip = (k) => [k, t[STATUS[k].key], counts[k], STATUS[k].tone];
-  const statusFilters = [
-    ["all", t.everyone, members.length, "line"],
+  const filters = [
+    ["all", t.everyone, members.length],
     statusChip("red"),
     statusChip("yellow"),
     statusChip("green"),
     statusChip("greenPlus"),
-  ];
-  const otherFilters = [
-    ...(prevWeek ? [["missed2", t.twoWeeksMissed, missedTwo.length, "redInk"]] : []),
-    ["stalled", t.stalledFilter, extraCounts.stalled, "amberInk"],
-    ["silveronly", t.silverOnly, extraCounts.silver, "silver"],
-    ["outside", t.outsideFilter, extraCounts.outside, "band"],
+    ...(prevWeek ? [["missed2", t.twoWeeksMissed, missedTwo.length]] : []),
+    ["stalled", t.stalledFilter, extraCounts.stalled],
+    ["silveronly", t.silverOnly, extraCounts.silver],
+    ["outside", t.outsideFilter, extraCounts.outside],
   ];
 
   return (
@@ -1366,7 +1363,27 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
       {/* one block for everything that changes what the list shows */}
       <section className="bt-controls" aria-label={t.filterLabel}>
         <div className="bt-controls-head">
-          <span className="bt-controls-label">{t.filterLabel}</span>
+          {/* The tooltip is anchored here rather than out in the chip row for two
+              reasons: the chips are filters and this is not one, and a fixed spot
+              at the block's left edge means the bubble always opens rightwards
+              into space that exists. Anchored to a chip it would move with every
+              reflow and could open off the left edge of a phone. */}
+          <span className="bt-controls-label bt-tip">
+            {t.filterLabel}
+            <button
+              className="bt-info"
+              onClick={() => setShowRule(!showRule)}
+              aria-expanded={showRule}
+              aria-describedby="bt-rule-tip"
+              aria-label={t.ruleInfo}
+            >
+              i
+            </button>
+            {/* click state as well as CSS hover, so it opens on touch too */}
+            <span className="bt-tip-body" id="bt-rule-tip" role="tooltip" data-open={showRule || undefined}>
+              {t.donationRule}
+            </span>
+          </span>
           <div className="bt-controls-sort">
             <span className="bt-toggle-label">{t.sortBy}</span>
             <Segmented
@@ -1381,31 +1398,15 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
           </div>
         </div>
 
-        {[statusFilters, otherFilters].map((group, i) => (
-          <div className="bt-chips" key={i} data-group={i === 0 ? "status" : "other"}>
-            {group.map(([k, label, n, tone]) => (
-              <button key={k} className="bt-chip" onClick={() => setFilter(k)} aria-pressed={filter === k}>
-                <span className="bt-swatch bt-swatch--bar" data-tone={tone} />
-                {label}
-                <span className="bt-chip-count">{n}</span>
-              </button>
-            ))}
-            {/* the rule sits with the statuses, since it defines what "met" means */}
-            {i === 0 && (
-              <button
-                className="bt-info"
-                onClick={() => setShowRule(!showRule)}
-                aria-expanded={showRule}
-                aria-label={t.ruleInfo}
-                title={t.ruleInfo}
-              >
-                i
-              </button>
-            )}
-          </div>
-        ))}
-
-        {showRule && <p className="bt-rule-note bt-rule-note--inset">{t.donationRule}</p>}
+        <div className="bt-chips">
+          {filters.map(([k, label, n, tone]) => (
+            <button key={k} className="bt-chip" onClick={() => setFilter(k)} aria-pressed={filter === k}>
+              {tone && <span className="bt-swatch" data-tone={tone} />}
+              {label}
+              <span className="bt-chip-count">{n}</span>
+            </button>
+          ))}
+        </div>
       </section>
 
       {/* Quality view drops the rank grouping: the point is one ranking across
