@@ -133,6 +133,24 @@ Note that the donation part follows the clan's own "20% combined" rule, so a
 member can score full marks on donations while the row still reads "2 short":
 they gave far more than the combined target but skipped a resource.
 
+## Clan chests per day
+
+Under the four participation meters is what the clan produces rather than how
+many members took part: total chests for the week divided by the days of that
+week elapsed, plus the raw total and the day count it came from.
+
+Two things about the arithmetic. The total is summed from the week itself, not
+from the current roster, so chests from members who have since left still count
+towards what the clan produced that week — 958 against the roster's 954 for the
+week of 9 Aug. And the divisor is calendar days elapsed, matching the per-member
+"chests a day", so the member figures still add up to the clan one. A week whose
+captures start late therefore reads low: the week of 2 Aug has no chest data
+before the 4th but is still divided by 7.
+
+The week-on-week figure compares rates, not totals. A finished week has seven
+days behind it and a week two days old has two, so comparing raw counts would
+call every Monday a collapse.
+
 ## The donation target
 
 The weekly goal is 5% of might per resource, or 20% of might across all four

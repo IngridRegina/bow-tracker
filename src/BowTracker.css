@@ -710,6 +710,48 @@
   margin-bottom: 32px; /* matches .bt-podium's margin-bottom above it */
 }
 
+/* Spans whatever column count is in force, so it stays one row under the
+   meters at every breakpoint rather than becoming an orphaned fifth cell. The
+   rule above it is what separates a clan output figure from the four
+   member-participation proportions. */
+.bt-part-total {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  border-top: 1px solid var(--bt-line);
+  padding-top: 16px;
+}
+
+.bt-part-total-value {
+  font: 600 24px var(--bt-display);
+  color: var(--bt-ink);
+  line-height: 1;
+}
+
+.bt-part-total-label {
+  font: 14px var(--bt-body);
+  color: var(--bt-ink-soft);
+}
+
+/* the raw total the rate came from, pushed to the end where it reads as a
+   footnote rather than competing with the figure */
+.bt-part-total-note {
+  margin-left: auto;
+  font: 13px var(--bt-data);
+  color: var(--bt-ink-soft);
+}
+
+/* Below this the row cannot hold figure, label, delta and note on one line in
+   both languages, and an auto margin would strand the note right-aligned on a
+   line of its own. It joins the flow instead. */
+@container (max-width: 700px) {
+  .bt-part-total-note {
+    margin-left: 0;
+  }
+}
+
 @container (max-width: 878px) {
   .bt-participation {
     grid-template-columns: repeat(2, minmax(0, 1fr));

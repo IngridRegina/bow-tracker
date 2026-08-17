@@ -109,6 +109,8 @@ const T = {
     donationsOk: "donations met",
     short: "short",
     chestsADay: (n) => `${n} chests a day`,
+    clanChestsADay: "clan chests a day",
+    clanChestsOver: (n, d) => `${n} over ${d} ${d === 1 ? "day" : "days"}`,
     speedupsGiven: (s) => `${s} speedups`,
     voluntary: "voluntary",
     ofWord: "of",
@@ -258,6 +260,8 @@ const T = {
     donationsOk: "donaciones cumplidas",
     short: "por debajo",
     chestsADay: (n) => `${n} cofres al día`,
+    clanChestsADay: "cofres del clan al día",
+    clanChestsOver: (n, d) => `${n} en ${d} ${d === 1 ? "día" : "días"}`,
     speedupsGiven: (s) => `${s} de aceleraciones`,
     voluntary: "voluntario",
     ofWord: "de",
@@ -1257,11 +1261,27 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
         if (e.chestTotal > 0) chesters++;
         if (e.speedupHours > 0) speeders++;
       });
+      /* Summed from the week itself rather than from the member loop above:
+         the four proportions are about the current roster by definition, but
+         what the clan produced that week includes whoever has left since. On
+         the week of 9 Aug that is 958 chests against the roster's 954.
+
+         Per calendar day, the same denominator the per-member "chests a day"
+         uses. A week whose captures start late therefore reads low: the week
+         of 2 Aug has no chest data before the 4th but is still divided by 7. */
+      const chests = Object.values(wk.chests || {}).reduce(
+        (a, byDay) => a + Object.values(byDay).reduce((x, y) => x + y, 0),
+        0
+      );
+      const days = daysElapsed(wk.start);
       return {
         donors,
         chesters,
         speeders,
         outside,
+        chests,
+        days,
+        perDay: chests / days,
         total: pool.length,
         inside: wk.inTerritory ? wk.inTerritory.length : pool.filter((m) => m.inTerritory).length,
         insideOf: wk.territoryOf ?? pool.length,
@@ -1280,6 +1300,11 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
      reads as a fall on a week where more people actually took part.
      Undefined rather than +100% when last week was zero. */
   const shift = (now, was) => (!before || !was ? null : Math.round(((now - was) / was) * 100));
+
+  /* Rates, not totals: a finished week has seven days behind it and a week two
+     days old has two, so comparing the raw counts would call every Monday a
+     collapse. */
+  const chestRateShift = shift(part.perDay, before && before.perDay);
 
   // Gave any mandatory resource in a given week?
   const gaveMandatoryIn = (wk, id) => !!wk && RES.some((r) => (((wk.donations && wk.donations[id]) || {})[r] || 0) > 0);
@@ -1371,6 +1396,24 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
           delta={shift(part.inside, before && before.inside)}
           deltaLabel={t.vsLastWeek}
         />
+
+        {/* What the clan produces, rather than how many members took part, so
+            it spans the row under the four proportions instead of becoming a
+            fifth column that would leave one meter alone on a second line. */}
+        <div className="bt-part-total">
+          <span className="bt-part-total-value">{part.perDay.toFixed(1)}</span>
+          <span className="bt-part-total-label">{t.clanChestsADay}</span>
+          {chestRateShift != null && (
+            <span
+              className="bt-meter-delta"
+              data-dir={chestRateShift > 0 ? "up" : chestRateShift < 0 ? "down" : "flat"}
+            >
+              {chestRateShift > 0 ? "+" : chestRateShift < 0 ? "−" : "±"}
+              {Math.abs(chestRateShift)}% {t.vsLastWeek}
+            </span>
+          )}
+          <span className="bt-part-total-note">{t.clanChestsOver(fmt(part.chests), part.days)}</span>
+        </div>
       </div>
 
       {/* One block for everything that changes what the list shows. The three
