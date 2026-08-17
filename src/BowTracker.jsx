@@ -177,7 +177,7 @@ const T = {
     sortWorst: "Worst first",
     sortBest: "Best first",
     qualityTitle: "Quality score",
-    qualityWhy: "Donations against their own target, chests and speedups against the clan's best, living in territory, and days since their might last moved. Open the row for the breakdown.",
+    qualityWhy: "Donations against their own target, chests and speedups against the clan's best, living in territory, days since their might last moved, and where their might places them in the clan. Open the row for the breakdown.",
     qualityNotCounted: "nobody scored — not counted",
     qualityOverWeeks: (from, to) => `weeks of ${from} and ${to}`,
     qualityOverWeek: (from) => `week of ${from}`,
@@ -187,9 +187,10 @@ const T = {
       speedups: "Speedups",
       territory: "In territory",
       activity: "Recently active",
+      might: "Might in clan",
     },
     qualityNote:
-      "Quality is one score out of 100 over the selected week and the one before it, so a week that has only just started is not judged on two days of data. Donations count against each member's own target; chests and speedups against the best in the clan over the same span; plus living in territory and how recently their might moved. Anything nobody scored on at all is left out rather than counted as zero for everyone. Open any row to see how its score was reached.",
+      "Quality is one score out of 100 over the selected week and the one before it, so a week that has only just started is not judged on two days of data. Donations count against each member's own target; chests and speedups against the best in the clan over the same span; plus living in territory, how recently their might moved, and where their might places them in the clan — that last one worth only 10, since might mostly reflects how long someone has played. Anything nobody scored on at all is left out rather than counted as zero for everyone. Open any row to see how its score was reached.",
 
     legend: "Colour key",
     cRed: "nothing given",
@@ -338,9 +339,10 @@ const T = {
       speedups: "Aceleraciones",
       territory: "En el territorio",
       activity: "Activo recientemente",
+      might: "Poder en el clan",
     },
     qualityNote:
-      "La calidad es una puntuación sobre 100 de la semana elegida y la anterior, para que una semana recién empezada no se juzgue con dos días de datos. Las donaciones se miden frente al objetivo de cada miembro; los cofres y las aceleraciones frente al mejor del clan en ese periodo; más vivir en el territorio y lo reciente que sea el cambio de su poder. Lo que nadie ha puntuado se excluye en vez de contar como cero para todos. Abre cualquier fila para ver cómo se ha calculado.",
+      "La calidad es una puntuación sobre 100 de la semana elegida y la anterior, para que una semana recién empezada no se juzgue con dos días de datos. Las donaciones se miden frente al objetivo de cada miembro; los cofres y las aceleraciones frente al mejor del clan en ese periodo; más vivir en el territorio, lo reciente que sea el cambio de su poder y la posición de su poder dentro del clan, que solo vale 10 porque el poder refleja sobre todo el tiempo jugado. Lo que nadie ha puntuado se excluye en vez de contar como cero para todos. Abre cualquier fila para ver cómo se ha calculado.",
 
     legend: "Clave de colores",
     cRed: "no han dado nada",
@@ -450,7 +452,12 @@ function evaluate(member, week) {
    the best in the clan that week. That does favour big accounts, but chest and
    speedup capacity genuinely scales with size and there is no published
    expectation to measure against instead. */
-const QUALITY_WEIGHTS = { donations: 35, chests: 25, speedups: 15, territory: 10, activity: 15 };
+/* Weights sum to 100. Might is deliberately the smallest: it says something
+   about a member's worth to the clan, but it is largely a product of how long
+   they have played, so letting it weigh heavily would rank veterans above
+   people actually doing the work. The other five keep their previous
+   proportions to each other, scaled down to make room. */
+const QUALITY_WEIGHTS = { donations: 32, chests: 22, speedups: 13, territory: 9, activity: 14, might: 10 };
 // Flat-might days at which the activity component reaches zero.
 const QUALITY_STALE_AT = 7;
 
@@ -466,6 +473,11 @@ function qualityOf(m, span, bests) {
     // no reading yet is not evidence of absence, so an untracked member is not
     // penalised for it
     activity: m.mightFlatDays == null ? 1 : clamp01(1 - m.mightFlatDays / QUALITY_STALE_AT),
+    /* Position in the clan by might, not a share of the biggest account.
+       Might spans 28k to 2.9M here, so scoring it as a fraction of the largest
+       would leave everyone outside the top three on almost nothing and turn a
+       graded measure into a bonus for two people. */
+    might: bests.mightRank(m.might ?? 0),
   };
 
   /* A measure nobody scored on is dropped rather than counted as zero for
@@ -480,6 +492,8 @@ function qualityOf(m, span, bests) {
     speedups: bests.speedups > 0,
     territory: true,
     activity: true,
+    // if every member had the same might, position says nothing about anyone
+    might: bests.mightSpread,
   };
   const available = Object.entries(QUALITY_WEIGHTS).reduce((a, [k, w]) => a + (counts[k] ? w : 0), 0);
   const earned = Object.entries(QUALITY_WEIGHTS).reduce((a, [k, w]) => a + (counts[k] ? parts[k] * w : 0), 0);
@@ -1177,9 +1191,16 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
       });
       return { m, e: evaluate(m, week), span: acc };
     });
+    /* Might is scored by position in the clan rather than as a share of the
+       largest account: the spread is a couple of orders of magnitude, so a
+       share would collapse to zero for almost everyone. Members with equal
+       might land on the same position. */
+    const allMight = members.map((m) => m.might ?? 0);
     const bests = {
       chests: Math.max(0, ...totals.map((x) => x.span.chests)),
       speedups: Math.max(0, ...totals.map((x) => x.span.speedups)),
+      mightSpread: Math.max(...allMight) > Math.min(...allMight),
+      mightRank: (v) => (allMight.length < 2 ? 1 : allMight.filter((x) => x < v).length / (allMight.length - 1)),
     };
     return totals.map((x) => ({ ...x, q: qualityOf(x.m, x.span, bests) }));
   }, [members, week, prevWeek]);

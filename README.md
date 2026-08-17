@@ -67,11 +67,23 @@ The member list can be sorted by a single 0–100 score, five weighted parts:
 
 | part | weight | measured against |
 |---|---|---|
-| donations | 35 | the member's own target |
-| chests | 25 | the best in the clan over the span |
-| speedups | 15 | the best in the clan over the span |
-| in territory | 10 | yes or no |
-| recently active | 15 | days since their might last moved, zero at 7 |
+| donations | 32 | the member's own target |
+| chests | 22 | the best in the clan over the span |
+| speedups | 13 | the best in the clan over the span |
+| recently active | 14 | days since their might last moved, zero at 7 |
+| in territory | 9 | yes or no |
+| might in clan | 10 | their position in the clan by might |
+
+Might is scored by **position in the clan**, not as a share of the largest
+account: might spans 28k to 2.9M here, so a share would leave everyone outside
+the top three on almost nothing and turn a graded measure into a bonus for two
+people. It carries the smallest weight because it mostly reflects how long
+someone has played, and weighing it heavily would rank veterans above the people
+doing the work.
+
+Note the interaction with worst-first: because size raises the score, a large
+dormant account climbs out of the bottom. Bellona — 718k, nine days of flat
+might, nothing given — was #1 worst before might was added and is #13 after.
 
 Donations are scored against each member's own target, not as a raw amount —
 ranking on resources alone would just sort by might, putting a 2.4M account
