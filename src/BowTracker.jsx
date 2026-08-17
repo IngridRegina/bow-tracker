@@ -1360,42 +1360,45 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
         />
       </div>
 
-      {/* one block for everything that changes what the list shows */}
+      {/* One block for everything that changes what the list shows. The three
+          parts are siblings rather than nested in a header row so the grid can
+          put the sort control after the chips on a narrow screen — nested, it
+          could only ever wrap to a line directly under the FILTER label, where
+          that label appears to name it. */}
       <section className="bt-controls" aria-label={t.filterLabel}>
-        <div className="bt-controls-head">
-          {/* The tooltip is anchored here rather than out in the chip row for two
-              reasons: the chips are filters and this is not one, and a fixed spot
-              at the block's left edge means the bubble always opens rightwards
-              into space that exists. Anchored to a chip it would move with every
-              reflow and could open off the left edge of a phone. */}
-          <span className="bt-controls-label bt-tip">
-            {t.filterLabel}
-            <button
-              className="bt-info"
-              onClick={() => setShowRule(!showRule)}
-              aria-expanded={showRule}
-              aria-describedby="bt-rule-tip"
-              aria-label={t.ruleInfo}
-            >
-              i
-            </button>
-            {/* click state as well as CSS hover, so it opens on touch too */}
-            <span className="bt-tip-body" id="bt-rule-tip" role="tooltip" data-open={showRule || undefined}>
-              {t.donationRule}
-            </span>
+        {/* The tooltip is anchored here rather than out in the chip row for two
+            reasons: the chips are filters and this is not one, and a fixed spot
+            at the block's left edge means the bubble always opens rightwards
+            into space that exists. Anchored to a chip it would move with every
+            reflow and could open off the left edge of a phone. */}
+        <span className="bt-controls-label bt-tip">
+          {t.filterLabel}
+          <button
+            className="bt-info"
+            onClick={() => setShowRule(!showRule)}
+            aria-expanded={showRule}
+            aria-describedby="bt-rule-tip"
+            aria-label={t.ruleInfo}
+          >
+            i
+          </button>
+          {/* click state as well as CSS hover, so it opens on touch too */}
+          <span className="bt-tip-body" id="bt-rule-tip" role="tooltip" data-open={showRule || undefined}>
+            {t.donationRule}
           </span>
-          <div className="bt-controls-sort">
-            <span className="bt-toggle-label">{t.sortBy}</span>
-            <Segmented
-              options={[
-                { value: "rank", label: t.sortRank },
-                { value: "worst", label: t.sortWorst },
-                { value: "best", label: t.sortBest },
-              ]}
-              value={sort}
-              onChange={setSort}
-            />
-          </div>
+        </span>
+
+        <div className="bt-controls-sort">
+          <span className="bt-toggle-label">{t.sortBy}</span>
+          <Segmented
+            options={[
+              { value: "rank", label: t.sortRank },
+              { value: "worst", label: t.sortWorst },
+              { value: "best", label: t.sortBest },
+            ]}
+            value={sort}
+            onChange={setSort}
+          />
         </div>
 
         <div className="bt-chips">

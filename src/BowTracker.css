@@ -737,25 +737,24 @@
    the chips read as one set of filters rather than two.
 
    The status chips are also the colour key: same swatch, same wording, so a
-   separate key said everything twice and has been dropped. */
+   separate key said everything twice and has been dropped.
+
+   A grid with explicit row/column placement rather than a flex row, because the
+   narrow layout has to move the sort control *after* the chips. Flex wrapping
+   can only drop it to the line below the FILTER label, which then looks like
+   the label for the sort. */
 .bt-controls {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  row-gap: 12px;
+  column-gap: 16px;
   margin-bottom: 26px;
 }
 
-/* space-between rather than an auto margin on the sort group: flex justifies
-   each wrapped line on its own, so a lone item lands at the line's start. The
-   sort group therefore sits right while it shares the line with the label, and
-   left once it drops below — an auto margin would leave it hanging right. */
-.bt-controls-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px 16px;
-  flex-wrap: wrap;
-  margin-bottom: 12px;
-}
-
 .bt-controls-label {
+  grid-area: 1 / 1;
+  justify-self: start;
   font: 600 12px var(--bt-body);
   letter-spacing: 0.09em;
   text-transform: uppercase;
@@ -763,16 +762,64 @@
 }
 
 .bt-controls-sort {
+  grid-area: 1 / 2;
+  justify-self: end;
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
 .bt-chips {
+  grid-area: 2 / 1 / 3 / -1;
   display: flex;
   align-items: center;
   gap: 10px;
   flex-wrap: wrap;
+}
+
+/* Below this the two cannot share a line: the label needs ~70px and the sort
+   group up to 392px in Spanish. So the sort moves to its own row *under* the
+   chips, where nothing above it can be mistaken for its label.
+   (Container queries add no specificity — these have to stay below the rules
+   they override.) */
+@container (max-width: 480px) {
+  .bt-controls {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .bt-chips {
+    grid-area: 2 / 1;
+  }
+
+  .bt-controls-sort {
+    grid-area: 3 / 1;
+    justify-self: start;
+  }
+}
+
+/* Narrower than the sort group's own 392px, so it can no longer be one line
+   either: the label goes above and the three options split the full width.
+   They have to be allowed to wrap — "Mejores primero" does not fit a third of
+   a 320px screen on one line — and flex stretches them to a common height. */
+@container (max-width: 400px) {
+  .bt-controls-sort {
+    flex-direction: column;
+    align-items: stretch;
+    justify-self: stretch;
+    gap: 7px;
+  }
+
+  .bt-controls-sort .bt-seg {
+    display: flex;
+  }
+
+  .bt-controls-sort .bt-seg-btn {
+    flex: 1 1 0;
+    padding: 7px 8px;
+    font-size: 13px;
+    white-space: normal;
+    text-align: center;
+  }
 }
 
 /* ---- info tooltip ----------------------------------------------- */
