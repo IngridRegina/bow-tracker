@@ -103,7 +103,7 @@ const T = {
     twoWeeksMissed: "2 weeks missed",
     stalledFilter: "Possibly inactive",
     donationRule:
-      "“Donations met” currently means at least 20% of might given across all resources combined, even if some resources are below 5% or missing. The target is a share of the might each member had at the start of the week, so it does not climb as they grow — meet it on Monday and it stays met.",
+      "“Donations met” currently means at least 20% of might given across all resources combined, even if some resources are below 5% or missing. The target is a share of the might each member had at the start of the week, so it does not climb as they grow. Meet it on Monday and it stays met.",
 
     statsLine: (might, place) => `${might} might · ${place}`,
     donationsOk: "donations met",
@@ -138,7 +138,7 @@ const T = {
     mightFlat: (n) => `flat for ${n} day${n === 1 ? "" : "s"}`,
     mightRose: (n) => (n === 0 ? "rose today" : n === 1 ? "rose yesterday" : `rose ${n} days ago`),
     mightUntracked: "only one day tracked",
-    inactiveWhy: (n) => `Might has not moved in ${n} days. It only ever goes up through play, so a flat line usually means nobody is home — but a member can log in daily without shifting it.`,
+    inactiveWhy: (n) => `Might has not moved in ${n} days. It only ever goes up through play, so a flat line usually means nobody is home, though a member can log in daily without shifting it.`,
     unknownField: "not set",
     daysAgo: (n) => (n === 0 ? "today" : n === 1 ? "yesterday" : `${n} days ago`),
     localTimeNow: (s) => `${s} their time`,
@@ -156,7 +156,7 @@ const T = {
     countTop: `Top ${TOP_N}`,
     excludedNote: (n) =>
       `${n} member${n === 1 ? "" : "s"} left out as probably not around: might flat for ${STALL_DAYS}+ days, or nothing contributed in ${STALL_DAYS}+ days.`,
-    topNote: `Counting only the clan's top ${TOP_N} by quality score — the same ranking the Ledger sorts on, so the two always agree about who they are.`,
+    topNote: `Counting only the clan's top ${TOP_N} by quality score, the same ranking the Ledger sorts on, so the two always agree about who they are.`,
     localNow: "local",
     noTimezone: (n) => (n === 1 ? "1 member has" : `${n} members have`) + " no timezone set in their profile, and are left out of the counts.",
     tzCaveat: (n) =>
@@ -168,7 +168,7 @@ const T = {
     formerNote:
       "The game never records a departure, so these are dated to the last day there is any sign of them. They may have left, been removed, or the clan may simply not have been captured that day.",
     formerGhostNote: (n) =>
-      `${n === 1 ? "One of them is" : `${n} of them are`} known only from the donation and chest ledgers — they were gone before any capture caught them on the roster, so there is no rank or join date.`,
+      `${n === 1 ? "One of them is" : `${n} of them are`} known only from the donation and chest ledgers. They were gone before any capture caught them on the roster, so there is no rank or join date.`,
     fLastListed: "Last listed",
     fLastGave: "Last contributed",
 
@@ -181,7 +181,7 @@ const T = {
     sortBest: "Best first",
     qualityTitle: "Quality score",
     qualityWhy: "Donations against their own target, chests and speedups against the clan's best, living in territory, days since their might last moved, and where their might places them in the clan. Open the row for the breakdown.",
-    qualityNotCounted: "nobody scored — not counted",
+    qualityNotCounted: "nobody scored, not counted",
     qualityOverWeeks: (from, to) => `weeks of ${from} and ${to}`,
     qualityOverWeek: (from) => `week of ${from}`,
     qualityParts: {
@@ -193,7 +193,7 @@ const T = {
       might: "Might in clan",
     },
     qualityNote:
-      "Quality is one score out of 100 over the selected week and the one before it, so a week that has only just started is not judged on two days of data. Donations count against each member's own target; chests and speedups against the best in the clan over the same span; plus living in territory, how recently their might moved, and where their might places them in the clan — that last one worth only 10, since might mostly reflects how long someone has played. Anything nobody scored on at all is left out rather than counted as zero for everyone. Open any row to see how its score was reached.",
+      "Quality is one score out of 100 over the selected week and the one before it, so a week that has only just started is not judged on two days of data. Donations count against each member's own target; chests and speedups against the best in the clan over the same span; plus living in territory, how recently their might moved, and where their might places them in the clan. That last one is worth only 10, since might mostly reflects how long someone has played. Anything nobody scored on at all is left out rather than counted as zero for everyone. Open any row to see how its score was reached.",
 
     ranks: { Leader: "Leader", Superior: "Superior", Officer: "Officer", Veteran: "Veteran", Member: "Member", Soldier: "Soldier" },
     res: { lumber: "Lumber", stone: "Stone", iron: "Iron", food: "Food", silver: "Silver", tractates: "Sci. tractates" },
@@ -1397,23 +1397,25 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
               These are direct children of the sort group rather than wrapped in
               a .bt-tip of their own, because the group is what the bubble hangs
               off — see .bt-tip-body--end. */}
-          <span className="bt-toggle-label">{t.sortBy}</span>
-          <button
-            className="bt-info"
-            onClick={() => setShowQuality(!showQuality)}
-            aria-expanded={showQuality}
-            aria-describedby="bt-quality-tip"
-            aria-label={t.qualityInfo}
-          >
-            i
-          </button>
-          <span
-            className="bt-tip-body bt-tip-body--end"
-            id="bt-quality-tip"
-            role="tooltip"
-            data-open={showQuality || undefined}
-          >
-            {t.qualityNote}
+          <span className="bt-sort-head">
+            <span className="bt-toggle-label">{t.sortBy}</span>
+            <button
+              className="bt-info"
+              onClick={() => setShowQuality(!showQuality)}
+              aria-expanded={showQuality}
+              aria-describedby="bt-quality-tip"
+              aria-label={t.qualityInfo}
+            >
+              i
+            </button>
+            <span
+              className="bt-tip-body bt-tip-body--end"
+              id="bt-quality-tip"
+              role="tooltip"
+              data-open={showQuality || undefined}
+            >
+              {t.qualityNote}
+            </span>
           </span>
           <Segmented
             options={[

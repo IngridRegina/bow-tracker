@@ -105,7 +105,7 @@ export default function WorldMap({ t, lang, members }) {
                     : undefined
                 }
               >
-                {n > 0 && <title>{`${countryName(cc, lang)} — ${t.memberCount(n)}`}</title>}
+                {n > 0 && <title>{`${countryName(cc, lang)}: ${t.memberCount(n)}`}</title>}
               </path>
             );
           })}

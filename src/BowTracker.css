@@ -771,6 +771,15 @@
   position: relative;
 }
 
+/* Keeps "Sort" and its info button on one line when the group stacks below
+   400px. Static on purpose: the tooltip inside still has to resolve against
+   .bt-controls-sort, whose right edge is the block's own. */
+.bt-sort-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .bt-chips {
   grid-area: 2 / 1 / 3 / -1;
   display: flex;
