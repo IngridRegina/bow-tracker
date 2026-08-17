@@ -747,7 +747,7 @@
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
-  row-gap: 12px;
+  row-gap: 20px;
   column-gap: 16px;
   margin-bottom: 26px;
 }
@@ -767,6 +767,8 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  /* containing block for its tooltip; see .bt-tip-body--end */
+  position: relative;
 }
 
 .bt-chips {
@@ -785,7 +787,9 @@
 @container (max-width: 480px) {
   .bt-controls {
     grid-template-columns: minmax(0, 1fr);
+    row-gap: 12px;
   }
+
 
   .bt-chips {
     grid-area: 2 / 1;
@@ -889,6 +893,40 @@
   background: inherit;
   transform: rotate(45deg);
   border-radius: 2px;
+}
+
+/* Opens leftwards instead, and hangs off .bt-controls-sort rather than off a
+   wrapper around the button — the group is a grid item pinned to the block's
+   right edge, so its right edge *is* that edge and the max-width below can then
+   guarantee a fit. Anchored to the button instead, the bubble's left end landed
+   80px outside the block at around 550px wide, since it grew leftwards from
+   wherever the label happened to sit.
+
+   No arrow, because it points at the group as a whole rather than at the button
+   sitting somewhere inside it. */
+.bt-tip-body--end {
+  left: auto;
+  right: 0;
+}
+
+.bt-tip-body--end::before {
+  content: none;
+}
+
+/* Below this the sort control moves to the left of its own row (see the controls
+   grid above), so its bubble has to open rightwards like the filter one — from
+   there, anchored right, it would run off the screen. Must sit below the rules
+   it overrides: a container query adds no specificity of its own. */
+@container (max-width: 480px) {
+  .bt-tip-body--end {
+    left: 0;
+    right: auto;
+  }
+
+  .bt-tip-body--end::before {
+    left: 14px;
+    right: auto;
+  }
 }
 
 /* Keyed off the button, not the wrapper: .bt-tip also wraps the FILTER label,

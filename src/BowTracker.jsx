@@ -173,6 +173,7 @@ const T = {
     fLastGave: "Last contributed",
 
     filterLabel: "Filter",
+    qualityInfo: "How is quality scored?",
     ruleInfo: "What counts as donations met?",
     sortBy: "Sort",
     sortRank: "By rank",
@@ -321,6 +322,7 @@ const T = {
     fLastGave: "Última aportación",
 
     filterLabel: "Filtro",
+    qualityInfo: "¿Cómo se calcula la calidad?",
     ruleInfo: "¿Qué cuenta como donaciones cumplidas?",
     sortBy: "Orden",
     sortRank: "Por rango",
@@ -1182,6 +1184,7 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
   const [filter, setFilter] = useState("all");
   const [sort, setSort] = useState("rank");
   const [showRule, setShowRule] = useState(false);
+  const [showQuality, setShowQuality] = useState(false);
 
   /* Quality is measured over the selected week and the one before it. A single
      week is too thin: on the Monday of a new week nobody has produced much of
@@ -1389,7 +1392,29 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
         </span>
 
         <div className="bt-controls-sort">
+          {/* Shown for every sort, not just the quality ones: what "worst" and
+              "best" measure is what you want to know *before* picking them.
+              These are direct children of the sort group rather than wrapped in
+              a .bt-tip of their own, because the group is what the bubble hangs
+              off — see .bt-tip-body--end. */}
           <span className="bt-toggle-label">{t.sortBy}</span>
+          <button
+            className="bt-info"
+            onClick={() => setShowQuality(!showQuality)}
+            aria-expanded={showQuality}
+            aria-describedby="bt-quality-tip"
+            aria-label={t.qualityInfo}
+          >
+            i
+          </button>
+          <span
+            className="bt-tip-body bt-tip-body--end"
+            id="bt-quality-tip"
+            role="tooltip"
+            data-open={showQuality || undefined}
+          >
+            {t.qualityNote}
+          </span>
           <Segmented
             options={[
               { value: "rank", label: t.sortRank },
@@ -1418,7 +1443,6 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
           account is the one worth looking at first. */}
       {sort !== "rank" && (
         <>
-          <p className="bt-rule-note">{t.qualityNote}</p>
           <div className="bt-list">
             {scored
               .filter((x) => passesFilter(x.m, x.e))
