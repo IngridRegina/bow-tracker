@@ -61,6 +61,45 @@ build the site, publish.
 ./deploy.sh ~/Downloads/totalbattle_com.har
 ```
 
+## Quality score
+
+The member list can be sorted by a single 0–100 score, five weighted parts:
+
+| part | weight | measured against |
+|---|---|---|
+| donations | 35 | the member's own target |
+| chests | 25 | the best in the clan over the span |
+| speedups | 15 | the best in the clan over the span |
+| in territory | 10 | yes or no |
+| recently active | 15 | days since their might last moved, zero at 7 |
+
+Donations are scored against each member's own target, not as a raw amount —
+ranking on resources alone would just sort by might, putting a 2.4M account
+that gave 100k above a 30k account that gave everything asked of it. Meeting
+the target scores half and doubling it scores full, so people separate both
+below and above the line. Chests and speedups have no per-member target, so
+those are clan-relative; that does favour big accounts, but capacity genuinely
+scales with size and there is no published expectation to use instead.
+
+Measured over the **selected week and the one before it**. A single week is too
+thin: on the Monday of a new week nobody has produced anything and the ranking
+is noise.
+
+A measure nobody in the clan scored on is **dropped**, not counted as zero for
+everyone, and the remaining weights are scaled back to 100. Without that, a
+week with no clan build running silently caps every score at 85 and puts the
+colour bands out of step with the highest reachable total. The two July weeks
+predate chests entirely and score out of 75 renormalised.
+
+Sorting by quality drops the rank grouping, since the point is one ranking
+across the whole roster. Every row shows its score in both views, and opening a
+row shows the part-by-part breakdown — a ranking someone might act on has to be
+arguable with.
+
+Note that the donation part follows the clan's own "20% combined" rule, so a
+member can score full marks on donations while the row still reads "2 short":
+they gave far more than the combined target but skipped a resource.
+
 ## The donation target
 
 The weekly goal is 5% of might per resource, or 20% of might across all four

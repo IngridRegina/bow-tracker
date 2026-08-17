@@ -1310,6 +1310,143 @@
   color: var(--bt-ink-soft);
 }
 
+/* ---- quality score ---------------------------------------------
+   Banded rather than a continuous ramp: four steps are readable at a glance
+   where a gradient is not, and the exact number is printed inside the pill. */
+.bt-sortbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 14px;
+}
+
+.bt-quality {
+  flex: none;
+  min-width: 2.4em;
+  text-align: center;
+  border-radius: 6px;
+  padding: 2px 6px;
+  font: 600 13px var(--bt-data);
+  font-variant-numeric: tabular-nums;
+  cursor: help;
+}
+
+.bt-quality[data-band="high"] {
+  background: var(--bt-green-bg);
+  color: var(--bt-green-plus-ink);
+}
+
+.bt-quality[data-band="mid"] {
+  background: var(--bt-amber-bg);
+  color: var(--bt-amber-ink);
+}
+
+.bt-quality[data-band="low"] {
+  background: var(--bt-red-bg);
+  color: var(--bt-red-ink);
+}
+
+.bt-quality[data-band="none"] {
+  background: var(--bt-line);
+  color: var(--bt-ink-soft);
+}
+
+.bt-qbreak {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--bt-line);
+}
+
+.bt-qbreak-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.bt-qbreak-title {
+  font: 600 11px var(--bt-body);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bt-ink-soft);
+}
+
+.bt-qbreak-of {
+  font: 12px var(--bt-data);
+  color: var(--bt-ink-soft);
+}
+
+.bt-qbreak-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 5px;
+}
+
+.bt-qbreak-list li {
+  display: grid;
+  grid-template-columns: 11em minmax(60px, 1fr) 4.5em;
+  align-items: center;
+  gap: 10px;
+}
+
+.bt-qbreak-label {
+  font: 13px var(--bt-body);
+  color: var(--bt-ink-soft);
+}
+
+.bt-qbreak-track {
+  height: 6px;
+  background: var(--bt-line);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.bt-qbreak-fill {
+  display: block;
+  width: var(--bt-pct, 0%);
+  height: 100%;
+  background: var(--bt-accent-soft, var(--bt-gold));
+  border-radius: 99px;
+}
+
+.bt-qbreak-num {
+  font: 600 13px var(--bt-data);
+  color: var(--bt-ink);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.bt-qbreak-max {
+  font-weight: 400;
+  color: var(--bt-line-strong);
+}
+
+/* a measure nobody in the clan scored on, so it was left out of the total */
+.bt-qbreak-list li[data-off] .bt-qbreak-label {
+  color: var(--bt-line-strong);
+}
+
+.bt-qbreak-skip {
+  grid-column: 2 / -1;
+  font: italic 12px var(--bt-body);
+  color: var(--bt-line-strong);
+}
+
+@container (max-width: 520px) {
+  .bt-qbreak-list li {
+    grid-template-columns: minmax(0, 1fr) 4.5em;
+    grid-template-areas:
+      "label num"
+      "track track";
+    gap: 3px 10px;
+  }
+
+  .bt-qbreak-label { grid-area: label; }
+  .bt-qbreak-num { grid-area: num; }
+  .bt-qbreak-track { grid-area: track; }
+}
+
 /* ---- rank groups ---------------------------------------------- */
 .bt-rank-group {
   margin-bottom: 28px;

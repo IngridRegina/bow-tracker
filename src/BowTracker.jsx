@@ -172,6 +172,21 @@ const T = {
     fLastListed: "Last listed",
     fLastGave: "Last contributed",
 
+    sortRank: "By rank",
+    sortQuality: "By quality",
+    qualityTitle: "Quality score",
+    qualityWhy: "Donations against their own target, chests and speedups against the clan's best, living in territory, and days since their might last moved. Open the row for the breakdown.",
+    qualityNotCounted: "nobody scored — not counted",
+    qualityParts: {
+      donations: "Donations vs target",
+      chests: "Chests",
+      speedups: "Speedups",
+      territory: "In territory",
+      activity: "Recently active",
+    },
+    qualityNote:
+      "Quality is one score out of 100 over the selected week and the one before it, so a week that has only just started is not judged on two days of data. Donations count against each member's own target; chests and speedups against the best in the clan over the same span; plus living in territory and how recently their might moved. Anything nobody scored on at all is left out rather than counted as zero for everyone. Open any row to see how its score was reached.",
+
     legend: "Colour key",
     cRed: "nothing given",
     cYellow: "below target",
@@ -304,6 +319,21 @@ const T = {
     fLastListed: "Visto por última vez",
     fLastGave: "Última aportación",
 
+    sortRank: "Por rango",
+    sortQuality: "Por calidad",
+    qualityTitle: "Puntuación de calidad",
+    qualityWhy: "Donaciones frente a su propio objetivo, cofres y aceleraciones frente al mejor del clan, vivir en el territorio y los días desde que su poder cambió. Abre la fila para ver el desglose.",
+    qualityNotCounted: "nadie ha puntuado, no se cuenta",
+    qualityParts: {
+      donations: "Donaciones vs objetivo",
+      chests: "Cofres",
+      speedups: "Aceleraciones",
+      territory: "En el territorio",
+      activity: "Activo recientemente",
+    },
+    qualityNote:
+      "La calidad es una puntuación sobre 100 de la semana elegida y la anterior, para que una semana recién empezada no se juzgue con dos días de datos. Las donaciones se miden frente al objetivo de cada miembro; los cofres y las aceleraciones frente al mejor del clan en ese periodo; más vivir en el territorio y lo reciente que sea el cambio de su poder. Lo que nadie ha puntuado se excluye en vez de contar como cero para todos. Abre cualquier fila para ver cómo se ha calculado.",
+
     legend: "Clave de colores",
     cRed: "no han dado nada",
     cYellow: "por debajo del objetivo",
@@ -394,6 +424,59 @@ function evaluate(member, week) {
   else status = "yellow";
 
   return { might, targetMight, need, don, chestTotal, chestAvg, speedupHours, donationMet, chestMet, status, missing: RES.filter((r) => (don[r] || 0) < need) };
+}
+
+/* ---- quality score --------------------------------------------
+   One number for "is this member pulling their weight", so the roster can be
+   ordered by it. Five parts, each scored 0..1 and then weighted; the weights
+   are the priority order given for the feature and are shown in the UI so a
+   ranking can always be traced back to its parts.
+
+   Donations are scored against the member's own target rather than as a raw
+   amount. Ranking on raw resources would just sort by might — a 2.4M member
+   giving 100k would outrank a 30k member who gave everything asked of them.
+   Meeting the target exactly scores half, doubling it scores full, so both
+   falling short and going well beyond still separate people.
+
+   Chests and speedups have no per-member target, so those are scored against
+   the best in the clan that week. That does favour big accounts, but chest and
+   speedup capacity genuinely scales with size and there is no published
+   expectation to measure against instead. */
+const QUALITY_WEIGHTS = { donations: 35, chests: 25, speedups: 15, territory: 10, activity: 15 };
+// Flat-might days at which the activity component reaches zero.
+const QUALITY_STALE_AT = 7;
+
+const clamp01 = (v) => (v < 0 ? 0 : v > 1 ? 1 : v);
+const qualityBand = (score) => (score >= 60 ? "high" : score >= 35 ? "mid" : score >= 15 ? "low" : "none");
+
+function qualityOf(m, span, bests) {
+  const parts = {
+    donations: span.need > 0 ? clamp01(span.given / span.need / 2) : span.given > 0 ? 1 : 0,
+    chests: bests.chests > 0 ? clamp01(span.chests / bests.chests) : 0,
+    speedups: bests.speedups > 0 ? clamp01(span.speedups / bests.speedups) : 0,
+    territory: m.inTerritory ? 1 : 0,
+    // no reading yet is not evidence of absence, so an untracked member is not
+    // penalised for it
+    activity: m.mightFlatDays == null ? 1 : clamp01(1 - m.mightFlatDays / QUALITY_STALE_AT),
+  };
+
+  /* A measure nobody scored on is dropped rather than counted as zero for
+     everyone. Early in a week — or on a week with no clan build running — the
+     whole clan has sent no speedups, and scoring that as 15 lost points each
+     would just push every score down and put the bands out of step with the
+     highest reachable total. The remaining weights are scaled back up to 100,
+     so a score always means "out of what was achievable". */
+  const counts = {
+    donations: true,
+    chests: bests.chests > 0,
+    speedups: bests.speedups > 0,
+    territory: true,
+    activity: true,
+  };
+  const available = Object.entries(QUALITY_WEIGHTS).reduce((a, [k, w]) => a + (counts[k] ? w : 0), 0);
+  const earned = Object.entries(QUALITY_WEIGHTS).reduce((a, [k, w]) => a + (counts[k] ? parts[k] * w : 0), 0);
+
+  return { score: available > 0 ? Math.round((earned / available) * 100) : 0, parts, counts, available };
 }
 
 /* Maps a status onto its swatch tone and its label in T. The colours
@@ -890,17 +973,211 @@ function Timing({ t, members, week, prevWeek }) {
   );
 }
 
+/* One row of the member list. Extracted so the rank-grouped and
+   quality-sorted views render exactly the same thing. */
+function MemberRow({ t, lang, m, e, week, isOpen, onToggle, quality }) {
+  return (
+    <div className="bt-member" data-status={e.status}>
+      <div className="bt-member-summary" onClick={onToggle}>
+        <div className="bt-member-main">
+          <div className="bt-member-nameline">
+            {quality && (
+              <span className="bt-quality" data-band={qualityBand(quality.score)} title={t.qualityWhy}>
+                {quality.score}
+              </span>
+            )}
+            <span className="bt-member-name">{m.name}</span>
+            {isNewThisWeek(m, week) && (
+              <span className="bt-badge" data-tone="green">
+                {t.newThisWeek.toUpperCase()}
+              </span>
+            )}
+            {m.mightFlatDays >= STALL_DAYS && (
+              <span className="bt-badge" data-tone="amber" title={t.inactiveWhy(m.mightFlatDays)}>
+                {t.inactive.toUpperCase()}
+              </span>
+            )}
+          </div>
+          <div className="bt-member-stats">
+            {t.statsLine(fmt(e.might), m.inTerritory ? t.inTerritory : t.outsideTerritory)}
+          </div>
+        </div>
+        <div className="bt-member-right">
+          <div className="bt-member-donation" data-met={e.donationMet ? "" : undefined}>
+            {e.donationMet ? t.donationsOk : `${e.missing.length} ${t.short}`}
+          </div>
+          <div className="bt-member-sub">
+            {t.chestsADay(e.chestAvg.toFixed(1))}
+            {e.speedupHours > 0 ? ` · ${t.speedupsGiven(fmtHours(e.speedupHours))}` : ""}
+          </div>
+        </div>
+        <span className="bt-member-toggle">{isOpen ? "−" : "+"}</span>
+      </div>
+
+      {isOpen && (
+        <div className="bt-member-detail">
+          <table className="bt-res-table">
+            <tbody>
+              {ALL_RES.map((r) => {
+                const given = e.don[r] || 0;
+                const required = RES.includes(r) ? e.need : null;
+                const ok = required === null ? given > 0 : given >= required;
+                return (
+                  <tr key={r}>
+                    <td className="bt-res-name">
+                      <span className="bt-res-label">
+                        <ResIcon res={r} />
+                        <span className="bt-res-word">{t.res[r]}</span>
+                      </span>
+                    </td>
+                    <td className="bt-res-given">{fmt(given)}</td>
+                    <td className="bt-res-need">{required === null ? t.voluntary : `${t.ofWord} ${fmt(required)}`}</td>
+                    <td className="bt-res-ok" data-ok={ok ? "" : undefined}>
+                      {ok ? "✓" : "✗"}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+
+          <dl className="bt-facts">
+            <div className="bt-fact">
+              <dt>{t.fCountry}</dt>
+              <dd>
+                {m.country ? (
+                  <>
+                    {countryName(m.country, lang)}
+                    <span className="bt-fact-aside">{m.country.toUpperCase()}</span>
+                  </>
+                ) : (
+                  <span className="bt-fact-none">{t.unknownField}</span>
+                )}
+              </dd>
+            </div>
+            <div className="bt-fact">
+              <dt>{t.fTimezone}</dt>
+              <dd>
+                {resolveOffset(m.country, m.utcOffset).mins == null ? (
+                  <span className="bt-fact-none">{t.unknownField}</span>
+                ) : (
+                  <>
+                    {offsetLabel(resolveOffset(m.country, m.utcOffset).mins)}
+                    <span className="bt-fact-aside">
+                      {t.localTimeNow(hhmm(nowUTCMinutes() + resolveOffset(m.country, m.utcOffset).mins))}
+                    </span>
+                  </>
+                )}
+              </dd>
+            </div>
+            <div className="bt-fact">
+              <dt>{t.fLastActive}</dt>
+              <dd>
+                {m.lastActive ? (
+                  <>
+                    {shortDate(m.lastActive, lang)}
+                    <span className="bt-fact-aside">{t.daysAgo(Math.max(0, daysBetween(m.lastActive, todayISO())))}</span>
+                  </>
+                ) : (
+                  <span className="bt-fact-none">{t.nothingYet}</span>
+                )}
+              </dd>
+            </div>
+            <div className="bt-fact">
+              <dt>{t.fJoined}</dt>
+              <dd>{shortDate(m.firstSeen, lang)}</dd>
+            </div>
+            <div className="bt-fact">
+              <dt>{t.fMight}</dt>
+              <dd>
+                {fmt(e.might)}
+                <span className="bt-fact-aside" data-warn={m.mightFlatDays >= STALL_DAYS ? "" : undefined}>
+                  {m.daysTracked < 2
+                    ? t.mightUntracked
+                    : m.mightFlatDays >= STALL_DAYS
+                      ? t.mightFlat(m.mightFlatDays)
+                      : t.mightRose(m.mightFlatDays)}
+                </span>
+              </dd>
+            </div>
+          </dl>
+
+          {/* what the score is made of, so a ranking can be argued with */}
+          {quality && (
+            <div className="bt-qbreak">
+              <div className="bt-qbreak-head">
+                <span className="bt-qbreak-title">{t.qualityTitle}</span>
+                <span className="bt-quality" data-band={qualityBand(quality.score)}>
+                  {quality.score}
+                </span>
+                <span className="bt-qbreak-of">/ 100</span>
+              </div>
+              <ul className="bt-qbreak-list">
+                {Object.entries(QUALITY_WEIGHTS).map(([key, weight]) => (
+                  <li key={key} data-off={quality.counts[key] ? undefined : ""}>
+                    <span className="bt-qbreak-label">{t.qualityParts[key]}</span>
+                    {quality.counts[key] ? (
+                      <>
+                        <span className="bt-qbreak-track">
+                          <span className="bt-qbreak-fill" style={{ "--bt-pct": `${quality.parts[key] * 100}%` }} />
+                        </span>
+                        <span className="bt-qbreak-num">
+                          {Math.round(quality.parts[key] * weight)}
+                          <span className="bt-qbreak-max">/{weight}</span>
+                        </span>
+                      </>
+                    ) : (
+                      <span className="bt-qbreak-skip">{t.qualityNotCounted}</span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 /* ---- ledger -------------------------------------------------- */
 function Ledger({ t, lang, members, week, prevWeek, former }) {
   const [open, setOpen] = useState(null);
   const [filter, setFilter] = useState("all");
+  const [sort, setSort] = useState("rank");
+
+  /* Quality is measured over the selected week and the one before it. A single
+     week is too thin: on the Monday of a new week nobody has produced much of
+     anything yet, and a ranking built on two days of data is mostly noise.
+     Chests and speedups are scored against the best in the clan over the same
+     span, so the yardstick is what was actually achievable then rather than an
+     all-time high nobody can reach. */
+  const scored = useMemo(() => {
+    const span = [week, prevWeek].filter(Boolean);
+    const totals = members.map((m) => {
+      const acc = { given: 0, chests: 0, speedups: 0, need: 0 };
+      span.forEach((w) => {
+        const ew = evaluate(m, w);
+        acc.given += RES.reduce((a, r) => a + (ew.don[r] || 0), 0);
+        acc.chests += ew.chestTotal;
+        acc.speedups += ew.speedupHours;
+        acc.need += ew.need * RES.length;
+      });
+      return { m, e: evaluate(m, week), span: acc };
+    });
+    const bests = {
+      chests: Math.max(0, ...totals.map((x) => x.span.chests)),
+      speedups: Math.max(0, ...totals.map((x) => x.span.speedups)),
+    };
+    return totals.map((x) => ({ ...x, q: qualityOf(x.m, x.span, bests) }));
+  }, [members, week, prevWeek]);
 
   const rows = useMemo(() => {
     const byRank = {};
-    members.forEach((m) => (byRank[m.rank] = byRank[m.rank] || []).push({ m, e: evaluate(m, week) }));
+    scored.forEach((x) => (byRank[x.m.rank] = byRank[x.m.rank] || []).push(x));
     Object.values(byRank).forEach((l) => l.sort((a, b) => b.e.might - a.e.might));
     return byRank;
-  }, [members, week]);
+  }, [scored]);
 
   const counts = useMemo(() => {
     const c = { red: 0, yellow: 0, green: 0, greenPlus: 0 };
@@ -1088,8 +1365,49 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
         ))}
       </div>
 
+      <div className="bt-sortbar">
+        <Segmented
+          options={[
+            { value: "rank", label: t.sortRank },
+            { value: "quality", label: t.sortQuality },
+          ]}
+          value={sort}
+          onChange={setSort}
+        />
+      </div>
+
+      {/* Quality view drops the rank grouping: the point is one ranking across
+          the whole roster, which rank sections would cut into pieces. */}
+      {sort === "quality" && (
+        <>
+          <p className="bt-rule-note">{t.qualityNote}</p>
+          <div className="bt-list">
+            {scored
+              .filter((x) => passesFilter(x.m, x.e))
+              .slice()
+              .sort((a, b) => b.q.score - a.q.score || b.e.might - a.e.might)
+              .map(({ m, e, q }) => (
+                <MemberRow
+                  key={m.id}
+                  t={t}
+                  lang={lang}
+                  m={m}
+                  e={e}
+                  week={week}
+                  quality={q}
+                  isOpen={open === m.id}
+                  onToggle={() => setOpen(open === m.id ? null : m.id)}
+                />
+              ))}
+          </div>
+          {scored.filter((x) => passesFilter(x.m, x.e)).length === 0 && (
+            <div className="bt-rank-blank">{t.noneMatch}</div>
+          )}
+        </>
+      )}
+
       {/* rank groups */}
-      {RANKS.filter((r) => rows[r] && rows[r].length).map((rank) => {
+      {sort === "rank" && RANKS.filter((r) => rows[r] && rows[r].length).map((rank) => {
         const list = rows[rank].filter((x) => passesFilter(x.m, x.e));
         if (filter !== "all" && list.length === 0) return null;
         return (
@@ -1103,133 +1421,19 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
             {list.length === 0 && <div className="bt-rank-blank">{t.noneMatch}</div>}
 
             <div className="bt-list">
-              {list.map(({ m, e }) => {
-                const isOpen = open === m.id;
-                return (
-                  <div key={m.id} className="bt-member" data-status={e.status}>
-                    <div className="bt-member-summary" onClick={() => setOpen(isOpen ? null : m.id)}>
-                      <div className="bt-member-main">
-                        <div className="bt-member-nameline">
-                          <span className="bt-member-name">{m.name}</span>
-                          {isNewThisWeek(m, week) && (
-                            <span className="bt-badge" data-tone="green">
-                              {t.newThisWeek.toUpperCase()}
-                            </span>
-                          )}
-                          {m.mightFlatDays >= STALL_DAYS && (
-                            <span className="bt-badge" data-tone="amber" title={t.inactiveWhy(m.mightFlatDays)}>
-                              {t.inactive.toUpperCase()}
-                            </span>
-                          )}
-                        </div>
-                        <div className="bt-member-stats">
-                          {t.statsLine(fmt(e.might), m.inTerritory ? t.inTerritory : t.outsideTerritory)}
-                        </div>
-                      </div>
-                      <div className="bt-member-right">
-                        <div className="bt-member-donation" data-met={e.donationMet ? "" : undefined}>
-                          {e.donationMet ? t.donationsOk : `${e.missing.length} ${t.short}`}
-                        </div>
-                        <div className="bt-member-sub">
-                          {t.chestsADay(e.chestAvg.toFixed(1))}
-                          {e.speedupHours > 0 ? ` · ${t.speedupsGiven(fmtHours(e.speedupHours))}` : ""}
-                        </div>
-                      </div>
-                      <span className="bt-member-toggle">{isOpen ? "−" : "+"}</span>
-                    </div>
-
-                    {isOpen && (
-                      <div className="bt-member-detail">
-                        <table className="bt-res-table">
-                          <tbody>
-                            {ALL_RES.map((r) => {
-                              const given = e.don[r] || 0;
-                              const required = RES.includes(r) ? e.need : null;
-                              const ok = required === null ? given > 0 : given >= required;
-                              return (
-                                <tr key={r}>
-                                  <td className="bt-res-name">
-                                    <span className="bt-res-label">
-                                      <ResIcon res={r} />
-                                      <span className="bt-res-word">{t.res[r]}</span>
-                                    </span>
-                                  </td>
-                                  <td className="bt-res-given">{fmt(given)}</td>
-                                  <td className="bt-res-need">{required === null ? t.voluntary : `${t.ofWord} ${fmt(required)}`}</td>
-                                  <td className="bt-res-ok" data-ok={ok ? "" : undefined}>
-                                    {ok ? "✓" : "✗"}
-                                  </td>
-                                </tr>
-                              );
-                            })}
-                          </tbody>
-                        </table>
-
-                        <dl className="bt-facts">
-                          <div className="bt-fact">
-                            <dt>{t.fCountry}</dt>
-                            <dd>
-                              {m.country ? (
-                                <>
-                                  {countryName(m.country, lang)}
-                                  <span className="bt-fact-aside">{m.country.toUpperCase()}</span>
-                                </>
-                              ) : (
-                                <span className="bt-fact-none">{t.unknownField}</span>
-                              )}
-                            </dd>
-                          </div>
-                          <div className="bt-fact">
-                            <dt>{t.fTimezone}</dt>
-                            <dd>
-                              {resolveOffset(m.country, m.utcOffset).mins == null ? (
-                                <span className="bt-fact-none">{t.unknownField}</span>
-                              ) : (
-                                <>
-                                  {offsetLabel(resolveOffset(m.country, m.utcOffset).mins)}
-                                  <span className="bt-fact-aside">
-                                    {t.localTimeNow(hhmm(nowUTCMinutes() + resolveOffset(m.country, m.utcOffset).mins))}
-                                  </span>
-                                </>
-                              )}
-                            </dd>
-                          </div>
-                          <div className="bt-fact">
-                            <dt>{t.fLastActive}</dt>
-                            <dd>
-                              {m.lastActive ? (
-                                <>
-                                  {shortDate(m.lastActive, lang)}
-                                  <span className="bt-fact-aside">{t.daysAgo(Math.max(0, daysBetween(m.lastActive, todayISO())))}</span>
-                                </>
-                              ) : (
-                                <span className="bt-fact-none">{t.nothingYet}</span>
-                              )}
-                            </dd>
-                          </div>
-                          <div className="bt-fact">
-                            <dt>{t.fJoined}</dt>
-                            <dd>{shortDate(m.firstSeen, lang)}</dd>
-                          </div>
-                          <div className="bt-fact">
-                            <dt>{t.fMight}</dt>
-                            <dd>
-                              {fmt(e.might)}
-                              <span className="bt-fact-aside" data-warn={m.mightFlatDays >= STALL_DAYS ? "" : undefined}>
-                                {m.daysTracked < 2
-                                  ? t.mightUntracked
-                                  : m.mightFlatDays >= STALL_DAYS
-                                    ? t.mightFlat(m.mightFlatDays)
-                                    : t.mightRose(m.mightFlatDays)}
-                              </span>
-                            </dd>
-                          </div>
-                        </dl>
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
+              {list.map(({ m, e, q }) => (
+                <MemberRow
+                  key={m.id}
+                  t={t}
+                  lang={lang}
+                  m={m}
+                  e={e}
+                  week={week}
+                  quality={q}
+                  isOpen={open === m.id}
+                  onToggle={() => setOpen(open === m.id ? null : m.id)}
+                />
+              ))}
             </div>
           </section>
         );
