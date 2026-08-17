@@ -1935,7 +1935,13 @@
   color: var(--bt-ink-soft);
 }
 
+/* Unlike the rank-group pills this one holds a word, not just a digit, so it
+   has to be told not to shrink: squeezed by a narrow header it wrapped to two
+   lines inside the pill and turned into a tall blob. The title beside it is the
+   part meant to wrap. */
 .bt-former-count {
+  flex: none;
+  white-space: nowrap;
   font: 600 14px var(--bt-data);
   color: var(--bt-ink-soft);
   background: var(--bt-line);
@@ -1944,6 +1950,7 @@
 }
 
 .bt-former-toggle {
+  flex: none;
   margin-left: auto;
   color: var(--bt-ink-soft);
   font: 22px/1 var(--bt-data);
