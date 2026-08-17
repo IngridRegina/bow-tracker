@@ -156,7 +156,7 @@ const T = {
     countTop: `Top ${TOP_N}`,
     excludedNote: (n) =>
       `${n} member${n === 1 ? "" : "s"} left out as probably not around: might flat for ${STALL_DAYS}+ days, or nothing contributed in ${STALL_DAYS}+ days.`,
-    topNote: `Counting only the ${TOP_N} members who produced the most chests and donated the most over the last two weeks. Each is scored on its share of the clan's best in that period, so neither measure drowns out the other.`,
+    topNote: `Counting only the clan's top ${TOP_N} by quality score — the same ranking the Ledger sorts on, so the two always agree about who they are.`,
     localNow: "local",
     noTimezone: (n) => (n === 1 ? "1 member has" : `${n} members have`) + " no timezone set in their profile, and are left out of the counts.",
     tzCaveat: (n) =>
@@ -308,7 +308,7 @@ const T = {
     countTop: `Top ${TOP_N}`,
     excludedNote: (n) =>
       `${n} miembro${n === 1 ? "" : "s"} fuera del recuento por parecer ausentes: poder sin cambios ${STALL_DAYS}+ días, o sin aportar nada en ${STALL_DAYS}+ días.`,
-    topNote: `Contando solo a los ${TOP_N} miembros que más cofres han producido y más han donado en las últimas dos semanas. Cada uno se puntúa según su parte del mejor del clan en ese periodo, para que ninguna de las dos medidas ahogue a la otra.`,
+    topNote: `Contando solo a los ${TOP_N} mejores del clan por puntuación de calidad, la misma que ordena el Registro, así que ambos coinciden en quiénes son.`,
     localNow: "local",
     noTimezone: (n) => `${n} miembro${n === 1 ? "" : "s"} sin zona horaria en su perfil, no se cuentan.`,
     tzCaveat: (n) =>
@@ -499,6 +499,37 @@ function qualityOf(m, span, bests) {
   const earned = Object.entries(QUALITY_WEIGHTS).reduce((a, [k, w]) => a + (counts[k] ? parts[k] * w : 0), 0);
 
   return { score: available > 0 ? Math.round((earned / available) * 100) : 0, parts, counts, available };
+}
+
+/* Scores the whole roster for a week and the one before it. Shared by the
+   ledger's quality sort and the Good times "top N" filter so the two can never
+   disagree about who the best members are. */
+function scoreRoster(members, week, prevWeek) {
+  const span = [week, prevWeek].filter(Boolean);
+  const totals = members.map((m) => {
+    const acc = { given: 0, chests: 0, speedups: 0, need: 0 };
+    span.forEach((w) => {
+      const ew = evaluate(m, w);
+      acc.given += RES.reduce((a, r) => a + (ew.don[r] || 0), 0);
+      acc.chests += ew.chestTotal;
+      acc.speedups += ew.speedupHours;
+      acc.need += ew.need * RES.length;
+    });
+    return { m, e: evaluate(m, week), span: acc };
+  });
+
+  /* Might is scored by position in the clan rather than as a share of the
+     largest account: the spread is a couple of orders of magnitude, so a share
+     would collapse to zero for almost everyone. Members with equal might land
+     on the same position. */
+  const allMight = members.map((m) => m.might ?? 0);
+  const bests = {
+    chests: Math.max(0, ...totals.map((x) => x.span.chests)),
+    speedups: Math.max(0, ...totals.map((x) => x.span.speedups)),
+    mightSpread: Math.max(...allMight) > Math.min(...allMight),
+    mightRank: (v) => (allMight.length < 2 ? 1 : allMight.filter((x) => x < v).length / (allMight.length - 1)),
+  };
+  return totals.map((x) => ({ ...x, q: qualityOf(x.m, x.span, bests) }));
 }
 
 /* Maps a status onto its swatch tone and its label in T. The colours
@@ -799,32 +830,19 @@ function Timing({ t, members, week, prevWeek }) {
   const [who, setWho] = useState("all");
   const [open, setOpen] = useState(null);
 
-  /* The heaviest contributors of the last fortnight. Chests come in tens and
-     donations in millions, so each is scored as a fraction of the clan's best
-     in the period and the two are added — otherwise donations alone would
-     decide the order. */
-  const topIds = useMemo(() => {
-    const weeks = [week, prevWeek].filter(Boolean);
-    const totals = members.map((m) => {
-      let chests = 0;
-      let donated = 0;
-      weeks.forEach((w) => {
-        chests += Object.values((w.chests && w.chests[m.id]) || {}).reduce((a, b) => a + b, 0);
-        const don = (w.donations && w.donations[m.id]) || {};
-        donated += RES.reduce((a, r) => a + (don[r] || 0), 0);
-      });
-      return { id: m.id, chests, donated };
-    });
-    const bestChests = Math.max(1, ...totals.map((x) => x.chests));
-    const bestDonated = Math.max(1, ...totals.map((x) => x.donated));
-    return new Set(
-      totals
-        .map((x) => ({ id: x.id, score: x.chests / bestChests + x.donated / bestDonated }))
-        .sort((a, b) => b.score - a.score)
-        .slice(0, TOP_N)
-        .map((x) => x.id)
-    );
-  }, [members, week, prevWeek]);
+  /* The clan's best members by the same quality score the ledger sorts on, so
+     "top 15" means one thing across the whole site rather than two similar but
+     differing rankings. */
+  const topIds = useMemo(
+    () =>
+      new Set(
+        scoreRoster(members, week, prevWeek)
+          .sort((a, b) => b.q.score - a.q.score || b.e.might - a.e.might)
+          .slice(0, TOP_N)
+          .map((x) => x.m.id)
+      ),
+    [members, week, prevWeek]
+  );
 
   /* "Quiet" means nothing has moved for a few days: might flat, or no
      donation, speedup or chest. Measured against the freshest contribution in
@@ -1174,36 +1192,8 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
 
   /* Quality is measured over the selected week and the one before it. A single
      week is too thin: on the Monday of a new week nobody has produced much of
-     anything yet, and a ranking built on two days of data is mostly noise.
-     Chests and speedups are scored against the best in the clan over the same
-     span, so the yardstick is what was actually achievable then rather than an
-     all-time high nobody can reach. */
-  const scored = useMemo(() => {
-    const span = [week, prevWeek].filter(Boolean);
-    const totals = members.map((m) => {
-      const acc = { given: 0, chests: 0, speedups: 0, need: 0 };
-      span.forEach((w) => {
-        const ew = evaluate(m, w);
-        acc.given += RES.reduce((a, r) => a + (ew.don[r] || 0), 0);
-        acc.chests += ew.chestTotal;
-        acc.speedups += ew.speedupHours;
-        acc.need += ew.need * RES.length;
-      });
-      return { m, e: evaluate(m, week), span: acc };
-    });
-    /* Might is scored by position in the clan rather than as a share of the
-       largest account: the spread is a couple of orders of magnitude, so a
-       share would collapse to zero for almost everyone. Members with equal
-       might land on the same position. */
-    const allMight = members.map((m) => m.might ?? 0);
-    const bests = {
-      chests: Math.max(0, ...totals.map((x) => x.span.chests)),
-      speedups: Math.max(0, ...totals.map((x) => x.span.speedups)),
-      mightSpread: Math.max(...allMight) > Math.min(...allMight),
-      mightRank: (v) => (allMight.length < 2 ? 1 : allMight.filter((x) => x < v).length / (allMight.length - 1)),
-    };
-    return totals.map((x) => ({ ...x, q: qualityOf(x.m, x.span, bests) }));
-  }, [members, week, prevWeek]);
+     anything yet, and a ranking built on two days of data is mostly noise. */
+  const scored = useMemo(() => scoreRoster(members, week, prevWeek), [members, week, prevWeek]);
 
   // spelled out on the breakdown, since the row above it shows one week only
   const qualitySpan = prevWeek

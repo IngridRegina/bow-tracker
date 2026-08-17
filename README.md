@@ -115,6 +115,10 @@ who to chase, not admiring the top. Ties break on might descending either way,
 so among equally poor scores the largest account is listed first — a 718k
 account gone quiet matters more than a 54k one.
 
+The Good times "Top 15" filter uses this same score. `scoreRoster()` is shared
+by both, so the two views can never disagree about who the best members are —
+which they would have, slowly and invisibly, if each kept its own formula.
+
 Both quality orders drop the rank grouping, since the point is one ranking
 across the whole roster. Every row shows its score in all three views, and
 opening a row shows the part-by-part breakdown — a ranking someone might act on
