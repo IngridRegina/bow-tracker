@@ -140,7 +140,7 @@ const T = {
     mightFlat: (n) => `flat for ${n} day${n === 1 ? "" : "s"}`,
     mightRose: (n) => (n === 0 ? "rose today" : n === 1 ? "rose yesterday" : `rose ${n} days ago`),
     mightUntracked: "only one day tracked",
-    inactiveWhy: (n) => `Might has not moved in ${n} days. It only ever goes up through play, so a flat line usually means nobody is home, though a member can log in daily without shifting it.`,
+    inactiveWhy: (n) => `Might has not moved in ${n} days, and nothing has been donated, sped up or chested in that time either. Might alone is not enough — a member can play all day without shifting it — so the badge needs both.`,
     unknownField: "not set",
     daysAgo: (n) => (n === 0 ? "today" : n === 1 ? "yesterday" : `${n} days ago`),
     localTimeNow: (s) => `${s} their time`,
@@ -182,7 +182,7 @@ const T = {
     sortWorst: "Worst first",
     sortBest: "Best first",
     qualityTitle: "Quality score",
-    qualityWhy: "Donations against their own target, chests and speedups against the clan's best, living in territory, days since their might last moved, and where their might places them in the clan. Open the row for the breakdown.",
+    qualityWhy: "Donations against their own target, chests and speedups against the clan's top few, living in territory, days since they last moved their might or contributed, and where their might places them in the clan. Open the row for the breakdown.",
     qualityNotCounted: "nobody scored, not counted",
     qualityOverWeeks: (from, to) => `weeks of ${from} and ${to}`,
     qualityOverWeek: (from) => `week of ${from}`,
@@ -195,7 +195,7 @@ const T = {
       might: "Might in clan",
     },
     qualityNote:
-      "Quality is one score out of 100 over the selected week and the one before it, so a week that has only just started is not judged on two days of data. Donations count against each member's own target; chests and speedups against the best in the clan over the same span; plus living in territory, how recently their might moved, and where their might places them in the clan. That last one is worth only 6, since might mostly reflects how long someone has played. Anything nobody scored on at all is left out rather than counted as zero for everyone. Open any row to see how its score was reached.",
+      "Quality is one score out of 100 over the selected week and the one before it, so a week that has only just started is not judged on two days of data. Donations count against each member's own target; chests and speedups against the clan's top few over the same span, so one member's windfall week cannot set the scale for everyone; plus living in territory, how recently they last moved their might or contributed — whichever is fresher, since might can sit still through a day of ordinary play — and where their might places them in the clan. That last one is worth only 6, since might mostly reflects how long someone has played. Anything nobody scored on at all is left out rather than counted as zero for everyone. Open any row to see how its score was reached.",
 
     ranks: { Leader: "Leader", Superior: "Superior", Officer: "Officer", Veteran: "Veteran", Member: "Member", Soldier: "Soldier" },
     res: { lumber: "Lumber", stone: "Stone", iron: "Iron", food: "Food", silver: "Silver", tractates: "Sci. tractates" },
@@ -291,7 +291,7 @@ const T = {
     mightFlat: (n) => `sin cambios desde hace ${n} día${n === 1 ? "" : "s"}`,
     mightRose: (n) => (n === 0 ? "subió hoy" : n === 1 ? "subió ayer" : `subió hace ${n} días`),
     mightUntracked: "solo un día registrado",
-    inactiveWhy: (n) => `El poder no se mueve desde hace ${n} días. Solo sube jugando, así que un poder plano suele significar ausencia, aunque alguien puede entrar a diario sin moverlo.`,
+    inactiveWhy: (n) => `El poder no se mueve desde hace ${n} días, y en ese tiempo tampoco ha donado, acelerado ni hecho cofres. El poder por sí solo no basta — se puede jugar a diario sin moverlo — así que la etiqueta exige ambas cosas.`,
     unknownField: "sin definir",
     daysAgo: (n) => (n === 0 ? "hoy" : n === 1 ? "ayer" : `hace ${n} días`),
     localTimeNow: (s) => `${s} su hora`,
@@ -333,7 +333,7 @@ const T = {
     sortWorst: "Peores primero",
     sortBest: "Mejores primero",
     qualityTitle: "Puntuación de calidad",
-    qualityWhy: "Donaciones frente a su propio objetivo, cofres y aceleraciones frente al mejor del clan, vivir en el territorio y los días desde que su poder cambió. Abre la fila para ver el desglose.",
+    qualityWhy: "Donaciones frente a su propio objetivo, cofres y aceleraciones frente a los mejores del clan, vivir en el territorio y los días desde que movió su poder o aportó algo. Abre la fila para ver el desglose.",
     qualityNotCounted: "nadie ha puntuado, no se cuenta",
     qualityOverWeeks: (from, to) => `semanas del ${from} y del ${to}`,
     qualityOverWeek: (from) => `semana del ${from}`,
@@ -346,7 +346,7 @@ const T = {
       might: "Poder en el clan",
     },
     qualityNote:
-      "La calidad es una puntuación sobre 100 de la semana elegida y la anterior, para que una semana recién empezada no se juzgue con dos días de datos. Las donaciones se miden frente al objetivo de cada miembro; los cofres y las aceleraciones frente al mejor del clan en ese periodo; más vivir en el territorio, lo reciente que sea el cambio de su poder y la posición de su poder dentro del clan, que solo vale 6 porque el poder refleja sobre todo el tiempo jugado. Lo que nadie ha puntuado se excluye en vez de contar como cero para todos. Abre cualquier fila para ver cómo se ha calculado.",
+      "La calidad es una puntuación sobre 100 de la semana elegida y la anterior, para que una semana recién empezada no se juzgue con dos días de datos. Las donaciones se miden frente al objetivo de cada miembro; los cofres y las aceleraciones frente a los mejores del clan en ese periodo, para que la semana excepcional de un solo miembro no marque la escala de todos; más vivir en el territorio, lo reciente que sea el cambio de su poder o su última aportación —lo que sea más fresco, porque el poder puede no moverse en un día de juego normal— y la posición de su poder dentro del clan, que solo vale 6 porque el poder refleja sobre todo el tiempo jugado. Lo que nadie ha puntuado se excluye en vez de contar como cero para todos. Abre cualquier fila para ver cómo se ha calculado.",
 
     ranks: { Leader: "Líder", Superior: "Superior", Officer: "Oficial", Veteran: "Veterano", Member: "Miembro", Soldier: "Soldado" },
     res: { lumber: "Madera", stone: "Piedra", iron: "Hierro", food: "Comida", silver: "Plata", tractates: "Tratados" },
@@ -447,9 +447,18 @@ function evaluate(member, week) {
    falling short and going well beyond still separate people.
 
    Chests and speedups have no per-member target, so those are scored against
-   the best in the clan that week. That does favour big accounts, but chest and
-   speedup capacity genuinely scales with size and there is no published
-   expectation to measure against instead. */
+   the clan rather than against the member. That does favour big accounts, but
+   chest and speedup capacity genuinely scales with size and there is no
+   published expectation to measure against instead.
+
+   The yardstick is the clan's 90th percentile, not its single best, because
+   one member's windfall must not set the scale for everyone. On 19 Aug a
+   member collected 694 chests in a week against a previous clan best of 211;
+   scored against the max, the clan's second-largest producer fell from 22.0
+   points to 5.4 while her own output rose, and an 8:1 lead over a mid-table
+   member came out worth less than that member's 4:1 lead on speedups. A
+   percentile keeps the measure clan-relative but stops a single outlier from
+   flattening everyone below it. See QUALITY_TOP_PCT. */
 /* Weights sum to 100. Might is deliberately the smallest: it says something
    about a member's worth to the clan, but it is largely a product of how long
    they have played, so letting it weigh heavily would rank veterans above
@@ -464,24 +473,55 @@ function evaluate(member, week) {
 const QUALITY_WEIGHTS = { donations: 32, chests: 22, speedups: 13, territory: 9, activity: 18, might: 6 };
 // Flat-might days at which the activity component reaches zero.
 const QUALITY_STALE_AT = 7;
+/* Where the top of the chest and speedup scales sits, as a percentile of the
+   clan. At 0.9 roughly the top five members reach full marks and cannot be
+   separated on that component — deliberate: worst-first is the working sort,
+   so resolution at the bottom is worth more than resolution among the best. */
+const QUALITY_TOP_PCT = 0.9;
 
 const clamp01 = (v) => (v < 0 ? 0 : v > 1 ? 1 : v);
+
+/* Linear-interpolated percentile over the whole roster, zeros included: a
+   member who produced nothing is evidence about the clan's spread, not a gap
+   in the data. */
+function percentile(values, p) {
+  if (!values.length) return 0;
+  const v = [...values].sort((a, b) => a - b);
+  const i = (v.length - 1) * p;
+  const lo = Math.floor(i);
+  const hi = Math.min(lo + 1, v.length - 1);
+  return v[lo] + (v[hi] - v[lo]) * (i - lo);
+}
+
+/* The denominator for a clan-relative component. Falls back to the maximum
+   when the percentile is zero — with more than nine members in ten producing
+   nothing the percentile says only that, and dividing by it would score the
+   handful who did produce as infinite rather than as leaders. */
+function clanScale(values) {
+  const top = Math.max(0, ...values);
+  if (top <= 0) return 0;
+  return percentile(values, QUALITY_TOP_PCT) || top;
+}
 const qualityBand = (score) => (score >= 60 ? "high" : score >= 35 ? "mid" : score >= 15 ? "low" : "none");
 
-function qualityOf(m, span, bests) {
+function qualityOf(m, span, scales, asOf) {
+  const quiet = quietDays(m, asOf);
   const parts = {
     donations: span.need > 0 ? clamp01(span.given / span.need / 2) : span.given > 0 ? 1 : 0,
-    chests: bests.chests > 0 ? clamp01(span.chests / bests.chests) : 0,
-    speedups: bests.speedups > 0 ? clamp01(span.speedups / bests.speedups) : 0,
+    chests: scales.chests > 0 ? clamp01(span.chests / scales.chests) : 0,
+    speedups: scales.speedups > 0 ? clamp01(span.speedups / scales.speedups) : 0,
     territory: m.inTerritory ? 1 : 0,
-    // no reading yet is not evidence of absence, so an untracked member is not
-    // penalised for it
-    activity: m.mightFlatDays == null ? 1 : clamp01(1 - m.mightFlatDays / QUALITY_STALE_AT),
+    /* Days quiet, not days of flat might — see quietDays. Reading might alone
+       cost Indira 2.6 points for a single flat reading on a day she donated
+       and made chests, which was the whole of her 88-to-89 gap behind Rili.
+       No reading yet is not evidence of absence, so an untracked member is not
+       penalised for it. */
+    activity: quiet == null ? 1 : clamp01(1 - quiet / QUALITY_STALE_AT),
     /* Position in the clan by might, not a share of the biggest account.
        Might spans 28k to 2.9M here, so scoring it as a fraction of the largest
        would leave everyone outside the top three on almost nothing and turn a
        graded measure into a bonus for two people. */
-    might: bests.mightRank(m.might ?? 0),
+    might: scales.mightRank(m.might ?? 0),
   };
 
   /* A measure nobody scored on is dropped rather than counted as zero for
@@ -492,12 +532,12 @@ function qualityOf(m, span, bests) {
      so a score always means "out of what was achievable". */
   const counts = {
     donations: true,
-    chests: bests.chests > 0,
-    speedups: bests.speedups > 0,
+    chests: scales.chests > 0,
+    speedups: scales.speedups > 0,
     territory: true,
     activity: true,
     // if every member had the same might, position says nothing about anyone
-    might: bests.mightSpread,
+    might: scales.mightSpread,
   };
   const available = Object.entries(QUALITY_WEIGHTS).reduce((a, [k, w]) => a + (counts[k] ? w : 0), 0);
   const earned = Object.entries(QUALITY_WEIGHTS).reduce((a, [k, w]) => a + (counts[k] ? parts[k] * w : 0), 0);
@@ -527,13 +567,14 @@ function scoreRoster(members, week, prevWeek) {
      would collapse to zero for almost everyone. Members with equal might land
      on the same position. */
   const allMight = members.map((m) => m.might ?? 0);
-  const bests = {
-    chests: Math.max(0, ...totals.map((x) => x.span.chests)),
-    speedups: Math.max(0, ...totals.map((x) => x.span.speedups)),
+  const scales = {
+    chests: clanScale(totals.map((x) => x.span.chests)),
+    speedups: clanScale(totals.map((x) => x.span.speedups)),
     mightSpread: Math.max(...allMight) > Math.min(...allMight),
     mightRank: (v) => (allMight.length < 2 ? 1 : allMight.filter((x) => x < v).length / (allMight.length - 1)),
   };
-  return totals.map((x) => ({ ...x, q: qualityOf(x.m, x.span, bests) }));
+  const asOf = asOfDay(members);
+  return totals.map((x) => ({ ...x, q: qualityOf(x.m, x.span, scales, asOf) }));
 }
 
 /* Maps a status onto its swatch tone and its label in T. The colours
@@ -818,6 +859,38 @@ const hhmm = (mins) => {
 
 const daysBetween = (from, to) => Math.round((new Date(to + "T12:00:00Z") - new Date(from + "T12:00:00Z")) / 86400000);
 
+/* The freshest day anyone in the clan contributed, used as "now" instead of
+   the wall clock: a state file left sitting for a day should not start
+   reporting the whole roster as gone quiet. */
+const asOfDay = (members) =>
+  members.reduce((a, m) => (m.lastActive && m.lastActive > a ? m.lastActive : a), "");
+
+/* Days since the member last showed any sign of being around, and the one
+   place that question is answered — the possibly-inactive badge and the
+   activity part of the quality score both read it, so they can never disagree
+   about who has gone quiet.
+
+   Might standing still is only a proxy: it can sit through a day of ordinary
+   play, and on a large account it moves in rarer, larger steps. A donation,
+   speedup or chest is direct evidence of presence, so whichever of the two is
+   fresher wins. null means the member's might is not tracked yet, which is not
+   evidence of absence and must not be scored as one.
+
+   Measured against the freshest contribution in the clan rather than the wall
+   clock, so a state file left sitting overnight does not age the whole roster. */
+function quietDays(m, asOf) {
+  if (m.mightFlatDays == null) return null;
+  if (!m.lastActive || !asOf) return m.mightFlatDays;
+  return Math.min(m.mightFlatDays, Math.max(0, daysBetween(m.lastActive, asOf)));
+}
+
+/* The badge: quiet long enough to be worth chasing. Same rule as the score's
+   activity part, thresholded instead of graded. */
+function looksInactive(m, asOf) {
+  const quiet = quietDays(m, asOf);
+  return quiet != null && quiet >= STALL_DAYS;
+}
+
 const nowUTCMinutes = () => {
   const d = new Date();
   return d.getUTCHours() * 60 + d.getUTCMinutes();
@@ -1019,7 +1092,8 @@ function Timing({ t, members, week, prevWeek }) {
 
 /* One row of the member list. Extracted so the rank-grouped and
    quality-sorted views render exactly the same thing. */
-function MemberRow({ t, lang, m, e, week, isOpen, onToggle, quality, spanLabel }) {
+function MemberRow({ t, lang, m, e, week, isOpen, onToggle, quality, spanLabel, asOf }) {
+  const quiet = looksInactive(m, asOf);
   return (
     <div className="bt-member" data-status={e.status}>
       <div className="bt-member-summary" onClick={onToggle}>
@@ -1036,7 +1110,7 @@ function MemberRow({ t, lang, m, e, week, isOpen, onToggle, quality, spanLabel }
                 {t.newThisWeek.toUpperCase()}
               </span>
             )}
-            {m.mightFlatDays >= STALL_DAYS && (
+            {quiet && (
               <span className="bt-badge" data-tone="amber" title={t.inactiveWhy(m.mightFlatDays)}>
                 {t.inactive.toUpperCase()}
               </span>
@@ -1135,7 +1209,10 @@ function MemberRow({ t, lang, m, e, week, isOpen, onToggle, quality, spanLabel }
               <dt>{t.fMight}</dt>
               <dd>
                 {fmt(e.might)}
-                <span className="bt-fact-aside" data-warn={m.mightFlatDays >= STALL_DAYS ? "" : undefined}>
+                {/* the wording stays a plain fact about the might line either
+                    way; only the warning tone is held back when the member has
+                    contributed since, because that is the inactivity claim */}
+                <span className="bt-fact-aside" data-warn={quiet ? "" : undefined}>
                   {m.daysTracked < 2
                     ? t.mightUntracked
                     : m.mightFlatDays >= STALL_DAYS
@@ -1173,8 +1250,13 @@ function MemberRow({ t, lang, m, e, week, isOpen, onToggle, quality, spanLabel }
                         <span className="bt-qbreak-track">
                           <span className="bt-qbreak-fill" style={{ "--bt-pct": `${quality.parts[key] * 100}%` }} />
                         </span>
+                        {/* One decimal, because a whole number disagrees with
+                            the bar beside it: might is worth 6, so a member on
+                            96% of it reads "6/6" against a bar that is visibly
+                            short. Trailing ".0" is dropped so a full part still
+                            reads "22/22". */}
                         <span className="bt-qbreak-num">
-                          {Math.round(quality.parts[key] * weight)}
+                          {(+(quality.parts[key] * weight).toFixed(1)).toString()}
                           <span className="bt-qbreak-max">/{weight}</span>
                         </span>
                       </>
@@ -1204,6 +1286,7 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
      week is too thin: on the Monday of a new week nobody has produced much of
      anything yet, and a ranking built on two days of data is mostly noise. */
   const scored = useMemo(() => scoreRoster(members, week, prevWeek), [members, week, prevWeek]);
+  const asOf = useMemo(() => asOfDay(members), [members]);
 
   // spelled out on the breakdown, since the row above it shows one week only
   const qualitySpan = prevWeek
@@ -1229,14 +1312,14 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
       const don = evaluate(m, week).don;
       const gaveMandatory = RES.some((r) => (don[r] || 0) > 0);
       if (!m.inTerritory) outside++;
-      if (m.mightFlatDays >= STALL_DAYS) stalled++;
+      if (looksInactive(m, asOf)) stalled++;
       if (!isNewThisWeek(m, week) && !gaveMandatory) {
         noDon++;
         if ((don.silver || 0) > 0) silver++;
       }
     });
     return { noDon, silver, outside, stalled };
-  }, [members, week]);
+  }, [members, week, asOf]);
 
   /* Participation for one week, counted only over the members who had joined
      by the end of it. Otherwise last week's percentages are dragged down by
@@ -1264,7 +1347,7 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
       /* Summed from the week itself rather than from the member loop above:
          the four proportions are about the current roster by definition, but
          what the clan produced that week includes whoever has left since. On
-         the week of 9 Aug that is 958 chests against the roster's 954.
+         the week of 9 Aug that is 1252 chests against the roster's 1248.
 
          Per calendar day, the same denominator the per-member "chests a day"
          uses. A week whose captures start late therefore reads low: the week
@@ -1332,7 +1415,7 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
     if (filter === "nodonation") return !isNewThisWeek(m, week) && !RES.some((r) => (e.don[r] || 0) > 0);
     if (filter === "silveronly") return !isNewThisWeek(m, week) && !RES.some((r) => (e.don[r] || 0) > 0) && (e.don.silver || 0) > 0;
     if (filter === "missed2") return missedTwoSet.has(m.id);
-    if (filter === "stalled") return m.mightFlatDays >= STALL_DAYS;
+    if (filter === "stalled") return looksInactive(m, asOf);
     return e.status === filter;
   };
 
@@ -1515,6 +1598,7 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
                   week={week}
                   quality={q}
                   spanLabel={qualitySpan}
+                  asOf={asOf}
                   isOpen={open === m.id}
                   onToggle={() => setOpen(open === m.id ? null : m.id)}
                 />
@@ -1551,6 +1635,7 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
                   week={week}
                   quality={q}
                   spanLabel={qualitySpan}
+                  asOf={asOf}
                   isOpen={open === m.id}
                   onToggle={() => setOpen(open === m.id ? null : m.id)}
                 />

@@ -90,6 +90,12 @@ rather than near the top. At 18 vs 6 the same member nets -12.4 and sits at #5,
 and might still separates the roster instead of becoming noise. Judge the two by
 that net figure rather than by the weights side by side.
 
+"Activity" here means days quiet, not days of flat might — a contribution
+inside the window counts as being present (see `quietDays`). That protects an
+active member from one flat reading without softening the case above: Bellona
+has been flat *and* silent since 1 Aug, so the stall still costs the full
+amount.
+
 Donations are scored against each member's own target, not as a raw amount —
 ranking on resources alone would just sort by might, putting a 2.4M account
 that gave 100k above a 30k account that gave everything asked of it. Meeting
@@ -97,6 +103,17 @@ the target scores half and doubling it scores full, so people separate both
 below and above the line. Chests and speedups have no per-member target, so
 those are clan-relative; that does favour big accounts, but capacity genuinely
 scales with size and there is no published expectation to use instead.
+
+The clan-relative pair are measured against the **90th percentile** of the
+roster, not against the single best. Against the max, one exceptional week
+rescales everyone: when a member's corrected total came in at 694 chests for
+the week of 16 Aug — against a previous clan best of 211 — the second-largest
+producer dropped from 22.0 points to 5.4 while her own output went up, and her
+8:1 chest lead over a mid-table member ended up worth less than that member's
+4:1 lead on speedups. At the 90th percentile roughly the top five reach full
+marks and cannot be told apart on that component, which is the intended
+trade: worst-first is the working sort, so resolution at the bottom of the
+table is worth more than resolution at the top.
 
 Measured over the **selected week and the one before it**. A single week is too
 thin: on the Monday of a new week nobody has produced anything and the ranking
@@ -141,11 +158,11 @@ week elapsed, plus the raw total and the day count it came from.
 
 Two things about the arithmetic. The total is summed from the week itself, not
 from the current roster, so chests from members who have since left still count
-towards what the clan produced that week — 958 against the roster's 954 for the
-week of 9 Aug. And the divisor is calendar days elapsed, matching the per-member
-"chests a day", so the member figures still add up to the clan one. A week whose
-captures start late therefore reads low: the week of 2 Aug has no chest data
-before the 4th but is still divided by 7.
+towards what the clan produced that week — 1252 against the roster's 1248 for
+the week of 9 Aug. And the divisor is calendar days elapsed, matching the
+per-member "chests a day", so the member figures still add up to the clan one.
+A week whose captures start late therefore reads low: the week of 2 Aug has no
+chest data before the 4th but is still divided by 7.
 
 The week-on-week figure compares rates, not totals. A finished week has seven
 days behind it and a week two days old has two, so comparing raw counts would
@@ -294,6 +311,21 @@ through play, so a flat line usually means an absent player — though someone c
 log in daily without moving it, which is why the badge says "possibly inactive"
 and the tooltip explains the basis. Three days is the threshold (`STALL_DAYS`,
 mirrored in BowTracker.jsx).
+
+The badge needs a flat might **and** nothing contributed inside the same window
+(`looksInactive`). A donation, speedup or chest is direct evidence the member
+was there, and it beats a proxy: flat might is only a guess at absence, so it
+should not outrank a fact. Without the second condition Keanef was badged as
+possibly inactive on 19 Aug having donated the day before. The window is
+measured against the freshest contribution anywhere in the clan rather than
+the wall clock, so a state file left sitting overnight does not quietly badge
+the whole roster.
+
+The **activity component of the quality score** reads the same figure, graded
+0–18 instead of thresholded — both call `quietDays`, so the badge and the score
+can never disagree about who has gone quiet. Reading might alone cost Indira
+2.6 points for one flat reading on a day she donated and made chests, which
+was the whole of her 88-to-89 gap behind Rili.
 
 Only a build that actually observed the roster writes to this file or to
 `member-history.json`. A capture without a member list falls back to the
