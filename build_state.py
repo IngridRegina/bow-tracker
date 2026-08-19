@@ -128,7 +128,14 @@ def is_player(row):
 
 
 def is_chest_list(row):
-    """Unopened clan chests: [chest_id, [producer_id], type, ts, 1, 1] repeated."""
+    """Unopened clan chests, repeated:
+
+        [chest_id, [producer_id], type, expiry_ts, count, tier]
+
+    `count` is a stack size, not always 1 — chests won in bulk arrive as a
+    single row with the same id and timestamp, shown in game as "x53". It was
+    read as 1 per row until 2026-08-20, which undercounted the ledger by 40%.
+    """
     if not (isinstance(row, list) and len(row) >= 3):
         return False
     for x in row:
@@ -204,8 +211,9 @@ def read_hars(paths):
                     elif is_clan_member(row):
                         roster[row[0][0]] = {"rank": row[1], "joined": row[2]}
                     elif is_chest_list(row):
-                        for cid, pid, ctype, ts, _a, _b in row:
-                            chests[cid] = {"producer": pid[0], "type": ctype, "ts": ts}
+                        for cid, pid, ctype, ts, count, _tier in row:
+                            chests[cid] = {"producer": pid[0], "type": ctype, "ts": ts,
+                                           "count": count if isinstance(count, int) else 1}
                     elif is_event(row):
                         events[row[0]] = {
                             "player_id": row[1][0],
@@ -325,7 +333,10 @@ def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
     before = len(ledger)
     ledger.update({str(k): v for k, v in chests.items()})
     json.dump(ledger, open(LEDGER, "w", encoding="utf-8"), indent=1)
-    print(f"chest ledger: {before} known, {len(ledger) - before} new, {len(ledger)} total")
+    # Rows and chests differ: one row can be a stack of many (see is_chest_list).
+    total = sum(c.get("count", 1) for c in ledger.values())
+    print(f"chest ledger: {before} known, {len(ledger) - before} new, "
+          f"{len(ledger)} rows / {total} chests total")
     players = {pid: p for pid, p in players.items() if p["clan"] == clan}
 
     # Hand-set values for anything the game leaves blank, keyed by player id.
@@ -652,7 +663,7 @@ def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
         day = game_day(c["ts"] - CHEST_TTL)
         key = week_start(day)
         from_ledger.setdefault(key, {}).setdefault(pid, {})
-        from_ledger[key][pid][day] = from_ledger[key][pid].get(day, 0) + 1
+        from_ledger[key][pid][day] = from_ledger[key][pid].get(day, 0) + c.get("count", 1)
 
     for key, per_player in from_ledger.items():
         w = week_for(key)
