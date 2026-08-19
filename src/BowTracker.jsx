@@ -182,7 +182,7 @@ const T = {
     sortWorst: "Worst first",
     sortBest: "Best first",
     qualityTitle: "Quality score",
-    qualityWhy: "Donations against their own target, chests and speedups against the clan's top few, living in territory, days since they last moved their might or contributed, and where their might places them in the clan. Open the row for the breakdown.",
+    qualityWhy: "Donations against their own target, each week counted separately; chests and speedups against the clan's top few; living in territory, days since they last moved their might or contributed, and where their might places them in the clan. Open the row for the breakdown.",
     qualityNotCounted: "nobody scored, not counted",
     qualityOverWeeks: (from, to) => `weeks of ${from} and ${to}`,
     qualityOverWeek: (from) => `week of ${from}`,
@@ -195,7 +195,7 @@ const T = {
       might: "Might in clan",
     },
     qualityNote:
-      "Quality is one score out of 100 over the selected week and the one before it, so a week that has only just started is not judged on two days of data. Donations count against each member's own target; chests and speedups against the clan's top few over the same span, so one member's windfall week cannot set the scale for everyone; plus living in territory, how recently they last moved their might or contributed — whichever is fresher, since might can sit still through a day of ordinary play — and where their might places them in the clan. That last one is worth only 6, since might mostly reflects how long someone has played. Anything nobody scored on at all is left out rather than counted as zero for everyone. Open any row to see how its score was reached.",
+      "Quality is one score out of 100 over the selected week and the one before it, so a week that has only just started is not judged on two days of data. Donations count against each member's own target, with the two weeks scored separately and averaged so a big week cannot cover a silent one; chests and speedups against the clan's top few over the same span, so one member's windfall week cannot set the scale for everyone; plus living in territory, how recently they last moved their might or contributed — whichever is fresher, since might can sit still through a day of ordinary play — and where their might places them in the clan. That last one is worth only 6, since might mostly reflects how long someone has played. Anything nobody scored on at all is left out rather than counted as zero for everyone. Open any row to see how its score was reached.",
 
     ranks: { Leader: "Leader", Superior: "Superior", Officer: "Officer", Veteran: "Veteran", Member: "Member", Soldier: "Soldier" },
     res: { lumber: "Lumber", stone: "Stone", iron: "Iron", food: "Food", silver: "Silver", tractates: "Sci. tractates" },
@@ -333,7 +333,7 @@ const T = {
     sortWorst: "Peores primero",
     sortBest: "Mejores primero",
     qualityTitle: "Puntuación de calidad",
-    qualityWhy: "Donaciones frente a su propio objetivo, cofres y aceleraciones frente a los mejores del clan, vivir en el territorio y los días desde que movió su poder o aportó algo. Abre la fila para ver el desglose.",
+    qualityWhy: "Donaciones frente a su propio objetivo, contando cada semana por separado; cofres y aceleraciones frente a los mejores del clan; vivir en el territorio y los días desde que movió su poder o aportó algo. Abre la fila para ver el desglose.",
     qualityNotCounted: "nadie ha puntuado, no se cuenta",
     qualityOverWeeks: (from, to) => `semanas del ${from} y del ${to}`,
     qualityOverWeek: (from) => `semana del ${from}`,
@@ -346,7 +346,7 @@ const T = {
       might: "Poder en el clan",
     },
     qualityNote:
-      "La calidad es una puntuación sobre 100 de la semana elegida y la anterior, para que una semana recién empezada no se juzgue con dos días de datos. Las donaciones se miden frente al objetivo de cada miembro; los cofres y las aceleraciones frente a los mejores del clan en ese periodo, para que la semana excepcional de un solo miembro no marque la escala de todos; más vivir en el territorio, lo reciente que sea el cambio de su poder o su última aportación —lo que sea más fresco, porque el poder puede no moverse en un día de juego normal— y la posición de su poder dentro del clan, que solo vale 6 porque el poder refleja sobre todo el tiempo jugado. Lo que nadie ha puntuado se excluye en vez de contar como cero para todos. Abre cualquier fila para ver cómo se ha calculado.",
+      "La calidad es una puntuación sobre 100 de la semana elegida y la anterior, para que una semana recién empezada no se juzgue con dos días de datos. Las donaciones se miden frente al objetivo de cada miembro, puntuando las dos semanas por separado y promediándolas para que una semana grande no tape una vacía; los cofres y las aceleraciones frente a los mejores del clan en ese periodo, para que la semana excepcional de un solo miembro no marque la escala de todos; más vivir en el territorio, lo reciente que sea el cambio de su poder o su última aportación —lo que sea más fresco, porque el poder puede no moverse en un día de juego normal— y la posición de su poder dentro del clan, que solo vale 6 porque el poder refleja sobre todo el tiempo jugado. Lo que nadie ha puntuado se excluye en vez de contar como cero para todos. Abre cualquier fila para ver cómo se ha calculado.",
 
     ranks: { Leader: "Líder", Superior: "Superior", Officer: "Oficial", Veteran: "Veterano", Member: "Miembro", Soldier: "Soldado" },
     res: { lumber: "Madera", stone: "Piedra", iron: "Hierro", food: "Comida", silver: "Plata", tractates: "Tratados" },
@@ -459,18 +459,31 @@ function evaluate(member, week) {
    member came out worth less than that member's 4:1 lead on speedups. A
    percentile keeps the measure clan-relative but stops a single outlier from
    flattening everyone below it. See QUALITY_TOP_PCT. */
-/* Weights sum to 100. Might is deliberately the smallest: it says something
+/* Weights sum to 100, so the parts on the breakdown add up to the score shown
+   beside them. Might is deliberately near the bottom at 6: it says something
    about a member's worth to the clan, but it is largely a product of how long
    they have played, so letting it weigh heavily would rank veterans above
-   people actually doing the work. The other five keep their previous
-   proportions to each other, scaled down to make room. */
-/* Activity outweighs might by 3:1 deliberately. At 14 vs 10 it already led on
-   paper, but the two pull against each other on the same member, and a large
-   dormant account was being refunded most of what its stall cost: the biggest
-   one here, flat 9 days, took -14 for the stall and +9.4 straight back for its
-   size, a net -4.6. At 18/6 that net is -12.4, and might still separates the
-   roster rather than becoming noise. */
-const QUALITY_WEIGHTS = { donations: 32, chests: 22, speedups: 13, territory: 9, activity: 18, might: 6 };
+   people actually doing the work.
+
+   Speedups are capped at 5. They are the thinnest measure on the board — only
+   25 of 48 members sent any at all over the span, and sending them is driven
+   by whether a clan build happens to be running rather than by effort — so a
+   13-point weight let an event calendar move the ranking more than chests
+   did.
+
+   Donations and chests carry the board between them at 36 and 33, because
+   they are the two things the clan actually asks for and the two it can
+   measure honestly. Activity sits at 10, down from 18. */
+/* Activity used to outweigh might 3:1 to stop a large dormant account being
+   refunded most of what its stall cost — flat 9 days took -14 and got +9.4
+   straight back for its size, a net -4.6, and at 18/6 that net became -12.4.
+   At 10/6 the net is back to -4, so the effect returns: a big account can sit
+   still for a week and lose less than a small one loses for missing a
+   donation. That is the accepted trade for weighting contribution more
+   heavily — activity is a proxy read off a once-a-day might reading, while
+   donations and chests are things the member demonstrably did. Judge the pair
+   by that net figure rather than by the weights side by side. */
+const QUALITY_WEIGHTS = { donations: 36, chests: 33, speedups: 5, territory: 10, activity: 10, might: 6 };
 // Flat-might days at which the activity component reaches zero.
 const QUALITY_STALE_AT = 7;
 /* Where the top of the chest and speedup scales sits, as a percentile of the
@@ -507,7 +520,19 @@ const qualityBand = (score) => (score >= 60 ? "high" : score >= 35 ? "mid" : sco
 function qualityOf(m, span, scales, asOf) {
   const quiet = quietDays(m, asOf);
   const parts = {
-    donations: span.need > 0 ? clamp01(span.given / span.need / 2) : span.given > 0 ? 1 : 0,
+    /* Each week scored against its own target and the two averaged, rather
+       than one total over the span. Summed, a single huge week covered a
+       silent one outright: Sador gave 26x the target in the week of 9 Aug and
+       nothing at all in the week of 16 Aug, and still scored full marks,
+       because the surplus alone was six times what the cap needed. Averaged,
+       contributing in one week of two scores half — the same for Sador, who
+       gave early, as for Keanef, who gave late.
+
+       The cost is that on the Monday of a new week nobody has donated yet, so
+       every score carries a half-weight zero until the week fills in. */
+    donations: span.weekly.length
+      ? span.weekly.reduce((a, b) => a + b, 0) / span.weekly.length
+      : 0,
     chests: scales.chests > 0 ? clamp01(span.chests / scales.chests) : 0,
     speedups: scales.speedups > 0 ? clamp01(span.speedups / scales.speedups) : 0,
     territory: m.inTerritory ? 1 : 0,
@@ -551,13 +576,20 @@ function qualityOf(m, span, scales, asOf) {
 function scoreRoster(members, week, prevWeek) {
   const span = [week, prevWeek].filter(Boolean);
   const totals = members.map((m) => {
-    const acc = { given: 0, chests: 0, speedups: 0, need: 0 };
+    const acc = { given: 0, chests: 0, speedups: 0, need: 0, weekly: [] };
     span.forEach((w) => {
       const ew = evaluate(m, w);
-      acc.given += RES.reduce((a, r) => a + (ew.don[r] || 0), 0);
+      const given = RES.reduce((a, r) => a + (ew.don[r] || 0), 0);
+      const need = ew.need * RES.length;
+      /* Donations are scored per week and averaged, not summed across the
+         span — see qualityOf. Chests and speedups stay summed: they are
+         measured against the rest of the clan over the same span, so a total
+         is the comparable figure. */
+      acc.weekly.push(need > 0 ? clamp01(given / need / 2) : given > 0 ? 1 : 0);
+      acc.given += given;
       acc.chests += ew.chestTotal;
       acc.speedups += ew.speedupHours;
-      acc.need += ew.need * RES.length;
+      acc.need += need;
     });
     return { m, e: evaluate(m, week), span: acc };
   });

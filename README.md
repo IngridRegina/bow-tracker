@@ -67,28 +67,44 @@ The member list can be sorted by a single 0–100 score, six weighted parts:
 
 | part | weight | measured against |
 |---|---|---|
-| donations | 32 | the member's own target |
-| chests | 22 | the best in the clan over the span |
-| speedups | 13 | the best in the clan over the span |
-| recently active | 18 | days since their might last moved, zero at 7 |
-| in territory | 9 | yes or no |
+| donations | 36 | the member's own target, each week scored separately |
+| chests | 33 | the clan's 90th percentile over the span |
+| speedups | 5 | the clan's 90th percentile over the span |
+| recently active | 10 | days quiet — flat might or no contribution, zero at 7 |
+| in territory | 10 | yes or no |
 | might in clan | 6 | their position in the clan by might |
+
+Speedups carry the smallest weight of the three contribution measures because
+they are the thinnest signal: only 25 of 48 members sent any over the span at
+all, and whether they send them depends on a clan build being open rather than
+on effort. At 13 that let the event calendar move the ranking more than chests
+did.
+
+Donations and chests carry the board between them at 36 and 33: they are the
+two things the clan actually asks for, and the two it can measure honestly.
+Activity is a proxy read off a once-a-day might figure, so it sits at 10.
 
 Might is scored by **position in the clan**, not as a share of the largest
 account: might spans 28k to 2.9M here, so a share would leave everyone outside
 the top three on almost nothing and turn a graded measure into a bonus for two
-people. It carries the smallest weight because it mostly reflects how long
-someone has played, and weighing it heavily would rank veterans above the people
-doing the work.
+people. It is weighted at 6 — the lowest of anything measuring the member
+rather than the clan's event schedule — because it mostly reflects how long
+someone has played, and weighing it heavily would rank veterans above the
+people doing the work.
 
-Activity is deliberately 3:1 over might, because the two pull against each other
-on the same member and a comparison of weights alone is misleading. At 14 vs 10
-activity already led on paper, yet a large dormant account was refunded most of
-what its stall cost: Bellona, 718k and flat nine days, took -14 for the stall and
-+9.4 straight back for its size, a net -4.6, which left it at #13 in worst-first
-rather than near the top. At 18 vs 6 the same member nets -12.4 and sits at #5,
-and might still separates the roster instead of becoming noise. Judge the two by
-that net figure rather than by the weights side by side.
+Activity and might pull against each other on the same member, so judge them by
+the net figure rather than by the weights side by side. Activity was once 3:1
+over might for that reason: a large dormant account was being refunded most of
+what its stall cost — Bellona, flat nine days, took -14 for the stall and +9.4
+straight back for its size, a net -4.6 that left it at #13 in worst-first rather
+than near the top. At 18 vs 6 the same member netted -12.4 and sat at #5.
+
+At the current 10 vs 6 that net is back to about -4, so the refund returns: a
+large account can sit still for a week and lose less than a small one loses for
+missing a donation. That is the accepted price of weighting contribution more
+heavily. Worst-first still surfaces those members, because a genuinely absent
+one is also missing donations and chests, which now carry 69 points between
+them.
 
 "Activity" here means days quiet, not days of flat might — a contribution
 inside the window counts as being present (see `quietDays`). That protects an
@@ -100,9 +116,22 @@ Donations are scored against each member's own target, not as a raw amount —
 ranking on resources alone would just sort by might, putting a 2.4M account
 that gave 100k above a 30k account that gave everything asked of it. Meeting
 the target scores half and doubling it scores full, so people separate both
-below and above the line. Chests and speedups have no per-member target, so
-those are clan-relative; that does favour big accounts, but capacity genuinely
-scales with size and there is no published expectation to use instead.
+below and above the line.
+
+Each week in the span is scored on its own and the two are averaged, rather
+than one total measured against one combined target. Summed, a single large
+week covered a silent one outright: Sador gave 26x the target in the week of
+9 Aug and nothing at all in the week of 16 Aug, yet still scored full marks,
+because the surplus alone was six times what the cap needed. Averaged,
+contributing in one week of two scores half either way round — the same for
+Sador, who gave early, as for Keanef, who gave late. The cost is that on the
+Monday of a new week nobody has donated yet, so every score carries a
+half-weight zero until the week fills in.
+
+Chests and speedups have no per-member target, so those are clan-relative and
+stay summed over the span; that does favour big accounts, but capacity
+genuinely scales with size and there is no published expectation to use
+instead.
 
 The clan-relative pair are measured against the **90th percentile** of the
 roster, not against the single best. Against the max, one exceptional week
@@ -119,10 +148,11 @@ Measured over the **selected week and the one before it**. A single week is too
 thin: on the Monday of a new week nobody has produced anything and the ranking
 is noise.
 
-Because the span is two weeks, a score can reflect a week you are not looking
-at: with no speedups sent in the week of 16 Aug, the speedup component still
-scores from the week of 9 Aug. That is intended, but it is not guessable from
-the numbers, so the breakdown names the weeks it covers.
+Because the span is two weeks, a clan-relative score can reflect a week you are
+not looking at: with almost no speedups sent in the week of 16 Aug, the speedup
+component still scores mostly from the week of 9 Aug. That is intended, but it
+is not guessable from the numbers, so the breakdown names the weeks it covers.
+Donations are the exception — those are scored per week and averaged.
 
 A measure nobody in the clan scored on **over the whole span** is dropped, not
 counted as zero for everyone, and the remaining weights are scaled back to 100.
