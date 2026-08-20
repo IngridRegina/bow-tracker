@@ -67,7 +67,7 @@ The member list can be sorted by a single 0–100 score, six weighted parts:
 
 | part | weight | measured against |
 |---|---|---|
-| donations | 36 | the member's own target, each week scored separately |
+| donations | 36 | the clan's 90th percentile, each week scored separately |
 | chests | 33 | the clan's 90th percentile over the span |
 | speedups | 5 | the clan's 90th percentile over the span |
 | recently active | 10 | days quiet — flat might or no contribution, zero at 7 |
@@ -75,7 +75,7 @@ The member list can be sorted by a single 0–100 score, six weighted parts:
 | might in clan | 6 | their position in the clan by might |
 
 Speedups carry the smallest weight of the three contribution measures because
-they are the thinnest signal: only 25 of 48 members sent any over the span at
+they are the thinnest signal: only 25 of 49 members sent any over the span at
 all, and whether they send them depends on a clan build being open rather than
 on effort. At 13 that let the event calendar move the ranking more than chests
 did.
@@ -112,29 +112,53 @@ active member from one flat reading without softening the case above: Bellona
 has been flat *and* silent since 1 Aug, so the stall still costs the full
 amount.
 
-Donations are scored against each member's own target, not as a raw amount —
-ranking on resources alone would just sort by might, putting a 2.4M account
-that gave 100k above a 30k account that gave everything asked of it. Meeting
-the target scores half and doubling it scores full, so people separate both
-below and above the line.
+Donations are measured as a **multiple of the member's own target**, not as a
+raw amount — ranking on resources alone would just sort by might, putting a
+2.4M account that gave 100k above a 30k account that gave everything asked of
+it. That multiple is then scored against the clan's 90th percentile of the
+same multiple, the same treatment chests and speedups get.
+
+It used to be scored against the target directly: meeting it scored half,
+doubling it scored full. The clan rule — 5% of might per resource — turns out
+to be trivial next to what people actually give. The median donating
+member-week is **38x** the target and the largest is **329x** (Rili, 40,000,000
+against a 121,536 target), so 37 of the 46 donating member-weeks cleared the
+2x cap outright. That made the heaviest weight on the board a near-binary "did
+you donate at all", unable to tell 3x from 300x, and it was why one big week
+could paper over a silent one so easily. The percentile scale currently lands
+near 90x the target.
+
+Uncapping instead was not an option: the spread runs 2x to 329x and most of it
+is noise — whether someone happened to bank a big farm run that week. One dump
+would set the top of the scale and flatten everyone else, the same failure the
+percentile fixes for chests. There is a size effect in the multiple, but a
+weak one: log(might) against multiple-given correlates at r = +0.26, with
+accounts over 500k at a median 54x and smaller ones at 30x, and the spread
+inside each group swamps the gap.
+
+The **target still decides the "donations met" badge and the row status**,
+which is what a published rule is for. The quality component answers the other
+question — how this member compares with the rest of the clan. A member who
+meets the clan rule exactly therefore shows as having met it while scoring
+close to zero on quality, which is accurate: on current numbers, meeting it
+exactly puts them in the bottom tenth of donors.
 
 Each week in the span is scored on its own and the two are averaged, rather
 than one total measured against one combined target. Summed, a single large
 week covered a silent one outright: Sador gave 26x the target in the week of
-9 Aug and nothing at all in the week of 16 Aug, yet still scored full marks,
-because the surplus alone was six times what the cap needed. Averaged,
-contributing in one week of two scores half either way round — the same for
-Sador, who gave early, as for Keanef, who gave late. The cost is that on the
-Monday of a new week nobody has donated yet, so every score carries a
+9 Aug and nothing at all in the week of 16 Aug, yet still scored full marks.
+Averaged, contributing in one week of two scores half either way round — the
+same for Sador, who gave early, as for Keanef, who gave late. The cost is that
+on the Monday of a new week nobody has donated yet, so every score carries a
 half-weight zero until the week fills in.
 
-Chests and speedups have no per-member target, so those are clan-relative and
-stay summed over the span; that does favour big accounts, but capacity
-genuinely scales with size and there is no published expectation to use
-instead.
+Chests and speedups have no per-member target at all, so those are compared
+raw and stay summed over the span rather than being scored week by week; that
+does favour big accounts, but capacity genuinely scales with size and there is
+no published expectation to use instead.
 
-The clan-relative pair are measured against the **90th percentile** of the
-roster, not against the single best. Against the max, one exceptional week
+All three contribution measures are scored against the **90th percentile** of
+the clan, not against its single best. Against the max, one exceptional week
 rescales everyone: when a member's corrected total came in at 694 chests for
 the week of 16 Aug — against a previous clan best of 211 — the second-largest
 producer dropped from 22.0 points to 5.4 while her own output went up, and her
