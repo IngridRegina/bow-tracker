@@ -2,14 +2,14 @@
  "1378684787925": {
   "name": "Indira",
   "rank": "Superior",
-  "might": 2877891,
+  "might": 2883091,
   "joined": "2026-07-16",
   "lastSeen": "2026-08-19"
  },
  "1378684568874": {
   "name": "Cordamath II",
   "rank": "Leader",
-  "might": 2393594,
+  "might": 2520224,
   "joined": "2026-07-02",
   "lastSeen": "2026-08-19"
  },
@@ -37,21 +37,21 @@
  "1378684799791": {
   "name": "Morgoth",
   "rank": "Veteran",
-  "might": 501659,
+  "might": 505109,
   "joined": "2026-08-05",
   "lastSeen": "2026-08-19"
  },
  "1378684639872": {
   "name": "Melinad",
   "rank": "Veteran",
-  "might": 494021,
+  "might": 494024,
   "joined": "2026-08-07",
   "lastSeen": "2026-08-19"
  },
  "1378684763225": {
   "name": "Lorduing",
   "rank": "Veteran",
-  "might": 308545,
+  "might": 308975,
   "joined": "2026-08-04",
   "lastSeen": "2026-08-19"
  },
@@ -65,14 +65,14 @@
  "1378684597161": {
   "name": "Bantrius",
   "rank": "Veteran",
-  "might": 335995,
+  "might": 336715,
   "joined": "2026-07-22",
   "lastSeen": "2026-08-19"
  },
  "1378684727618": {
   "name": "igorinus I",
   "rank": "Veteran",
-  "might": 273846,
+  "might": 274926,
   "joined": "2026-07-15",
   "lastSeen": "2026-08-19"
  },
@@ -86,7 +86,7 @@
  "1378684546217": {
   "name": "Tureglil",
   "rank": "Veteran",
-  "might": 206356,
+  "might": 206561,
   "joined": "2026-07-10",
   "lastSeen": "2026-08-19"
  },
@@ -107,14 +107,14 @@
  "1378684773181": {
   "name": "Taugal",
   "rank": "Officer",
-  "might": 152837,
+  "might": 152987,
   "joined": "2026-07-22",
   "lastSeen": "2026-08-19"
  },
  "1378684780963": {
   "name": "Painmoon",
   "rank": "Veteran",
-  "might": 189120,
+  "might": 198900,
   "joined": "2026-07-16",
   "lastSeen": "2026-08-19"
  },
@@ -128,7 +128,7 @@
  "1378684613683": {
   "name": "Keanef",
   "rank": "Veteran",
-  "might": 132358,
+  "might": 134388,
   "joined": "2026-07-31",
   "lastSeen": "2026-08-19"
  },
@@ -156,7 +156,7 @@
  "1378684514657": {
   "name": "Keralak",
   "rank": "Veteran",
-  "might": 115217,
+  "might": 115717,
   "joined": "2026-07-08",
   "lastSeen": "2026-08-19"
  },
@@ -170,19 +170,19 @@
  "1378684749987": {
   "name": "Felora",
   "rank": "Veteran",
-  "might": 164269,
+  "might": 164289,
   "joined": "2026-07-30",
   "lastSeen": "2026-08-19"
  },
  "1378684688674": {
   "name": "Forceworm",
-  "rank": "Veteran",
+  "rank": "Soldier",
   "might": 71541,
   "joined": "2026-07-13",
   "lastSeen": "2026-08-19"
  },
  "1378684639399": {
-  "name": "Enaning",
+  "name": "Emil",
   "rank": "Veteran",
   "might": 114164,
   "joined": "2026-07-08",
@@ -205,14 +205,14 @@
  "1378684619021": {
   "name": "Aydaen",
   "rank": "Soldier",
-  "might": 78179,
+  "might": 78586,
   "joined": "2026-07-30",
   "lastSeen": "2026-08-19"
  },
  "1378684792656": {
   "name": "Elrining",
   "rank": "Veteran",
-  "might": 103235,
+  "might": 104194,
   "joined": "2026-07-24",
   "lastSeen": "2026-08-19"
  },
@@ -226,7 +226,7 @@
  "1378684571224": {
   "name": "Akinolabar",
   "rank": "Veteran",
-  "might": 143566,
+  "might": 149011,
   "joined": "2026-07-16",
   "lastSeen": "2026-08-19"
  },
@@ -247,7 +247,7 @@
  "1378684706132": {
   "name": "Cewyn",
   "rank": "Veteran",
-  "might": 62604,
+  "might": 62622,
   "joined": "2026-07-08",
   "lastSeen": "2026-08-19"
  },
@@ -303,14 +303,14 @@
  "1378684538880": {
   "name": "Aydaen",
   "rank": "Soldier",
-  "might": 46284,
+  "might": 46424,
   "joined": "2026-07-24",
   "lastSeen": "2026-08-19"
  },
  "1378684801426": {
   "name": "Elrohan",
   "rank": "Veteran",
-  "might": 46769,
+  "might": 47609,
   "joined": "2026-07-23",
   "lastSeen": "2026-08-19"
  },
@@ -324,7 +324,7 @@
  "1378684801550": {
   "name": "Kalas",
   "rank": "Soldier",
-  "might": 43858,
+  "might": 43968,
   "joined": "2026-07-27",
   "lastSeen": "2026-08-19"
  },
@@ -394,14 +394,14 @@
  "1378684725045": {
   "name": "Frostterror",
   "rank": "Veteran",
-  "might": 54771,
+  "might": 55277,
   "joined": "2026-08-11",
   "lastSeen": "2026-08-19"
  },
  "1378684521491": {
   "name": "Meninad",
   "rank": "Veteran",
-  "might": 106650,
+  "might": 107300,
   "joined": "2026-08-12",
   "lastSeen": "2026-08-19"
  },
@@ -422,8 +422,15 @@
  "1378684786515": {
   "name": "Kazilrajas",
   "rank": "Veteran",
-  "might": 46381,
+  "might": 46389,
   "joined": "2026-08-16",
+  "lastSeen": "2026-08-19"
+ },
+ "1378684652205": {
+  "name": "Megrond",
+  "rank": "Soldier",
+  "might": 47908,
+  "joined": "2026-08-19",
   "lastSeen": "2026-08-19"
  }
 }

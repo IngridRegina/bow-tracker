@@ -136,6 +136,8 @@ const T = {
     fTimezone: "Timezone",
     fLastActive: "Last contribution",
     fJoined: "Joined",
+    fWasCalled: "Previously",
+    untilDate: (d) => `last seen under that name ${d}`,
     fMight: "Might",
     mightFlat: (n) => `flat for ${n} day${n === 1 ? "" : "s"}`,
     mightRose: (n) => (n === 0 ? "rose today" : n === 1 ? "rose yesterday" : `rose ${n} days ago`),
@@ -287,6 +289,8 @@ const T = {
     fTimezone: "Zona horaria",
     fLastActive: "Última aportación",
     fJoined: "Se unió",
+    fWasCalled: "Antes",
+    untilDate: (d) => `visto con ese nombre por última vez el ${d}`,
     fMight: "Poder",
     mightFlat: (n) => `sin cambios desde hace ${n} día${n === 1 ? "" : "s"}`,
     mightRose: (n) => (n === 0 ? "subió hoy" : n === 1 ? "subió ayer" : `subió hace ${n} días`),
@@ -1256,6 +1260,25 @@ function MemberRow({ t, lang, m, e, week, isOpen, onToggle, quality, spanLabel, 
               <dt>{t.fJoined}</dt>
               <dd>{shortDate(m.firstSeen, lang)}</dd>
             </div>
+            {/* Only rendered for someone who has actually renamed. Names are
+                not unique in this clan — two live members were both Enaning
+                through August — so "who was this before" is the only way to
+                tell a rename from a different account with the same name. */}
+            {m.previousNames?.length > 0 && (
+              <div className="bt-fact">
+                <dt>{t.fWasCalled}</dt>
+                {/* siblings rather than nested, because .bt-fact dd is a flex
+                    row and its gap only reaches direct children */}
+                <dd>
+                  {m.previousNames.map((p) => (
+                    <React.Fragment key={p.name + p.until}>
+                      <span>{p.name}</span>
+                      <span className="bt-fact-aside">{t.untilDate(shortDate(p.until, lang))}</span>
+                    </React.Fragment>
+                  ))}
+                </dd>
+              </div>
+            )}
             <div className="bt-fact">
               <dt>{t.fMight}</dt>
               <dd>

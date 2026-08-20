@@ -25,6 +25,10 @@ REALM_URL = re.compile(r"/rubens-realm\d+")
 LEDGER = "chest-ledger.json"
 EVENT_LEDGER = "event-ledger.json"
 NAMES_FILE = "names.json"
+# Every name each player id has gone by, with the days it was seen in use.
+# Renames are common and names are not unique, so a card cannot explain who
+# someone used to be without this.
+NAME_HISTORY = "name-history.json"
 OVERRIDES_FILE = "overrides.json"
 # Who has ever been in the clan, and when we last saw them in it. The game
 # never says "X left" — departed members simply stop appearing in the roster —
@@ -314,6 +318,11 @@ def build_members(players, prev_members, old_by_name, ranks_by_id, ranks_by_name
 def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
     players, events, chests, roster, map_objects = read_hars(har_paths)
 
+    # What day this capture speaks for. Needed here to date name changes, and
+    # again further down for the roster; events and chests are never rebound in
+    # between, so one call answers both.
+    seen_on = capture_day(events, chests)
+
     # A permanent id -> name map of everyone ever seen, so people who have since
     # left the clan still show a name rather than a bare id in the "former
     # members" line. Names captured here before the clan filter below.
@@ -323,6 +332,40 @@ def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
     for pid, p in players.items():
         names[str(pid)] = p["name"]
     json.dump(names, open(NAMES_FILE, "w", encoding="utf-8"), indent=1)
+
+    # Every name an id has gone by, oldest first. names.json only ever holds
+    # the current one, so before this a rename left no trace except in the git
+    # history of that file — and two renames between commits would have lost
+    # the middle name entirely.
+    #
+    # This is worth keeping because names are not unique: two live members were
+    # both called Enaning through August, and one of them has since become
+    # Emil, so "Enaning left the clan" and "Enaning is still here under a new
+    # name" were both true of different accounts at once. Only the id settles
+    # it, and the card can only explain it if the old names are recorded.
+    name_hist = {}
+    if os.path.exists(NAME_HISTORY):
+        name_hist = json.load(open(NAME_HISTORY, encoding="utf-8"))
+    renamed = []
+    for pid, p in players.items():
+        row = name_hist.setdefault(str(pid), [])
+        if row and row[-1]["name"] == p["name"]:
+            row[-1]["lastSeen"] = max(row[-1]["lastSeen"], seen_on)
+        elif not any(e["name"] == p["name"] for e in row):
+            if row:
+                renamed.append((row[-1]["name"], p["name"]))
+            row.append({"name": p["name"], "firstSeen": seen_on, "lastSeen": seen_on})
+        else:
+            # A name they have used before, come back round again. Keep the
+            # order as "most recently adopted last" rather than duplicating.
+            prev = next(e for e in row if e["name"] == p["name"])
+            row.remove(prev)
+            prev["lastSeen"] = max(prev["lastSeen"], seen_on)
+            renamed.append((row[-1]["name"], p["name"]))
+            row.append(prev)
+    json.dump(name_hist, open(NAME_HISTORY, "w", encoding="utf-8"), indent=1)
+    if renamed:
+        print("name changes: " + ", ".join(f"{a} -> {b}" for a, b in renamed))
 
     # Chest producer data only exists while a chest is unopened, so every
     # capture contributes a slice. Keep a running ledger, deduped by chest id,
@@ -490,7 +533,6 @@ def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
     history = {}
     if os.path.exists(MEMBER_HISTORY):
         history = json.load(open(MEMBER_HISTORY, encoding="utf-8"))
-    seen_on = capture_day(events, chests)
     for m in members if roster_observed else []:
         was = history.get(m["id"], {})
         history[m["id"]] = {
@@ -726,6 +768,17 @@ def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
     today = game_day(datetime.now(timezone.utc).timestamp())
     current = week_start(today)
     week_for(today)
+
+    # Names this member has gone by before the one they carry now, most recent
+    # first. Only names actually superseded — the current one is already on the
+    # row, and repeating it as history would read as a change that never
+    # happened.
+    for row in (members, former_members):
+        for m in row:
+            past = name_hist.get(str(m["id"]), [])[:-1]
+            if past:
+                m["previousNames"] = [{"name": e["name"], "until": e["lastSeen"]}
+                                      for e in reversed(past)]
 
     # When this run happened, so the page can show "last updated".
     generated_at = datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
