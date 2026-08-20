@@ -218,6 +218,29 @@ per-member "chests a day", so the member figures still add up to the clan one.
 A week whose captures start late therefore reads low: the week of 2 Aug has no
 chest data before the 4th but is still divided by 7.
 
+Beside the rate is the same figure divided by the roster, and that rate at a
+full clan of 60: "5.6 per member across 49 · 60 members would make ≈336 a
+day". The projection is worded in full rather than clipped to "≈336 at 60",
+which read as a fact about the clan instead of the hypothetical it is. The **mean**,
+not the median, because the point is that it multiplies back out — an average
+member times the roster is the clan's output. The median cannot do that: in
+the week of 16 Aug the median producer made 2.0 a day, and 2.0 x 49 is 98
+against a real 274, because most of the roster produces nothing.
+
+The mean is also what a lopsided week distorts, which is why the concentration
+note sits next to it. When the largest single producer accounts for more than
+`CONCENTRATED_AT` (40%) of a week, the row says so: "65% of it from one
+member". Bulk chest grants arrive as one in-game award of many, so a single
+member can carry a week — in the week of 16 Aug, Cordamath II produced 713 of
+1096, and 447 of the 487 made on 19 Aug. Without Cordamath II the clan ran at
+96 a day rather than 274. The two complete weeks before that sat at 16% and
+19%, so the threshold is roughly double a normal week and the note stays
+absent unless something is genuinely skewed; worth retuning once there are
+more than three weeks of chest data.
+
+The per-member figure and the note are both hidden on a week with no chests at
+all, or the July weeks would read "0.0 per member, ≈0 a day at 60".
+
 The week-on-week figure compares rates, not totals. A finished week has seven
 days behind it and a week two days old has two, so comparing raw counts would
 call every Monday a collapse.

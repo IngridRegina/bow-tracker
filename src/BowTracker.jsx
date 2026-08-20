@@ -25,6 +25,13 @@ const ALL_RES = ["lumber", "stone", "iron", "food", "silver", "tractates"];
 const MAX_MEMBERS = 60;
 const DONATION_PCT = 0.05;
 const CHEST_TARGET = 3;
+/* Share of a week's clan chests from its single biggest producer, past which
+   the total stops describing the clan and starts describing one member. The
+   two complete weeks on record sit at 16% and 19%; the week of 16 Aug hit 65%
+   on one member's bulk grants. Set at roughly double the normal range so it
+   stays quiet in an ordinary week — worth retuning once there are more weeks
+   of chest data than the three we have. */
+const CONCENTRATED_AT = 0.4;
 const EXCEED_MARGIN = 0.5; // 50% past both targets earns the darker green
 // Days of unmoved might before a member is flagged. Mirrors STALL_DAYS in
 // build_state.py, which is what computes mightFlatDays.
@@ -111,6 +118,9 @@ const T = {
     chestsADay: (n) => `${n} chests a day`,
     clanChestsADay: "clan chests a day",
     clanChestsOver: (n, d) => `${n} over ${d} ${d === 1 ? "day" : "days"}`,
+    clanChestsPerMember: (n, of) => `${n} per member across ${of}`,
+    clanChestsAtFull: (cap, n) => `${cap} members would make ≈${n} a day`,
+    clanChestsConcentrated: (pct) => `${pct}% of it from one member`,
     speedupsGiven: (s) => `${s} speedups`,
     voluntary: "voluntary",
     ofWord: "of",
@@ -264,6 +274,9 @@ const T = {
     chestsADay: (n) => `${n} cofres al día`,
     clanChestsADay: "cofres del clan al día",
     clanChestsOver: (n, d) => `${n} en ${d} ${d === 1 ? "día" : "días"}`,
+    clanChestsPerMember: (n, of) => `${n} por miembro entre ${of}`,
+    clanChestsAtFull: (cap, n) => `${cap} miembros harían ≈${n} al día`,
+    clanChestsConcentrated: (pct) => `el ${pct}% de un solo miembro`,
     speedupsGiven: (s) => `${s} de aceleraciones`,
     voluntary: "voluntario",
     ofWord: "de",
@@ -1431,6 +1444,16 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
         0
       );
       const days = daysElapsed(wk.start);
+      /* The largest single producer's share of the week, so a total carried by
+         one member cannot be read as the clan working evenly. Bulk chest
+         grants land as one in-game award of many: in the week of 16 Aug one
+         member produced 713 of 1096, and on 19 Aug alone 447 of 487. The two
+         complete weeks before it sat at 16% and 19%, which is why the note
+         only appears past CONCENTRATED_AT rather than always. */
+      const perMemberTotals = Object.values(wk.chests || {}).map((byDay) =>
+        Object.values(byDay).reduce((x, y) => x + y, 0)
+      );
+      const topShare = chests > 0 ? Math.max(0, ...perMemberTotals) / chests : 0;
       return {
         donors,
         chesters,
@@ -1439,6 +1462,14 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
         chests,
         days,
         perDay: chests / days,
+        /* Mean, not median, because this is the figure you multiply back out:
+           an average member times the roster is the clan's daily output, which
+           is the whole point of showing it. The median cannot do that — this
+           week the median producer is 2.0 a day against a real 274, since most
+           of the roster makes nothing. The mean is also what a lopsided week
+           distorts, so it is shown next to the concentration note. */
+        perMemberPerDay: pool.length > 0 ? chests / days / pool.length : 0,
+        topShare,
         total: pool.length,
         inside: wk.inTerritory ? wk.inTerritory.length : pool.filter((m) => m.inTerritory).length,
         insideOf: wk.territoryOf ?? pool.length,
@@ -1567,6 +1598,29 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
             >
               {chestRateShift > 0 ? "+" : chestRateShift < 0 ? "−" : "±"}
               {Math.abs(chestRateShift)}% {t.vsLastWeek}
+            </span>
+          )}
+          {/* Ahead of the per-member figures, not after them: it qualifies both
+              the rate and the average drawn from it, so it has to arrive before
+              the reader has taken those at face value. It cannot go last either
+              — the note below carries margin-left:auto, and anything after it
+              lands hard against the right edge, away from what it is about. */}
+          {part.topShare >= CONCENTRATED_AT && (
+            <span className="bt-part-total-warn">
+              {t.clanChestsConcentrated(Math.round(part.topShare * 100))}
+            </span>
+          )}
+          {/* What one member is worth, and what the full clan would make at
+              that rate. Sits with the figure rather than in the footnote
+              because it is the same claim scaled, not provenance. Hidden on a
+              week that predates chests entirely, or the July weeks would read
+              "0.0 per member, ≈0 a day at 60". */}
+          {part.chests > 0 && (
+            <span className="bt-part-total-per">
+              {t.clanChestsPerMember(part.perMemberPerDay.toFixed(1), part.total)}
+              <span className="bt-part-total-proj">
+                {t.clanChestsAtFull(MAX_MEMBERS, Math.round(part.perMemberPerDay * MAX_MEMBERS))}
+              </span>
             </span>
           )}
           <span className="bt-part-total-note">{t.clanChestsOver(fmt(part.chests), part.days)}</span>

@@ -735,6 +735,41 @@
   color: var(--bt-ink-soft);
 }
 
+/* The same rate divided by the roster, and that rate at a full clan — a
+   restatement of the figure, so it sits in the label's register rather than
+   the footnote's.
+
+   It wraps rather than squeezing: without flex-wrap the two phrases stay on
+   one line and the first breaks inside itself, giving "5.6 per member across"
+   / "49" on a narrow screen. Wrapping puts each phrase on its own line whole. */
+.bt-part-total-per {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 2px 6px;
+  font: 14px var(--bt-body);
+  color: var(--bt-ink-soft);
+}
+
+/* body face, not the mono used elsewhere for figures: this one is a sentence
+   rather than a number, and monospaced prose reads as a code sample */
+.bt-part-total-proj {
+  font: 13px var(--bt-body);
+  color: var(--bt-ink-soft);
+  opacity: 0.8;
+}
+
+/* Only rendered when one member carries an unusual share of the week, so it
+   can afford to be coloured — it is never present in a normal week. Amber
+   rather than red: the total is accurate, it just is not evenly earned. */
+.bt-part-total-warn {
+  font: 600 13px var(--bt-body);
+  color: var(--bt-amber-ink);
+  background: var(--bt-amber-bg);
+  border-radius: 999px;
+  padding: 2px 9px;
+}
+
 /* the raw total the rate came from, pushed to the end where it reads as a
    footnote rather than competing with the figure */
 .bt-part-total-note {
