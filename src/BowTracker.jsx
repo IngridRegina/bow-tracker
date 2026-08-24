@@ -92,6 +92,7 @@ const T = {
     gaveSpeedups: "gave clan speedups",
     membersInside: "members live in or close to territory",
     vsLastWeek: "vs last week",
+    deltaMembers: "members",
     formerAlso: "Also contributed this week, no longer in the clan:",
     fDonated: "donated",
     fChests: "produced chests",
@@ -248,6 +249,7 @@ const T = {
     gaveSpeedups: "han dado aceleraciones",
     membersInside: "miembros viven en o cerca del territorio",
     vsLastWeek: "frente a la semana pasada",
+    deltaMembers: "miembros",
     formerAlso: "También contribuyeron esta semana, ya no están en el clan:",
     fDonated: "donaron",
     fChests: "produjeron cofres",
@@ -382,10 +384,37 @@ function weekStartOf(dateStr) {
   d.setUTCDate(d.getUTCDate() - d.getUTCDay());
   return iso(d);
 }
-function daysElapsed(weekStart) {
+/* Which day of the week we are on, 1..7. For labels — "day 3 of 7", "over 3
+   days" — where a fraction would read as an error. */
+function dayOfWeek(weekStart, when = new Date()) {
   const start = new Date(weekStart + "T12:00:00Z");
-  const now = new Date(todayISO() + "T12:00:00Z");
-  return Math.min(Math.max(Math.floor((now - start) / 86400000) + 1, 1), 7);
+  const today = new Date(todayISO(when) + "T12:00:00Z");
+  return Math.min(Math.max(Math.round((today - start) / 86400000) + 1, 1), 7);
+}
+
+/* How much of the week has actually run, as a fraction of days — the divisor
+   for anything "per day".
+
+   The day in progress counts only as far as it has gone, because counting it
+   whole made every rate collapse at the 20:00 rollover: the clan chest figure
+   fell from 272 a day to 233 the instant the divisor gained a seventh day that
+   was seconds old and held no chests. Nothing had changed but the clock. The
+   numerator already includes that day's partial output, so scaling the divisor
+   the same way keeps the two in step and the figure continuous across the
+   boundary.
+
+   Floored at 1 so the first day of a week cannot extrapolate: ten minutes in,
+   five chests would otherwise read as 720 a day. That leaves day one reading
+   low, which is the old behaviour and the safer direction. From day two on
+   there is always a completed day underneath, so no floor is needed and the
+   rate is continuous from there. */
+function daysElapsed(weekStart, when = new Date()) {
+  const start = new Date(weekStart + "T12:00:00Z");
+  const today = new Date(todayISO(when) + "T12:00:00Z");
+  const completed = Math.round((today - start) / 86400000);
+  // hours since the last rollover, so 0 at 17:00 UTC and 23.99 just before it
+  const intoDay = ((when.getTime() / 3600000 - BOUNDARY_UTC_HOUR) % 24 + 24) % 24;
+  return Math.min(Math.max(completed + intoDay / 24, 1), 7);
 }
 function untilRollover(when = new Date()) {
   const mins = (BOUNDARY_UTC_HOUR * 60 - (when.getUTCHours() * 60 + when.getUTCMinutes()) + 1440) % 1440;
@@ -418,12 +447,23 @@ function isNewThisWeek(member, week) {
 /* ---- scoring ------------------------------------------------- */
 function evaluate(member, week) {
   const elapsed = daysElapsed(week.start);
-  /* Two different mights. The target is a share of what the member had at the
-     start of the week, frozen by build_state.py, so a week's goal cannot move
-     while it is being played. Everything shown to the reader is their might
-     now, which is the number they see in game. */
+  /* Three mights, each with one job.
+
+     `targetMight` is the start-of-week figure, frozen by build_state.py, so a
+     week's goal cannot move while it is being played. Only the target and the
+     status read it.
+
+     `weekMight` is the last figure recorded inside that week — the denominator
+     for a share of might, which has to belong to the week it describes. The
+     start-of-week one understates what could be given by Sunday; the current
+     one drags every past week down as the member grows, so an old week shrinks
+     each time it is looked at.
+
+     `might` is what they have now, and is only ever displayed. */
   const might = member.might ?? (week.mights && week.mights[member.id]);
   const targetMight = (week.mights && week.mights[member.id]) ?? member.might;
+  const weekMight =
+    (week.endMights && week.endMights[member.id]) ?? (week.mights && week.mights[member.id]) ?? member.might;
   const need = Math.round(targetMight * DONATION_PCT);
   const don = (week.donations && week.donations[member.id]) || {};
   const chestDays = (week.chests && week.chests[member.id]) || {};
@@ -448,7 +488,7 @@ function evaluate(member, week) {
   else if (donationOk /* && chestMet */) status = exceedsDonation /* && exceedsChests */ ? "greenPlus" : "green";
   else status = "yellow";
 
-  return { might, targetMight, need, don, chestTotal, chestAvg, speedupHours, donationMet, chestMet, status, missing: RES.filter((r) => (don[r] || 0) < need) };
+  return { might, targetMight, weekMight, need, don, chestTotal, chestAvg, speedupHours, donationMet, chestMet, status, missing: RES.filter((r) => (don[r] || 0) < need) };
 }
 
 /* ---- quality score --------------------------------------------
@@ -677,7 +717,10 @@ function Segmented({ options, value, onChange, inline }) {
   );
 }
 
-function Meter({ label, n, denom, tone, plain, delta, deltaLabel }) {
+/* `delta` is in members, not a percentage: the value above it is already a
+   share, and a second percentage stacked under it reads as a change in that
+   share when it is nothing of the kind. */
+function Meter({ label, n, denom, tone, plain, delta, deltaUnit, deltaLabel }) {
   const pct = Math.round((n / Math.max(denom, 1)) * 100);
   return (
     <div className="bt-meter" data-tone={tone === "neutral" ? "neutral" : pct >= 50 ? "high" : "low"}>
@@ -690,7 +733,7 @@ function Meter({ label, n, denom, tone, plain, delta, deltaLabel }) {
       {delta != null && (
         <div className="bt-meter-delta" data-dir={delta > 0 ? "up" : delta < 0 ? "down" : "flat"}>
           {delta > 0 ? "+" : delta < 0 ? "−" : "±"}
-          {Math.abs(delta)}% {deltaLabel}
+          {Math.abs(delta)} {deltaUnit} {deltaLabel}
         </div>
       )}
       {!plain && (
@@ -714,7 +757,8 @@ function Card({ children, accent }) {
 function Podium({ t, members, week }) {
   const [relative, setRelative] = useState(false);
   const [withLeaders, setWithLeaders] = useState(false);
-  const elapsed = daysElapsed(week.start);
+  // label only — the podium shows totals, not rates
+  const elapsed = dayOfWeek(week.start);
 
   const { boards, leaders } = useMemo(() => {
     const rows = members.map((m) => {
@@ -723,16 +767,34 @@ function Podium({ t, members, week }) {
         name: m.name,
         rank: m.rank,
         might: e.might,
-        need: e.need,
+        // the might they ended that week on — see evaluate
+        weekMight: e.weekMight,
         overall: RES.reduce((a, r) => a + (e.don[r] || 0), 0),
         chests: e.chestTotal,
         silver: e.don.silver || 0,
       };
     });
     const pool = withLeaders ? rows : rows.filter((r) => !LEADERSHIP.includes(r.rank));
+    /* "% of might" divides by the last might recorded inside that week.
+
+       It used to divide by need * 4, the 20% combined target, and call the
+       result a percentage of might. That overstated it fivefold: Morana's
+       36,439,536 in the week of 16 Aug read as 37716%.
+
+       Neither of the other two mights works here. The frozen start-of-week
+       figure the target uses understates what a member could give by Sunday.
+       The current figure drags every past week downward as they grow — Rili
+       had 466k in the week of 2 Aug and 864k now, so that week would shrink a
+       little further every time anyone looked at it. The closing figure is
+       settled once the week ends, and during the week in progress it is simply
+       the newest reading, which is what the member sees in game.
+
+       This applies to the board only. Anything that decides whether a target
+       was *met* — need, donationOk, the row status, the quality score — stays
+       on the frozen start-of-week might, so those goalposts cannot move. */
     const top = (key, scale) =>
       pool
-        .map((r) => ({ ...r, score: relative && scale ? r[key] / Math.max(r.need * 4, 1) : r[key] }))
+        .map((r) => ({ ...r, score: relative && scale ? r[key] / Math.max(r.weekMight, 1) : r[key] }))
         .filter((r) => r[key] > 0)
         .sort((a, b) => b.score - a.score)
         .slice(0, 3);
@@ -813,7 +875,8 @@ function Podium({ t, members, week }) {
               <div key={r.name} className="bt-leader-row">
                 <span className="bt-leader-name">{r.name}</span>
                 <span className="bt-leader-total">{compact(r.overall)}</span>
-                <span className="bt-leader-pct">{((r.overall / Math.max(r.might, 1)) * 100).toFixed(1)}%</span>
+                {/* that week's closing might, matching the board above */}
+                <span className="bt-leader-pct">{((r.overall / Math.max(r.weekMight, 1)) * 100).toFixed(1)}%</span>
               </div>
             ))}
           </div>
@@ -1387,11 +1450,30 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
     return byRank;
   }, [scored]);
 
+  /* "Nothing given" is the red status, and it is not a fair reading of someone
+     who only joined partway through the week — they have not had a week in
+     which to give. New members are left out of both the count and the filter,
+     the same exemption "Below target", "silver only" and "missed two weeks"
+     already make. One predicate so the chip and the list it opens can never
+     disagree about who is in it.
+
+     Their own row is untouched: it still carries the status, next to the NEW
+     THIS WEEK badge that explains it. The status describes the week's facts;
+     this cut answers the different question of who is worth chasing. */
+  const chaseableRed = useCallback(
+    (m, e) => e.status === "red" && !isNewThisWeek(m, week),
+    [week]
+  );
+
   const counts = useMemo(() => {
     const c = { red: 0, yellow: 0, green: 0, greenPlus: 0 };
-    members.forEach((m) => c[evaluate(m, week).status]++);
+    members.forEach((m) => {
+      const e = evaluate(m, week);
+      if (e.status === "red" && !chaseableRed(m, e)) return;
+      c[e.status]++;
+    });
     return c;
-  }, [members, week]);
+  }, [members, week, chaseableRed]);
 
   const extraCounts = useMemo(() => {
     let noDon = 0, silver = 0, outside = 0, stalled = 0;
@@ -1443,7 +1525,11 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
         (a, byDay) => a + Object.values(byDay).reduce((x, y) => x + y, 0),
         0
       );
-      const days = daysElapsed(wk.start);
+      // the footnote names whole days; the rates divide by how much of the
+      // week has actually run, so the day in progress counts only as far as it
+      // has gone (see daysElapsed)
+      const days = dayOfWeek(wk.start);
+      const ran = daysElapsed(wk.start);
       /* The largest single producer's share of the week, so a total carried by
          one member cannot be read as the clan working evenly. Bulk chest
          grants land as one in-game award of many: in the week of 16 Aug one
@@ -1461,14 +1547,14 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
         outside,
         chests,
         days,
-        perDay: chests / days,
+        perDay: chests / ran,
         /* Mean, not median, because this is the figure you multiply back out:
            an average member times the roster is the clan's daily output, which
            is the whole point of showing it. The median cannot do that — this
            week the median producer is 2.0 a day against a real 274, since most
            of the roster makes nothing. The mean is also what a lopsided week
            distorts, so it is shown next to the concentration note. */
-        perMemberPerDay: pool.length > 0 ? chests / days / pool.length : 0,
+        perMemberPerDay: pool.length > 0 ? chests / ran / pool.length : 0,
         topShare,
         total: pool.length,
         inside: wk.inTerritory ? wk.inTerritory.length : pool.filter((m) => m.inTerritory).length,
@@ -1488,6 +1574,16 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
      reads as a fall on a week where more people actually took part.
      Undefined rather than +100% when last week was zero. */
   const shift = (now, was) => (!before || !was ? null : Math.round(((now - was) / was) * 100));
+
+  /* The meters report that change as a count of members, not as a percentage,
+     because a percentage there is a second percentage stacked under the share
+     the meter already shows — and the two move independently. In the week of
+     16 Aug, 31 of 53 members lived in territory against 28 of 45 the week
+     before: three more people, but four points worse as a share. Rendered as
+     "+11% vs last week" under a bar that had visibly shrunk, which is the
+     count change of the numerator and reads as though the 58% had gone up.
+     "+3 members" is the same fact with nothing to mistake it for. */
+  const countShift = (now, was) => (!before || was == null ? null : now - was);
 
   /* Rates, not totals: a finished week has seven days behind it and a week two
      days old has two, so comparing the raw counts would call every Monday a
@@ -1521,6 +1617,7 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
     if (filter === "silveronly") return !isNewThisWeek(m, week) && !RES.some((r) => (e.don[r] || 0) > 0) && (e.don.silver || 0) > 0;
     if (filter === "missed2") return missedTwoSet.has(m.id);
     if (filter === "stalled") return looksInactive(m, asOf);
+    if (filter === "red") return chaseableRed(m, e);
     return e.status === filter;
   };
 
@@ -1560,28 +1657,32 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
           label={`${t.donated} ${t.thisWeek}`}
           n={part.donors}
           denom={part.total}
-          delta={shift(part.donors, before && before.donors)}
+          delta={countShift(part.donors, before && before.donors)}
+          deltaUnit={t.deltaMembers}
           deltaLabel={t.vsLastWeek}
         />
         <Meter
           label={`${t.producedChests} ${t.thisWeek}`}
           n={part.chesters}
           denom={part.total}
-          delta={shift(part.chesters, before && before.chesters)}
+          delta={countShift(part.chesters, before && before.chesters)}
+          deltaUnit={t.deltaMembers}
           deltaLabel={t.vsLastWeek}
         />
         <Meter
           label={`${t.gaveSpeedups} ${t.thisWeek}`}
           n={part.speeders}
           denom={part.total}
-          delta={shift(part.speeders, before && before.speeders)}
+          delta={countShift(part.speeders, before && before.speeders)}
+          deltaUnit={t.deltaMembers}
           deltaLabel={t.vsLastWeek}
         />
         <Meter
           label={t.membersInside}
           n={part.inside}
           denom={part.insideOf}
-          delta={shift(part.inside, before && before.inside)}
+          delta={countShift(part.inside, before && before.inside)}
+          deltaUnit={t.deltaMembers}
           deltaLabel={t.vsLastWeek}
         />
 
@@ -1921,7 +2022,7 @@ export default function App() {
     </button>
   );
 
-  const membersText = `${state.members.length}/${MAX_MEMBERS} ${t.members} · ${t.dayN(daysElapsed(week.start))} · ${t.nextDay} ${roll.h}h ${roll.m}m`;
+  const membersText = `${state.members.length}/${MAX_MEMBERS} ${t.members} · ${t.dayN(dayOfWeek(week.start))} · ${t.nextDay} ${roll.h}h ${roll.m}m`;
 
   // Relative by default, with the exact local time on hover.
   const updated = updatedAt && (

@@ -13,8 +13,27 @@ npm run build    # -> dist/
 npm run lint
 ```
 
-`build_state.py` writes `public/tracker-state.json`; Vite copies `public/` into
-`dist/` on build, so the data file needs no separate copying step.
+## Building the state file
+
+`build_state.py` turns one or more Total Battle HAR captures into
+`public/tracker-state.json`; Vite copies `public/` into `dist/` on build, so the
+data file needs no separate copying step.
+
+```bash
+python build_state.py ~/Downloads/totalbattle_com.har --ranks ranks.json
+```
+
+On Windows use `python`; on macOS and Linux it is usually `python3`. Several
+captures can be passed at once and are replayed in timestamp order:
+
+```bash
+python build_state.py captures/*.har --ranks ranks.json
+```
+
+| flag | what it does |
+|---|---|
+| `--ranks <file>` | rank fallback for captures that arrive without a roster; rewritten each build |
+| `--merge <file>` | an existing tracker JSON export to keep ranks and flags from |
 
 ## Deploying to Netlify
 
@@ -59,6 +78,15 @@ build the site, publish.
 
 ```bash
 ./deploy.sh ~/Downloads/totalbattle_com.har
+```
+
+That is these three, in order — run them by hand if you want to stop and look
+at the state file before it goes out:
+
+```bash
+python build_state.py ~/Downloads/totalbattle_com.har --ranks ranks.json
+npm run build
+netlify deploy --prod --dir=dist
 ```
 
 ## Quality score
@@ -213,8 +241,19 @@ week elapsed, plus the raw total and the day count it came from.
 Two things about the arithmetic. The total is summed from the week itself, not
 from the current roster, so chests from members who have since left still count
 towards what the clan produced that week — 1252 against the roster's 1248 for
-the week of 9 Aug. And the divisor is calendar days elapsed, matching the
+the week of 9 Aug. And the divisor is how much of the week has actually run, matching the
 per-member "chests a day", so the member figures still add up to the clan one.
+
+The day in progress counts only as far as it has gone. Counting it whole made
+every rate fall off a cliff at the 20:00 rollover: the clan chest figure
+dropped from 272 a day to 233 the instant the divisor gained a seventh day
+that was seconds old and held no chests, with nothing changed but the clock.
+The numerator already includes that day's partial output, so scaling the
+divisor the same way keeps the two in step. The first day of a week is floored
+at a whole day, because ten minutes in, five chests would otherwise read as
+720 a day; that leaves day one reading low, which is the safer direction. The
+"day 3 of 7" and "over 3 days" labels stay whole numbers — `dayOfWeek` — while
+the rates use the fraction (`daysElapsed`).
 A week whose captures start late therefore reads low: the week of 2 Aug has no
 chest data before the 4th but is still divided by 7.
 

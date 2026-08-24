@@ -723,11 +723,22 @@ def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
     # Weeks older than might-history.json have nothing to freeze to and fall
     # back to the current figure, which is the previous behaviour and still an
     # over-estimate for anyone who has grown since.
+    #
+    # The last reading inside the week is kept alongside it, as "endMights".
+    # A share-of-might scoreboard needs a denominator that belongs to the week
+    # it describes: the start-of-week figure understates what someone could
+    # give by Sunday, and the member's current might drags every past week
+    # downward as they grow, so an old week quietly shrinks every time it is
+    # looked at. The last reading of the week does neither — it is settled once
+    # the week is over, and during the week in progress it is simply the newest
+    # figure, which is the one the member sees in game.
     for wkey, w in weeks.items():
+        w.setdefault("endMights", {})
         for m in members:
             seen = mights.get(m["id"], {})
             within = sorted(d for d in seen if week_start(d) == wkey)
             w["mights"][m["id"]] = seen[within[0]] if within else m["might"]
+            w["endMights"][m["id"]] = seen[within[-1]] if within else m["might"]
 
     baselined = sum(1 for w in weeks.values() for m in members
                     if any(week_start(d) == w["start"] for d in mights.get(m["id"], {})))
