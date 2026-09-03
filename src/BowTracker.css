@@ -479,6 +479,38 @@
 .bt-swatch[data-tone="greenPlus"] { background: var(--bt-green-plus); }
 
 /* ---- podium --------------------------------------------------- */
+/* The monthly board reuses the podium's head, card and row styling; it only
+   needs its own outer spacing, since it sits as one card rather than a grid. */
+.bt-monthboard {
+  margin: 0 0 22px;
+}
+
+.bt-monthboard .bt-board-note {
+  margin-bottom: 8px;
+}
+
+/* Same control as the week picker, recoloured for the panel it sits on rather
+   than the dark header band. */
+.bt-month-select {
+  background-color: rgba(198, 154, 62, 0.1);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4L6 8L10 4' fill='none' stroke='%236B5A45' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  color: var(--bt-ink);
+  font: 600 13px var(--bt-body);
+  padding: 5px 28px 5px 10px;
+}
+
+/* The month still taking donations. Loud enough that nobody copies the board
+   into an announcement without reading it. */
+.bt-board-warn {
+  font: 600 13px var(--bt-body);
+  color: var(--bt-ink);
+  background: rgba(198, 154, 62, 0.16);
+  border-left: 3px solid var(--bt-gold);
+  border-radius: 0 6px 6px 0;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+}
+
 .bt-podium {
   margin-bottom: 32px;
 }
@@ -1053,6 +1085,20 @@
 
 .bt-chip[aria-pressed="true"] .bt-chip-count {
   color: var(--bt-gold);
+}
+
+/* The departed part of a count, kept visibly secondary to the roster figure
+   next to it: "58 +1" has to read as fifty-eight-plus-one, never as a single
+   number that happens to have a plus in it. */
+.bt-chip-extra {
+  font-weight: 400;
+  opacity: 0.75;
+}
+
+.bt-chips-note {
+  font: 13px var(--bt-body);
+  color: var(--bt-ink-soft);
+  margin: 8px 0 0;
 }
 
 /* ---- view tabs -------------------------------------------------
@@ -1839,6 +1885,33 @@
 .bt-badge[data-tone="amber"] {
   color: var(--bt-amber-ink);
   background: var(--bt-amber-bg);
+}
+
+.bt-badge[data-tone="grey"] {
+  color: var(--bt-ink-soft);
+  background: var(--bt-line);
+}
+
+/* Someone who was in the clan for this week but has since left. Still fully
+   readable — their week is real history and worth reading — but visibly not
+   part of the roster you can act on. The status stripe keeps its colour at
+   reduced strength: the week's verdict still stands, it is just no longer
+   anybody's to chase. */
+.bt-member[data-departed] {
+  border-left-style: dashed;
+  background: var(--bt-panel-alt);
+}
+
+.bt-member[data-departed] .bt-member-name,
+.bt-member[data-departed] .bt-member-donation,
+.bt-member[data-departed] .bt-member-stats,
+.bt-member[data-departed] .bt-member-sub {
+  color: var(--bt-ink-soft);
+}
+
+/* Not opacity on the row: that would fade the badge saying why it is faded. */
+.bt-member[data-departed] .bt-quality {
+  opacity: 0.65;
 }
 
 .bt-member-stats {

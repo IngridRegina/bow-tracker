@@ -258,8 +258,8 @@ A week whose captures start late therefore reads low: the week of 2 Aug has no
 chest data before the 4th but is still divided by 7.
 
 Beside the rate is the same figure divided by the roster, and that rate at a
-full clan of 60: "5.6 per member across 49 · 60 members would make ≈336 a
-day". The projection is worded in full rather than clipped to "≈336 at 60",
+full clan of 70: "5.6 per member across 49 · 70 members would make ≈392 a
+day". The projection is worded in full rather than clipped to "≈392 at 70",
 which read as a fact about the clan instead of the hypothetical it is. The **mean**,
 not the median, because the point is that it multiplies back out — an average
 member times the roster is the clan's output. The median cannot do that: in
@@ -278,7 +278,7 @@ absent unless something is genuinely skewed; worth retuning once there are
 more than three weeks of chest data.
 
 The per-member figure and the note are both hidden on a week with no chests at
-all, or the July weeks would read "0.0 per member, ≈0 a day at 60".
+all, or the July weeks would read "0.0 per member, ≈0 a day at 70".
 
 The week-on-week figure compares rates, not totals. A finished week has seven
 days behind it and a week two days old has two, so comparing raw counts would

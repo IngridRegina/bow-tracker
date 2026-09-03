@@ -22,7 +22,7 @@ const RANKS = ["Leader", "Superior", "Officer", "Veteran", "Member", "Soldier"];
 const LEADERSHIP = ["Leader", "Superior"];
 const RES = ["lumber", "stone", "iron", "food"];
 const ALL_RES = ["lumber", "stone", "iron", "food", "silver", "tractates"];
-const MAX_MEMBERS = 60;
+const MAX_MEMBERS = 70;
 const DONATION_PCT = 0.05;
 const CHEST_TARGET = 3;
 /* Share of a week's clan chests from its single biggest producer, past which
@@ -69,6 +69,11 @@ const T = {
     empty: "No data found. Run build_state.py and redeploy.",
 
     topThree: "Top three this week",
+    monthTop: "Top three donors",
+    monthNote: "share of might given, lumber, stone, iron and food",
+    monthOpen: "in progress",
+    monthPending: (month) =>
+      `${month} is still running — the game day rolls at 17:00 UTC, so these figures can still move.`,
     raw: "Raw",
     multiples: "% of might",
     leadershipIn: "Leadership included",
@@ -94,13 +99,18 @@ const T = {
     vsLastWeek: "vs last week",
     deltaMembers: "members",
     formerAlso: "Also contributed this week, no longer in the clan:",
+    leftClan: "no longer in clan",
+    leftOn: (d) => `left ${d}`,
+    departedPlus: (n) => `plus ${n} who ${n === 1 ? "was" : "were"} on the roster that week and ${n === 1 ? "has" : "have"} left since`,
+    rosterStill: (n, of) => `${n} of these ${of} are still in the clan`,
+    rosterChurn: (j, l) => `${j} joined and ${l} left during this week`,
     fDonated: "donated",
     fChests: "produced chests",
     fSpeedups: "gave speedups",
     thisWeek: "this week",
 
     everyone: "Everyone",
-    stRed: "Nothing given",
+    stRed: "1 week missed",
     stYellow: "Below target",
     stGreen: "Target met",
     stGreenPlus: "Well above target",
@@ -111,7 +121,7 @@ const T = {
     twoWeeksMissed: "2 weeks missed",
     stalledFilter: "Possibly inactive",
     donationRule:
-      "“Donations met” currently means at least 20% of might given across all resources combined, even if some resources are below 5% or missing. The target is a share of the might each member had at the start of the week, so it does not climb as they grow. Meet it on Monday and it stays met.",
+      "“Donations met” currently means at least 20% of might given across the four required resources — lumber, stone, iron and food — combined, even if some of them are below 5% or missing. Silver and scientific tractates are shown but never counted, so a week of nothing else counts as a week missed. The target is a share of the might each member had at the start of the week, so it does not climb as they grow. Meet it on Monday and it stays met.",
 
     statsLine: (might, place) => `${might} might · ${place}`,
     donationsOk: "donations met",
@@ -208,7 +218,7 @@ const T = {
       might: "Might in clan",
     },
     qualityNote:
-      "Quality is one score out of 100 over the selected week and the one before it, so a week that has only just started is not judged on two days of data. Donations count as a multiple of each member's own target, scored against the clan's top few — the published 5% rule is met many times over by nearly everyone who gives at all, so it decides the “donations met” badge rather than this score — with the two weeks scored separately and averaged so a big week cannot cover a silent one; chests and speedups against the clan's top few over the same span, so one member's windfall week cannot set the scale for everyone; plus living in territory, how recently they last moved their might or contributed — whichever is fresher, since might can sit still through a day of ordinary play — and where their might places them in the clan. That last one is worth only 6, since might mostly reflects how long someone has played. Anything nobody scored on at all is left out rather than counted as zero for everyone. Open any row to see how its score was reached.",
+      "Quality is one score out of 100 over the selected week and the one before it, so a week that has only just started is not judged on two days of data. Donations count as a multiple of each member's own target, scored against the clan's top few — the published 5% rule is met many times over by nearly everyone who gives at all, so it decides the “donations met” badge rather than this score — with the two weeks scored separately and averaged so a big week cannot cover a silent one; chests and speedups against the clan's top few over the same span, so one member's windfall week cannot set the scale for everyone; plus living in territory, how recently they last moved their might or contributed — whichever is fresher, since might can sit still through a day of ordinary play — and where their might places them in the clan. That last one is worth only 4, since might mostly reflects how long someone has played. Anything nobody scored on at all is left out rather than counted as zero for everyone. Open any row to see how its score was reached.",
 
     ranks: { Leader: "Leader", Superior: "Superior", Officer: "Officer", Veteran: "Veteran", Member: "Member", Soldier: "Soldier" },
     res: { lumber: "Lumber", stone: "Stone", iron: "Iron", food: "Food", silver: "Silver", tractates: "Sci. tractates" },
@@ -226,6 +236,11 @@ const T = {
     empty: "No hay datos. Ejecuta build_state.py y vuelve a publicar.",
 
     topThree: "Los tres mejores esta semana",
+    monthTop: "Los tres mejores donantes",
+    monthNote: "poder donado, madera, piedra, hierro y comida",
+    monthOpen: "en curso",
+    monthPending: (month) =>
+      `${month} sigue en curso — el día de juego cambia a las 17:00 UTC, así que estas cifras aún pueden moverse.`,
     raw: "Bruto",
     multiples: "% poder",
     leadershipIn: "Liderazgo incluido",
@@ -251,13 +266,18 @@ const T = {
     vsLastWeek: "frente a la semana pasada",
     deltaMembers: "miembros",
     formerAlso: "También contribuyeron esta semana, ya no están en el clan:",
+    leftClan: "ya no está en el clan",
+    leftOn: (d) => `salió el ${d}`,
+    departedPlus: (n) => `más ${n} que ${n === 1 ? "estaba" : "estaban"} en el clan esa semana y se ${n === 1 ? "ha" : "han"} ido desde entonces`,
+    rosterStill: (n, of) => `${n} de estos ${of} ${n === 1 ? "sigue" : "siguen"} en el clan`,
+    rosterChurn: (j, l) => `${j} ${j === 1 ? "entró" : "entraron"} y ${l} se ${l === 1 ? "fue" : "fueron"} durante esta semana`,
     fDonated: "donaron",
     fChests: "produjeron cofres",
     fSpeedups: "dieron aceleraciones",
     thisWeek: "esta semana",
 
     everyone: "Todos",
-    stRed: "No han dado nada",
+    stRed: "1 semana sin dar",
     stYellow: "Por debajo del objetivo",
     stGreen: "Objetivo cumplido",
     stGreenPlus: "Muy por encima del objetivo",
@@ -268,7 +288,7 @@ const T = {
     twoWeeksMissed: "2 semanas sin dar",
     stalledFilter: "Posiblemente inactivos",
     donationRule:
-      "“Donaciones cumplidas” significa al menos el 20% del poder donado entre todos los recursos combinados, aunque algunos estén por debajo del 5% o falten. El objetivo se calcula sobre el poder que cada miembro tenía al empezar la semana, así que no sube según crecen: si se cumple el lunes, sigue cumplido.",
+      "“Donaciones cumplidas” significa al menos el 20% del poder donado entre los cuatro recursos obligatorios — madera, piedra, hierro y comida — combinados, aunque alguno esté por debajo del 5% o falte. La plata y los tratados científicos se muestran pero nunca cuentan, así que una semana en la que solo se dio eso cuenta como una semana sin dar. El objetivo se calcula sobre el poder que cada miembro tenía al empezar la semana, así que no sube según crecen: si se cumple el lunes, sigue cumplido.",
 
     statsLine: (might, place) => `${might} de poder · ${place}`,
     donationsOk: "donaciones cumplidas",
@@ -365,19 +385,24 @@ const T = {
       might: "Poder en el clan",
     },
     qualityNote:
-      "La calidad es una puntuación sobre 100 de la semana elegida y la anterior, para que una semana recién empezada no se juzgue con dos días de datos. Las donaciones se miden como múltiplo del objetivo de cada miembro y se puntúan frente a los mejores del clan —la regla del 5% la supera con creces casi todo el que dona algo, así que decide la insignia de «donaciones cumplidas» y no esta puntuación—, con las dos semanas por separado y promediadas para que una semana grande no tape una vacía; los cofres y las aceleraciones frente a los mejores del clan en ese periodo, para que la semana excepcional de un solo miembro no marque la escala de todos; más vivir en el territorio, lo reciente que sea el cambio de su poder o su última aportación —lo que sea más fresco, porque el poder puede no moverse en un día de juego normal— y la posición de su poder dentro del clan, que solo vale 6 porque el poder refleja sobre todo el tiempo jugado. Lo que nadie ha puntuado se excluye en vez de contar como cero para todos. Abre cualquier fila para ver cómo se ha calculado.",
+      "La calidad es una puntuación sobre 100 de la semana elegida y la anterior, para que una semana recién empezada no se juzgue con dos días de datos. Las donaciones se miden como múltiplo del objetivo de cada miembro y se puntúan frente a los mejores del clan —la regla del 5% la supera con creces casi todo el que dona algo, así que decide la insignia de «donaciones cumplidas» y no esta puntuación—, con las dos semanas por separado y promediadas para que una semana grande no tape una vacía; los cofres y las aceleraciones frente a los mejores del clan en ese periodo, para que la semana excepcional de un solo miembro no marque la escala de todos; más vivir en el territorio, lo reciente que sea el cambio de su poder o su última aportación —lo que sea más fresco, porque el poder puede no moverse en un día de juego normal— y la posición de su poder dentro del clan, que solo vale 4 porque el poder refleja sobre todo el tiempo jugado. Lo que nadie ha puntuado se excluye en vez de contar como cero para todos. Abre cualquier fila para ver cómo se ha calculado.",
 
     ranks: { Leader: "Líder", Superior: "Superior", Officer: "Oficial", Veteran: "Veterano", Member: "Miembro", Soldier: "Soldado" },
     res: { lumber: "Madera", stone: "Piedra", iron: "Hierro", food: "Comida", silver: "Plata", tractates: "Tratados" },
   },
 };
 
-/* ---- dates: day + week roll at 20:00 Estonian == 17:00 UTC ---- */
+/* ---- dates: day + week roll at 20:00 Estonian == 17:00 UTC ----
+   That rollover is midnight on the game server's own clock, UTC+7, so a
+   game-day is named for its date there: the date it *ends* on in UTC, not the
+   one it starts on. Must match game_day() in build_state.py — the two
+   conventions disagreeing is what let a finished month keep taking donations. */
 const BOUNDARY_UTC_HOUR = 17;
+const SERVER_UTC_OFFSET = 24 - BOUNDARY_UTC_HOUR;
 const iso = (d) => d.toISOString().slice(0, 10);
 
 function todayISO(when = new Date()) {
-  return iso(new Date(when.getTime() - BOUNDARY_UTC_HOUR * 3600000));
+  return iso(new Date(when.getTime() + SERVER_UTC_OFFSET * 3600000));
 }
 function weekStartOf(dateStr) {
   const d = new Date(dateStr + "T12:00:00Z");
@@ -442,6 +467,22 @@ function sinceLabel(then, now, t) {
 function isNewThisWeek(member, week) {
   return member.firstSeen && weekStartOf(member.firstSeen) === week.start;
 }
+/* The last game-day a week covers. */
+function weekEndOf(week) {
+  return iso(new Date(new Date(week.start + "T12:00:00Z").getTime() + 6 * 86400000));
+}
+/* Was this person in the clan during that week at all? Anyone who joined after
+   it ended has no business in its roster: they cannot have donated, so every
+   week-shaped verdict about them — "Nothing given", "2 weeks missed" — is a
+   statement about a week they were not there for. The same cut at the other
+   end lets someone who has since left stay in the weeks they were actually
+   here for, instead of vanishing out of their own history the day they go.
+   A member with no firstSeen predates the history and is assumed present. */
+function wasInClanFor(member, week) {
+  if (member.firstSeen && member.firstSeen > weekEndOf(week)) return false;
+  if (member.departed && member.departed < week.start) return false;
+  return true;
+}
 
 
 /* ---- scoring ------------------------------------------------- */
@@ -473,7 +514,12 @@ function evaluate(member, week) {
 
   const donationMet = RES.every((r) => (don[r] || 0) >= need);
   const chestMet = chestAvg >= CHEST_TARGET;
-  const anyDonation = ALL_RES.some((r) => (don[r] || 0) > 0);
+  /* Silver and scientific tractates do not count towards the target, so they
+     do not count as having given either: someone whose whole week is
+     tractates has given nothing that the target measures, and reads as
+     "Nothing given" rather than "Below target". The breakdown table still
+     shows both, since what they gave is worth seeing — it just is not scored. */
+  const anyDonation = RES.some((r) => (don[r] || 0) > 0);
 
   const mandatoryTotal = RES.reduce((a, r) => a + (don[r] || 0), 0);
   const donationOk = donationMet || mandatoryTotal >= targetMight * DONATION_PCT * 4;
@@ -517,7 +563,7 @@ function evaluate(member, week) {
    percentile keeps the measure clan-relative but stops a single outlier from
    flattening everyone below it. See QUALITY_TOP_PCT. */
 /* Weights sum to 100, so the parts on the breakdown add up to the score shown
-   beside them. Might is deliberately near the bottom at 6: it says something
+   beside them. Might is deliberately at the bottom at 4: it says something
    about a member's worth to the clan, but it is largely a product of how long
    they have played, so letting it weigh heavily would rank veterans above
    people actually doing the work.
@@ -528,19 +574,35 @@ function evaluate(member, week) {
    13-point weight let an event calendar move the ranking more than chests
    did.
 
-   Donations and chests carry the board between them at 36 and 33, because
+   Donations and chests carry the board between them at 38 and 35, because
    they are the two things the clan actually asks for and the two it can
-   measure honestly. Activity sits at 10, down from 18. */
+   measure honestly. */
 /* Activity used to outweigh might 3:1 to stop a large dormant account being
    refunded most of what its stall cost — flat 9 days took -14 and got +9.4
    straight back for its size, a net -4.6, and at 18/6 that net became -12.4.
-   At 10/6 the net is back to -4, so the effect returns: a big account can sit
-   still for a week and lose less than a small one loses for missing a
-   donation. That is the accepted trade for weighting contribution more
-   heavily — activity is a proxy read off a once-a-day might reading, while
-   donations and chests are things the member demonstrably did. Judge the pair
-   by that net figure rather than by the weights side by side. */
-const QUALITY_WEIGHTS = { donations: 36, chests: 33, speedups: 5, territory: 10, activity: 10, might: 6 };
+   At 8/4 the net is -4, so the effect holds: a big account can sit still for a
+   week and lose less than a small one loses for missing a donation. That is
+   the accepted trade for weighting contribution more heavily — activity is a
+   proxy read off a once-a-day might reading, while donations and chests are
+   things the member demonstrably did. Judge the pair by that net figure rather
+   than by the weights side by side, and keep the gap of 4 if either moves. */
+/* Territory keeps its 10 even though 78% of the roster sits at full marks on
+   it, because a component is not measured by how much it spreads people out.
+   Living outside the radius is the clan's first reason to remove someone, so
+   those 10 points are a penalty the 13 members outside pay, not a bonus the 46
+   inside collect — the same arithmetic read from the end that matters. Judge
+   it by what it costs the people it applies to.
+
+   Territory is binary on purpose: the clan cares whether you live inside the
+   radius, not how far inside, and grading the distance would invent a
+   distinction nobody acts on.
+
+   Activity is the one that really was near-universal without being a rule
+   anybody is held to — 68% at full marks, and a proxy read off a once-a-day
+   might reading at that. It gives up 2 points, might gives up 2 with it to
+   keep the gap of 4 the note above is about, and donations and chests take
+   the 4 between them. */
+const QUALITY_WEIGHTS = { donations: 38, chests: 35, speedups: 5, territory: 10, activity: 8, might: 4 };
 // Flat-might days at which the activity component reaches zero.
 const QUALITY_STALE_AT = 7;
 /* Where the top of the chest and speedup scales sits, as a percentile of the
@@ -572,7 +634,12 @@ function clanScale(values) {
   if (top <= 0) return 0;
   return percentile(values, QUALITY_TOP_PCT) || top;
 }
-const qualityBand = (score) => (score >= 60 ? "high" : score >= 35 ? "mid" : score >= 15 ? "low" : "none");
+/* Cut down by roughly the bonus the reweighting removed — most of the roster
+   collected the 2 points that left activity, so the old 60/35/15 on the new
+   scale would have demoted 5 people who had done nothing differently. At
+   58/33/13 the bands hold the populations they had and only genuine movement
+   changes anyone's colour. */
+const qualityBand = (score) => (score >= 58 ? "high" : score >= 33 ? "mid" : score >= 13 ? "low" : "none");
 
 function qualityOf(m, span, scales, asOf) {
   const quiet = quietDays(m, asOf);
@@ -882,6 +949,106 @@ function Podium({ t, members, week }) {
           </div>
         </div>
       </div>
+    </section>
+  );
+}
+
+/* ---- month board ----------------------------------------------
+   Top three donors of a calendar month, by share of might, with a month picker
+   alongside the week picker in the header.
+
+   Months are not sums of weeks — a week straddles the boundary (26 Jul runs
+   into August, 30 Aug into September) — so build_state.py aggregates them
+   from the event ledger's own timestamps and hands them over whole.
+
+   The picker opens on the newest *closed* month rather than simply the newest,
+   because that is the one safe to announce. "Closed" is decided from the data
+   by build_state.py: the ledger has to have moved past the month's final
+   game-day. Reaching that day is not enough — a game-day rolls at 17:00 UTC,
+   so August's last day is still taking donations through most of 1 September,
+   and a board read at the top of it gets reordered underneath anyone who has
+   already posted it. The open month is still selectable, tagged in the list
+   and carrying the warning above the board, so the figures can be watched
+   without being mistaken for final. A state file built before `closed` existed
+   leaves every month open, which is the honest reading of it. */
+
+function MonthBoard({ t, lang, members, months }) {
+  const [withLeaders, setWithLeaders] = useState(false);
+  // null until the reader picks one, so the default keeps following the data
+  // as months close underneath them rather than sticking to a stale choice.
+  const [picked, setPicked] = useState(null);
+
+  // Newest first, the way the week picker reads.
+  const keys = useMemo(() => Object.keys(months || {}).sort().reverse(), [months]);
+  const fallback = keys.find((k) => months[k].closed) ?? keys[0] ?? null;
+  const key = picked && months[picked] ? picked : fallback;
+
+  const list = useMemo(() => {
+    const mo = key && months[key];
+    if (!mo) return [];
+    return members
+      .filter((m) => withLeaders || !LEADERSHIP.includes(m.rank))
+      .map((m) => {
+        const don = mo.donations[m.id] || {};
+        const given = RES.reduce((a, r) => a + (don[r] || 0), 0);
+        // the might they ended that month on — same reasoning as the week board
+        const monthMight = mo.endMights[m.id] ?? mo.mights[m.id] ?? m.might;
+        return { name: m.name, given, share: given / Math.max(monthMight, 1) };
+      })
+      .filter((r) => r.given > 0)
+      .sort((a, b) => b.share - a.share)
+      .slice(0, 3);
+  }, [months, key, members, withLeaders]);
+
+  const label = (mkey) =>
+    new Date(mkey + "-01T12:00:00Z").toLocaleDateString(locale(lang), { month: "long", year: "numeric" });
+
+  if (!key) return null;
+  const open = !months[key].closed;
+
+  return (
+    <section className="bt-monthboard">
+      <div className="bt-podium-head">
+        <h2 className="bt-h2">{t.monthTop}</h2>
+        <div className="bt-podium-toggle">
+          <select
+            className="bt-week-select bt-month-select"
+            aria-label={t.monthTop}
+            value={key}
+            onChange={(e) => setPicked(e.target.value)}
+          >
+            {keys.map((k) => (
+              <option key={k} value={k}>
+                {label(k)}
+                {months[k].closed ? "" : ` · ${t.monthOpen}`}
+              </option>
+            ))}
+          </select>
+          <span className="bt-toggle-label">{t.leadership}</span>
+          <Segmented
+            options={[
+              { value: false, label: t.exclude },
+              { value: true, label: t.include },
+            ]}
+            value={withLeaders}
+            onChange={setWithLeaders}
+          />
+        </div>
+      </div>
+      <Card accent="gold">
+        {open && <div className="bt-board-warn">{t.monthPending(label(key))}</div>}
+        <div className="bt-board-note">{t.monthNote}</div>
+        {list.length === 0 && <div className="bt-board-blank">{t.nothingYet}</div>}
+        {list.map((r, i) => (
+          <div key={r.name + i} className="bt-board-row">
+            <span className="bt-board-place" data-place={i + 1}>
+              {i + 1}
+            </span>
+            <span className="bt-board-name">{r.name}</span>
+            <span className="bt-board-value">{`${(r.share * 100).toFixed(0)}%`}</span>
+          </div>
+        ))}
+      </Card>
     </section>
   );
 }
@@ -1224,9 +1391,11 @@ function Timing({ t, members, week, prevWeek }) {
 /* One row of the member list. Extracted so the rank-grouped and
    quality-sorted views render exactly the same thing. */
 function MemberRow({ t, lang, m, e, week, isOpen, onToggle, quality, spanLabel, asOf }) {
-  const quiet = looksInactive(m, asOf);
+  // "Gone quiet" is a warning to act on, and someone who has left is not
+  // quiet — they are gone. The badge below says so instead.
+  const quiet = !m.departed && looksInactive(m, asOf);
   return (
-    <div className="bt-member" data-status={e.status}>
+    <div className="bt-member" data-status={e.status} data-departed={m.departed ? "" : undefined}>
       <div className="bt-member-summary" onClick={onToggle}>
         <div className="bt-member-main">
           <div className="bt-member-nameline">
@@ -1236,9 +1405,14 @@ function MemberRow({ t, lang, m, e, week, isOpen, onToggle, quality, spanLabel, 
               </span>
             )}
             <span className="bt-member-name">{m.name}</span>
-            {isNewThisWeek(m, week) && (
+            {isNewThisWeek(m, week) && !m.departed && (
               <span className="bt-badge" data-tone="green">
                 {t.newThisWeek.toUpperCase()}
+              </span>
+            )}
+            {m.departed && (
+              <span className="bt-badge" data-tone="grey" title={t.leftOn(shortDate(m.departed, lang))}>
+                {t.leftClan.toUpperCase()}
               </span>
             )}
             {quiet && (
@@ -1248,7 +1422,9 @@ function MemberRow({ t, lang, m, e, week, isOpen, onToggle, quality, spanLabel, 
             )}
           </div>
           <div className="bt-member-stats">
-            {t.statsLine(fmt(e.might), m.inTerritory ? t.inTerritory : t.outsideTerritory)}
+            {m.departed
+              ? `${fmt(e.might)} · ${t.leftOn(shortDate(m.departed, lang))}`
+              : t.statsLine(fmt(e.might), m.inTerritory ? t.inTerritory : t.outsideTerritory)}
           </div>
         </div>
         <div className="bt-member-right">
@@ -1425,17 +1601,50 @@ function MemberRow({ t, lang, m, e, week, isOpen, onToggle, quality, spanLabel, 
 }
 
 /* ---- ledger -------------------------------------------------- */
-function Ledger({ t, lang, members, week, prevWeek, former }) {
+function Ledger({ t, lang, members, week, prevWeek, former, months }) {
   const [open, setOpen] = useState(null);
   const [filter, setFilter] = useState("all");
   const [sort, setSort] = useState("rank");
   const [showRule, setShowRule] = useState(false);
   const [showQuality, setShowQuality] = useState(false);
 
+  /* Everything below judges people against the selected week, so the roster it
+     judges has to be that week's, not today's — on both ends.
+
+     Someone who joined this week was not in the clan during August, and
+     listing them there produced rows reading "Nothing given" — and, worse,
+     "2 weeks missed" — for weeks that ended before they arrived.
+
+     Someone who has since left was here, and a week they played is part of
+     what happened that week: dropping them rewrote finished weeks every time
+     somebody quit, and left the list disagreeing with the participation meter
+     beside it. They come back as ordinary rows, greyed and badged, carrying
+     the same status their week earned. Only the ones we have a roster record
+     for — the "contributions" ghosts were never captured on a roster, so they
+     have no rank to sort under and no might to be judged against; the former
+     members panel at the foot of the page is still where they are named.
+
+     The month board is deliberately left on the full current roster: it
+     answers a question about months, not about this week. */
+  const rosterFor = useCallback(
+    (wk) => {
+      if (!wk) return [];
+      const here = members.filter((m) => wasInClanFor(m, wk));
+      const gone = (former || [])
+        .filter((f) => f.via === "roster" && f.rank)
+        .map((f) => ({ ...f, firstSeen: f.joined, departed: f.lastSeen }))
+        .filter((f) => wasInClanFor(f, wk));
+      return [...here, ...gone];
+    },
+    [members, former]
+  );
+
+  const roster = useMemo(() => rosterFor(week), [rosterFor, week]);
+
   /* Quality is measured over the selected week and the one before it. A single
      week is too thin: on the Monday of a new week nobody has produced much of
      anything yet, and a ranking built on two days of data is mostly noise. */
-  const scored = useMemo(() => scoreRoster(members, week, prevWeek), [members, week, prevWeek]);
+  const scored = useMemo(() => scoreRoster(roster, week, prevWeek), [roster, week, prevWeek]);
   const asOf = useMemo(() => asOfDay(members), [members]);
 
   // spelled out on the breakdown, since the row above it shows one week only
@@ -1450,36 +1659,64 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
     return byRank;
   }, [scored]);
 
-  /* "Nothing given" is the red status, and it is not a fair reading of someone
-     who only joined partway through the week — they have not had a week in
-     which to give. New members are left out of both the count and the filter,
-     the same exemption "Below target", "silver only" and "missed two weeks"
-     already make. One predicate so the chip and the list it opens can never
-     disagree about who is in it.
+  // Gave any mandatory resource in a given week?
+  const gaveMandatoryIn = (wk, id) => !!wk && RES.some((r) => (((wk.donations && wk.donations[id]) || {})[r] || 0) > 0);
 
-     Their own row is untouched: it still carries the status, next to the NEW
-     THIS WEEK badge that explains it. The status describes the week's facts;
-     this cut answers the different question of who is worth chasing. */
+  // Joined during the current or the previous week? (too new to count as missing two weeks)
+  const joinedRecently = (m) => {
+    if (!m.firstSeen) return false;
+    const fw = weekStartOf(m.firstSeen);
+    return fw === week.start || (prevWeek && fw === prevWeek.start);
+  };
+
+  // Members who donated nothing mandatory this week AND last week,
+  // excluding anyone who joined during either of those two weeks.
+  const missedTwo = useMemo(() => {
+    if (!prevWeek) return [];
+    return roster
+      .filter((m) => !m.departed && !joinedRecently(m) && !gaveMandatoryIn(week, m.id) && !gaveMandatoryIn(prevWeek, m.id))
+      .map((m) => m.id);
+  }, [roster, week, prevWeek]);
+  const missedTwoSet = useMemo(() => new Set(missedTwo), [missedTwo]);
+
+  /* "1 week missed" is the red status, and three kinds of person carry it
+     without belonging on the list it opens.
+
+     Someone who joined partway through the week has not had a week in which to
+     give. Someone who has left cannot be chased. And someone who also gave
+     nothing last week has missed two, not one — they belong under "2 weeks
+     missed" and nowhere else, or the same name sits on two chips and the
+     shorter miss hides the longer one.
+
+     One predicate, so the chip and the list it opens can never disagree about
+     who is in it. Their own rows are untouched: each still carries the red
+     status, beside the badge or the other chip that explains it. The status
+     describes the week's facts; this cut answers the different question of who
+     is worth chasing this week. */
   const chaseableRed = useCallback(
-    (m, e) => e.status === "red" && !isNewThisWeek(m, week),
-    [week]
+    (m, e) =>
+      e.status === "red" && !isNewThisWeek(m, week) && !m.departed && !missedTwoSet.has(m.id),
+    [week, missedTwoSet]
   );
 
   const counts = useMemo(() => {
     const c = { red: 0, yellow: 0, green: 0, greenPlus: 0 };
-    members.forEach((m) => {
+    roster.forEach((m) => {
       const e = evaluate(m, week);
       if (e.status === "red" && !chaseableRed(m, e)) return;
       c[e.status]++;
     });
     return c;
-  }, [members, week, chaseableRed]);
+  }, [roster, week, chaseableRed]);
 
   const extraCounts = useMemo(() => {
     let noDon = 0, silver = 0, outside = 0, stalled = 0;
-    members.forEach((m) => {
+    roster.forEach((m) => {
       const don = evaluate(m, week).don;
       const gaveMandatory = RES.some((r) => (don[r] || 0) > 0);
+      // Everything here is a list of people to do something about, and there
+      // is nothing to be done about someone who has left.
+      if (m.departed) return;
       if (!m.inTerritory) outside++;
       if (looksInactive(m, asOf)) stalled++;
       if (!isNewThisWeek(m, week) && !gaveMandatory) {
@@ -1488,12 +1725,15 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
       }
     });
     return { noDon, silver, outside, stalled };
-  }, [members, week, asOf]);
+  }, [roster, week, asOf]);
 
-  /* Participation for one week, counted only over the members who had joined
-     by the end of it. Otherwise last week's percentages are dragged down by
-     people who were not in the clan yet, and the week-on-week comparison
-     measures recruitment rather than effort.
+  /* Participation for one week, counted over the roster as it stood in that
+     week: everyone who had joined by the end of it and had not yet left when
+     it began. Both bounds matter. Counting people who were not in the clan yet
+     drags last week's percentages down and turns the week-on-week comparison
+     into a measure of recruitment rather than effort; counting only who is
+     left today rewrites a finished week every time somebody quits, so the
+     record of a good week decays as its members drift away.
 
      Territory comes from the week itself — each member's last known position
      by that week's end — falling back to today's answer for weeks recorded
@@ -1501,12 +1741,14 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
   const partFor = useCallback(
     (wk) => {
       if (!wk) return null;
-      const end = iso(new Date(new Date(wk.start + "T12:00:00Z").getTime() + 6 * 86400000));
-      const pool = members.filter((m) => !m.firstSeen || m.firstSeen <= end);
+      const pool = rosterFor(wk);
       let donors = 0, chesters = 0, speeders = 0, outside = 0;
       pool.forEach((m) => {
         const e = evaluate(m, wk);
-        if (ALL_RES.some((r) => (e.don[r] || 0) > 0)) {
+        // the four required resources only — matching the row status, so a
+        // tractates-only week cannot read "Nothing given" and still be counted
+        // here as having donated
+        if (RES.some((r) => (e.don[r] || 0) > 0)) {
           donors++;
           if (!m.inTerritory) outside++;
         }
@@ -1557,11 +1799,17 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
         perMemberPerDay: pool.length > 0 ? chests / ran / pool.length : 0,
         topShare,
         total: pool.length,
-        inside: wk.inTerritory ? wk.inTerritory.length : pool.filter((m) => m.inTerritory).length,
-        insideOf: wk.territoryOf ?? pool.length,
+        /* Territory alone is counted over current members. The three figures
+           above record what a week contained, and someone who has since left
+           still contributed it; where a member lives is instead a standing
+           fact the clan acts on, and there is nothing to act on for someone
+           already gone. build_state.py cuts it the same way — this is only the
+           fallback for weeks recorded before it kept the figure. */
+        inside: wk.inTerritory ? wk.inTerritory.length : pool.filter((m) => !m.departed && m.inTerritory).length,
+        insideOf: wk.territoryOf ?? pool.filter((m) => !m.departed).length,
       };
     },
-    [members]
+    [rosterFor]
   );
 
   const part = useMemo(() => partFor(week), [partFor, week]);
@@ -1590,33 +1838,13 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
      collapse. */
   const chestRateShift = shift(part.perDay, before && before.perDay);
 
-  // Gave any mandatory resource in a given week?
-  const gaveMandatoryIn = (wk, id) => !!wk && RES.some((r) => (((wk.donations && wk.donations[id]) || {})[r] || 0) > 0);
-
-  // Joined during the current or the previous week? (too new to count as missing two weeks)
-  const joinedRecently = (m) => {
-    if (!m.firstSeen) return false;
-    const fw = weekStartOf(m.firstSeen);
-    return fw === week.start || (prevWeek && fw === prevWeek.start);
-  };
-
-  // Members who donated nothing mandatory this week AND last week,
-  // excluding anyone who joined during either of those two weeks.
-  const missedTwo = useMemo(() => {
-    if (!prevWeek) return [];
-    return members
-      .filter((m) => !joinedRecently(m) && !gaveMandatoryIn(week, m.id) && !gaveMandatoryIn(prevWeek, m.id))
-      .map((m) => m.id);
-  }, [members, week, prevWeek]);
-  const missedTwoSet = useMemo(() => new Set(missedTwo), [missedTwo]);
-
   const passesFilter = (m, e) => {
     if (filter === "all") return true;
     if (filter === "outside") return !m.inTerritory;
-    if (filter === "nodonation") return !isNewThisWeek(m, week) && !RES.some((r) => (e.don[r] || 0) > 0);
-    if (filter === "silveronly") return !isNewThisWeek(m, week) && !RES.some((r) => (e.don[r] || 0) > 0) && (e.don.silver || 0) > 0;
+    if (filter === "nodonation") return !m.departed && !isNewThisWeek(m, week) && !RES.some((r) => (e.don[r] || 0) > 0);
+    if (filter === "silveronly") return !m.departed && !isNewThisWeek(m, week) && !RES.some((r) => (e.don[r] || 0) > 0) && (e.don.silver || 0) > 0;
     if (filter === "missed2") return missedTwoSet.has(m.id);
-    if (filter === "stalled") return looksInactive(m, asOf);
+    if (filter === "stalled") return !m.departed && looksInactive(m, asOf);
     if (filter === "red") return chaseableRed(m, e);
     return e.status === filter;
   };
@@ -1626,17 +1854,41 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
   // other cuts of the roster with no colour meaning — they used to borrow
   // status colours, which put the same red on three chips. They get a hollow
   // ring instead: told apart by shape, not by nine near-identical hues.
-  // "Nothing given" and "Below target" are the red and yellow statuses, so the
+  // "1 week missed" and "Below target" are the red and yellow statuses, so the
   // two are exclusive: gave nothing at all vs gave something but missed the
-  // target. The "nodonation" filter (gave no mandatory resource, but possibly
-  // silver) is still implemented below — it just has no chip at the moment.
+  // target. "1 week missed" and "2 weeks missed" are exclusive too, by the cut
+  // in chaseableRed — a name appears on exactly one of them, so the counts can
+  // be read as a run length rather than as two overlapping tallies.
+  // The "nodonation" filter (gave no mandatory resource, but possibly silver)
+  // is still implemented below — it just has no chip at the moment.
   /* One row. Only the four statuses take a swatch, because only they have a
      colour to key: it is the same square that borders the member's row, which
      is what makes a separate colour key unnecessary. The cuts after them are
      not points on that scale, so a swatch there would invent a meaning. */
+  /* How much of the roster above is people who have left. "Everyone 62" invites
+     being read as the clan's size, which it is not once some of the 62 have
+     gone — so the chip shows the split and the line under the row breaks it
+     down. Zero of them is the common case, and then nothing extra is drawn.
+
+     Beside it, the week's own churn — who arrived and who went while it ran.
+     That is the figure worth reading, and it is not the size of the departed
+     group: 21 people are gone from the week of 16 Aug, but only 9 left during
+     it, the rest having stayed on and gone over the following fortnight. One
+     number counts a week; the other grows on its own the further back you
+     look, which is what made it read as a mass exodus. */
+  const split = useMemo(() => {
+    const end = weekEndOf(week);
+    return {
+      departed: roster.filter((m) => m.departed).length,
+      joined: roster.filter((m) => isNewThisWeek(m, week)).length,
+      left: roster.filter((m) => m.departed && m.departed >= week.start && m.departed <= end).length,
+    };
+  }, [roster, week]);
+  const departed = split.departed;
+
   const statusChip = (k) => [k, t[STATUS[k].key], counts[k], STATUS[k].tone];
   const filters = [
-    ["all", t.everyone, members.length],
+    ["all", t.everyone, roster.length, null, departed],
     statusChip("red"),
     statusChip("yellow"),
     statusChip("green"),
@@ -1649,7 +1901,8 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
 
   return (
     <div>
-      <Podium t={t} members={members} week={week} />
+      <Podium t={t} members={roster} week={week} />
+      <MonthBoard t={t} lang={lang} members={members} months={months} />
 
       {/* participation */}
       <div className="bt-participation">
@@ -1715,7 +1968,7 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
               that rate. Sits with the figure rather than in the footnote
               because it is the same claim scaled, not provenance. Hidden on a
               week that predates chests entirely, or the July weeks would read
-              "0.0 per member, ≈0 a day at 60". */}
+              "0.0 per member, ≈0 a day at 70". */}
           {part.chests > 0 && (
             <span className="bt-part-total-per">
               {t.clanChestsPerMember(part.perMemberPerDay.toFixed(1), part.total)}
@@ -1794,14 +2047,29 @@ function Ledger({ t, lang, members, week, prevWeek, former }) {
         </div>
 
         <div className="bt-chips">
-          {filters.map(([k, label, n, tone]) => (
+          {filters.map(([k, label, n, tone, gone]) => (
             <button key={k} className="bt-chip" onClick={() => setFilter(k)} aria-pressed={filter === k}>
               {tone && <span className="bt-swatch" data-tone={tone} />}
               {label}
-              <span className="bt-chip-count">{n}</span>
+              <span className="bt-chip-count">
+                {gone ? n - gone : n}
+                {gone > 0 && (
+                  <span className="bt-chip-extra" title={t.departedPlus(gone)}>{` +${gone}`}</span>
+                )}
+              </span>
             </button>
           ))}
         </div>
+        {(departed > 0 || split.joined > 0) && (
+          <p className="bt-chips-note">
+            {[
+              departed > 0 && t.rosterStill(roster.length - departed, roster.length),
+              (split.joined > 0 || split.left > 0) && t.rosterChurn(split.joined, split.left),
+            ]
+              .filter(Boolean)
+              .join(" · ")}
+          </p>
+        )}
       </section>
 
       {/* Quality view drops the rank grouping: the point is one ranking across
@@ -2081,7 +2349,7 @@ export default function App() {
               ))}
             </nav>
             {view === "ledger" && (
-              <Ledger t={t} lang={lang} members={state.members} week={week} prevWeek={prevWeek} former={state.formerMembers} />
+              <Ledger t={t} lang={lang} members={state.members} week={week} prevWeek={prevWeek} former={state.formerMembers} months={state.months} />
             )}
             {view === "timing" && <Timing t={t} members={state.members} week={week} prevWeek={prevWeek} />}
             {view === "map" && (

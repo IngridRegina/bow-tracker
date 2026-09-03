@@ -74,8 +74,11 @@ def first_set(*values):
     """First value that is not None. Unlike `or`, keeps a legitimate 0."""
     return next((v for v in values if v is not None), None)
 
-# Day and week both roll at 20:00 Estonian summer time == 17:00 UTC.
+# Day and week both roll at 20:00 Estonian summer time == 17:00 UTC, which is
+# midnight on the game server's own clock, UTC+7. A game-day is therefore named
+# for its date in UTC+7 — the date it ends on in UTC, not the one it starts on.
 BOUNDARY_UTC_HOUR = 17
+SERVER_UTC_OFFSET = 24 - BOUNDARY_UTC_HOUR
 
 # Clan chests carry an expiry timestamp, not a production one. They last
 # 20 hours, so subtract that to get when the chest was actually made.
@@ -231,7 +234,18 @@ def read_hars(paths):
 # ---------------------------------------------------------------- dates
 
 def game_day(ts):
-    return datetime.fromtimestamp(ts - BOUNDARY_UTC_HOUR * 3600, timezone.utc).strftime("%Y-%m-%d")
+    """The game-day a moment falls in, named the way the game names it: the
+    date on the server clock, UTC+7. The day labelled 31 August therefore runs
+    from 30 Aug 17:00 UTC to 31 Aug 17:00 UTC, and August's last donation is
+    the one made at 16:59 UTC on the 31st — not a day later."""
+    return datetime.fromtimestamp(ts + SERVER_UTC_OFFSET * 3600, timezone.utc).strftime("%Y-%m-%d")
+
+
+def last_calendar_day(mkey):
+    """The final game-day of a YYYY-MM month."""
+    y, m = (int(x) for x in mkey.split("-"))
+    first_next = datetime(y + m // 12, m % 12 + 1, 1, tzinfo=timezone.utc)
+    return (first_next - timedelta(days=1)).strftime("%Y-%m-%d")
 
 
 def week_start(day):
@@ -732,9 +746,26 @@ def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
     # looked at. The last reading of the week does neither — it is settled once
     # the week is over, and during the week in progress it is simply the newest
     # figure, which is the one the member sees in game.
+    # The roster as it stood in a given week: everyone who had joined by the end
+    # of it and had not yet left when it began. Weeks are finished history, so
+    # the people who played them belong in them — counting a past week over
+    # today's roster alone rewrote it every time somebody quit, and made the
+    # clan's own record of a week shrink as members drifted away from it.
+    # Ghost contributors are left out: never captured on a roster, they have no
+    # rank and no might, so there is nothing to measure them against.
+    def roster_for(wkey, wk_end):
+        out = [m for m in members
+               if not (m.get("firstSeen") and m["firstSeen"] > wk_end)]
+        out += [f for f in former_members
+                if f.get("via") == "roster" and f.get("rank")
+                and not (f.get("joined") and f["joined"] > wk_end)
+                and not (f.get("lastSeen") and f["lastSeen"] < wkey)]
+        return out
+
     for wkey, w in weeks.items():
         w.setdefault("endMights", {})
-        for m in members:
+        wk_end = (datetime.strptime(wkey, "%Y-%m-%d") + timedelta(days=6)).strftime("%Y-%m-%d")
+        for m in roster_for(wkey, wk_end):
             seen = mights.get(m["id"], {})
             within = sorted(d for d in seen if week_start(d) == wkey)
             w["mights"][m["id"]] = seen[within[0]] if within else m["might"]
@@ -747,24 +778,37 @@ def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
 
     # Who lived in clan territory in each week: each member's last known
     # position as of that week's end, so a week reflects where people were
-    # then rather than where they are now. Anyone who had not joined by then is
-    # left out entirely, and anyone with no position on file that far back
-    # falls back to today's answer — the old behaviour, counted and flagged.
+    # then rather than where they are now. Anyone with no position on file that
+    # far back falls back to today's answer — the old behaviour, counted and
+    # flagged.
+    #
+    # Counted over current members only, unlike the donation, chest and speedup
+    # figures beside it. Those three record what happened in a week, and
+    # someone who has since left still did it. Territory is not a record of a
+    # week: it is where a member lives, the standing fact the clan acts on when
+    # deciding who to remove — and there is no decision to make about someone
+    # already gone. Counting them made "47 of 60 in territory" sit under a clan
+    # of 56, with the four extra being people whose city nobody cares about.
     for wkey, w in weeks.items():
         wk_end = (datetime.strptime(wkey, "%Y-%m-%d") + timedelta(days=6)).strftime("%Y-%m-%d")
         inside, guessed, counted = [], 0, 0
-        for m in members:
-            if m.get("firstSeen") and m["firstSeen"] > wk_end:
-                continue
-            counted += 1
+        for m in (m for m in members
+                  if not (m.get("firstSeen") and m["firstSeen"] > wk_end)):
             seen = coords_hist.get(m["id"], {})
             upto = sorted(d for d in seen if d <= wk_end)
             if upto:
                 x, y = seen[upto[-1]]
                 here = in_territory([0, x, y], capital)
-            else:
+            elif m.get("inTerritory") is not None:
                 here = m["inTerritory"]
                 guessed += 1
+            else:
+                # No position on file that far back, and no current one to fall
+                # back on — someone who left before positions were ever
+                # captured. Left out of the figure rather than guessed at, so
+                # the denominator stays the people we can actually place.
+                continue
+            counted += 1
             if here:
                 inside.append(m["id"])
         w["inTerritory"] = inside
@@ -775,6 +819,63 @@ def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
                       + (f" ({weeks[k]['territoryGuessed']} guessed)" if weeks[k]["territoryGuessed"] else "")
                       for k in sorted(weeks))
     print(f"in territory by week: {tally}")
+
+    # ---- months -------------------------------------------------
+    # Calendar-month donation totals, for the board that names the top few
+    # donors once a month is complete. Weeks cannot simply be summed into
+    # months: they straddle month boundaries — the week of 26 Jul runs into
+    # August, the week of 30 Aug into September — so a month is built from the
+    # event ledger's own timestamps, the same source the weeks come from.
+    months = {}
+    newest_day = ""
+    for ev in elog.values():
+        day = game_day(ev["ts"])
+        # Every event counts as evidence of how far the data reaches, donation
+        # or not — that is what decides whether a month has been left behind.
+        newest_day = max(newest_day, day)
+        pid = str(ev["player_id"])
+        if int(pid) not in known_ids or ev["kind"] not in (3, 4):
+            continue
+        mo = months.setdefault(day[:7], {"start": day[:7], "donations": {},
+                                         "mights": {}, "endMights": {}, "lastDay": ""})
+        mo["lastDay"] = max(mo["lastDay"], day)
+        row = mo["donations"].setdefault(pid, {})
+        for k, v in ev["amounts"].items():
+            name = RESOURCES.get(int(k))
+            if name:
+                row[name] = row.get(name, 0) + v
+
+    # The same three-mights reasoning the weeks use. A share-of-might board
+    # needs a denominator belonging to the period it describes, so the closing
+    # figure of the month is what the board divides by: it is settled once the
+    # month ends, where the current figure would shrink every past month a
+    # little further each time the page was opened. Months older than
+    # might-history.json fall back to the current figure, exactly as weeks do.
+    for mkey, mo in months.items():
+        for m in members:
+            seen = mights.get(m["id"], {})
+            within = sorted(d for d in seen if d.startswith(mkey))
+            if within:
+                mo["lastDay"] = max(mo["lastDay"], within[-1])
+            mo["mights"][m["id"]] = seen[within[0]] if within else m["might"]
+            mo["endMights"][m["id"]] = seen[within[-1]] if within else m["might"]
+        # Donors who have since left, kept aside so "top 3" stays a board about
+        # the people who are actually still here — matching the weekly podium.
+        former = sorted({name_of.get(p, p) for p in mo["donations"] if p not in current_ids})
+        if former:
+            mo["former"] = former
+        # A month is finished only once the ledger has moved past its final
+        # game-day. Reaching that day is not enough: a game-day runs from 17:00
+        # UTC to 17:00 UTC, so the last day of August is still taking donations
+        # well into 1 September, and a board published at the top of it would
+        # be reordered by everything given afterwards.
+        mo["closed"] = newest_day > last_calendar_day(mkey)
+
+    if months:
+        print("months: " + ", ".join(
+            f"{k} {len(months[k]['donations'])} donor(s) through {months[k]['lastDay']}"
+            + ("" if months[k]["closed"] else " (still open)")
+            for k in sorted(months)))
 
     today = game_day(datetime.now(timezone.utc).timestamp())
     current = week_start(today)
@@ -795,7 +896,8 @@ def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
     generated_at = datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
 
     state = {"generatedAt": generated_at, "capital": list(capital), "members": members,
-             "formerMembers": former_members, "currentWeek": current, "weeks": weeks}
+             "formerMembers": former_members, "currentWeek": current, "weeks": weeks,
+             "months": months}
     json.dump(state, open("public/tracker-state.json", "w", encoding="utf-8"), indent=2)
 
     print(f"members: {len(members)}   weeks: {len(weeks)}   current: {current}")
