@@ -404,9 +404,13 @@ const iso = (d) => d.toISOString().slice(0, 10);
 function todayISO(when = new Date()) {
   return iso(new Date(when.getTime() + SERVER_UTC_OFFSET * 3600000));
 }
+/* The Monday that starts this game-day's week. Weeks run Monday's game-day
+   through Sunday's, so they cover Sunday 17:00 UTC through the following
+   Sunday 16:59:59 UTC — Sunday 17:00 UTC is when the next week's first
+   game-day (Monday) begins. Must match week_start() in build_state.py. */
 function weekStartOf(dateStr) {
   const d = new Date(dateStr + "T12:00:00Z");
-  d.setUTCDate(d.getUTCDate() - d.getUTCDay());
+  d.setUTCDate(d.getUTCDate() - ((d.getUTCDay() + 6) % 7));
   return iso(d);
 }
 /* Which day of the week we are on, 1..7. For labels — "day 3 of 7", "over 3

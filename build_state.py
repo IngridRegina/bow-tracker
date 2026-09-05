@@ -249,8 +249,12 @@ def last_calendar_day(mkey):
 
 
 def week_start(day):
+    """The Monday that starts this game-day's week. Weeks run Monday's game-day
+    through Sunday's, so they cover Sunday 17:00 UTC through the following
+    Sunday 16:59:59 UTC — Sunday 17:00 UTC is when the next week's first
+    game-day (Monday) begins."""
     d = datetime.strptime(day, "%Y-%m-%d")
-    return (d - timedelta(days=(d.weekday() + 1) % 7)).strftime("%Y-%m-%d")
+    return (d - timedelta(days=d.weekday())).strftime("%Y-%m-%d")
 
 
 def daysbetween(a, b):
