@@ -471,6 +471,13 @@ function sinceLabel(then, now, t) {
 function isNewThisWeek(member, week) {
   return member.firstSeen && weekStartOf(member.firstSeen) === week.start;
 }
+/* The Sunday a week actually begins on at 17:00 UTC, for display only. week.start
+   is the following Monday's game-day label, which the "+6 days" math needs to
+   land on Sunday — but "Week of <that Monday>" reads like the week starts a day
+   later than it does, so labels use this instead. */
+function weekLabelDate(weekStart) {
+  return iso(new Date(new Date(weekStart + "T12:00:00Z").getTime() - 86400000));
+}
 /* The last game-day a week covers. */
 function weekEndOf(week) {
   return iso(new Date(new Date(week.start + "T12:00:00Z").getTime() + 6 * 86400000));
@@ -1653,8 +1660,8 @@ function Ledger({ t, lang, members, week, prevWeek, former, months }) {
 
   // spelled out on the breakdown, since the row above it shows one week only
   const qualitySpan = prevWeek
-    ? t.qualityOverWeeks(shortDate(prevWeek.start, lang), shortDate(week.start, lang))
-    : t.qualityOverWeek(shortDate(week.start, lang));
+    ? t.qualityOverWeeks(shortDate(weekLabelDate(prevWeek.start), lang), shortDate(weekLabelDate(week.start), lang))
+    : t.qualityOverWeek(shortDate(weekLabelDate(week.start), lang));
 
   const rows = useMemo(() => {
     const byRank = {};
@@ -2282,7 +2289,7 @@ export default function App() {
       <select className="bt-week-select" value={state.currentWeek} onChange={(e) => setState({ ...state, currentWeek: e.target.value })}>
         {weekKeys.map((k) => (
           <option key={k} value={k}>
-            {t.weekOf} {shortDate(k, lang)}
+            {t.weekOf} {shortDate(weekLabelDate(k), lang)}
           </option>
         ))}
       </select>
