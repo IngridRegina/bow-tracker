@@ -129,7 +129,7 @@
   },
   "1378684575159": {
     "name": "Luchneen",
-    "might": 132692,
+    "might": 136892,
     "rank": "Soldier"
   },
   "1378684514657": {
@@ -144,7 +144,7 @@
   },
   "1378684511363": {
     "name": "Direwalker",
-    "might": 168946,
+    "might": 126107,
     "rank": "Veteran"
   },
   "1378684703780": {
@@ -214,7 +214,7 @@
   },
   "1378684538880": {
     "name": "Aydaen",
-    "might": 82372,
+    "might": 82526,
     "rank": "Soldier"
   },
   "1378684697100": {
@@ -224,7 +224,7 @@
   },
   "1378684801426": {
     "name": "Elrohan",
-    "might": 58854,
+    "might": 59156,
     "rank": "Soldier"
   },
   "1378684801550": {
@@ -234,7 +234,7 @@
   },
   "1378684574924": {
     "name": "Lelinil",
-    "might": 40279,
+    "might": 40704,
     "rank": "Soldier"
   },
   "1378684774484": {
@@ -452,29 +452,14 @@
     "might": 176371,
     "rank": "Veteran"
   },
-  "1378684665159": {
-    "name": "Serrallonga",
-    "might": 173426,
-    "rank": "Veteran"
-  },
-  "1378684542793": {
-    "name": "Megore",
-    "might": 171109,
-    "rank": "Soldier"
-  },
   "1378684506286": {
     "name": "Luchneen",
     "might": 162585,
     "rank": "Veteran"
   },
-  "1378684622857": {
-    "name": "Aegrodan",
-    "might": 125089,
-    "rank": "Soldier"
-  },
-  "1378684719021": {
-    "name": "Arkayen",
-    "might": 123376,
+  "1378684665159": {
+    "name": "Serrallonga",
+    "might": 173426,
     "rank": "Veteran"
   },
   "1378684722389": {
@@ -482,14 +467,29 @@
     "might": 123364,
     "rank": "Veteran"
   },
+  "1378684737498": {
+    "name": "Morfir",
+    "might": 113762,
+    "rank": "Soldier"
+  },
+  "1378684719021": {
+    "name": "Arkayen",
+    "might": 123376,
+    "rank": "Veteran"
+  },
+  "1378684542793": {
+    "name": "Megore",
+    "might": 171109,
+    "rank": "Soldier"
+  },
   "1378684614935": {
     "name": "Torin",
     "might": 118885,
     "rank": "Soldier"
   },
-  "1378684737498": {
-    "name": "Morfir",
-    "might": 113762,
+  "1378684622857": {
+    "name": "Aegrodan",
+    "might": 125089,
     "rank": "Soldier"
   },
   "1378684712650": {
