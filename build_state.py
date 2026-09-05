@@ -188,9 +188,20 @@ def is_event(row):
 
 
 def read_hars(paths):
-    players, events, chests, roster, map_objects = {}, {}, {}, {}, []
+    """Replays captures in the order they were actually taken, not the order
+    they're named or listed in: passing a whole captures/ glob mixes month
+    boundaries (030926 sorts before 240826), and processing an old capture
+    last would overwrite a newer roster and its ranks with a stale one."""
+    files = []
     for path in paths:
-        for entry in json.load(open(path, encoding="utf-8"))["log"]["entries"]:
+        entries = json.load(open(path, encoding="utf-8"))["log"]["entries"]
+        when = max((e.get("startedDateTime", "") for e in entries), default="")
+        files.append((when, entries))
+    files.sort(key=lambda f: f[0])
+
+    players, events, chests, roster, map_objects = {}, {}, {}, {}, []
+    for _when, entries in files:
+        for entry in entries:
             if entry["request"]["method"] != "POST":
                 continue
             if not REALM_URL.search(entry["request"]["url"]):
