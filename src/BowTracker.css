@@ -168,13 +168,6 @@
   gap: 12px;
 }
 
-/* a flex row purely so the select keeps its natural width instead of being
-   stretched by the column stack it sits in */
-.bt-header-select {
-  display: flex;
-  justify-content: flex-start;
-}
-
 /* Only the inner group wraps. Keeping the outer row nowrap and top-aligned
    pins the language button to the header's first row, instead of letting it
    ride down to whatever line the wrapped content ends on. */
@@ -489,9 +482,12 @@
   margin-bottom: 8px;
 }
 
-/* Same control as the week picker, recoloured for the panel it sits on rather
-   than the dark header band. */
-.bt-month-select {
+/* .bt-week-select's default colors are tuned for the dark header band it was
+   designed for — pale band-ink text and a light-stroked arrow. Every place
+   that control sits on an ordinary panel instead (the month picker, the chest
+   player picker, the week picker now that it lives in the Ledger) needs this
+   recoloured, or the text is nearly invisible on the light surface. */
+.bt-select-light {
   background-color: rgba(198, 154, 62, 0.1);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4L6 8L10 4' fill='none' stroke='%236B5A45' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   color: var(--bt-ink);
@@ -509,6 +505,15 @@
   border-radius: 0 6px 6px 0;
   padding: 8px 12px;
   margin-bottom: 10px;
+}
+
+/* Was the header's global week picker — moved here since only the Ledger
+   (and, through it, the quality score the Good times tab borrows) actually
+   reads the selected week. */
+.bt-ledger-week {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12px;
 }
 
 .bt-podium {
@@ -740,83 +745,6 @@
   border-radius: 12px;
   padding: 20px 22px;
   margin-bottom: 32px; /* matches .bt-podium's margin-bottom above it */
-}
-
-/* Spans whatever column count is in force, so it stays one row under the
-   meters at every breakpoint rather than becoming an orphaned fifth cell. The
-   rule above it is what separates a clan output figure from the four
-   member-participation proportions. */
-.bt-part-total {
-  grid-column: 1 / -1;
-  display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: 4px 10px;
-  border-top: 1px solid var(--bt-line);
-  padding-top: 16px;
-}
-
-.bt-part-total-value {
-  font: 600 24px var(--bt-display);
-  color: var(--bt-ink);
-  line-height: 1;
-}
-
-.bt-part-total-label {
-  font: 14px var(--bt-body);
-  color: var(--bt-ink-soft);
-}
-
-/* The same rate divided by the roster, and that rate at a full clan — a
-   restatement of the figure, so it sits in the label's register rather than
-   the footnote's.
-
-   It wraps rather than squeezing: without flex-wrap the two phrases stay on
-   one line and the first breaks inside itself, giving "5.6 per member across"
-   / "49" on a narrow screen. Wrapping puts each phrase on its own line whole. */
-.bt-part-total-per {
-  display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: 2px 6px;
-  font: 14px var(--bt-body);
-  color: var(--bt-ink-soft);
-}
-
-/* body face, not the mono used elsewhere for figures: this one is a sentence
-   rather than a number, and monospaced prose reads as a code sample */
-.bt-part-total-proj {
-  font: 13px var(--bt-body);
-  color: var(--bt-ink-soft);
-  opacity: 0.8;
-}
-
-/* Only rendered when one member carries an unusual share of the week, so it
-   can afford to be coloured — it is never present in a normal week. Amber
-   rather than red: the total is accurate, it just is not evenly earned. */
-.bt-part-total-warn {
-  font: 600 13px var(--bt-body);
-  color: var(--bt-amber-ink);
-  background: var(--bt-amber-bg);
-  border-radius: 999px;
-  padding: 2px 9px;
-}
-
-/* the raw total the rate came from, pushed to the end where it reads as a
-   footnote rather than competing with the figure */
-.bt-part-total-note {
-  margin-left: auto;
-  font: 13px var(--bt-data);
-  color: var(--bt-ink-soft);
-}
-
-/* Below this the row cannot hold figure, label, delta and note on one line in
-   both languages, and an auto margin would strand the note right-aligned on a
-   line of its own. It joins the flow instead. */
-@container (max-width: 700px) {
-  .bt-part-total-note {
-    margin-left: 0;
-  }
 }
 
 @container (max-width: 878px) {
@@ -2239,4 +2167,300 @@
   font: 13px var(--bt-body);
   color: var(--bt-ink-soft);
   font-style: italic;
+}
+
+/* ---- chest stats ------------------------------------------------ */
+.bt-chests-card {
+  margin-bottom: 24px;
+}
+
+/* Sits under the clan chart, expanding the daily-rate stat tile above it: what
+   one member is worth, what the full clan would make at that rate, and — only
+   when it applies — a warning that the total is carried by one member rather
+   than earned evenly. Ported from the Ledger's old per-week "clan chests a
+   day" line, which this tab's trend made redundant there. */
+.bt-chest-clan-note {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--bt-line);
+}
+
+.bt-chest-per {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 2px 6px;
+  font: 14px var(--bt-body);
+  color: var(--bt-ink-soft);
+}
+
+/* body face, not the mono used elsewhere for figures: this one is a sentence
+   rather than a number, and monospaced prose reads as a code sample */
+.bt-chest-proj {
+  font: 13px var(--bt-body);
+  color: var(--bt-ink-soft);
+  opacity: 0.8;
+}
+
+/* Only rendered when one member carries an unusual share of the span, so it
+   can afford to be coloured — amber rather than red, since the total is
+   accurate, it just is not evenly earned. */
+.bt-chest-warn {
+  font: 600 13px var(--bt-body);
+  color: var(--bt-amber-ink);
+  background: var(--bt-amber-bg);
+  border-radius: 999px;
+  padding: 2px 9px;
+}
+
+.bt-stat-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 16px 0 24px;
+}
+
+.bt-stat-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--bt-panel);
+  border: 1px solid var(--bt-line);
+  border-top: 3px solid var(--bt-gold);
+  border-radius: 12px;
+  padding: 14px 18px;
+}
+
+.bt-stat-value {
+  font: 600 26px var(--bt-display);
+  color: var(--bt-ink);
+  line-height: 1;
+}
+
+.bt-stat-label {
+  font: 14px var(--bt-body);
+  color: var(--bt-ink-soft);
+}
+
+.bt-stat-note {
+  font: 12px var(--bt-data);
+  color: var(--bt-ink-soft);
+  opacity: 0.8;
+}
+
+@container (max-width: 620px) {
+  .bt-stat-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.bt-chart-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.bt-chart-title {
+  font: 600 15px var(--bt-body);
+  color: var(--bt-ink);
+  margin: 0 0 12px;
+}
+
+.bt-chart-head .bt-chart-title {
+  margin-bottom: 0;
+}
+
+/* A bar chart built from divs, not SVG, so it shares the meters' markup and
+   theming rather than a second rendering system for one tab. Bars sit in a
+   horizontally-scrolling track so a long span stays readable at its own
+   width instead of being squeezed to fit the card. */
+.bt-chart {
+  display: flex;
+  gap: 8px;
+}
+
+.bt-chart-axis {
+  flex: none;
+  width: 34px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-bottom: 60px;
+  text-align: right;
+  font: 11px var(--bt-data);
+  color: var(--bt-ink-soft);
+}
+
+.bt-chart-scroll {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: visible;
+}
+
+/* Side padding, not just the columns' own width, is what keeps the first and
+   last day's tick label and hover tooltip from being clipped by the scroll
+   container's edge — both are centered on their column and routinely wider
+   than half a column, so they need room to overflow the column without
+   overflowing the plot. */
+.bt-chart-plot {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  height: 180px;
+  padding: 0 56px 60px;
+  min-width: calc(var(--bt-chart-cols) * 13px);
+}
+
+.bt-chart-grid {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--bt-line);
+}
+
+.bt-chart-col {
+  position: relative;
+  flex: 1 0 0;
+  min-width: 13px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0 1px;
+}
+
+.bt-chart-bar {
+  width: 100%;
+  max-width: var(--bt-chart-bar-max, 15px);
+  height: var(--bt-chart-h);
+  min-height: 1px;
+  background: var(--bt-chart-color);
+  border-radius: 4px 4px 0 0;
+}
+
+.bt-chart-col:hover .bt-chart-bar,
+.bt-chart-col:focus-visible .bt-chart-bar {
+  filter: brightness(1.15);
+}
+
+.bt-chart-tip {
+  position: absolute;
+  bottom: calc(var(--bt-chart-h) + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bt-band);
+  color: var(--bt-band-ink);
+  font: 12px var(--bt-data);
+  padding: 4px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+  display: flex;
+  gap: 6px;
+  align-items: baseline;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.1s;
+  z-index: 2;
+}
+
+.bt-chart-tip strong {
+  font: 600 12px var(--bt-data);
+}
+
+.bt-chart-col:hover .bt-chart-tip,
+.bt-chart-col:focus-visible .bt-chart-tip {
+  opacity: 1;
+}
+
+.bt-chart-endlabel {
+  position: absolute;
+  bottom: calc(var(--bt-chart-h) + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  font: 600 12px var(--bt-data);
+  color: var(--bt-ink);
+  white-space: nowrap;
+}
+
+/* Every bar gets a date now, not just the first and last — at day-chart
+   density that only fits standing up. writing-mode does the rotation rather
+   than a transform: rotating a horizontally-centered box around its own
+   center leaves half the label above the baseline; a vertical writing mode
+   just lays the text out top-down in place, no pivot math to get wrong. */
+.bt-chart-tick {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 6px;
+  writing-mode: vertical-rl;
+  text-orientation: sideways;
+  font: 10px var(--bt-data);
+  color: var(--bt-ink-soft);
+  white-space: nowrap;
+}
+
+.bt-chest-table {
+  margin-top: 20px;
+}
+
+.bt-chest-table tbody tr + tr {
+  border-top: 1px solid var(--bt-line);
+}
+
+.bt-chest-table thead th {
+  font: 600 11px var(--bt-body);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--bt-ink-soft);
+  border-bottom: 1px solid var(--bt-line);
+  padding-bottom: 6px;
+}
+
+.bt-chest-table thead th.bt-res-name {
+  text-align: left;
+}
+
+.bt-chest-table thead th.bt-res-given {
+  text-align: right;
+}
+
+.bt-chest-row {
+  cursor: pointer;
+}
+
+.bt-chest-row:hover {
+  background: var(--bt-panel-alt);
+}
+
+.bt-chest-row[aria-current="true"] {
+  background: var(--bt-green-bg);
+}
+
+.bt-chest-row[aria-current="true"] .bt-res-name,
+.bt-chest-row[aria-current="true"] .bt-res-given {
+  color: var(--bt-green-ink);
+  font-weight: 600;
+}
+
+/* Four plain numeric columns read fine at any width, unlike the donation
+   table's name/given/need/ok layout — so this table keeps ordinary rows
+   rather than picking up that table's narrow-screen grid rewrite. */
+@container (max-width: 430px) {
+  .bt-chest-table tr {
+    display: table-row;
+  }
+
+  .bt-chest-table .bt-res-name,
+  .bt-chest-table .bt-res-given {
+    padding: 6px 8px 6px 0;
+  }
 }

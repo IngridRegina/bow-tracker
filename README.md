@@ -232,57 +232,53 @@ Note that the donation part follows the clan's own "20% combined" rule, so a
 member can score full marks on donations while the row still reads "2 short":
 they gave far more than the combined target but skipped a resource.
 
-## Clan chests per day
+## Chests tab
 
-Under the four participation meters is what the clan produces rather than how
-many members took part: total chests for the week divided by the days of that
-week elapsed, plus the raw total and the day count it came from.
+Chest production has its own tab rather than living under the Ledger's weekly
+view, because "how many chests a day" is a trend question — better answered by
+a chart of days than by one week's rate recomputed every Monday. It reads the
+same `weeks[week].chests` the Ledger does, merged across every week on file.
 
-Two things about the arithmetic. The total is summed from the week itself, not
-from the current roster, so chests from members who have since left still count
-towards what the clan produced that week — 1252 against the roster's 1248 for
-the week of 9 Aug. And the divisor is how much of the week has actually run, matching the
-per-member "chests a day", so the member figures still add up to the clan one.
+A row of range presets — 7 days / 4 weeks / 12 weeks / all time, defaulting to
+4 weeks — scopes everything below it: both charts, the three stat tiles, and
+the table's daily/weekly averages all agree on the same window, so switching
+presets can't leave one figure describing a different span than another. Days
+with no chests at all are still plotted as zero rather than skipped, so a
+blank day reads as a blank bar instead of vanishing from the axis and
+compressing the days around it.
 
-The day in progress counts only as far as it has gone. Counting it whole made
-every rate fall off a cliff at the 20:00 rollover: the clan chest figure
-dropped from 272 a day to 233 the instant the divisor gained a seventh day
-that was seconds old and held no chests, with nothing changed but the clock.
-The numerator already includes that day's partial output, so scaling the
-divisor the same way keeps the two in step. The first day of a week is floored
-at a whole day, because ten minutes in, five chests would otherwise read as
-720 a day; that leaves day one reading low, which is the safer direction. The
-"day 3 of 7" and "over 3 days" labels stay whole numbers — `dayOfWeek` — while
-the rates use the fraction (`daysElapsed`).
-A week whose captures start late therefore reads low: the week of 2 Aug has no
-chest data before the 4th but is still divided by 7.
+Two charts: the clan's total by day, and a picked member's own total by day —
+picked from a dropdown or by clicking their row in the table underneath, which
+also lists everyone's total, daily average and weekly average for the current
+range. The total is summed from the raw data, not from the current roster, so
+a member who has since left still counts toward what the clan produced while
+they were in it; a note under the table says how much of the total that is,
+when it's more than zero.
 
-Beside the rate is the same figure divided by the roster, and that rate at a
+Under the clan chart, the same rate divided by the roster, and that rate at a
 full clan of 70: "5.6 per member across 49 · 70 members would make ≈392 a
 day". The projection is worded in full rather than clipped to "≈392 at 70",
-which read as a fact about the clan instead of the hypothetical it is. The **mean**,
-not the median, because the point is that it multiplies back out — an average
-member times the roster is the clan's output. The median cannot do that: in
-the week of 16 Aug the median producer made 2.0 a day, and 2.0 x 49 is 98
-against a real 274, because most of the roster produces nothing.
+which read as a fact about the clan instead of the hypothetical it is. The
+**mean**, not the median, because the point is that it multiplies back out —
+an average member times the roster is the clan's output. The median cannot do
+that: on a lopsided day the median producer can read near zero while the mean
+still reflects what the clan actually made, because most of the roster
+produces nothing on any given day.
 
-The mean is also what a lopsided week distorts, which is why the concentration
+The mean is also what a lopsided span distorts, which is why a concentration
 note sits next to it. When the largest single producer accounts for more than
-`CONCENTRATED_AT` (40%) of a week, the row says so: "65% of it from one
-member". Bulk chest grants arrive as one in-game award of many, so a single
-member can carry a week — in the week of 16 Aug, Cordamath II produced 713 of
-1096, and 447 of the 487 made on 19 Aug. Without Cordamath II the clan ran at
-96 a day rather than 274. The two complete weeks before that sat at 16% and
-19%, so the threshold is roughly double a normal week and the note stays
-absent unless something is genuinely skewed; worth retuning once there are
-more than three weeks of chest data.
+`CONCENTRATED_AT` (40%) of the selected span, the note says so: "65% of it
+from one member". Bulk chest grants arrive as one in-game award of many, so a
+single member can carry a span on their own — worth retuning once there is
+more chest data on file to judge a normal spread from. The projection and
+concentration note are both hidden when the span has no chests at all.
 
-The per-member figure and the note are both hidden on a week with no chests at
-all, or the July weeks would read "0.0 per member, ≈0 a day at 70".
-
-The week-on-week figure compares rates, not totals. A finished week has seven
-days behind it and a week two days old has two, so comparing raw counts would
-call every Monday a collapse.
+Unlike the Ledger's old per-week figure, the daily rate here does not scale
+the current day's fraction against how much of it has elapsed — a day counts
+as a whole day in the average as soon as it appears on the chart, so the
+7-day preset in particular can read low for a few hours after the daily
+rollover, before that day's chests catch up. Worth revisiting if it turns out
+to matter in practice.
 
 ## The donation target
 

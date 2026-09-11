@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useMemo, useCallback, lazy, Suspense } from "react";
 import { Anvil, Stone, TreePine, Wheat, Coins, Book } from "lucide-react";
-import { fmt, compact, fmtHours, countryName } from "./format.js";
+import { fmt, compact, fmtHours, countryName, locale, shortDate, MAX_MEMBERS } from "./format.js";
 import "./BowTracker.css";
 
 /* The map carries the world atlas with it — around half the built bundle — so
    it is a separate chunk fetched the first time that tab is opened rather than
    on every visit to the ledger. */
 const WorldMap = lazy(() => import("./WorldMap.jsx"));
+const ChestStats = lazy(() => import("./ChestStats.jsx"));
 
 /* ===============================================================
    Brethren of War — clan contribution ledger
@@ -22,16 +23,8 @@ const RANKS = ["Leader", "Superior", "Officer", "Veteran", "Member", "Soldier"];
 const LEADERSHIP = ["Leader", "Superior"];
 const RES = ["lumber", "stone", "iron", "food"];
 const ALL_RES = ["lumber", "stone", "iron", "food", "silver", "tractates"];
-const MAX_MEMBERS = 70;
 const DONATION_PCT = 0.05;
 const CHEST_TARGET = 3;
-/* Share of a week's clan chests from its single biggest producer, past which
-   the total stops describing the clan and starts describing one member. The
-   two complete weeks on record sit at 16% and 19%; the week of 16 Aug hit 65%
-   on one member's bulk grants. Set at roughly double the normal range so it
-   stays quiet in an ordinary week — worth retuning once there are more weeks
-   of chest data than the three we have. */
-const CONCENTRATED_AT = 0.4;
 const EXCEED_MARGIN = 0.5; // 50% past both targets earns the darker green
 // Days of unmoved might before a member is flagged. Mirrors STALL_DAYS in
 // build_state.py, which is what computes mightFlatDays.
@@ -69,7 +62,7 @@ const T = {
     empty: "No data found. Run build_state.py and redeploy.",
 
     topThree: "Top three this week",
-    monthTop: "Top three donors",
+    monthTop: "Top three donors of the month",
     monthNote: "share of might given, lumber, stone, iron and food",
     monthOpen: "in progress",
     monthPending: (month) =>
@@ -127,8 +120,6 @@ const T = {
     donationsOk: "donations met",
     short: "short",
     chestsADay: (n) => `${n} chests a day`,
-    clanChestsADay: "clan chests a day",
-    clanChestsOver: (n, d) => `${n} over ${d} ${d === 1 ? "day" : "days"}`,
     clanChestsPerMember: (n, of) => `${n} per member across ${of}`,
     clanChestsAtFull: (cap, n) => `${cap} members would make ≈${n} a day`,
     clanChestsConcentrated: (pct) => `${pct}% of it from one member`,
@@ -147,6 +138,24 @@ const T = {
     tabLedger: "Ledger",
     tabTiming: "Good times",
     tabMap: "Map",
+    tabChests: "Chests",
+    chestsTitle: "Chests, day by day",
+    chestsIntro: "Every chest the clan has produced, by day — the clan's total and each member's own rate.",
+    chestsSpan: (n) => `${n} days tracked`,
+    chestsRange: { week: "7 days", month: "4 weeks", quarter: "12 weeks", all: "All time" },
+    chestsClanTotal: "chests in that span",
+    chestsClanDaily: "clan chests a day",
+    chestsClanWeekly: "clan chests a week",
+    chestsClanTotalChart: "Clan total, by day",
+    chestsPlayerChart: (name) => `${name}, by day`,
+    chestsPickPlayer: "Player",
+    chestsNoPlayers: "No members with chest data yet.",
+    chestsTableName: "Member",
+    chestsTableTotal: "Total",
+    chestsTableDaily: "A day",
+    chestsTableWeekly: "A week",
+    chestsFormerNote: (n) => `${n} more from members no longer in the clan, still counted in the clan total.`,
+    chestsEmpty: "No chest data yet — the ledger is empty for this span.",
     mapTitle: "Where the clan is",
     mapIntro: (c, n) => `${n} members across ${c} countries. Pick a country on the map or in the list to see who is there.`,
     mapHint: "Nothing selected yet.",
@@ -236,7 +245,7 @@ const T = {
     empty: "No hay datos. Ejecuta build_state.py y vuelve a publicar.",
 
     topThree: "Los tres mejores esta semana",
-    monthTop: "Los tres mejores donantes",
+    monthTop: "Los tres mejores donantes del mes",
     monthNote: "poder donado, madera, piedra, hierro y comida",
     monthOpen: "en curso",
     monthPending: (month) =>
@@ -294,8 +303,6 @@ const T = {
     donationsOk: "donaciones cumplidas",
     short: "por debajo",
     chestsADay: (n) => `${n} cofres al día`,
-    clanChestsADay: "cofres del clan al día",
-    clanChestsOver: (n, d) => `${n} en ${d} ${d === 1 ? "día" : "días"}`,
     clanChestsPerMember: (n, of) => `${n} por miembro entre ${of}`,
     clanChestsAtFull: (cap, n) => `${cap} miembros harían ≈${n} al día`,
     clanChestsConcentrated: (pct) => `el ${pct}% de un solo miembro`,
@@ -314,6 +321,24 @@ const T = {
     tabLedger: "Registro",
     tabTiming: "Buenas horas",
     tabMap: "Mapa",
+    tabChests: "Cofres",
+    chestsTitle: "Cofres, día a día",
+    chestsIntro: "Todos los cofres que ha conseguido el clan, por día — el total del clan y el ritmo de cada miembro.",
+    chestsSpan: (n) => `${n} días registrados`,
+    chestsRange: { week: "7 días", month: "4 semanas", quarter: "12 semanas", all: "Todo" },
+    chestsClanTotal: "cofres en ese periodo",
+    chestsClanDaily: "cofres del clan al día",
+    chestsClanWeekly: "cofres del clan a la semana",
+    chestsClanTotalChart: "Total del clan, por día",
+    chestsPlayerChart: (name) => `${name}, por día`,
+    chestsPickPlayer: "Jugador",
+    chestsNoPlayers: "Todavía no hay miembros con cofres registrados.",
+    chestsTableName: "Miembro",
+    chestsTableTotal: "Total",
+    chestsTableDaily: "Al día",
+    chestsTableWeekly: "A la semana",
+    chestsFormerNote: (n) => `${n} más de miembros que ya no están en el clan, incluidos igualmente en el total del clan.`,
+    chestsEmpty: "Todavía no hay cofres registrados en este periodo.",
     mapTitle: "Dónde está el clan",
     mapIntro: (c, n) => `${n} miembros en ${c} países. Elige un país en el mapa o en la lista para ver quién está allí.`,
     mapHint: "Nada seleccionado todavía.",
@@ -449,11 +474,6 @@ function untilRollover(when = new Date()) {
   const mins = (BOUNDARY_UTC_HOUR * 60 - (when.getUTCHours() * 60 + when.getUTCMinutes()) + 1440) % 1440;
   return { h: Math.floor(mins / 60), m: mins % 60 };
 }
-const locale = (lang) => (lang === "es" ? "es-ES" : "en-GB");
-function shortDate(dateStr, lang) {
-  return new Date(dateStr + "T12:00:00Z").toLocaleDateString(locale(lang), { day: "numeric", month: "short" });
-}
-
 /* How long ago the state file was built. Coarse on purpose — the header
    re-renders once a minute, so anything finer would just flicker. */
 function sinceLabel(then, now, t) {
@@ -1023,7 +1043,7 @@ function MonthBoard({ t, lang, members, months }) {
         <h2 className="bt-h2">{t.monthTop}</h2>
         <div className="bt-podium-toggle">
           <select
-            className="bt-week-select bt-month-select"
+            className="bt-week-select bt-select-light"
             aria-label={t.monthTop}
             value={key}
             onChange={(e) => setPicked(e.target.value)}
@@ -1612,7 +1632,7 @@ function MemberRow({ t, lang, m, e, week, isOpen, onToggle, quality, spanLabel, 
 }
 
 /* ---- ledger -------------------------------------------------- */
-function Ledger({ t, lang, members, week, prevWeek, former, months }) {
+function Ledger({ t, lang, members, week, prevWeek, former, months, weekSelect }) {
   const [open, setOpen] = useState(null);
   const [filter, setFilter] = useState("all");
   const [sort, setSort] = useState("rank");
@@ -1766,49 +1786,11 @@ function Ledger({ t, lang, members, week, prevWeek, former, months }) {
         if (e.chestTotal > 0) chesters++;
         if (e.speedupHours > 0) speeders++;
       });
-      /* Summed from the week itself rather than from the member loop above:
-         the four proportions are about the current roster by definition, but
-         what the clan produced that week includes whoever has left since. On
-         the week of 9 Aug that is 1252 chests against the roster's 1248.
-
-         Per calendar day, the same denominator the per-member "chests a day"
-         uses. A week whose captures start late therefore reads low: the week
-         of 2 Aug has no chest data before the 4th but is still divided by 7. */
-      const chests = Object.values(wk.chests || {}).reduce(
-        (a, byDay) => a + Object.values(byDay).reduce((x, y) => x + y, 0),
-        0
-      );
-      // the footnote names whole days; the rates divide by how much of the
-      // week has actually run, so the day in progress counts only as far as it
-      // has gone (see daysElapsed)
-      const days = dayOfWeek(wk.start);
-      const ran = daysElapsed(wk.start);
-      /* The largest single producer's share of the week, so a total carried by
-         one member cannot be read as the clan working evenly. Bulk chest
-         grants land as one in-game award of many: in the week of 16 Aug one
-         member produced 713 of 1096, and on 19 Aug alone 447 of 487. The two
-         complete weeks before it sat at 16% and 19%, which is why the note
-         only appears past CONCENTRATED_AT rather than always. */
-      const perMemberTotals = Object.values(wk.chests || {}).map((byDay) =>
-        Object.values(byDay).reduce((x, y) => x + y, 0)
-      );
-      const topShare = chests > 0 ? Math.max(0, ...perMemberTotals) / chests : 0;
       return {
         donors,
         chesters,
         speeders,
         outside,
-        chests,
-        days,
-        perDay: chests / ran,
-        /* Mean, not median, because this is the figure you multiply back out:
-           an average member times the roster is the clan's daily output, which
-           is the whole point of showing it. The median cannot do that — this
-           week the median producer is 2.0 a day against a real 274, since most
-           of the roster makes nothing. The mean is also what a lopsided week
-           distorts, so it is shown next to the concentration note. */
-        perMemberPerDay: pool.length > 0 ? chests / ran / pool.length : 0,
-        topShare,
         total: pool.length,
         /* Territory alone is counted over current members. The three figures
            above record what a week contained, and someone who has since left
@@ -1826,14 +1808,6 @@ function Ledger({ t, lang, members, week, prevWeek, former, months }) {
   const part = useMemo(() => partFor(week), [partFor, week]);
   const before = useMemo(() => partFor(prevWeek), [partFor, prevWeek]);
 
-  /* How much the number of people changed, relative to last week: 19 donors
-     becoming 22 is +16%. Deliberately not the change in the percentage shown
-     above it — that would be a change in the clan's *share*, which moves in
-     the opposite direction when the clan grows faster than participation, and
-     reads as a fall on a week where more people actually took part.
-     Undefined rather than +100% when last week was zero. */
-  const shift = (now, was) => (!before || !was ? null : Math.round(((now - was) / was) * 100));
-
   /* The meters report that change as a count of members, not as a percentage,
      because a percentage there is a second percentage stacked under the share
      the meter already shows — and the two move independently. In the week of
@@ -1843,11 +1817,6 @@ function Ledger({ t, lang, members, week, prevWeek, former, months }) {
      count change of the numerator and reads as though the 58% had gone up.
      "+3 members" is the same fact with nothing to mistake it for. */
   const countShift = (now, was) => (!before || was == null ? null : now - was);
-
-  /* Rates, not totals: a finished week has seven days behind it and a week two
-     days old has two, so comparing the raw counts would call every Monday a
-     collapse. */
-  const chestRateShift = shift(part.perDay, before && before.perDay);
 
   const passesFilter = (m, e) => {
     if (filter === "all") return true;
@@ -1912,8 +1881,12 @@ function Ledger({ t, lang, members, week, prevWeek, former, months }) {
 
   return (
     <div>
-      <Podium t={t} members={roster} week={week} />
+      {/* Monthly first, then everything below the week selector is weekly —
+          previously this sat between the weekly podium and the weekly
+          participation meters, splitting one time scale across the other. */}
       <MonthBoard t={t} lang={lang} members={members} months={months} />
+      {weekSelect && <div className="bt-ledger-week">{weekSelect}</div>}
+      <Podium t={t} members={roster} week={week} />
 
       {/* participation */}
       <div className="bt-participation">
@@ -1949,47 +1922,6 @@ function Ledger({ t, lang, members, week, prevWeek, former, months }) {
           deltaUnit={t.deltaMembers}
           deltaLabel={t.vsLastWeek}
         />
-
-        {/* What the clan produces, rather than how many members took part, so
-            it spans the row under the four proportions instead of becoming a
-            fifth column that would leave one meter alone on a second line. */}
-        <div className="bt-part-total">
-          <span className="bt-part-total-value">{part.perDay.toFixed(1)}</span>
-          <span className="bt-part-total-label">{t.clanChestsADay}</span>
-          {chestRateShift != null && (
-            <span
-              className="bt-meter-delta"
-              data-dir={chestRateShift > 0 ? "up" : chestRateShift < 0 ? "down" : "flat"}
-            >
-              {chestRateShift > 0 ? "+" : chestRateShift < 0 ? "−" : "±"}
-              {Math.abs(chestRateShift)}% {t.vsLastWeek}
-            </span>
-          )}
-          {/* Ahead of the per-member figures, not after them: it qualifies both
-              the rate and the average drawn from it, so it has to arrive before
-              the reader has taken those at face value. It cannot go last either
-              — the note below carries margin-left:auto, and anything after it
-              lands hard against the right edge, away from what it is about. */}
-          {part.topShare >= CONCENTRATED_AT && (
-            <span className="bt-part-total-warn">
-              {t.clanChestsConcentrated(Math.round(part.topShare * 100))}
-            </span>
-          )}
-          {/* What one member is worth, and what the full clan would make at
-              that rate. Sits with the figure rather than in the footnote
-              because it is the same claim scaled, not provenance. Hidden on a
-              week that predates chests entirely, or the July weeks would read
-              "0.0 per member, ≈0 a day at 70". */}
-          {part.chests > 0 && (
-            <span className="bt-part-total-per">
-              {t.clanChestsPerMember(part.perMemberPerDay.toFixed(1), part.total)}
-              <span className="bt-part-total-proj">
-                {t.clanChestsAtFull(MAX_MEMBERS, Math.round(part.perMemberPerDay * MAX_MEMBERS))}
-              </span>
-            </span>
-          )}
-          <span className="bt-part-total-note">{t.clanChestsOver(fmt(part.chests), part.days)}</span>
-        </div>
       </div>
 
       {/* One block for everything that changes what the list shows. The three
@@ -2286,7 +2218,11 @@ export default function App() {
 
   const weekSelect =
     weekKeys.length > 0 ? (
-      <select className="bt-week-select" value={state.currentWeek} onChange={(e) => setState({ ...state, currentWeek: e.target.value })}>
+      <select
+        className="bt-week-select bt-select-light"
+        value={state.currentWeek}
+        onChange={(e) => setState({ ...state, currentWeek: e.target.value })}
+      >
         {weekKeys.map((k) => (
           <option key={k} value={k}>
             {t.weekOf} {shortDate(weekLabelDate(k), lang)}
@@ -2323,7 +2259,6 @@ export default function App() {
                 {title}
                 {langBtn}
               </div>
-              {weekSelect && <div className="bt-header-select">{weekSelect}</div>}
               <div className="bt-members">{membersText}</div>
               {updated && <div className="bt-updated-line">{updated}</div>}
             </div>
@@ -2331,7 +2266,6 @@ export default function App() {
             <div className="bt-header-bar">
               <div className="bt-header-main">
                 {title}
-                {weekSelect}
                 <span className="bt-members">{membersText}</span>
                 {updated}
               </div>
@@ -2352,6 +2286,7 @@ export default function App() {
               {[
                 ["ledger", t.tabLedger],
                 ["timing", t.tabTiming],
+                ["chests", t.tabChests],
                 ["map", t.tabMap],
               ].map(([k, label]) => (
                 <button key={k} className="bt-viewtab" onClick={() => setView(k)} aria-current={view === k ? "page" : undefined}>
@@ -2360,9 +2295,23 @@ export default function App() {
               ))}
             </nav>
             {view === "ledger" && (
-              <Ledger t={t} lang={lang} members={state.members} week={week} prevWeek={prevWeek} former={state.formerMembers} months={state.months} />
+              <Ledger
+                t={t}
+                lang={lang}
+                members={state.members}
+                week={week}
+                prevWeek={prevWeek}
+                former={state.formerMembers}
+                months={state.months}
+                weekSelect={weekSelect}
+              />
             )}
             {view === "timing" && <Timing t={t} members={state.members} week={week} prevWeek={prevWeek} />}
+            {view === "chests" && (
+              <Suspense fallback={<p className="bt-empty">{t.loading}</p>}>
+                <ChestStats t={t} lang={lang} members={state.members} weeks={state.weeks} />
+              </Suspense>
+            )}
             {view === "map" && (
               <Suspense fallback={<p className="bt-empty">{t.loading}</p>}>
                 <WorldMap t={t} lang={lang} members={state.members} />

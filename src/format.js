@@ -19,6 +19,21 @@ export const fmtHours = (h) => {
   return v % 24 ? `${d}d ${v % 24}h` : `${d}d`;
 };
 
+export const MAX_MEMBERS = 70;
+
+/* Share of a span's clan chests from its single biggest producer, past which
+   the total stops describing the clan and starts describing one member. The
+   two complete weeks on record sit at 16% and 19%; the week of 16 Aug hit 65%
+   on one member's bulk grants. Set at roughly double the normal range so it
+   stays quiet in an ordinary week — worth retuning once there is more chest
+   data on file. */
+export const CONCENTRATED_AT = 0.4;
+
+export const locale = (lang) => (lang === "es" ? "es-ES" : "en-GB");
+
+export const shortDate = (dateStr, lang) =>
+  new Date(dateStr + "T12:00:00Z").toLocaleDateString(locale(lang), { day: "numeric", month: "short" });
+
 /* No flag emoji anywhere: Windows has no glyphs for regional-indicator pairs,
    so they fall back to the two bare letters and read as a typo beside the name. */
 export const countryName = (cc, lang) => {
