@@ -507,15 +507,6 @@
   margin-bottom: 10px;
 }
 
-/* Was the header's global week picker — moved here since only the Ledger
-   (and, through it, the quality score the Good times tab borrows) actually
-   reads the selected week. */
-.bt-ledger-week {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 12px;
-}
-
 .bt-podium {
   margin-bottom: 32px;
 }
@@ -535,11 +526,21 @@
   color: var(--bt-ink);
 }
 
+/* The week/month select and the leadership control (label + Exclude/Include)
+   are two separate flex items here on purpose: when the row is too narrow
+   for both, the whole leadership group wraps to its own line as one unit
+   instead of splitting the label away from its buttons. */
 .bt-podium-toggle {
-  display: inline-flex;
+  display: flex;
+  align-items: center;
+  gap: 8px 16px;
+  flex-wrap: wrap;
+}
+
+.bt-leadership-toggle {
+  display: flex;
   align-items: center;
   gap: 8px;
-  flex-wrap: wrap;
 }
 
 .bt-toggle-label {
@@ -2391,18 +2392,18 @@
 }
 
 /* Every bar gets a date now, not just the first and last — at day-chart
-   density that only fits standing up. writing-mode does the rotation rather
-   than a transform: rotating a horizontally-centered box around its own
-   center leaves half the label above the baseline; a vertical writing mode
-   just lays the text out top-down in place, no pivot math to get wrong. */
+   density that only fits at an angle. The label is translated so its
+   right edge lands under the tick first, then rotated -45deg around that
+   same corner (transform-origin: top right) — so the tick-side end stays
+   pinned in place and the label fans down and to the left, reading from
+   the bottom-left corner up to the tick. */
 .bt-chart-tick {
   position: absolute;
   top: 100%;
   left: 50%;
-  transform: translateX(-50%);
   margin-top: 6px;
-  writing-mode: vertical-rl;
-  text-orientation: sideways;
+  transform-origin: top right;
+  transform: translateX(-100%) rotate(-45deg);
   font: 10px var(--bt-data);
   color: var(--bt-ink-soft);
   white-space: nowrap;

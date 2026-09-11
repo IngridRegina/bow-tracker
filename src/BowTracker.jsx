@@ -852,7 +852,7 @@ function Card({ children, accent }) {
 }
 
 /* ---- podium -------------------------------------------------- */
-function Podium({ t, members, week }) {
+function Podium({ t, members, week, weekSelect }) {
   const [relative, setRelative] = useState(false);
   const [withLeaders, setWithLeaders] = useState(false);
   // label only — the podium shows totals, not rates
@@ -914,15 +914,18 @@ function Podium({ t, members, week }) {
       <div className="bt-podium-head">
         <h2 className="bt-h2">{t.topThree}</h2>
         <div className="bt-podium-toggle">
-          <span className="bt-toggle-label">{t.leadership}</span>
-          <Segmented
-            options={[
-              { value: false, label: t.exclude },
-              { value: true, label: t.include },
-            ]}
-            value={withLeaders}
-            onChange={setWithLeaders}
-          />
+          {weekSelect}
+          <div className="bt-leadership-toggle">
+            <span className="bt-toggle-label">{t.leadership}</span>
+            <Segmented
+              options={[
+                { value: false, label: t.exclude },
+                { value: true, label: t.include },
+              ]}
+              value={withLeaders}
+              onChange={setWithLeaders}
+            />
+          </div>
         </div>
       </div>
 
@@ -1055,15 +1058,17 @@ function MonthBoard({ t, lang, members, months }) {
               </option>
             ))}
           </select>
-          <span className="bt-toggle-label">{t.leadership}</span>
-          <Segmented
-            options={[
-              { value: false, label: t.exclude },
-              { value: true, label: t.include },
-            ]}
-            value={withLeaders}
-            onChange={setWithLeaders}
-          />
+          <div className="bt-leadership-toggle">
+            <span className="bt-toggle-label">{t.leadership}</span>
+            <Segmented
+              options={[
+                { value: false, label: t.exclude },
+                { value: true, label: t.include },
+              ]}
+              value={withLeaders}
+              onChange={setWithLeaders}
+            />
+          </div>
         </div>
       </div>
       <Card accent="gold">
@@ -1885,8 +1890,7 @@ function Ledger({ t, lang, members, week, prevWeek, former, months, weekSelect }
           previously this sat between the weekly podium and the weekly
           participation meters, splitting one time scale across the other. */}
       <MonthBoard t={t} lang={lang} members={members} months={months} />
-      {weekSelect && <div className="bt-ledger-week">{weekSelect}</div>}
-      <Podium t={t} members={roster} week={week} />
+      <Podium t={t} members={roster} week={week} weekSelect={weekSelect} />
 
       {/* participation */}
       <div className="bt-participation">
