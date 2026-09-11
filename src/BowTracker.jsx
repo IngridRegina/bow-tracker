@@ -65,8 +65,7 @@ const T = {
     monthTop: "Top three donors of the month",
     monthNote: "share of might given, lumber, stone, iron and food",
     monthOpen: "in progress",
-    monthPending: (month) =>
-      `${month} is still running — the game day rolls at 17:00 UTC, so these figures can still move.`,
+    monthPending: (month) => `${month} is still running`,
     raw: "Raw",
     multiples: "% of might",
     leadershipIn: "Leadership included",
@@ -248,8 +247,7 @@ const T = {
     monthTop: "Los tres mejores donantes del mes",
     monthNote: "poder donado, madera, piedra, hierro y comida",
     monthOpen: "en curso",
-    monthPending: (month) =>
-      `${month} sigue en curso — el día de juego cambia a las 17:00 UTC, así que estas cifras aún pueden moverse.`,
+    monthPending: (month) => `${month} sigue en curso`,
     raw: "Bruto",
     multiples: "% poder",
     leadershipIn: "Liderazgo incluido",
@@ -995,26 +993,25 @@ function Podium({ t, members, week, weekSelect }) {
    into August, 30 Aug into September) — so build_state.py aggregates them
    from the event ledger's own timestamps and hands them over whole.
 
-   The picker opens on the newest *closed* month rather than simply the newest,
-   because that is the one safe to announce. "Closed" is decided from the data
-   by build_state.py: the ledger has to have moved past the month's final
-   game-day. Reaching that day is not enough — a game-day rolls at 17:00 UTC,
-   so August's last day is still taking donations through most of 1 September,
-   and a board read at the top of it gets reordered underneath anyone who has
-   already posted it. The open month is still selectable, tagged in the list
-   and carrying the warning above the board, so the figures can be watched
-   without being mistaken for final. A state file built before `closed` existed
-   leaves every month open, which is the honest reading of it. */
+   The picker opens on the newest month, even while it is still open. "Closed"
+   is decided from the data by build_state.py: the ledger has to have moved
+   past the month's final game-day. Reaching that day is not enough — a
+   game-day rolls at 17:00 UTC, so August's last day is still taking
+   donations through most of 1 September, and a board read at the top of it
+   gets reordered underneath anyone who has already posted it. That open
+   month stays selectable, tagged in the list and carrying the warning above
+   the board, so the figures can be watched without being mistaken for
+   final. */
 
 function MonthBoard({ t, lang, members, months }) {
   const [withLeaders, setWithLeaders] = useState(false);
   // null until the reader picks one, so the default keeps following the data
-  // as months close underneath them rather than sticking to a stale choice.
+  // as new months open up rather than sticking to a stale choice.
   const [picked, setPicked] = useState(null);
 
   // Newest first, the way the week picker reads.
   const keys = useMemo(() => Object.keys(months || {}).sort().reverse(), [months]);
-  const fallback = keys.find((k) => months[k].closed) ?? keys[0] ?? null;
+  const fallback = keys[0] ?? null;
   const key = picked && months[picked] ? picked : fallback;
 
   const list = useMemo(() => {
