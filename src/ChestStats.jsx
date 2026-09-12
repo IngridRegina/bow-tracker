@@ -30,7 +30,7 @@ function ticksFor(max) {
    applied at 90+ bars. Tapering with 1/sqrt(n) keeps a week's bars chunky
    without letting a full quarter's bars turn into solid blocks. */
 function barMaxFor(n) {
-  return Math.round(Math.min(44, Math.max(15, 180 / Math.sqrt(Math.max(n, 1)))));
+  return Math.round(Math.min(64, Math.max(20, 220 / Math.sqrt(Math.max(n, 1)))));
 }
 
 /* One series, one colour — a single bar chart is its own legend, so no
@@ -39,7 +39,6 @@ function barMaxFor(n) {
 function BarChart({ dates, values, lang, color, ariaLabel }) {
   const max = Math.max(0, ...values);
   const { ticks, top } = ticksFor(max);
-  const lastIdx = dates.length - 1;
   const barMax = barMaxFor(dates.length);
 
   return (
@@ -64,7 +63,6 @@ function BarChart({ dates, values, lang, color, ariaLabel }) {
               tabIndex={0}
               style={{ "--bt-chart-h": `${top > 0 ? ((values[i] || 0) / top) * 100 : 0}%`, "--bt-chart-color": color }}
             >
-              {i === lastIdx && values[i] > 0 && <span className="bt-chart-endlabel">{fmt(values[i])}</span>}
               <div className="bt-chart-bar" />
               <div className="bt-chart-tip">
                 <strong>{fmt(values[i] || 0)}</strong>
@@ -130,13 +128,11 @@ export default function ChestStats({ t, lang, members, weeks }) {
   const clanDaily = spanDays > 0 ? clanTotal / spanDays : 0;
 
   const rows = useMemo(() => {
-    const list = (members || [])
-      .map((m) => {
-        const byDay = merged.byMember.get(m.id);
-        const total = byDay ? dates.reduce((a, d) => a + (byDay.get(d) || 0), 0) : 0;
-        return { id: m.id, name: m.name, total, daily: spanDays > 0 ? total / spanDays : 0 };
-      })
-      .filter((r) => r.total > 0);
+    const list = (members || []).map((m) => {
+      const byDay = merged.byMember.get(m.id);
+      const total = byDay ? dates.reduce((a, d) => a + (byDay.get(d) || 0), 0) : 0;
+      return { id: m.id, name: m.name, total, daily: spanDays > 0 ? total / spanDays : 0 };
+    });
     list.sort((a, b) => b.total - a.total);
     return list;
   }, [members, merged, dates, spanDays]);

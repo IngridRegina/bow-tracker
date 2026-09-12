@@ -2286,8 +2286,8 @@ export default function App() {
             <nav className="bt-viewtabs">
               {[
                 ["ledger", t.tabLedger],
-                ["timing", t.tabTiming],
                 ["chests", t.tabChests],
+                ["timing", t.tabTiming],
                 ["map", t.tabMap],
               ].map(([k, label]) => (
                 <button key={k} className="bt-viewtab" onClick={() => setView(k)} aria-current={view === k ? "page" : undefined}>

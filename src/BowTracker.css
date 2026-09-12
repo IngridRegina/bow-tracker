@@ -2381,16 +2381,6 @@
   opacity: 1;
 }
 
-.bt-chart-endlabel {
-  position: absolute;
-  bottom: calc(var(--bt-chart-h) + 4px);
-  left: 50%;
-  transform: translateX(-50%);
-  font: 600 12px var(--bt-data);
-  color: var(--bt-ink);
-  white-space: nowrap;
-}
-
 /* Every bar gets a date now, not just the first and last — at day-chart
    density that only fits at an angle. The label is translated so its
    right edge lands under the tick first, then rotated -45deg around that
