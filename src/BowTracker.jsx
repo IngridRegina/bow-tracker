@@ -8,6 +8,7 @@ import "./BowTracker.css";
    on every visit to the ledger. */
 const WorldMap = lazy(() => import("./WorldMap.jsx"));
 const ChestStats = lazy(() => import("./ChestStats.jsx"));
+const DragonCoinStats = lazy(() => import("./DragonCoinStats.jsx"));
 
 /* ===============================================================
    Brethren of War — clan contribution ledger
@@ -155,6 +156,16 @@ const T = {
     chestsTableWeekly: "A week",
     chestsFormerNote: (n) => `${n} more from members no longer in the clan, still counted in the clan total.`,
     chestsEmpty: "No chest data yet — the ledger is empty for this span.",
+    tabDragon: "Dragon coins",
+    dragonTitle: "Dragon coins, day by day",
+    dragonIntro: "Every dragon coin sent to the clan, by day — the clan's total and each member's own rate. Members who sent none in this span are left off the list.",
+    dragonClanTotal: "dragon coins in that span",
+    dragonClanDaily: "clan dragon coins a day",
+    dragonClanWeekly: "clan dragon coins a week",
+    dragonClanTotalChart: "Clan total, by day",
+    dragonPlayerChart: (name) => `${name}, by day`,
+    dragonNoPlayers: "No members sent dragon coins in this span.",
+    dragonEmpty: "No dragon coin data yet.",
     mapTitle: "Where the clan is",
     mapIntro: (c, n) => `${n} members across ${c} countries. Pick a country on the map or in the list to see who is there.`,
     mapHint: "Nothing selected yet.",
@@ -337,6 +348,16 @@ const T = {
     chestsTableWeekly: "A la semana",
     chestsFormerNote: (n) => `${n} más de miembros que ya no están en el clan, incluidos igualmente en el total del clan.`,
     chestsEmpty: "Todavía no hay cofres registrados en este periodo.",
+    tabDragon: "Monedas de dragón",
+    dragonTitle: "Monedas de dragón, día a día",
+    dragonIntro: "Todas las monedas de dragón enviadas al clan, por día — el total del clan y el ritmo de cada miembro. Quien no haya enviado ninguna en este periodo no aparece en la lista.",
+    dragonClanTotal: "monedas de dragón en ese periodo",
+    dragonClanDaily: "monedas de dragón del clan al día",
+    dragonClanWeekly: "monedas de dragón del clan a la semana",
+    dragonClanTotalChart: "Total del clan, por día",
+    dragonPlayerChart: (name) => `${name}, por día`,
+    dragonNoPlayers: "Nadie ha enviado monedas de dragón en este periodo.",
+    dragonEmpty: "Todavía no hay monedas de dragón registradas.",
     mapTitle: "Dónde está el clan",
     mapIntro: (c, n) => `${n} miembros en ${c} países. Elige un país en el mapa o en la lista para ver quién está allí.`,
     mapHint: "Nada seleccionado todavía.",
@@ -2287,6 +2308,7 @@ export default function App() {
               {[
                 ["ledger", t.tabLedger],
                 ["chests", t.tabChests],
+                ["dragon", t.tabDragon],
                 ["timing", t.tabTiming],
                 ["map", t.tabMap],
               ].map(([k, label]) => (
@@ -2311,6 +2333,11 @@ export default function App() {
             {view === "chests" && (
               <Suspense fallback={<p className="bt-empty">{t.loading}</p>}>
                 <ChestStats t={t} lang={lang} members={state.members} weeks={state.weeks} />
+              </Suspense>
+            )}
+            {view === "dragon" && (
+              <Suspense fallback={<p className="bt-empty">{t.loading}</p>}>
+                <DragonCoinStats t={t} lang={lang} members={state.members} weeks={state.weeks} />
               </Suspense>
             )}
             {view === "map" && (

@@ -49,6 +49,11 @@ STATE_FILE = "public/tracker-state.json"
 # 2055 and 2056 are guesses at the 3-day and 7-day items; only 3 instances so far.
 SPEEDUPS = {2050: 1, 2051: 3, 2052: 8, 2053: 15, 2054: 24, 2055: 72, 2056: 168}
 RESOURCES = {2: "silver", 3: "lumber", 4: "iron", 5: "stone", 6: "food", 20: "tractates"}
+# Confirmed by cross-referencing four known sends (player, amount, day) against
+# the event ledger: Cordamath II 3000 on 2026-09-11, Serrallonga 18000 the same
+# day, Katarina PL 1880 the day before, Tanos 1250 on 2026-09-09 — all kind-4
+# events carrying resource 31 in that amount on that day and no other code.
+DRAGON_COIN_RESOURCE = "31"
 
 # The clan roster carries a rank code per member, so ranks no longer have to be
 # maintained by hand. Codes 1, 2, 4 and 5 are confirmed against every capture we
@@ -770,6 +775,26 @@ def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
             existing = w["chests"].setdefault(pid, {})
             for day, n in days.items():
                 existing[day] = max(existing.get(day, 0), n)
+
+    # Dragon coins by day, same shape as the chest ledger above so the site can
+    # chart them the same way. Rebuilt wholesale from the event ledger each
+    # run — unlike chests there is no separate ledger to protect, so a plain
+    # replace (not max()) is enough to stay idempotent.
+    from_dragon = {}
+    for ev in elog.values():
+        pid = str(ev["player_id"])
+        if int(pid) not in known_ids:
+            continue
+        amt = ev["amounts"].get(DRAGON_COIN_RESOURCE)
+        if not amt:
+            continue
+        day = game_day(ev["ts"])
+        key = week_start(day)
+        per_player = from_dragon.setdefault(key, {}).setdefault(pid, {})
+        per_player[day] = per_player.get(day, 0) + amt
+
+    for key, per_player in from_dragon.items():
+        week_for(key)["dragonCoins"] = per_player
 
     # The donation target is a share of might, and might climbs all week, so
     # measuring against the current figure moves the goalposts: give exactly
