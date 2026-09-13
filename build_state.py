@@ -200,7 +200,17 @@ def read_hars(paths):
     files.sort(key=lambda f: f[0])
 
     players, events, chests, roster, map_objects = {}, {}, {}, {}, []
+    # The ids listed in the most recent capture's own clan roster call. A kicked
+    # or departed member stops appearing here immediately, but their `players`
+    # row (name/might/clan) only updates when some later response happens to
+    # mention them again — which a session that never reopens their profile
+    # after removing them will not do. Falling back to that stale "clan" field
+    # alone re-admitted a member who had already been confirmed gone by a newer
+    # roster in the very same run. Replaced wholesale (not merged) per file, so
+    # the last capture's roster always wins over an earlier one.
+    latest_roster_ids = None
     for _when, entries in files:
+        file_roster_ids = set()
         for entry in entries:
             if entry["request"]["method"] != "POST":
                 continue
@@ -228,6 +238,7 @@ def read_hars(paths):
                         map_objects.append({"type": row[3], "owner": row[4][0], "pos": (row[17][1], row[17][2])})
                     elif is_clan_member(row):
                         roster[row[0][0]] = {"rank": row[1], "joined": row[2]}
+                        file_roster_ids.add(row[0][0])
                     elif is_chest_list(row):
                         for cid, pid, ctype, ts, count, _tier in row:
                             chests[cid] = {"producer": pid[0], "type": ctype, "ts": ts,
@@ -239,7 +250,9 @@ def read_hars(paths):
                             "ts": row[4],
                             "amounts": row[5][0] if isinstance(row[5][0], dict) else {},
                         }
-    return players, events, chests, roster, map_objects
+        if file_roster_ids:
+            latest_roster_ids = file_roster_ids
+    return players, events, chests, roster, map_objects, latest_roster_ids
 
 
 # ---------------------------------------------------------------- dates
@@ -345,7 +358,7 @@ def build_members(players, prev_members, old_by_name, ranks_by_id, ranks_by_name
 # ---------------------------------------------------------------- build
 
 def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
-    players, events, chests, roster, map_objects = read_hars(har_paths)
+    players, events, chests, roster, map_objects, latest_roster_ids = read_hars(har_paths)
 
     # What day this capture speaks for. Needed here to date name changes, and
     # again further down for the roster; events and chests are never rebound in
@@ -420,6 +433,21 @@ def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
     if os.path.exists(STATE_FILE):
         prev_state = json.load(open(STATE_FILE, encoding="utf-8"))
     prev_members = {m["id"]: m for m in prev_state.get("members", [])}
+
+    # A member whose cached "clan" field still says BOW but who the most
+    # recent roster call no longer lists has already left — that roster is
+    # more current than the stale player row, which only updates when some
+    # later response happens to mention them again. Skip the check if that
+    # snapshot looks too small to be a real roster (e.g. no capture in this
+    # run ever loaded the Members screen), same threshold as the no-roster
+    # fallback below.
+    if latest_roster_ids is not None and (len(latest_roster_ids) >= max(10, len(prev_members) // 2) or not prev_members):
+        before_n = len(players)
+        players = {pid: p for pid, p in players.items() if pid in latest_roster_ids}
+        dropped = before_n - len(players)
+        if dropped:
+            print(f"dropped {dropped} member(s) missing from the latest capture's clan roster "
+                  f"(left after an earlier capture in this run)")
 
     ranks = json.load(open(ranks_path, encoding="utf-8")) if ranks_path else {}
     # ranks.json supports two formats:
