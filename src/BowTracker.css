@@ -313,6 +313,29 @@
   background: var(--bt-panel);
 }
 
+/* The day-range picker (Chests / Dragon coins) has four options — too many to
+   stay on one line once the page narrows past a phone width. Folded into a
+   2x2 grid there instead of left to overflow or shrink its labels unreadably
+   small; the divider lines move from a single row to a row and a column so
+   the joined-pill look survives the wrap. */
+@container (max-width: 400px) {
+  .bt-seg--wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+  }
+  .bt-seg--wrap .bt-seg-btn {
+    border-left: none;
+    text-align: center;
+  }
+  .bt-seg--wrap .bt-seg-btn:nth-child(odd) {
+    border-right: 1px solid var(--bt-line-strong);
+  }
+  .bt-seg--wrap .bt-seg-btn:nth-child(n + 3) {
+    border-top: 1px solid var(--bt-line-strong);
+  }
+}
+
 .bt-seg-btn {
   background: transparent;
   color: var(--bt-ink-soft);
@@ -1037,6 +1060,7 @@
    as "everything below belongs to the selected tab". */
 .bt-viewtabs {
   display: flex;
+  flex-wrap: wrap;
   gap: 4px;
   margin: 0 0 24px;
   border-bottom: 2px solid var(--bt-line);
@@ -1053,6 +1077,7 @@
   letter-spacing: 0.01em;
   color: var(--bt-ink-soft);
   cursor: pointer;
+  white-space: nowrap;
   transition: color 0.12s, border-color 0.12s, background 0.12s;
 }
 
@@ -1066,9 +1091,16 @@
   border-bottom-color: var(--bt-gold);
 }
 
+/* `flex: 1 1 0` used to stretch every tab to an equal share of the row, but a
+   flex item's default min-width lets it shrink no further than wrapping its
+   own label onto a second line — so once five tabs stopped fitting on one
+   row, that stretch kept them there by breaking "Dragon coins" and "Good
+   times" in two instead of ever wrapping a whole tab down to the next row.
+   Natural width plus the container's own flex-wrap (see .bt-viewtabs) makes
+   a tab that doesn't fit move to the next row as one unit instead. */
 @container (max-width: 640px) {
   .bt-viewtab {
-    flex: 1 1 0;
+    flex: 0 0 auto;
     padding: 10px 8px;
     font-size: 15px;
   }
@@ -2293,7 +2325,10 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding-bottom: 60px;
+  /* top padding matches .bt-chart-plot's, below, so the value scale still
+     lines up with the bars once both reserve headroom for the tallest
+     tooltip */
+  padding: 40px 0 60px;
   text-align: right;
   font: 11px var(--bt-data);
   color: var(--bt-ink-soft);
@@ -2310,13 +2345,21 @@
    last day's tick label and hover tooltip from being clipped by the scroll
    container's edge — both are centered on their column and routinely wider
    than half a column, so they need room to overflow the column without
-   overflowing the plot. */
+   overflowing the plot.
+
+   Top padding does the same job for a tall bar's tooltip. .bt-chart-scroll
+   scrolls horizontally, and a container that clips one axis clips both —
+   `overflow-y: visible` next to `overflow-x: auto` computes to `auto`, not
+   `visible`, so a tooltip that actually crossed the plot's own top edge got
+   silently cut off there instead of floating free above it. Reserving the
+   headroom inside the box, rather than relying on it overflowing outside,
+   works with that computed value instead of against it. */
 .bt-chart-plot {
   position: relative;
   display: flex;
   align-items: stretch;
   height: 180px;
-  padding: 0 56px 60px;
+  padding: 40px 56px 60px;
   min-width: calc(var(--bt-chart-cols) * 13px);
 }
 

@@ -171,7 +171,7 @@ export default function ChestStats({ t, lang, members, weeks }) {
       <h2 className="bt-h2">{t.chestsTitle}</h2>
       <p className="bt-timing-intro">{t.chestsIntro}</p>
 
-      <div className="bt-seg">
+      <div className="bt-seg bt-seg--wrap">
         {RANGES.map(([k]) => (
           <button key={k} className="bt-seg-btn" aria-pressed={range === k} onClick={() => setRange(k)}>
             {t.chestsRange[k]}
