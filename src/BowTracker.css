@@ -2532,12 +2532,16 @@
   }
 }
 
-/* The payout reconciliation carries a name plus three number columns and wider
-   headings than the rate tables. Rather than cram all four onto a phone — which
-   jams the numbers together and wraps the names — let the table keep its
-   natural width and scroll sideways inside the card. The card and the page
-   never widen; the columns keep their spacing and the names stay on one line. */
-.bt-recon-scroll {
+/* Wide data tables (the payout reconciliation and the chest/coin rate tables)
+   carry a name plus three or four number columns and can be wider than the card
+   on a phone. Rather than cram them — which jams the numbers together and wraps
+   the names — each is wrapped in ScrollTable so it keeps its natural width and
+   scrolls sideways inside the card. The card and the page never widen. */
+.bt-table-scroll {
+  position: relative;
+}
+
+.bt-table-scroll-inner {
   overflow-x: auto;
   overflow-y: visible;
   -webkit-overflow-scrolling: touch;
@@ -2545,22 +2549,73 @@
 
 /* Fill the card when there is room, but grow (and let the wrapper scroll) when
    the columns need more than the card can give. */
-.bt-recon-scroll .bt-recon-table {
+.bt-table-scroll-inner > .bt-res-table {
   width: auto;
   min-width: 100%;
 }
 
 /* Hold comfortable spacing and one-line names even under the narrow-screen rule
    that strips the rate tables' padding to nothing. */
-.bt-recon-table .bt-res-name {
+.bt-table-scroll-inner .bt-res-name {
   white-space: nowrap;
   padding-right: 16px;
 }
 
-.bt-recon-table .bt-res-given {
+.bt-table-scroll-inner .bt-res-given {
   padding: 4px 12px;
 }
 
 .bt-recon-table .bt-dragon-paid {
   font-weight: 700;
+}
+
+/* The bar charts already scroll sideways; give their scroll track the same
+   edge-shadow affordance as the tables. The wrapper takes the flex slot the
+   scroll track used to hold, so the axis still sits fixed to its left. */
+.bt-chart-scroll-wrap {
+  flex: 1;
+  min-width: 0;
+}
+
+.bt-chart-scroll-wrap > .bt-chart-scroll {
+  flex: none;
+  width: 100%;
+}
+
+/* A soft shadow on whichever edge still has content beyond it, so it is clear
+   the content scrolls — and, once scrolled to that end, clear that it does not.
+   useScrollShadow toggles data-scroll-left / -right as the box is scrolled. */
+.bt-scroll-shadow {
+  position: relative;
+}
+
+.bt-scroll-shadow::before,
+.bt-scroll-shadow::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 28px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  z-index: 1;
+}
+
+.bt-scroll-shadow::before {
+  left: 0;
+  background: linear-gradient(to right, rgba(45, 30, 12, 0.18), rgba(45, 30, 12, 0));
+}
+
+.bt-scroll-shadow::after {
+  right: 0;
+  background: linear-gradient(to left, rgba(45, 30, 12, 0.18), rgba(45, 30, 12, 0));
+}
+
+.bt-scroll-shadow[data-scroll-left]::before {
+  opacity: 1;
+}
+
+.bt-scroll-shadow[data-scroll-right]::after {
+  opacity: 1;
 }

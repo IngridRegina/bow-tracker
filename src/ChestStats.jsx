@@ -1,5 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { fmt, compact, shortDate, CONCENTRATED_AT, MAX_MEMBERS } from "./format.js";
+import ScrollTable from "./ScrollTable.jsx";
+import { useScrollShadow } from "./useScrollShadow.js";
 
 /* ---- chest stats ------------------------------------------------
    Aggregates weeks[week].chests — already keyed by member and by day —
@@ -40,6 +42,7 @@ function BarChart({ dates, values, lang, color, ariaLabel }) {
   const max = Math.max(0, ...values);
   const { ticks, top } = ticksFor(max);
   const barMax = barMaxFor(dates.length);
+  const { wrapperProps, scrollProps } = useScrollShadow();
 
   return (
     <div className="bt-chart" role="img" aria-label={ariaLabel}>
@@ -51,8 +54,9 @@ function BarChart({ dates, values, lang, color, ariaLabel }) {
             <span key={v}>{compact(v)}</span>
           ))}
       </div>
-      <div className="bt-chart-scroll">
-        <div className="bt-chart-plot" style={{ "--bt-chart-cols": dates.length, "--bt-chart-bar-max": `${barMax}px` }}>
+      <div className="bt-scroll-shadow bt-chart-scroll-wrap" {...wrapperProps}>
+        <div className="bt-chart-scroll" {...scrollProps}>
+          <div className="bt-chart-plot" style={{ "--bt-chart-cols": dates.length, "--bt-chart-bar-max": `${barMax}px` }}>
           {ticks.map((v) => (
             <div key={v} className="bt-chart-grid" style={{ bottom: `${(v / top) * 100}%` }} />
           ))}
@@ -71,6 +75,7 @@ function BarChart({ dates, values, lang, color, ariaLabel }) {
               <div className="bt-chart-tick">{shortDate(d, lang)}</div>
             </div>
           ))}
+          </div>
         </div>
       </div>
     </div>
@@ -233,33 +238,35 @@ export default function ChestStats({ t, lang, members, weeks }) {
             ariaLabel={active ? t.chestsPlayerChart(active.name) : t.chestsPickPlayer}
           />
 
-          <table className="bt-res-table bt-chest-table">
-            <thead>
-              <tr>
-                <th className="bt-res-name">{t.chestsTableName}</th>
-                <th className="bt-res-given">{t.chestsTableTotal}</th>
-                <th className="bt-res-given">{t.chestsTableDaily}</th>
-                <th className="bt-res-given">{t.chestsTableWeekly}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((r) => (
-                <tr
-                  key={r.id}
-                  className="bt-chest-row"
-                  aria-current={r.id === activeId ? "true" : undefined}
-                  tabIndex={0}
-                  onClick={() => setSelectedId(r.id)}
-                  onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && setSelectedId(r.id)}
-                >
-                  <td className="bt-res-name">{r.name}</td>
-                  <td className="bt-res-given">{fmt(r.total)}</td>
-                  <td className="bt-res-given">{r.daily.toFixed(1)}</td>
-                  <td className="bt-res-given">{(r.daily * 7).toFixed(1)}</td>
+          <ScrollTable>
+            <table className="bt-res-table bt-chest-table">
+              <thead>
+                <tr>
+                  <th className="bt-res-name">{t.chestsTableName}</th>
+                  <th className="bt-res-given">{t.chestsTableTotal}</th>
+                  <th className="bt-res-given">{t.chestsTableDaily}</th>
+                  <th className="bt-res-given">{t.chestsTableWeekly}</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {rows.map((r) => (
+                  <tr
+                    key={r.id}
+                    className="bt-chest-row"
+                    aria-current={r.id === activeId ? "true" : undefined}
+                    tabIndex={0}
+                    onClick={() => setSelectedId(r.id)}
+                    onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && setSelectedId(r.id)}
+                  >
+                    <td className="bt-res-name">{r.name}</td>
+                    <td className="bt-res-given">{fmt(r.total)}</td>
+                    <td className="bt-res-given">{r.daily.toFixed(1)}</td>
+                    <td className="bt-res-given">{(r.daily * 7).toFixed(1)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </ScrollTable>
           {fromFormer > 0 && <p className="bt-rule-note">{t.chestsFormerNote(fmt(fromFormer))}</p>}
         </Card>
       )}
