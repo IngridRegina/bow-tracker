@@ -240,6 +240,12 @@
   color: #000;
 }
 
+.bt-lang-group {
+  display: inline-flex;
+  gap: 8px;
+  flex: none;
+}
+
 .bt-lang {
   background: transparent;
   color: var(--bt-gold);
@@ -2524,4 +2530,37 @@
   .bt-chest-table .bt-res-given {
     padding: 6px 8px 6px 0;
   }
+}
+
+/* The payout reconciliation carries a name plus three number columns and wider
+   headings than the rate tables. Rather than cram all four onto a phone — which
+   jams the numbers together and wraps the names — let the table keep its
+   natural width and scroll sideways inside the card. The card and the page
+   never widen; the columns keep their spacing and the names stay on one line. */
+.bt-recon-scroll {
+  overflow-x: auto;
+  overflow-y: visible;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Fill the card when there is room, but grow (and let the wrapper scroll) when
+   the columns need more than the card can give. */
+.bt-recon-scroll .bt-recon-table {
+  width: auto;
+  min-width: 100%;
+}
+
+/* Hold comfortable spacing and one-line names even under the narrow-screen rule
+   that strips the rate tables' padding to nothing. */
+.bt-recon-table .bt-res-name {
+  white-space: nowrap;
+  padding-right: 16px;
+}
+
+.bt-recon-table .bt-res-given {
+  padding: 4px 12px;
+}
+
+.bt-recon-table .bt-dragon-paid {
+  font-weight: 700;
 }

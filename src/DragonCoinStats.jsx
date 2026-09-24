@@ -252,35 +252,39 @@ export default function DragonCoinStats({ t, lang, members, formerMembers = [], 
           <p className="bt-rule-note">{t.dragonAllPaid}</p>
         )}
 
-        <table className="bt-res-table bt-chest-table">
-          <thead>
-            <tr>
-              <th className="bt-res-name">{t.dragonReconName}</th>
-              <th className="bt-res-given">{t.dragonReconEarnedCol}</th>
-              <th className="bt-res-given">{t.dragonReconDistCol}</th>
-              <th className="bt-res-given">{t.dragonReconOutCol}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {recon.rows.map((r) => (
-              <tr key={r.id} className="bt-chest-row" data-owed={r.outstanding > 0 ? "true" : undefined}>
-                <td className="bt-res-name">
-                  {r.name}
-                  {r.former && <span className="bt-dragon-left"> · {t.dragonLeftTag}</span>}
-                </td>
-                <td className="bt-res-given">{fmt(r.earned)}</td>
-                <td className="bt-res-given">{fmt(r.received)}</td>
-                <td className="bt-res-given">
-                  {r.outstanding > 0 ? (
-                    <span className="bt-dragon-owed">{fmt(r.outstanding)}</span>
-                  ) : (
-                    <span className="bt-dragon-paid">{t.dragonPaidMark}</span>
-                  )}
-                </td>
+        <div className="bt-recon-scroll">
+          <table className="bt-res-table bt-chest-table bt-recon-table">
+            <thead>
+              <tr>
+                <th className="bt-res-name">{t.dragonReconName}</th>
+                <th className="bt-res-given">{t.dragonReconEarnedCol}</th>
+                <th className="bt-res-given">{t.dragonReconDistCol}</th>
+                <th className="bt-res-given">{t.dragonReconOutCol}</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {recon.rows.map((r) => (
+                <tr key={r.id} className="bt-chest-row" data-owed={r.outstanding > 0 ? "true" : undefined}>
+                  <td className="bt-res-name">
+                    {r.name}
+                    {r.former && <span className="bt-dragon-left"> · {t.dragonLeftTag}</span>}
+                  </td>
+                  <td className="bt-res-given">{fmt(r.earned)}</td>
+                  <td className="bt-res-given">{fmt(r.received)}</td>
+                  <td className="bt-res-given">
+                    {r.outstanding > 0 ? (
+                      <span className="bt-dragon-owed">{fmt(r.outstanding)}</span>
+                    ) : (
+                      <span className="bt-dragon-paid" title={t.dragonPaidMark} aria-label={t.dragonPaidMark}>
+                        ✓
+                      </span>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* Day-by-day, one flow at a time. */}

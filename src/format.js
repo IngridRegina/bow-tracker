@@ -29,7 +29,7 @@ export const MAX_MEMBERS = 70;
    data on file. */
 export const CONCENTRATED_AT = 0.4;
 
-export const locale = (lang) => (lang === "es" ? "es-ES" : "en-GB");
+export const locale = (lang) => ({ es: "es-ES", pl: "pl-PL" }[lang] || "en-GB");
 
 export const shortDate = (dateStr, lang) =>
   new Date(dateStr + "T12:00:00Z").toLocaleDateString(locale(lang), { day: "numeric", month: "short" });
@@ -38,7 +38,7 @@ export const shortDate = (dateStr, lang) =>
    so they fall back to the two bare letters and read as a typo beside the name. */
 export const countryName = (cc, lang) => {
   try {
-    return new Intl.DisplayNames([lang === "es" ? "es" : "en"], { type: "region" }).of(cc.toUpperCase());
+    return new Intl.DisplayNames([["en", "es", "pl"].includes(lang) ? lang : "en"], { type: "region" }).of(cc.toUpperCase());
   } catch {
     return cc;
   }

@@ -50,6 +50,38 @@ function ResIcon({ res, size = 16 }) {
 }
 
 /* ---- language ------------------------------------------------ */
+// The languages the UI offers, in the order the switcher cycles through them.
+const LANGS = ["en", "es", "pl"];
+const LANG_LABEL = { en: "EN", es: "ES", pl: "PL" };
+const LANG_NAME = { en: "English", es: "Español", pl: "Polski" };
+
+// The language to open in. A saved choice always wins — once someone has picked
+// from the switcher, that is what they meant, on this browser, forever. Only
+// without one do we fall back to the browser's own language preference (the
+// primary tag of navigator.languages that we have a translation for), and only
+// failing that to English. Location is deliberately not consulted: an English
+// speaker in Spain wants English, and the browser language says so.
+function detectLang() {
+  try {
+    const saved = localStorage.getItem("bow-lang");
+    if (LANGS.includes(saved)) return saved;
+  } catch {
+    // localStorage blocked (private mode, etc.) — fall through to the browser.
+  }
+  const prefs = navigator.languages?.length ? navigator.languages : [navigator.language || ""];
+  return prefs.map((l) => l.slice(0, 2).toLowerCase()).find((l) => LANGS.includes(l)) || "en";
+}
+
+// Polish has three plural forms: one (1), few (2–4, but not 12–14) and many
+// (everything else, including 0). Picks the right one for a count.
+const plForm = (n, one, few, many) => {
+  const m10 = n % 10;
+  const m100 = n % 100;
+  if (n === 1) return one;
+  if (m10 >= 2 && m10 <= 4 && !(m100 >= 12 && m100 <= 14)) return few;
+  return many;
+};
+
 const T = {
   en: {
     members: "members",
@@ -168,8 +200,8 @@ const T = {
     dragonOwedNote: (n, amt) => `${n} member${n === 1 ? "" : "s"} still owed ${amt} in total.`,
     dragonReconName: "Member",
     dragonReconEarnedCol: "Earned",
-    dragonReconDistCol: "Distributed",
-    dragonReconOutCol: "Outstanding",
+    dragonReconDistCol: "Given",
+    dragonReconOutCol: "Owed",
     dragonLeftTag: "left the clan",
     dragonPaidMark: "paid",
     dragonFlow: { earned: "Earned", received: "Distributed" },
@@ -375,8 +407,8 @@ const T = {
     dragonOwedNote: (n, amt) => `Se debe${n === 1 ? "" : "n"} ${amt} en total a ${n} miembro${n === 1 ? "" : "s"}.`,
     dragonReconName: "Miembro",
     dragonReconEarnedCol: "Ganadas",
-    dragonReconDistCol: "Repartidas",
-    dragonReconOutCol: "Pendiente",
+    dragonReconDistCol: "Dadas",
+    dragonReconOutCol: "Debe",
     dragonLeftTag: "dejó el clan",
     dragonPaidMark: "al día",
     dragonFlow: { earned: "Ganadas", received: "Repartidas" },
@@ -463,6 +495,213 @@ const T = {
 
     ranks: { Leader: "Líder", Superior: "Superior", Officer: "Oficial", Veteran: "Veterano", Member: "Miembro", Soldier: "Soldado" },
     res: { lumber: "Madera", stone: "Piedra", iron: "Hierro", food: "Comida", silver: "Plata", tractates: "Tratados" },
+  },
+
+  pl: {
+    members: "członków",
+    weekOf: "tydzień od",
+    dayN: (n) => `dzień ${n} z 7`,
+    nextDay: "następny dzień za",
+    updatedAgo: (s) => `zaktualizowano ${s} temu`,
+    updatedJustNow: "zaktualizowano przed chwilą",
+    loading: "Otwieranie rejestru…",
+    badFile: "Brak pliku tracker-state.json lub nie można go odczytać.",
+    empty: "Nie znaleziono danych. Uruchom build_state.py i opublikuj ponownie.",
+
+    topThree: "Najlepsza trójka w tym tygodniu",
+    monthTop: "Najlepsi trzej darczyńcy miesiąca",
+    monthNote: "udział oddanej potęgi, drewno, kamień, żelazo i żywność",
+    monthOpen: "w toku",
+    monthPending: (month) => `${month} wciąż trwa`,
+    raw: "Surowe",
+    multiples: "% potęgi",
+    leadershipIn: "Z dowództwem",
+    leadershipOut: "Bez dowództwa",
+    include: "Uwzględnij",
+    exclude: "Wyklucz",
+    overall: "Ogółem",
+    overallNote: "drewno, kamień, żelazo i żywność",
+    chests: "Skrzynie",
+    chestsNote: (n) => `${n} ${plForm(n, "dzień", "dni", "dni")} jak dotąd`,
+    silver: "Srebro",
+    silverNote: "na uniwersytet",
+    speedups: "Przyspieszenia",
+    speedupsNote: "godziny włożone w budowy klanu",
+    leadership: "Dowództwo",
+    notRanked: "na liście, bez rangi",
+    nothingYet: "Nic jeszcze nie zarejestrowano.",
+
+    donated: "cokolwiek przekazało",
+    producedChests: "wyprodukowało skrzynie",
+    gaveSpeedups: "przekazało przyspieszenia klanowe",
+    membersInside: "członków mieszka w terytorium lub blisko niego",
+    vsLastWeek: "w porównaniu z zeszłym tygodniem",
+    deltaMembers: "członków",
+    formerAlso: "W tym tygodniu wpłacili też, choć nie ma ich już w klanie:",
+    leftClan: "już nie w klanie",
+    leftOn: (d) => `odszedł ${d}`,
+    departedPlus: (n) => `oraz ${n}, ${plForm(n, "który był", "którzy byli", "którzy byli")} wtedy w klanie i od tego czasu ${plForm(n, "odszedł", "odeszli", "odeszło")}`,
+    rosterStill: (n, of) => `${n} z tych ${of} nadal ${plForm(n, "jest", "są", "jest")} w klanie`,
+    rosterChurn: (j, l) => `w tym tygodniu ${j} ${plForm(j, "dołączył", "dołączyli", "dołączyło")} i ${l} ${plForm(l, "odszedł", "odeszli", "odeszło")}`,
+    fDonated: "przekazali datki",
+    fChests: "wyprodukowali skrzynie",
+    fSpeedups: "dali przyspieszenia",
+    thisWeek: "w tym tygodniu",
+
+    everyone: "Wszyscy",
+    stRed: "1 tydzień bez wpłat",
+    stYellow: "Poniżej celu",
+    stGreen: "Cel osiągnięty",
+    stGreenPlus: "Znacznie powyżej celu",
+    noneMatch: "Nikt nie pasuje do tego filtra.",
+    noDonation: "Poniżej celu",
+    silverOnly: "Tylko srebro",
+    outsideFilter: "Daleko poza terytorium",
+    twoWeeksMissed: "2 tygodnie bez wpłat",
+    stalledFilter: "Możliwe że nieaktywni",
+    donationRule:
+      "„Cel wpłat osiągnięty” oznacza obecnie oddanie co najmniej 20% potęgi w czterech wymaganych surowcach — drewnie, kamieniu, żelazie i żywności — łącznie, nawet jeśli któregoś jest poniżej 5% lub go brakuje. Srebro i traktaty naukowe są pokazywane, ale nigdy nie liczone, więc tydzień, w którym oddano tylko je, liczy się jako tydzień bez wpłat. Cel to udział w potędze, jaką każdy członek miał na początku tygodnia, więc nie rośnie wraz z nim. Osiągnij go w poniedziałek, a pozostanie osiągnięty.",
+
+    statsLine: (might, place) => `${might} potęgi · ${place}`,
+    donationsOk: "cel wpłat osiągnięty",
+    short: "brakuje",
+    chestsADay: (n) => `${n} ${plForm(n, "skrzynia", "skrzynie", "skrzyń")} dziennie`,
+    clanChestsPerMember: (n, of) => `${n} na członka z ${of}`,
+    clanChestsAtFull: (cap, n) => `${cap} członków dałoby ≈${n} dziennie`,
+    clanChestsConcentrated: (pct) => `${pct}% od jednego członka`,
+    speedupsGiven: (s) => `${s} przyspieszeń`,
+    voluntary: "dobrowolne",
+    ofWord: "z",
+    speedupsWeek: "Przyspieszenia klanu w tym tygodniu",
+    none: "brak",
+    inTerritory: "w terytorium lub blisko niego",
+    outsideTerritory: "daleko poza terytorium",
+    newThisWeek: "nowy w tym tygodniu",
+    recoveredTitle: "Znów zaczęli wpłacać w tym tygodniu",
+    recoveredNote: "nic nie dali w zeszłym tygodniu, ale wpłacili w tym:",
+    inactive: "możliwe że nieaktywny",
+
+    tabLedger: "Rejestr",
+    tabTiming: "Dobre pory",
+    tabMap: "Mapa",
+    tabChests: "Skrzynie",
+    chestsTitle: "Skrzynie, dzień po dniu",
+    chestsIntro: "Wszystkie skrzynie wyprodukowane przez klan, dzień po dniu — łączny wynik klanu i tempo każdego członka.",
+    chestsSpan: (n) => `${n} ${plForm(n, "śledzony dzień", "śledzone dni", "śledzonych dni")}`,
+    chestsRange: { week: "7 dni", month: "4 tygodnie", quarter: "12 tygodni", all: "Cały czas" },
+    chestsClanTotal: "skrzyń w tym okresie",
+    chestsClanDaily: "skrzyń klanu dziennie",
+    chestsClanWeekly: "skrzyń klanu tygodniowo",
+    chestsClanTotalChart: "Łącznie klan, dzień po dniu",
+    chestsPlayerChart: (name) => `${name}, dzień po dniu`,
+    chestsPickPlayer: "Gracz",
+    chestsNoPlayers: "Brak członków z danymi o skrzyniach.",
+    chestsTableName: "Członek",
+    chestsTableTotal: "Łącznie",
+    chestsTableDaily: "Dziennie",
+    chestsTableWeekly: "Tygodniowo",
+    chestsFormerNote: (n) => `${n} więcej od członków, których nie ma już w klanie, wciąż wliczone do sumy klanu.`,
+    chestsEmpty: "Brak danych o skrzyniach — rejestr jest pusty dla tego okresu.",
+    tabDragon: "Smocze monety",
+    dragonTitle: "Smocze monety",
+    dragonIntro: "Członek kończy turniej w pierwszej setce, a gra automatycznie wysyła jego smocze monety do klanu; następnie lider rozdaje je temu, kto je zdobył. Ta zakładka śledzi obie strony — to, co wpłynęło, i to, co zostało wypłacone.",
+    dragonReconTitle: "Wypłaty — czy wszyscy dostali swoje?",
+    dragonReconIntro: "Ile każdy członek zdobył, w zestawieniu z tym, ile mu rozdano. Ci, którym wciąż się należy, są wyróżnieni i na górze.",
+    dragonReconEarned: "zdobyte przez członków",
+    dragonReconDistributed: "rozdane do tej pory",
+    dragonReconOutstanding: "do rozdania",
+    dragonAllPaid: "Wszyscy dostali to, co zdobyli.",
+    dragonOwedNote: (n, amt) => `${n} ${plForm(n, "członek", "członkowie", "członków")} ${plForm(n, "wciąż czeka", "wciąż czekają", "wciąż czeka")} na wypłatę — łącznie ${amt}.`,
+    dragonReconName: "Członek",
+    dragonReconEarnedCol: "Zdobyte",
+    dragonReconDistCol: "Rozdane",
+    dragonReconOutCol: "Zaległe",
+    dragonLeftTag: "opuścił klan",
+    dragonPaidMark: "rozliczone",
+    dragonFlow: { earned: "Zdobyte", received: "Rozdane" },
+    dragonClanTotal: "smoczych monet w tym okresie",
+    dragonClanDaily: "smoczych monet klanu dziennie",
+    dragonClanWeekly: "smoczych monet klanu tygodniowo",
+    dragonClanTotalChart: "Łącznie klan, dzień po dniu",
+    dragonPlayerChart: (name) => `${name}, dzień po dniu`,
+    dragonNoPlayers: "Nie zdobyto monet w tym okresie.",
+    dragonNoReceived: "Nie rozdano monet w tym okresie.",
+    dragonEmpty: "Brak danych o smoczych monetach.",
+    mapTitle: "Gdzie jest klan",
+    mapIntro: (c, n) => `${n} członków w ${c} krajach. Wybierz kraj na mapie lub z listy, aby zobaczyć, kto tam jest.`,
+    mapHint: "Nic jeszcze nie wybrano.",
+    memberCount: (n) => `${n} ${plForm(n, "członek", "członkowie", "członków")}`,
+    noCountry: (n) => `${n} ${plForm(n, "członek nie ma", "członkowie nie mają", "członków nie ma")} kraju w swoim profilu.`,
+    notOnMap: (list) => `Nie można narysować na tej mapie: ${list}.`,
+    fCountry: "Kraj",
+    fTimezone: "Strefa czasowa",
+    fLastActive: "Ostatni wkład",
+    fJoined: "Dołączył",
+    fWasCalled: "Wcześniej",
+    untilDate: (d) => `ostatnio widziany pod tym imieniem ${d}`,
+    fMight: "Potęga",
+    mightFlat: (n) => `bez zmian od ${n} ${plForm(n, "dnia", "dni", "dni")}`,
+    mightRose: (n) => (n === 0 ? "wzrosła dzisiaj" : n === 1 ? "wzrosła wczoraj" : `wzrosła ${n} ${plForm(n, "dzień", "dni", "dni")} temu`),
+    mightUntracked: "śledzony tylko jeden dzień",
+    inactiveWhy: (n) => `Potęga nie drgnęła od ${n} dni, a w tym czasie nie było też żadnych datków, przyspieszeń ani skrzyń. Sama potęga nie wystarczy — można grać codziennie i jej nie ruszać — więc odznaka wymaga obu rzeczy.`,
+    unknownField: "nie ustawiono",
+    daysAgo: (n) => (n === 0 ? "dzisiaj" : n === 1 ? "wczoraj" : `${n} ${plForm(n, "dzień", "dni", "dni")} temu`),
+    localTimeNow: (s) => `${s} ich czasu`,
+    timingTitle: "Kiedy klan nie śpi?",
+    timingIntro: "Ilu członków ma lokalny czas między 09:00 a północą w danej godzinie. Godziny są według twojego zegara, z UTC obok.",
+    timingBest: (n, total, times) => `Najlepsze pokrycie to ${n} z ${total}, o ${times}.`,
+    atReset: "dzienny reset",
+    beforeReset: (h) => `${h}h przed resetem`,
+    afterReset: (h) => `${h}h po resecie`,
+    membersAwake: "aktywni",
+    rankBest: "Najlepsi najpierw",
+    rankClock: "Według zegara",
+    countAll: "Wszyscy",
+    countActive: "Tylko aktywni",
+    countTop: `Top ${TOP_N}`,
+    excludedNote: (n) =>
+      `${n} ${plForm(n, "członek pominięty", "członkowie pominięci", "członków pominiętych")} jako prawdopodobnie nieobecni: potęga bez zmian od ${STALL_DAYS}+ dni lub brak wkładu od ${STALL_DAYS}+ dni.`,
+    topNote: `Liczy się tylko ${TOP_N} najlepszych w klanie według oceny jakości — tej samej, według której sortuje Rejestr — więc oba zawsze zgadzają się co do tego, kim są.`,
+    localNow: "lokalnie",
+    noTimezone: (n) => `${n} ${plForm(n, "członek nie ma", "członkowie nie mają", "członków nie ma")} ustawionej strefy czasowej w profilu, więc ${plForm(n, "jest pomijany", "są pomijani", "są pomijani")} w zliczeniach.`,
+    tzCaveat: (n) =>
+      "Strefy czasowe pochodzą z profilu każdego członka, który zapisuje to, co wskazywał zegar przy wypełnianiu, więc nie uwzględnia czasu letniego. Każda jest korygowana o rzeczywiste przesunięcie kraju na dziś" +
+      (n > 0 ? `, co obecnie przesuwa ${n} z nich o godzinę.` : "."),
+
+    formerTitle: "Już nie w klanie",
+    formerCount: (n) => `${n} ${plForm(n, "członek", "członkowie", "członków")}`,
+    formerNote:
+      "Gra nigdy nie zapisuje odejścia, więc datą jest ostatni dzień, w którym jest po nich jakikolwiek ślad. Mogli odejść, zostać usunięci albo klan po prostu nie został tego dnia przechwycony.",
+    formerGhostNote: (n) =>
+      `${n === 1 ? "O jednym z nich wiadomo" : `O ${n} z nich wiadomo`} tylko z rejestrów datków i skrzyń: zniknęli, zanim jakiekolwiek przechwycenie zastało ich na liście, więc nie ma rangi ani daty dołączenia.`,
+    fLastListed: "Ostatnio na liście",
+    fLastGave: "Ostatni wkład",
+
+    filterLabel: "Filtr",
+    qualityInfo: "Jak liczona jest jakość?",
+    ruleInfo: "Co liczy się jako osiągnięcie celu wpłat?",
+    sortBy: "Sortuj",
+    sortRank: "Według rangi",
+    sortWorst: "Najgorsi najpierw",
+    sortBest: "Najlepsi najpierw",
+    qualityTitle: "Ocena jakości",
+    qualityWhy: "Datki, skrzynie i przyspieszenia w porównaniu z najlepszymi w klanie — datki jako wielokrotność własnego celu członka, każdy tydzień liczony osobno; mieszkanie w terytorium oraz dni od ostatniego wzrostu potęgi lub wkładu. Rozwiń wiersz, aby zobaczyć rozbicie.",
+    qualityNotCounted: "nikt nie zdobył punktów, nie liczone",
+    qualityOverWeeks: (from, to) => `tygodnie ${from} i ${to}`,
+    qualityOverWeek: (from) => `tydzień ${from}`,
+    qualityParts: {
+      donations: "Datki vs cel",
+      chests: "Skrzynie",
+      speedups: "Przyspieszenia",
+      territory: "W terytorium",
+      activity: "Ostatnio aktywni",
+      might: "Potęga w klanie",
+    },
+    qualityNote:
+      "Jakość to jedna ocena w skali 100 z wybranego tygodnia i poprzedniego, aby dopiero rozpoczęty tydzień nie był oceniany na podstawie dwóch dni danych. Datki liczą się jako wielokrotność własnego celu każdego członka, punktowana względem najlepszych w klanie — opublikowaną zasadę 5% z nawiązką spełnia niemal każdy, kto w ogóle coś daje, więc decyduje ona o odznace „cel wpłat osiągnięty”, a nie o tej ocenie — przy czym oba tygodnie są punktowane osobno i uśredniane, aby duży tydzień nie przykrył pustego; skrzynie i przyspieszenia względem najlepszych w klanie w tym samym okresie, aby wyjątkowy tydzień jednego członka nie wyznaczał skali dla wszystkich; do tego mieszkanie w terytorium, jak niedawno ostatnio wzrosła jego potęga lub coś wpłacił — cokolwiek jest świeższe, bo potęga może stać w miejscu przez dzień zwykłej gry — oraz to, gdzie jego potęga plasuje go w klanie. To ostatnie warte jest tylko 4, bo potęga odzwierciedla głównie to, jak długo ktoś gra. To, na co nikt nie zdobył punktów, jest pomijane, zamiast liczone jako zero dla wszystkich. Rozwiń dowolny wiersz, aby zobaczyć, jak powstała ocena.",
+
+    ranks: { Leader: "Lider", Superior: "Zwierzchnik", Officer: "Oficer", Veteran: "Weteran", Member: "Członek", Soldier: "Żołnierz" },
+    res: { lumber: "Drewno", stone: "Kamień", iron: "Żelazo", food: "Żywność", silver: "Srebro", tractates: "Traktaty nauk." },
   },
 };
 
@@ -2199,13 +2438,7 @@ function emptyState() {
 
 export default function App() {
   const [state, setState] = useState(null);
-  const [lang, setLang] = useState(() => {
-    try {
-      return localStorage.getItem("bow-lang") === "es" ? "es" : "en";
-    } catch {
-      return "en";
-    }
-  });
+  const [lang, setLang] = useState(detectLang);
   const [loading, setLoading] = useState(true);
   const [view, setView] = useState("ledger");
   const [updatedAt, setUpdatedAt] = useState(null);
@@ -2283,10 +2516,16 @@ export default function App() {
       </select>
     ) : null;
 
+  // One button per language the visitor is not already reading in, so the
+  // choice is direct rather than a cycle they have to click through.
   const langBtn = (
-    <button className="bt-lang" onClick={() => setLang(lang === "en" ? "es" : "en")} title="English / Español">
-      {lang === "en" ? "ES" : "EN"}
-    </button>
+    <div className="bt-lang-group">
+      {LANGS.filter((l) => l !== lang).map((l) => (
+        <button key={l} className="bt-lang" onClick={() => setLang(l)} title={LANG_NAME[l]} aria-label={LANG_NAME[l]}>
+          {LANG_LABEL[l]}
+        </button>
+      ))}
+    </div>
   );
 
   const membersText = `${state.members.length}/${MAX_MEMBERS} ${t.members} · ${t.dayN(dayOfWeek(week.start))} · ${t.nextDay} ${roll.h}h ${roll.m}m`;
