@@ -1,17 +1,17 @@
 {
  "1378684787925": {
   "name": "Indira",
-  "rank": "Superior",
-  "might": 11890572,
+  "rank": "Leader",
+  "might": 13382765,
   "joined": "2026-07-17",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684568874": {
   "name": "Cordamath II",
-  "rank": "Leader",
-  "might": 6074426,
+  "rank": "Superior",
+  "might": 7469576,
   "joined": "2026-07-03",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684741662": {
   "name": "Bellona",
@@ -25,28 +25,28 @@
   "rank": "Soldier",
   "might": 704720,
   "joined": "2026-08-05",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-16"
  },
  "1378684656971": {
   "name": "Rili",
   "rank": "Officer",
-  "might": 1438778,
+  "might": 3616635,
   "joined": "2026-07-12",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684799791": {
   "name": "Morgoth",
   "rank": "Veteran",
-  "might": 894599,
+  "might": 986619,
   "joined": "2026-08-06",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684639872": {
   "name": "Melinad",
   "rank": "Veteran",
-  "might": 699736,
+  "might": 728460,
   "joined": "2026-08-08",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684763225": {
   "name": "Lorduing",
@@ -79,16 +79,16 @@
  "1378684591930": {
   "name": "Mordriel",
   "rank": "Superior",
-  "might": 911722,
+  "might": 1073540,
   "joined": "2026-07-03",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684546217": {
   "name": "Tureglil",
   "rank": "Veteran",
-  "might": 343742,
+  "might": 401705,
   "joined": "2026-07-11",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684778749": {
   "name": "Enfir",
@@ -99,24 +99,24 @@
  },
  "1378684677949": {
   "name": "Zajac",
-  "rank": "Officer",
-  "might": 294978,
+  "rank": "Superior",
+  "might": 344013,
   "joined": "2026-08-06",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684773181": {
   "name": "Taugal",
   "rank": "Officer",
-  "might": 240816,
+  "might": 410193,
   "joined": "2026-07-23",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684780963": {
   "name": "Painmoon",
   "rank": "Veteran",
-  "might": 309065,
+  "might": 459493,
   "joined": "2026-07-17",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684575159": {
   "name": "Luchneen",
@@ -128,9 +128,9 @@
  "1378684613683": {
   "name": "Keanef",
   "rank": "Veteran",
-  "might": 271438,
+  "might": 311902,
   "joined": "2026-08-01",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684703780": {
   "name": "Fabrinir",
@@ -156,9 +156,9 @@
  "1378684514657": {
   "name": "Keralak",
   "rank": "Veteran",
-  "might": 190243,
+  "might": 221370,
   "joined": "2026-07-09",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684562709": {
   "name": "\u041c\u0438\u043b\u044c\u0433\u0435\u043b\u044c\u0440\u0435\u043d",
@@ -170,9 +170,9 @@
  "1378684749987": {
   "name": "Felora",
   "rank": "Veteran",
-  "might": 801485,
+  "might": 1125652,
   "joined": "2026-07-31",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684688674": {
   "name": "Forceworm",
@@ -212,23 +212,23 @@
  "1378684792656": {
   "name": "Elrining",
   "rank": "Veteran",
-  "might": 304413,
+  "might": 331253,
   "joined": "2026-07-25",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-16"
  },
  "1378684720666": {
   "name": "Sador",
   "rank": "Veteran",
-  "might": 143027,
+  "might": 436120,
   "joined": "2026-07-10",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684571224": {
   "name": "Akinolabar",
   "rank": "Veteran",
-  "might": 424846,
+  "might": 539599,
   "joined": "2026-07-17",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684670914": {
   "name": "Lirosin",
@@ -296,9 +296,9 @@
  "1378684697100": {
   "name": "Rain",
   "rank": "Veteran",
-  "might": 86870,
+  "might": 164456,
   "joined": "2026-07-26",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684538880": {
   "name": "Aydaen",
@@ -373,9 +373,9 @@
  "1378684537558": {
   "name": "Morana",
   "rank": "Officer",
-  "might": 1039284,
+  "might": 1456647,
   "joined": "2026-08-08",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684644457": {
   "name": "rei rick",
@@ -387,93 +387,93 @@
  "1378684780597": {
   "name": "Arfiring",
   "rank": "Veteran",
-  "might": 159679,
+  "might": 200254,
   "joined": "2026-08-09",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684725045": {
   "name": "Frostterror",
   "rank": "Veteran",
-  "might": 101681,
+  "might": 167337,
   "joined": "2026-08-12",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684521491": {
   "name": "Meninad",
   "rank": "Veteran",
-  "might": 245673,
+  "might": 288204,
   "joined": "2026-08-13",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684680194": {
   "name": "Karohan",
   "rank": "Superior",
-  "might": 700010,
+  "might": 965148,
   "joined": "2026-08-14",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684748097": {
   "name": "Morad",
   "rank": "Veteran",
-  "might": 245552,
+  "might": 332980,
   "joined": "2026-08-15",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684786515": {
   "name": "Kazilrajas",
   "rank": "Veteran",
-  "might": 63265,
+  "might": 63415,
   "joined": "2026-08-17",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684652205": {
   "name": "Megrond",
   "rank": "Veteran",
-  "might": 95099,
+  "might": 102674,
   "joined": "2026-08-20",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-23"
  },
  "1378684742203": {
   "name": "Frostworker",
   "rank": "Veteran",
-  "might": 330752,
+  "might": 370472,
   "joined": "2026-08-20",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684691643": {
   "name": "Sashura",
   "rank": "Veteran",
-  "might": 262825,
+  "might": 423515,
   "joined": "2026-08-20",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684506197": {
   "name": "Aegfinod",
   "rank": "Veteran",
-  "might": 198182,
+  "might": 206439,
   "joined": "2026-08-20",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684784647": {
   "name": "Pentafilia",
   "rank": "Veteran",
-  "might": 286548,
+  "might": 396311,
   "joined": "2026-08-20",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684580491": {
   "name": "Arelotilas",
   "rank": "Veteran",
-  "might": 734124,
+  "might": 899049,
   "joined": "2026-08-21",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684666635": {
   "name": "Eyvilas",
   "rank": "Veteran",
-  "might": 377153,
+  "might": 496950,
   "joined": "2026-08-21",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684669985": {
   "name": "Nefur",
@@ -484,226 +484,289 @@
  },
  "1378684737098": {
   "name": "Katarina PL",
-  "rank": "Veteran",
-  "might": 591375,
+  "rank": "Officer",
+  "might": 2409547,
   "joined": "2026-08-23",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684604636": {
   "name": "Direblade",
   "rank": "Soldier",
   "might": 87411,
   "joined": "2026-08-23",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684707081": {
   "name": "Moondragon",
   "rank": "Veteran",
-  "might": 1565651,
+  "might": 2114661,
   "joined": "2026-08-23",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684730919": {
   "name": "Nerneilas",
   "rank": "Veteran",
-  "might": 216416,
+  "might": 410257,
   "joined": "2026-08-23",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684794055": {
   "name": "T",
   "rank": "Officer",
-  "might": 5487286,
+  "might": 6533481,
   "joined": "2026-08-24",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-17"
  },
  "1378684502926": {
   "name": "Daik",
   "rank": "Veteran",
-  "might": 156269,
+  "might": 220125,
   "joined": "2026-08-25",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684598536": {
   "name": "Ari",
   "rank": "Veteran",
-  "might": 157734,
+  "might": 224081,
   "joined": "2026-08-28",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684512198": {
   "name": "Rebur",
   "rank": "Veteran",
-  "might": 147376,
+  "might": 234549,
   "joined": "2026-08-29",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684797730": {
   "name": "Masho",
   "rank": "Veteran",
-  "might": 868778,
+  "might": 1518598,
   "joined": "2026-08-31",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684637563": {
-  "name": "Kekazahn",
+  "name": "Xenos",
   "rank": "Veteran",
-  "might": 313382,
+  "might": 409799,
   "joined": "2026-08-30",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684708040": {
   "name": "Floyergus",
   "rank": "Veteran",
-  "might": 457118,
+  "might": 738367,
   "joined": "2026-08-31",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684690306": {
   "name": "Ildanen",
   "rank": "Veteran",
-  "might": 154524,
+  "might": 195883,
   "joined": "2026-08-31",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684566364": {
   "name": "Eyneen",
   "rank": "Veteran",
-  "might": 505881,
+  "might": 881711,
   "joined": "2026-09-01",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684777316": {
   "name": "Galafiren",
   "rank": "Veteran",
-  "might": 152505,
+  "might": 219870,
   "joined": "2026-09-01",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684603397": {
   "name": "Tylar",
   "rank": "Veteran",
-  "might": 205471,
+  "might": 294316,
   "joined": "2026-09-01",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684737498": {
   "name": "Morfir",
   "rank": "Veteran",
-  "might": 159221,
+  "might": 159381,
   "joined": "2026-09-02",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684519676": {
   "name": "Smoker",
   "rank": "Veteran",
-  "might": 961381,
+  "might": 1374361,
   "joined": "2026-09-03",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684545780": {
   "name": "MrAlmizclero",
   "rank": "Officer",
-  "might": 529286,
+  "might": 800453,
   "joined": "2026-09-03",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684798233": {
   "name": "wally505",
   "rank": "Veteran",
-  "might": 519620,
+  "might": 1119839,
   "joined": "2026-09-03",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684782941": {
-  "name": "Funneen",
+  "name": "Larry Michael",
   "rank": "Veteran",
-  "might": 552659,
+  "might": 800696,
   "joined": "2026-09-03",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684646883": {
-  "name": "Tanos",
+  "name": "Lilu",
   "rank": "Superior",
-  "might": 708658,
+  "might": 1145719,
   "joined": "2026-09-03",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684699264": {
   "name": "Cohelm",
-  "rank": "Veteran",
-  "might": 254464,
+  "rank": "Officer",
+  "might": 390411,
   "joined": "2026-09-03",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684506286": {
   "name": "Luchneen",
   "rank": "Veteran",
-  "might": 173629,
+  "might": 204563,
   "joined": "2026-09-02",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684665159": {
   "name": "Serrallonga",
   "rank": "Veteran",
-  "might": 286354,
+  "might": 367616,
   "joined": "2026-09-03",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684719021": {
   "name": "Arkayen",
   "rank": "Veteran",
-  "might": 155203,
+  "might": 266472,
   "joined": "2026-09-03",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684521861": {
   "name": "Eyvilas",
   "rank": "Veteran",
-  "might": 242807,
+  "might": 326385,
   "joined": "2026-09-04",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684722389": {
   "name": "Urkunina",
   "rank": "Veteran",
-  "might": 185551,
+  "might": 435619,
   "joined": "2026-09-03",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684542793": {
   "name": "Megore",
-  "rank": "Soldier",
-  "might": 199359,
+  "rank": "Veteran",
+  "might": 426069,
   "joined": "2026-09-04",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684614935": {
   "name": "Torin",
   "rank": "Veteran",
-  "might": 132774,
+  "might": 204645,
   "joined": "2026-09-05",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684622857": {
-  "name": "Aegrodan",
+  "name": "Rod",
   "rank": "Veteran",
-  "might": 188411,
+  "might": 288150,
   "joined": "2026-09-04",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684712650": {
   "name": "Mogis",
-  "rank": "Soldier",
-  "might": 134619,
+  "rank": "Veteran",
+  "might": 207307,
   "joined": "2026-09-04",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-24"
  },
  "1378684730172": {
   "name": "PeterPower",
-  "rank": "Soldier",
-  "might": 88463,
+  "rank": "Veteran",
+  "might": 106670,
   "joined": "2026-09-09",
-  "lastSeen": "2026-09-13"
+  "lastSeen": "2026-09-20"
+ },
+ "1378684680597": {
+  "name": "Metilar",
+  "rank": "Soldier",
+  "might": 812659,
+  "joined": "2026-09-12",
+  "lastSeen": "2026-09-14"
+ },
+ "1378684690315": {
+  "name": "RustyRagnar",
+  "rank": "Veteran",
+  "might": 906641,
+  "joined": "2026-09-13",
+  "lastSeen": "2026-09-24"
+ },
+ "1378684773294": {
+  "name": "Felor",
+  "rank": "Veteran",
+  "might": 175894,
+  "joined": "2026-09-13",
+  "lastSeen": "2026-09-24"
+ },
+ "1378684626681": {
+  "name": "ironladyita",
+  "rank": "Veteran",
+  "might": 222951,
+  "joined": "2026-09-15",
+  "lastSeen": "2026-09-24"
+ },
+ "1378684727394": {
+  "name": "Steelkiller",
+  "rank": "Veteran",
+  "might": 160503,
+  "joined": "2026-09-16",
+  "lastSeen": "2026-09-24"
+ },
+ "1378684628377": {
+  "name": "PEFO",
+  "rank": "Veteran",
+  "might": 277931,
+  "joined": "2026-09-18",
+  "lastSeen": "2026-09-24"
+ },
+ "1378684776561": {
+  "name": "Kelera",
+  "rank": "Veteran",
+  "might": 250232,
+  "joined": "2026-09-18",
+  "lastSeen": "2026-09-24"
+ },
+ "1378684651878": {
+  "name": "Gavigar",
+  "rank": "Soldier",
+  "might": 320962,
+  "joined": "2026-09-18",
+  "lastSeen": "2026-09-24"
+ },
+ "1378684571585": {
+  "name": "Groshicage",
+  "rank": "Veteran",
+  "might": 625229,
+  "joined": "2026-09-23",
+  "lastSeen": "2026-09-24"
  }
 }

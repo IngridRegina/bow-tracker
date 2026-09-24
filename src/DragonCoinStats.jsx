@@ -2,9 +2,14 @@ import React, { useMemo, useState } from "react";
 import { fmt, compact, shortDate, CONCENTRATED_AT, MAX_MEMBERS } from "./format.js";
 
 /* ---- dragon coin stats -------------------------------------------
-   Same shape as ChestStats: aggregates weeks[week].dragonCoins — already
-   keyed by member and by day — across every week on file. Nothing here is
-   read from the raw ledgers: it is all already in tracker-state.json. */
+   Two flows, both already in tracker-state.json and keyed by member and day:
+     weeks[week].dragonCoins         — coins a member earned in a tournament and
+                                       the game sent to the clan automatically.
+     weeks[week].dragonCoinsReceived — coins the leader then handed back out to
+                                       that member.
+   The day-by-day charts show one flow at a time; the reconciliation at the top
+   lines earned up against distributed so anyone still owed stands out. Nothing
+   here is read from the raw ledgers — it is all already in the state file. */
 
 /* A "nice" axis step — 1/2/5 x a power of ten — so gridlines land on
    round numbers instead of whatever max/4 happens to be. */
@@ -87,28 +92,76 @@ const RANGES = [
 ];
 const DEFAULT_RANGE = "month";
 
-export default function DragonCoinStats({ t, lang, members, weeks }) {
-  const merged = useMemo(() => {
-    const byDate = new Map();
-    const byMember = new Map();
-    Object.values(weeks || {}).forEach((wk) => {
-      Object.entries(wk.dragonCoins || {}).forEach(([id, byDay]) => {
-        let m = byMember.get(id);
-        if (!m) byMember.set(id, (m = new Map()));
-        Object.entries(byDay).forEach(([date, amount]) => {
-          m.set(date, (m.get(date) || 0) + amount);
-          byDate.set(date, (byDate.get(date) || 0) + amount);
-        });
+/* Aggregate one weeks[*][field] map into totals by date and by member. */
+function aggregate(weeks, field) {
+  const byDate = new Map();
+  const byMember = new Map();
+  Object.values(weeks || {}).forEach((wk) => {
+    Object.entries(wk[field] || {}).forEach(([id, byDay]) => {
+      let m = byMember.get(id);
+      if (!m) byMember.set(id, (m = new Map()));
+      Object.entries(byDay).forEach(([date, amount]) => {
+        m.set(date, (m.get(date) || 0) + amount);
+        byDate.set(date, (byDate.get(date) || 0) + amount);
       });
     });
-    return { byDate, byMember };
-  }, [weeks]);
+  });
+  return { byDate, byMember };
+}
 
-  /* Every calendar day from the first send on file to the last, including
-     the ones nobody sent anything on — otherwise a clan-wide blank day just
-     vanishes from the x-axis instead of reading as a zero. */
+const sumMap = (m) => (m ? [...m.values()].reduce((a, b) => a + b, 0) : 0);
+
+const FLOWS = ["earned", "received"];
+
+export default function DragonCoinStats({ t, lang, members, formerMembers = [], weeks }) {
+  const earned = useMemo(() => aggregate(weeks, "dragonCoins"), [weeks]);
+  const received = useMemo(() => aggregate(weeks, "dragonCoinsReceived"), [weeks]);
+
+  /* Names for the reconciliation, which spans anyone who ever earned or was
+     paid — including members who have since left, whose coins would otherwise
+     show as a nameless id. */
+  const nameById = useMemo(() => {
+    const map = new Map();
+    (members || []).forEach((m) => map.set(m.id, m.name));
+    (formerMembers || []).forEach((m) => map.set(m.id, m.name));
+    return map;
+  }, [members, formerMembers]);
+  const currentIds = useMemo(() => new Set((members || []).map((m) => m.id)), [members]);
+
+  /* All-time reconciliation: what each member earned vs what they've been
+     handed back. Anyone with either figure is listed; those still owed sort to
+     the top so a missed payout is the first thing you see. */
+  const recon = useMemo(() => {
+    const ids = new Set([...earned.byMember.keys(), ...received.byMember.keys()]);
+    const rows = [...ids].map((id) => {
+      const e = sumMap(earned.byMember.get(id));
+      const r = sumMap(received.byMember.get(id));
+      return {
+        id,
+        name: nameById.get(id) || id,
+        former: !currentIds.has(id),
+        earned: e,
+        received: r,
+        outstanding: e - r,
+      };
+    });
+    rows.sort((a, b) => b.outstanding - a.outstanding || b.earned - a.earned);
+    const totalEarned = rows.reduce((a, r) => a + r.earned, 0);
+    const totalReceived = rows.reduce((a, r) => a + r.received, 0);
+    const owed = rows.filter((r) => r.outstanding > 0);
+    const totalOwed = owed.reduce((a, r) => a + r.outstanding, 0);
+    return { rows, totalEarned, totalReceived, totalOwed, owedCount: owed.length };
+  }, [earned, received, nameById, currentIds]);
+
+  const [flow, setFlow] = useState("earned");
+  const active = flow === "received" ? received : earned;
+
+  /* Every calendar day from the first entry on file to the last, including the
+     ones nobody sent anything on — otherwise a clan-wide blank day just
+     vanishes from the x-axis instead of reading as a zero. Spans the union of
+     both flows so switching flow does not resize the axis. */
   const allDates = useMemo(() => {
-    const keys = [...merged.byDate.keys()].sort();
+    const keys = [...new Set([...earned.byDate.keys(), ...received.byDate.keys()])].sort();
     if (keys.length === 0) return [];
     const out = [];
     const last = new Date(keys[keys.length - 1] + "T12:00:00Z");
@@ -116,36 +169,35 @@ export default function DragonCoinStats({ t, lang, members, weeks }) {
       out.push(d.toISOString().slice(0, 10));
     }
     return out;
-  }, [merged]);
+  }, [earned, received]);
 
   const [range, setRange] = useState(DEFAULT_RANGE);
   const rangeDays = RANGES.find(([k]) => k === range)?.[1] ?? Infinity;
   const dates = useMemo(() => (Number.isFinite(rangeDays) ? allDates.slice(-rangeDays) : allDates), [allDates, rangeDays]);
   const spanDays = dates.length;
 
-  const clanTotal = useMemo(() => dates.reduce((a, d) => a + (merged.byDate.get(d) || 0), 0), [dates, merged]);
+  const clanTotal = useMemo(() => dates.reduce((a, d) => a + (active.byDate.get(d) || 0), 0), [dates, active]);
   const clanDaily = spanDays > 0 ? clanTotal / spanDays : 0;
 
   // Members with nothing in the selected span are left off the table
-  // entirely — there is no rate worth showing for someone who sent zero.
+  // entirely — there is no rate worth showing for someone at zero.
   const rows = useMemo(() => {
     const list = (members || [])
       .map((m) => {
-        const byDay = merged.byMember.get(m.id);
+        const byDay = active.byMember.get(m.id);
         const total = byDay ? dates.reduce((a, d) => a + (byDay.get(d) || 0), 0) : 0;
         return { id: m.id, name: m.name, total, daily: spanDays > 0 ? total / spanDays : 0 };
       })
       .filter((r) => r.total > 0);
     list.sort((a, b) => b.total - a.total);
     return list;
-  }, [members, merged, dates, spanDays]);
+  }, [members, active, dates, spanDays]);
 
   const rosterTotal = rows.reduce((a, r) => a + r.total, 0);
   const fromFormer = clanTotal - rosterTotal;
 
-  /* The largest single sender's share of the selected span, so a total
-     carried by one member cannot be read as the clan giving evenly — see
-     CONCENTRATED_AT. */
+  /* The largest single member's share of the selected span, so a total carried
+     by one member cannot be read as the clan giving evenly — see CONCENTRATED_AT. */
   const topShare = clanTotal > 0 && rows.length > 0 ? rows[0].total / clanTotal : 0;
   // Mean, not median: this is the figure you multiply back out to project a
   // full roster, and the median can't do that when most of the roster gives
@@ -154,7 +206,7 @@ export default function DragonCoinStats({ t, lang, members, weeks }) {
 
   const [selectedId, setSelectedId] = useState(null);
   const activeId = selectedId && rows.some((r) => r.id === selectedId) ? selectedId : rows[0]?.id;
-  const active = rows.find((r) => r.id === activeId);
+  const activeRow = rows.find((r) => r.id === activeId);
 
   if (allDates.length === 0) {
     return (
@@ -164,15 +216,81 @@ export default function DragonCoinStats({ t, lang, members, weeks }) {
     );
   }
 
-  const clanValues = dates.map((d) => merged.byDate.get(d) || 0);
-  const activeDay = active ? merged.byMember.get(active.id) : null;
+  const clanValues = dates.map((d) => active.byDate.get(d) || 0);
+  const activeDay = activeRow ? active.byMember.get(activeRow.id) : null;
   const activeValues = dates.map((d) => (activeDay ? activeDay.get(d) || 0 : 0));
+  const flowColor = flow === "received" ? "var(--bt-green)" : "var(--bt-gold)";
 
   return (
     <section className="bt-chests">
       <h2 className="bt-h2">{t.dragonTitle}</h2>
       <p className="bt-timing-intro">{t.dragonIntro}</p>
 
+      {/* Reconciliation: the headline answer to "has everyone been paid". */}
+      <div className="bt-card bt-chests-card">
+        <h3 className="bt-chart-title">{t.dragonReconTitle}</h3>
+        <p className="bt-timing-intro">{t.dragonReconIntro}</p>
+
+        <div className="bt-stat-row">
+          <div className="bt-stat-tile">
+            <span className="bt-stat-value">{fmt(recon.totalEarned)}</span>
+            <span className="bt-stat-label">{t.dragonReconEarned}</span>
+          </div>
+          <div className="bt-stat-tile">
+            <span className="bt-stat-value">{fmt(recon.totalReceived)}</span>
+            <span className="bt-stat-label">{t.dragonReconDistributed}</span>
+          </div>
+          <div className="bt-stat-tile" data-tone={recon.totalOwed > 0 ? "owed" : "clear"}>
+            <span className="bt-stat-value">{fmt(recon.totalOwed)}</span>
+            <span className="bt-stat-label">{t.dragonReconOutstanding}</span>
+          </div>
+        </div>
+
+        {recon.totalOwed > 0 ? (
+          <p className="bt-rule-note">{t.dragonOwedNote(recon.owedCount, fmt(recon.totalOwed))}</p>
+        ) : (
+          <p className="bt-rule-note">{t.dragonAllPaid}</p>
+        )}
+
+        <table className="bt-res-table bt-chest-table">
+          <thead>
+            <tr>
+              <th className="bt-res-name">{t.dragonReconName}</th>
+              <th className="bt-res-given">{t.dragonReconEarnedCol}</th>
+              <th className="bt-res-given">{t.dragonReconDistCol}</th>
+              <th className="bt-res-given">{t.dragonReconOutCol}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {recon.rows.map((r) => (
+              <tr key={r.id} className="bt-chest-row" data-owed={r.outstanding > 0 ? "true" : undefined}>
+                <td className="bt-res-name">
+                  {r.name}
+                  {r.former && <span className="bt-dragon-left"> · {t.dragonLeftTag}</span>}
+                </td>
+                <td className="bt-res-given">{fmt(r.earned)}</td>
+                <td className="bt-res-given">{fmt(r.received)}</td>
+                <td className="bt-res-given">
+                  {r.outstanding > 0 ? (
+                    <span className="bt-dragon-owed">{fmt(r.outstanding)}</span>
+                  ) : (
+                    <span className="bt-dragon-paid">{t.dragonPaidMark}</span>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Day-by-day, one flow at a time. */}
+      <div className="bt-seg bt-seg--wrap">
+        {FLOWS.map((k) => (
+          <button key={k} className="bt-seg-btn" aria-pressed={flow === k} onClick={() => setFlow(k)}>
+            {t.dragonFlow[k]}
+          </button>
+        ))}
+      </div>
       <div className="bt-seg bt-seg--wrap">
         {RANGES.map(([k]) => (
           <button key={k} className="bt-seg-btn" aria-pressed={range === k} onClick={() => setRange(k)}>
@@ -199,7 +317,7 @@ export default function DragonCoinStats({ t, lang, members, weeks }) {
 
       <Card>
         <h3 className="bt-chart-title">{t.dragonClanTotalChart}</h3>
-        <BarChart dates={dates} values={clanValues} lang={lang} color="var(--bt-gold)" ariaLabel={t.dragonClanTotalChart} />
+        <BarChart dates={dates} values={clanValues} lang={lang} color={flowColor} ariaLabel={t.dragonClanTotalChart} />
         {clanTotal > 0 && (
           <div className="bt-chest-clan-note">
             {topShare >= CONCENTRATED_AT && (
@@ -214,11 +332,11 @@ export default function DragonCoinStats({ t, lang, members, weeks }) {
       </Card>
 
       {rows.length === 0 ? (
-        <p className="bt-empty">{t.dragonNoPlayers}</p>
+        <p className="bt-empty">{flow === "received" ? t.dragonNoReceived : t.dragonNoPlayers}</p>
       ) : (
         <Card>
           <div className="bt-chart-head">
-            <h3 className="bt-chart-title">{active ? t.dragonPlayerChart(active.name) : t.chestsPickPlayer}</h3>
+            <h3 className="bt-chart-title">{activeRow ? t.dragonPlayerChart(activeRow.name) : t.chestsPickPlayer}</h3>
             <select className="bt-week-select bt-select-light" value={activeId || ""} onChange={(e) => setSelectedId(e.target.value)}>
               {rows.map((r) => (
                 <option key={r.id} value={r.id}>
@@ -231,8 +349,8 @@ export default function DragonCoinStats({ t, lang, members, weeks }) {
             dates={dates}
             values={activeValues}
             lang={lang}
-            color="var(--bt-green)"
-            ariaLabel={active ? t.dragonPlayerChart(active.name) : t.chestsPickPlayer}
+            color={flowColor}
+            ariaLabel={activeRow ? t.dragonPlayerChart(activeRow.name) : t.chestsPickPlayer}
           />
 
           <table className="bt-res-table bt-chest-table">

@@ -777,11 +777,32 @@ def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
                 existing[day] = max(existing.get(day, 0), n)
 
     # Dragon coins by day, same shape as the chest ledger above so the site can
-    # chart them the same way. Rebuilt wholesale from the event ledger each
-    # run — unlike chests there is no separate ledger to protect, so a plain
-    # replace (not max()) is enough to stay idempotent.
+    # chart them the same way. Two flows share resource 31, told apart by event
+    # kind:
+    #
+    #   kind 4 — a tournament reward arriving in clan storage. A member places
+    #            in a tournament's top 100 and the game sends their coins to the
+    #            clan automatically, credited to the earner. Kept as "dragonCoins".
+    #   kind 1 — the leader handing those coins back out to the member who earned
+    #            them. Distributions are often batched, so one kind-1 amount can
+    #            be the sum of several kind-4 rewards (e.g. two 1880 rewards paid
+    #            out as a single 3760). Kept as "dragonCoinsReceived".
+    #
+    # Comparing the two per member answers "has everyone been paid what they
+    # earned". Rebuilt wholesale each run — unlike chests there is no separate
+    # ledger to protect — so the stale keys are cleared first and then replaced,
+    # which keeps re-runs idempotent even for a week whose only event was a
+    # distribution (and so no longer writes a dragonCoins entry at all).
+    DRAGON_FIELDS = {4: "dragonCoins", 1: "dragonCoinsReceived"}
+    for w in weeks.values():
+        for field in DRAGON_FIELDS.values():
+            w.pop(field, None)
+
     from_dragon = {}
     for ev in elog.values():
+        field = DRAGON_FIELDS.get(ev["kind"])
+        if not field:
+            continue
         pid = str(ev["player_id"])
         if int(pid) not in known_ids:
             continue
@@ -790,11 +811,13 @@ def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
             continue
         day = game_day(ev["ts"])
         key = week_start(day)
-        per_player = from_dragon.setdefault(key, {}).setdefault(pid, {})
+        per_player = from_dragon.setdefault(key, {}).setdefault(field, {}).setdefault(pid, {})
         per_player[day] = per_player.get(day, 0) + amt
 
-    for key, per_player in from_dragon.items():
-        week_for(key)["dragonCoins"] = per_player
+    for key, fields in from_dragon.items():
+        w = week_for(key)
+        for field, per_player in fields.items():
+            w[field] = per_player
 
     # The donation target is a share of might, and might climbs all week, so
     # measuring against the current figure moves the goalposts: give exactly

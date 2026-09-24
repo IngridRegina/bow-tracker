@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-13T17:50:12Z",
+  "generatedAt": "2026-09-23T20:02:59Z",
   "capital": [
     660,
     432
@@ -8,81 +8,41 @@
     {
       "id": "1378684787925",
       "name": "Indira",
-      "might": 11890572,
+      "might": 13382765,
       "level": 50,
-      "rank": "Superior",
+      "rank": "Leader",
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-17",
       "country": "EE",
       "utcOffset": 180,
-      "mightRoseOn": "2026-09-13",
+      "mightRoseOn": "2026-09-24",
       "mightFlatDays": 0,
-      "daysTracked": 37,
-      "lastActive": "2026-09-13"
+      "daysTracked": 48,
+      "lastActive": "2026-09-24"
     },
     {
       "id": "1378684568874",
       "name": "Cordamath II",
-      "might": 6074426,
+      "might": 7469576,
       "level": 55,
-      "rank": "Leader",
+      "rank": "Superior",
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-07-03",
       "country": "US",
       "utcOffset": -420,
-      "mightRoseOn": "2026-09-12",
-      "mightFlatDays": 1,
-      "daysTracked": 37,
-      "lastActive": "2026-09-12"
-    },
-    {
-      "id": "1378684794055",
-      "name": "T",
-      "might": 5487286,
-      "level": 45,
-      "rank": "Officer",
-      "inTerritory": true,
-      "inactive": false,
-      "ingots": false,
-      "firstSeen": "2026-08-24",
-      "country": "US",
-      "utcOffset": -300,
-      "mightRoseOn": "2026-09-13",
+      "mightRoseOn": "2026-09-24",
       "mightFlatDays": 0,
-      "daysTracked": 21,
-      "lastActive": "2026-09-13",
-      "previousNames": [
-        {
-          "name": "Glelinil",
-          "until": "2026-08-26"
-        }
-      ]
-    },
-    {
-      "id": "1378684707081",
-      "name": "Moondragon",
-      "might": 1565651,
-      "level": 39,
-      "rank": "Veteran",
-      "inTerritory": true,
-      "inactive": false,
-      "ingots": false,
-      "firstSeen": "2026-08-23",
-      "country": "US",
-      "utcOffset": -300,
-      "mightRoseOn": "2026-09-13",
-      "mightFlatDays": 0,
-      "daysTracked": 22,
-      "lastActive": "2026-09-13"
+      "daysTracked": 48,
+      "lastActive": "2026-09-24"
     },
     {
       "id": "1378684656971",
       "name": "Rili",
-      "might": 1438778,
+      "might": 3616635,
       "level": 45,
       "rank": "Officer",
       "inTerritory": true,
@@ -91,220 +51,27 @@
       "firstSeen": "2026-07-12",
       "country": "PL",
       "utcOffset": 60,
-      "mightRoseOn": "2026-09-12",
-      "mightFlatDays": 1,
-      "daysTracked": 37,
-      "lastActive": "2026-09-12"
-    },
-    {
-      "id": "1378684537558",
-      "name": "Morana",
-      "might": 1039284,
-      "level": 23,
-      "rank": "Officer",
-      "inTerritory": true,
-      "inactive": false,
-      "ingots": false,
-      "firstSeen": "2026-08-08",
-      "country": "CA",
-      "utcOffset": -300,
-      "mightRoseOn": "2026-09-13",
+      "mightRoseOn": "2026-09-24",
       "mightFlatDays": 0,
-      "daysTracked": 36,
-      "lastActive": "2026-09-12"
-    },
-    {
-      "id": "1378684519676",
-      "name": "Smoker",
-      "might": 961381,
-      "level": 27,
-      "rank": "Veteran",
-      "inTerritory": true,
-      "inactive": false,
-      "ingots": false,
-      "firstSeen": "2026-09-03",
-      "country": "CL",
-      "utcOffset": -240,
-      "mightRoseOn": "2026-09-13",
-      "mightFlatDays": 0,
-      "daysTracked": 11,
-      "lastActive": "2026-09-12",
-      "previousNames": [
-        {
-          "name": "Kekazahn",
-          "until": "2026-09-04"
-        }
-      ]
-    },
-    {
-      "id": "1378684591930",
-      "name": "Mordriel",
-      "might": 911722,
-      "level": 28,
-      "rank": "Superior",
-      "inTerritory": true,
-      "inactive": false,
-      "ingots": false,
-      "firstSeen": "2026-07-03",
-      "country": "ES",
-      "utcOffset": 60,
-      "mightRoseOn": "2026-09-13",
-      "mightFlatDays": 0,
-      "daysTracked": 37,
-      "lastActive": "2026-09-12"
-    },
-    {
-      "id": "1378684799791",
-      "name": "Morgoth",
-      "might": 894599,
-      "level": 32,
-      "rank": "Veteran",
-      "inTerritory": true,
-      "inactive": false,
-      "ingots": false,
-      "firstSeen": "2026-08-06",
-      "country": "US",
-      "utcOffset": -420,
-      "mightRoseOn": "2026-09-11",
-      "mightFlatDays": 2,
-      "daysTracked": 37,
-      "lastActive": "2026-09-11"
-    },
-    {
-      "id": "1378684797730",
-      "name": "Masho",
-      "might": 868778,
-      "level": 43,
-      "rank": "Veteran",
-      "inTerritory": true,
-      "inactive": false,
-      "ingots": false,
-      "firstSeen": "2026-08-31",
-      "country": "SE",
-      "utcOffset": 60,
-      "mightRoseOn": "2026-09-13",
-      "mightFlatDays": 0,
-      "daysTracked": 14,
-      "lastActive": "2026-09-13"
-    },
-    {
-      "id": "1378684749987",
-      "name": "Felora",
-      "might": 801485,
-      "level": 33,
-      "rank": "Veteran",
-      "inTerritory": true,
-      "inactive": false,
-      "ingots": false,
-      "firstSeen": "2026-07-31",
-      "country": "PT",
-      "utcOffset": 60,
-      "mightRoseOn": "2026-09-13",
-      "mightFlatDays": 0,
-      "daysTracked": 37,
-      "lastActive": "2026-09-12"
-    },
-    {
-      "id": "1378684580491",
-      "name": "Arelotilas",
-      "might": 734124,
-      "level": 32,
-      "rank": "Veteran",
-      "inTerritory": true,
-      "inactive": false,
-      "ingots": false,
-      "firstSeen": "2026-08-21",
-      "country": "US",
-      "utcOffset": -480,
-      "mightRoseOn": "2026-09-13",
-      "mightFlatDays": 0,
-      "daysTracked": 24,
-      "lastActive": "2026-09-12"
-    },
-    {
-      "id": "1378684646883",
-      "name": "Tanos",
-      "might": 708658,
-      "level": 28,
-      "rank": "Superior",
-      "inTerritory": true,
-      "inactive": false,
-      "ingots": false,
-      "firstSeen": "2026-09-03",
-      "country": "CA",
-      "utcOffset": -300,
-      "mightRoseOn": "2026-09-13",
-      "mightFlatDays": 0,
-      "daysTracked": 11,
-      "lastActive": "2026-09-12"
-    },
-    {
-      "id": "1378684736429",
-      "name": "Ironshaper",
-      "might": 704720,
-      "level": 33,
-      "rank": "Soldier",
-      "inTerritory": true,
-      "inactive": false,
-      "ingots": false,
-      "firstSeen": "2026-08-05",
-      "country": "GB",
-      "utcOffset": 60,
-      "mightRoseOn": "2026-08-24",
-      "mightFlatDays": 20,
-      "daysTracked": 37,
-      "lastActive": "2026-08-20"
-    },
-    {
-      "id": "1378684680194",
-      "name": "Karohan",
-      "might": 700010,
-      "level": 25,
-      "rank": "Superior",
-      "inTerritory": true,
-      "inactive": false,
-      "ingots": false,
-      "firstSeen": "2026-08-14",
-      "country": "GB",
-      "utcOffset": 60,
-      "mightRoseOn": "2026-09-13",
-      "mightFlatDays": 0,
-      "daysTracked": 31,
-      "lastActive": "2026-09-12"
-    },
-    {
-      "id": "1378684639872",
-      "name": "Melinad",
-      "might": 699736,
-      "level": 32,
-      "rank": "Veteran",
-      "inTerritory": true,
-      "inactive": false,
-      "ingots": false,
-      "firstSeen": "2026-08-08",
-      "country": "US",
-      "utcOffset": -360,
-      "mightRoseOn": "2026-09-13",
-      "mightFlatDays": 0,
-      "daysTracked": 37,
-      "lastActive": "2026-09-12"
+      "daysTracked": 48,
+      "lastActive": "2026-09-24"
     },
     {
       "id": "1378684737098",
       "name": "Katarina PL",
-      "might": 591375,
-      "level": 19,
-      "rank": "Veteran",
+      "might": 2409547,
+      "level": 24,
+      "rank": "Officer",
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-08-23",
       "country": "PL",
       "utcOffset": 60,
-      "mightRoseOn": "2026-09-13",
+      "mightRoseOn": "2026-09-24",
       "mightFlatDays": 0,
-      "daysTracked": 22,
-      "lastActive": "2026-09-12",
+      "daysTracked": 33,
+      "lastActive": "2026-09-24",
       "previousNames": [
         {
           "name": "Endanel",
@@ -313,10 +80,243 @@
       ]
     },
     {
+      "id": "1378684707081",
+      "name": "Moondragon",
+      "might": 2114661,
+      "level": 40,
+      "rank": "Veteran",
+      "inTerritory": true,
+      "inactive": false,
+      "ingots": false,
+      "firstSeen": "2026-08-23",
+      "country": "US",
+      "utcOffset": -300,
+      "mightRoseOn": "2026-09-23",
+      "mightFlatDays": 1,
+      "daysTracked": 33,
+      "lastActive": "2026-09-23"
+    },
+    {
+      "id": "1378684797730",
+      "name": "Masho",
+      "might": 1518598,
+      "level": 43,
+      "rank": "Veteran",
+      "inTerritory": true,
+      "inactive": false,
+      "ingots": false,
+      "firstSeen": "2026-08-31",
+      "country": "SE",
+      "utcOffset": 60,
+      "mightRoseOn": "2026-09-24",
+      "mightFlatDays": 0,
+      "daysTracked": 25,
+      "lastActive": "2026-09-24"
+    },
+    {
+      "id": "1378684537558",
+      "name": "Morana",
+      "might": 1456647,
+      "level": 26,
+      "rank": "Officer",
+      "inTerritory": true,
+      "inactive": false,
+      "ingots": false,
+      "firstSeen": "2026-08-08",
+      "country": "CA",
+      "utcOffset": -240,
+      "mightRoseOn": "2026-09-24",
+      "mightFlatDays": 0,
+      "daysTracked": 47,
+      "lastActive": "2026-09-23"
+    },
+    {
+      "id": "1378684519676",
+      "name": "Smoker",
+      "might": 1374361,
+      "level": 29,
+      "rank": "Veteran",
+      "inTerritory": true,
+      "inactive": false,
+      "ingots": false,
+      "firstSeen": "2026-09-03",
+      "country": "CL",
+      "utcOffset": -240,
+      "mightRoseOn": "2026-09-23",
+      "mightFlatDays": 1,
+      "daysTracked": 22,
+      "lastActive": "2026-09-23",
+      "previousNames": [
+        {
+          "name": "Kekazahn",
+          "until": "2026-09-04"
+        }
+      ]
+    },
+    {
+      "id": "1378684646883",
+      "name": "Lilu",
+      "might": 1145719,
+      "level": 29,
+      "rank": "Superior",
+      "inTerritory": true,
+      "inactive": false,
+      "ingots": false,
+      "firstSeen": "2026-09-03",
+      "country": "CA",
+      "utcOffset": -300,
+      "mightRoseOn": "2026-09-24",
+      "mightFlatDays": 0,
+      "daysTracked": 22,
+      "lastActive": "2026-09-23",
+      "previousNames": [
+        {
+          "name": "Tanos",
+          "until": "2026-09-21"
+        }
+      ]
+    },
+    {
+      "id": "1378684749987",
+      "name": "Felora",
+      "might": 1125652,
+      "level": 33,
+      "rank": "Veteran",
+      "inTerritory": true,
+      "inactive": false,
+      "ingots": false,
+      "firstSeen": "2026-07-31",
+      "country": "PT",
+      "utcOffset": 60,
+      "mightRoseOn": "2026-09-24",
+      "mightFlatDays": 0,
+      "daysTracked": 48,
+      "lastActive": "2026-09-23"
+    },
+    {
+      "id": "1378684798233",
+      "name": "wally505",
+      "might": 1119839,
+      "level": 31,
+      "rank": "Veteran",
+      "inTerritory": true,
+      "inactive": false,
+      "ingots": false,
+      "firstSeen": "2026-09-03",
+      "country": "US",
+      "utcOffset": -300,
+      "mightRoseOn": "2026-09-23",
+      "mightFlatDays": 1,
+      "daysTracked": 22,
+      "lastActive": "2026-09-23"
+    },
+    {
+      "id": "1378684591930",
+      "name": "Mordriel",
+      "might": 1073540,
+      "level": 29,
+      "rank": "Superior",
+      "inTerritory": true,
+      "inactive": false,
+      "ingots": false,
+      "firstSeen": "2026-07-03",
+      "country": "ES",
+      "utcOffset": 60,
+      "mightRoseOn": "2026-09-24",
+      "mightFlatDays": 0,
+      "daysTracked": 48,
+      "lastActive": "2026-09-24"
+    },
+    {
+      "id": "1378684799791",
+      "name": "Morgoth",
+      "might": 986619,
+      "level": 32,
+      "rank": "Veteran",
+      "inTerritory": true,
+      "inactive": false,
+      "ingots": false,
+      "firstSeen": "2026-08-06",
+      "country": "US",
+      "utcOffset": -420,
+      "mightRoseOn": "2026-09-23",
+      "mightFlatDays": 1,
+      "daysTracked": 48,
+      "lastActive": "2026-09-23"
+    },
+    {
+      "id": "1378684680194",
+      "name": "Karohan",
+      "might": 965148,
+      "level": 31,
+      "rank": "Superior",
+      "inTerritory": true,
+      "inactive": false,
+      "ingots": false,
+      "firstSeen": "2026-08-14",
+      "country": "GB",
+      "utcOffset": 60,
+      "mightRoseOn": "2026-09-24",
+      "mightFlatDays": 0,
+      "daysTracked": 42,
+      "lastActive": "2026-09-24"
+    },
+    {
+      "id": "1378684690315",
+      "name": "RustyRagnar",
+      "might": 906641,
+      "level": 20,
+      "rank": "Veteran",
+      "inTerritory": true,
+      "inactive": false,
+      "ingots": false,
+      "firstSeen": "2026-09-13",
+      "country": "US",
+      "utcOffset": -480,
+      "mightRoseOn": "2026-09-24",
+      "mightFlatDays": 0,
+      "daysTracked": 11,
+      "lastActive": "2026-09-24"
+    },
+    {
+      "id": "1378684580491",
+      "name": "Arelotilas",
+      "might": 899049,
+      "level": 32,
+      "rank": "Veteran",
+      "inTerritory": true,
+      "inactive": false,
+      "ingots": false,
+      "firstSeen": "2026-08-21",
+      "country": "US",
+      "utcOffset": -480,
+      "mightRoseOn": "2026-09-24",
+      "mightFlatDays": 0,
+      "daysTracked": 35,
+      "lastActive": "2026-09-24"
+    },
+    {
+      "id": "1378684566364",
+      "name": "Eyneen",
+      "might": 881711,
+      "level": 30,
+      "rank": "Veteran",
+      "inTerritory": true,
+      "inactive": false,
+      "ingots": false,
+      "firstSeen": "2026-09-01",
+      "country": "NG",
+      "utcOffset": 60,
+      "mightRoseOn": "2026-09-24",
+      "mightFlatDays": 0,
+      "daysTracked": 24,
+      "lastActive": "2026-09-24"
+    },
+    {
       "id": "1378684782941",
-      "name": "Funneen",
-      "might": 552659,
-      "level": 25,
+      "name": "Larry Michael",
+      "might": 800696,
+      "level": 30,
       "rank": "Veteran",
       "inTerritory": true,
       "inactive": false,
@@ -324,15 +324,21 @@
       "firstSeen": "2026-09-03",
       "country": "IE",
       "utcOffset": 60,
-      "mightRoseOn": "2026-09-13",
+      "mightRoseOn": "2026-09-24",
       "mightFlatDays": 0,
-      "daysTracked": 11,
-      "lastActive": "2026-09-12"
+      "daysTracked": 22,
+      "lastActive": "2026-09-24",
+      "previousNames": [
+        {
+          "name": "Funneen",
+          "until": "2026-09-14"
+        }
+      ]
     },
     {
       "id": "1378684545780",
       "name": "MrAlmizclero",
-      "might": 529286,
+      "might": 800453,
       "level": 27,
       "rank": "Officer",
       "inTerritory": true,
@@ -341,50 +347,16 @@
       "firstSeen": "2026-09-03",
       "country": "ES",
       "utcOffset": null,
-      "mightRoseOn": "2026-09-13",
+      "mightRoseOn": "2026-09-24",
       "mightFlatDays": 0,
-      "daysTracked": 11,
-      "lastActive": "2026-09-12"
-    },
-    {
-      "id": "1378684798233",
-      "name": "wally505",
-      "might": 519620,
-      "level": 30,
-      "rank": "Veteran",
-      "inTerritory": true,
-      "inactive": false,
-      "ingots": false,
-      "firstSeen": "2026-09-03",
-      "country": "US",
-      "utcOffset": -300,
-      "mightRoseOn": "2026-09-13",
-      "mightFlatDays": 0,
-      "daysTracked": 11,
-      "lastActive": "2026-09-12"
-    },
-    {
-      "id": "1378684566364",
-      "name": "Eyneen",
-      "might": 505881,
-      "level": 28,
-      "rank": "Veteran",
-      "inTerritory": true,
-      "inactive": false,
-      "ingots": false,
-      "firstSeen": "2026-09-01",
-      "country": "NG",
-      "utcOffset": 60,
-      "mightRoseOn": "2026-09-13",
-      "mightFlatDays": 0,
-      "daysTracked": 13,
-      "lastActive": "2026-09-12"
+      "daysTracked": 22,
+      "lastActive": "2026-09-23"
     },
     {
       "id": "1378684708040",
       "name": "Floyergus",
-      "might": 457118,
-      "level": 21,
+      "might": 738367,
+      "level": 23,
       "rank": "Veteran",
       "inTerritory": true,
       "inactive": false,
@@ -392,15 +364,49 @@
       "firstSeen": "2026-08-31",
       "country": "US",
       "utcOffset": -480,
-      "mightRoseOn": "2026-09-13",
+      "mightRoseOn": "2026-09-24",
       "mightFlatDays": 0,
-      "daysTracked": 14,
-      "lastActive": "2026-09-12"
+      "daysTracked": 25,
+      "lastActive": "2026-09-24"
+    },
+    {
+      "id": "1378684639872",
+      "name": "Melinad",
+      "might": 728460,
+      "level": 33,
+      "rank": "Veteran",
+      "inTerritory": true,
+      "inactive": false,
+      "ingots": false,
+      "firstSeen": "2026-08-08",
+      "country": "US",
+      "utcOffset": -360,
+      "mightRoseOn": "2026-09-23",
+      "mightFlatDays": 1,
+      "daysTracked": 48,
+      "lastActive": "2026-09-23"
+    },
+    {
+      "id": "1378684571585",
+      "name": "Groshicage",
+      "might": 625229,
+      "level": 22,
+      "rank": "Veteran",
+      "inTerritory": true,
+      "inactive": false,
+      "ingots": false,
+      "firstSeen": "2026-09-23",
+      "country": "GB",
+      "utcOffset": 60,
+      "mightRoseOn": "2026-09-23",
+      "mightFlatDays": 1,
+      "daysTracked": 2,
+      "lastActive": "2026-09-23"
     },
     {
       "id": "1378684571224",
       "name": "Akinolabar",
-      "might": 424846,
+      "might": 539599,
       "level": 22,
       "rank": "Veteran",
       "inTerritory": true,
@@ -409,15 +415,15 @@
       "firstSeen": "2026-07-17",
       "country": "PL",
       "utcOffset": 60,
-      "mightRoseOn": "2026-09-13",
+      "mightRoseOn": "2026-09-24",
       "mightFlatDays": 0,
-      "daysTracked": 37,
-      "lastActive": "2026-09-13"
+      "daysTracked": 48,
+      "lastActive": "2026-09-24"
     },
     {
       "id": "1378684666635",
       "name": "Eyvilas",
-      "might": 377153,
+      "might": 496950,
       "level": 19,
       "rank": "Veteran",
       "inTerritory": true,
@@ -426,67 +432,16 @@
       "firstSeen": "2026-08-21",
       "country": "RO",
       "utcOffset": 120,
-      "mightRoseOn": "2026-09-13",
+      "mightRoseOn": "2026-09-24",
       "mightFlatDays": 0,
-      "daysTracked": 24,
-      "lastActive": "2026-09-13"
-    },
-    {
-      "id": "1378684546217",
-      "name": "Tureglil",
-      "might": 343742,
-      "level": 25,
-      "rank": "Veteran",
-      "inTerritory": true,
-      "inactive": false,
-      "ingots": false,
-      "firstSeen": "2026-07-11",
-      "country": "GB",
-      "utcOffset": 60,
-      "mightRoseOn": "2026-09-13",
-      "mightFlatDays": 0,
-      "daysTracked": 37,
-      "lastActive": "2026-09-12"
-    },
-    {
-      "id": "1378684742203",
-      "name": "Frostworker",
-      "might": 330752,
-      "level": 17,
-      "rank": "Veteran",
-      "inTerritory": false,
-      "inactive": false,
-      "ingots": false,
-      "firstSeen": "2026-08-20",
-      "country": "AU",
-      "utcOffset": 480,
-      "mightRoseOn": "2026-09-13",
-      "mightFlatDays": 0,
-      "daysTracked": 24,
-      "lastActive": "2026-09-12"
-    },
-    {
-      "id": "1378684637563",
-      "name": "Kekazahn",
-      "might": 313382,
-      "level": 29,
-      "rank": "Veteran",
-      "inTerritory": true,
-      "inactive": false,
-      "ingots": false,
-      "firstSeen": "2026-08-30",
-      "country": "FR",
-      "utcOffset": 60,
-      "mightRoseOn": "2026-09-13",
-      "mightFlatDays": 0,
-      "daysTracked": 14,
-      "lastActive": "2026-09-12"
+      "daysTracked": 35,
+      "lastActive": "2026-09-23"
     },
     {
       "id": "1378684780963",
       "name": "Painmoon",
-      "might": 309065,
-      "level": 17,
+      "might": 459493,
+      "level": 19,
       "rank": "Veteran",
       "inTerritory": true,
       "inactive": false,
@@ -494,202 +449,83 @@
       "firstSeen": "2026-07-17",
       "country": "DE",
       "utcOffset": 60,
-      "mightRoseOn": "2026-09-13",
+      "mightRoseOn": "2026-09-24",
       "mightFlatDays": 0,
-      "daysTracked": 37,
-      "lastActive": "2026-09-12"
+      "daysTracked": 48,
+      "lastActive": "2026-09-23"
     },
     {
-      "id": "1378684792656",
-      "name": "Elrining",
-      "might": 304413,
-      "level": 17,
+      "id": "1378684720666",
+      "name": "Sador",
+      "might": 436120,
+      "level": 22,
       "rank": "Veteran",
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-25",
-      "country": "DE",
-      "utcOffset": 60,
-      "mightRoseOn": "2026-09-13",
-      "mightFlatDays": 0,
-      "daysTracked": 37,
-      "lastActive": "2026-09-12"
-    },
-    {
-      "id": "1378684677949",
-      "name": "Zajac",
-      "might": 294978,
-      "level": 17,
-      "rank": "Officer",
-      "inTerritory": true,
-      "inactive": false,
-      "ingots": false,
-      "firstSeen": "2026-08-06",
-      "country": "PL",
-      "utcOffset": 60,
-      "mightRoseOn": "2026-09-13",
-      "mightFlatDays": 0,
-      "daysTracked": 37,
-      "lastActive": "2026-09-12"
-    },
-    {
-      "id": "1378684784647",
-      "name": "Pentafilia",
-      "might": 286548,
-      "level": 14,
-      "rank": "Veteran",
-      "inTerritory": true,
-      "inactive": false,
-      "ingots": false,
-      "firstSeen": "2026-08-20",
-      "country": "PE",
-      "utcOffset": -300,
-      "mightRoseOn": "2026-09-13",
-      "mightFlatDays": 0,
-      "daysTracked": 24,
-      "lastActive": "2026-09-12"
-    },
-    {
-      "id": "1378684665159",
-      "name": "Serrallonga",
-      "might": 286354,
-      "level": 17,
-      "rank": "Veteran",
-      "inTerritory": true,
-      "inactive": false,
-      "ingots": false,
-      "firstSeen": "2026-09-03",
+      "firstSeen": "2026-07-10",
       "country": "ES",
       "utcOffset": 60,
-      "mightRoseOn": "2026-09-13",
+      "mightRoseOn": "2026-09-24",
       "mightFlatDays": 0,
-      "daysTracked": 11,
-      "lastActive": "2026-09-13"
+      "daysTracked": 48,
+      "lastActive": "2026-09-24"
     },
     {
-      "id": "1378684613683",
-      "name": "Keanef",
-      "might": 271438,
-      "level": 16,
-      "rank": "Veteran",
-      "inTerritory": true,
-      "inactive": false,
-      "ingots": false,
-      "firstSeen": "2026-08-01",
-      "country": "BR",
-      "utcOffset": -180,
-      "mightRoseOn": "2026-09-13",
-      "mightFlatDays": 0,
-      "daysTracked": 37,
-      "lastActive": "2026-09-12"
-    },
-    {
-      "id": "1378684691643",
-      "name": "Sashura",
-      "might": 262825,
-      "level": 26,
-      "rank": "Veteran",
-      "inTerritory": true,
-      "inactive": false,
-      "ingots": false,
-      "firstSeen": "2026-08-20",
-      "country": "PL",
-      "utcOffset": 60,
-      "mightRoseOn": "2026-09-12",
-      "mightFlatDays": 1,
-      "daysTracked": 24,
-      "lastActive": "2026-09-13"
-    },
-    {
-      "id": "1378684699264",
-      "name": "Cohelm",
-      "might": 254464,
+      "id": "1378684722389",
+      "name": "Urkunina",
+      "might": 435619,
       "level": 22,
       "rank": "Veteran",
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-09-03",
-      "country": "ES",
-      "utcOffset": 60,
-      "mightRoseOn": "2026-09-13",
+      "country": "CO",
+      "utcOffset": -300,
+      "mightRoseOn": "2026-09-24",
       "mightFlatDays": 0,
-      "daysTracked": 11,
-      "lastActive": "2026-09-13"
+      "daysTracked": 21,
+      "lastActive": "2026-09-24"
     },
     {
-      "id": "1378684521491",
-      "name": "Meninad",
-      "might": 245673,
-      "level": 18,
+      "id": "1378684542793",
+      "name": "Megore",
+      "might": 426069,
+      "level": 20,
       "rank": "Veteran",
-      "inTerritory": true,
-      "inactive": false,
-      "ingots": false,
-      "firstSeen": "2026-08-13",
-      "country": "TN",
-      "utcOffset": 60,
-      "mightRoseOn": "2026-09-13",
-      "mightFlatDays": 0,
-      "daysTracked": 32,
-      "lastActive": "2026-09-12"
-    },
-    {
-      "id": "1378684748097",
-      "name": "Morad",
-      "might": 245552,
-      "level": 16,
-      "rank": "Veteran",
-      "inTerritory": true,
-      "inactive": false,
-      "ingots": false,
-      "firstSeen": "2026-08-15",
-      "country": "TN",
-      "utcOffset": 60,
-      "mightRoseOn": "2026-09-13",
-      "mightFlatDays": 0,
-      "daysTracked": 30,
-      "lastActive": "2026-09-12"
-    },
-    {
-      "id": "1378684521861",
-      "name": "Eyvilas",
-      "might": 242807,
-      "level": 15,
-      "rank": "Veteran",
-      "inTerritory": true,
+      "inTerritory": false,
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-09-04",
-      "country": "PL",
-      "utcOffset": 60,
-      "mightRoseOn": "2026-09-13",
+      "country": "GB",
+      "utcOffset": 600,
+      "mightRoseOn": "2026-09-24",
       "mightFlatDays": 0,
-      "daysTracked": 10,
-      "lastActive": "2026-09-12"
+      "daysTracked": 20,
+      "lastActive": "2026-09-23"
     },
     {
-      "id": "1378684773181",
-      "name": "Taugal",
-      "might": 240816,
-      "level": 13,
-      "rank": "Officer",
+      "id": "1378684691643",
+      "name": "Sashura",
+      "might": 423515,
+      "level": 30,
+      "rank": "Veteran",
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-23",
-      "country": "AU",
-      "utcOffset": 600,
-      "mightRoseOn": "2026-09-13",
+      "firstSeen": "2026-08-20",
+      "country": "PL",
+      "utcOffset": 60,
+      "mightRoseOn": "2026-09-24",
       "mightFlatDays": 0,
-      "daysTracked": 37,
-      "lastActive": "2026-09-12"
+      "daysTracked": 35,
+      "lastActive": "2026-09-23"
     },
     {
       "id": "1378684730919",
       "name": "Nerneilas",
-      "might": 216416,
+      "might": 410257,
       "level": 16,
       "rank": "Veteran",
       "inTerritory": true,
@@ -698,16 +534,226 @@
       "firstSeen": "2026-08-23",
       "country": "DE",
       "utcOffset": 240,
-      "mightRoseOn": "2026-09-13",
+      "mightRoseOn": "2026-09-24",
+      "mightFlatDays": 0,
+      "daysTracked": 33,
+      "lastActive": "2026-09-23"
+    },
+    {
+      "id": "1378684773181",
+      "name": "Taugal",
+      "might": 410193,
+      "level": 14,
+      "rank": "Officer",
+      "inTerritory": true,
+      "inactive": false,
+      "ingots": false,
+      "firstSeen": "2026-07-23",
+      "country": "AU",
+      "utcOffset": 600,
+      "mightRoseOn": "2026-09-23",
+      "mightFlatDays": 1,
+      "daysTracked": 48,
+      "lastActive": "2026-09-23"
+    },
+    {
+      "id": "1378684637563",
+      "name": "Xenos",
+      "might": 409799,
+      "level": 29,
+      "rank": "Veteran",
+      "inTerritory": true,
+      "inactive": false,
+      "ingots": false,
+      "firstSeen": "2026-08-30",
+      "country": "FR",
+      "utcOffset": 60,
+      "mightRoseOn": "2026-09-24",
+      "mightFlatDays": 0,
+      "daysTracked": 25,
+      "lastActive": "2026-09-23",
+      "previousNames": [
+        {
+          "name": "Kekazahn",
+          "until": "2026-09-14"
+        }
+      ]
+    },
+    {
+      "id": "1378684546217",
+      "name": "Tureglil",
+      "might": 401705,
+      "level": 25,
+      "rank": "Veteran",
+      "inTerritory": true,
+      "inactive": false,
+      "ingots": false,
+      "firstSeen": "2026-07-11",
+      "country": "GB",
+      "utcOffset": 60,
+      "mightRoseOn": "2026-09-24",
+      "mightFlatDays": 0,
+      "daysTracked": 48,
+      "lastActive": "2026-09-24"
+    },
+    {
+      "id": "1378684784647",
+      "name": "Pentafilia",
+      "might": 396311,
+      "level": 22,
+      "rank": "Veteran",
+      "inTerritory": true,
+      "inactive": false,
+      "ingots": false,
+      "firstSeen": "2026-08-20",
+      "country": "PE",
+      "utcOffset": -300,
+      "mightRoseOn": "2026-09-24",
+      "mightFlatDays": 0,
+      "daysTracked": 35,
+      "lastActive": "2026-09-24"
+    },
+    {
+      "id": "1378684699264",
+      "name": "Cohelm",
+      "might": 390411,
+      "level": 22,
+      "rank": "Officer",
+      "inTerritory": true,
+      "inactive": false,
+      "ingots": false,
+      "firstSeen": "2026-09-03",
+      "country": "ES",
+      "utcOffset": 60,
+      "mightRoseOn": "2026-09-24",
       "mightFlatDays": 0,
       "daysTracked": 22,
-      "lastActive": "2026-09-13"
+      "lastActive": "2026-09-24"
+    },
+    {
+      "id": "1378684742203",
+      "name": "Frostworker",
+      "might": 370472,
+      "level": 17,
+      "rank": "Veteran",
+      "inTerritory": false,
+      "inactive": false,
+      "ingots": false,
+      "firstSeen": "2026-08-20",
+      "country": "AU",
+      "utcOffset": 480,
+      "mightRoseOn": "2026-09-23",
+      "mightFlatDays": 1,
+      "daysTracked": 35,
+      "lastActive": "2026-09-23"
+    },
+    {
+      "id": "1378684665159",
+      "name": "Serrallonga",
+      "might": 367616,
+      "level": 18,
+      "rank": "Veteran",
+      "inTerritory": true,
+      "inactive": false,
+      "ingots": false,
+      "firstSeen": "2026-09-03",
+      "country": "ES",
+      "utcOffset": 60,
+      "mightRoseOn": "2026-09-24",
+      "mightFlatDays": 0,
+      "daysTracked": 22,
+      "lastActive": "2026-09-24"
+    },
+    {
+      "id": "1378684677949",
+      "name": "Zajac",
+      "might": 344013,
+      "level": 18,
+      "rank": "Superior",
+      "inTerritory": true,
+      "inactive": false,
+      "ingots": false,
+      "firstSeen": "2026-08-06",
+      "country": "PL",
+      "utcOffset": 60,
+      "mightRoseOn": "2026-09-24",
+      "mightFlatDays": 0,
+      "daysTracked": 48,
+      "lastActive": "2026-09-24"
+    },
+    {
+      "id": "1378684748097",
+      "name": "Morad",
+      "might": 332980,
+      "level": 30,
+      "rank": "Veteran",
+      "inTerritory": true,
+      "inactive": false,
+      "ingots": false,
+      "firstSeen": "2026-08-15",
+      "country": "TN",
+      "utcOffset": 60,
+      "mightRoseOn": "2026-09-24",
+      "mightFlatDays": 0,
+      "daysTracked": 41,
+      "lastActive": "2026-09-23"
+    },
+    {
+      "id": "1378684521861",
+      "name": "Eyvilas",
+      "might": 326385,
+      "level": 16,
+      "rank": "Veteran",
+      "inTerritory": true,
+      "inactive": false,
+      "ingots": false,
+      "firstSeen": "2026-09-04",
+      "country": "PL",
+      "utcOffset": 60,
+      "mightRoseOn": "2026-09-24",
+      "mightFlatDays": 0,
+      "daysTracked": 21,
+      "lastActive": "2026-09-23"
+    },
+    {
+      "id": "1378684651878",
+      "name": "Gavigar",
+      "might": 320962,
+      "level": 15,
+      "rank": "Soldier",
+      "inTerritory": false,
+      "inactive": false,
+      "ingots": false,
+      "firstSeen": "2026-09-18",
+      "country": "GB",
+      "utcOffset": 60,
+      "mightRoseOn": "2026-09-24",
+      "mightFlatDays": 0,
+      "daysTracked": 7,
+      "lastActive": "2026-09-24"
+    },
+    {
+      "id": "1378684613683",
+      "name": "Keanef",
+      "might": 311902,
+      "level": 17,
+      "rank": "Veteran",
+      "inTerritory": true,
+      "inactive": false,
+      "ingots": false,
+      "firstSeen": "2026-08-01",
+      "country": "BR",
+      "utcOffset": -180,
+      "mightRoseOn": "2026-09-22",
+      "mightFlatDays": 2,
+      "daysTracked": 48,
+      "lastActive": "2026-09-23"
     },
     {
       "id": "1378684603397",
       "name": "Tylar",
-      "might": 205471,
-      "level": 17,
+      "might": 294316,
+      "level": 23,
       "rank": "Veteran",
       "inTerritory": true,
       "inactive": false,
@@ -715,67 +761,33 @@
       "firstSeen": "2026-09-01",
       "country": "CA",
       "utcOffset": -360,
-      "mightRoseOn": "2026-09-13",
-      "mightFlatDays": 0,
-      "daysTracked": 13,
-      "lastActive": "2026-09-12"
-    },
-    {
-      "id": "1378684542793",
-      "name": "Megore",
-      "might": 199359,
-      "level": 12,
-      "rank": "Soldier",
-      "inTerritory": false,
-      "inactive": false,
-      "ingots": false,
-      "firstSeen": "2026-09-04",
-      "country": "GB",
-      "utcOffset": 600,
-      "mightRoseOn": "2026-09-13",
-      "mightFlatDays": 0,
-      "daysTracked": 9,
-      "lastActive": "2026-09-12"
-    },
-    {
-      "id": "1378684506197",
-      "name": "Aegfinod",
-      "might": 198182,
-      "level": 22,
-      "rank": "Veteran",
-      "inTerritory": true,
-      "inactive": false,
-      "ingots": false,
-      "firstSeen": "2026-08-20",
-      "country": "SK",
-      "utcOffset": 60,
-      "mightRoseOn": "2026-09-13",
+      "mightRoseOn": "2026-09-24",
       "mightFlatDays": 0,
       "daysTracked": 24,
-      "lastActive": "2026-09-13"
+      "lastActive": "2026-09-23"
     },
     {
-      "id": "1378684514657",
-      "name": "Keralak",
-      "might": 190243,
-      "level": 14,
+      "id": "1378684521491",
+      "name": "Meninad",
+      "might": 288204,
+      "level": 19,
       "rank": "Veteran",
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-07-09",
-      "country": "AT",
+      "firstSeen": "2026-08-13",
+      "country": "TN",
       "utcOffset": 60,
-      "mightRoseOn": "2026-09-11",
-      "mightFlatDays": 2,
-      "daysTracked": 37,
-      "lastActive": "2026-09-09"
+      "mightRoseOn": "2026-09-24",
+      "mightFlatDays": 0,
+      "daysTracked": 43,
+      "lastActive": "2026-09-24"
     },
     {
       "id": "1378684622857",
-      "name": "Aegrodan",
-      "might": 188411,
-      "level": 15,
+      "name": "Rod",
+      "might": 288150,
+      "level": 16,
       "rank": "Veteran",
       "inTerritory": true,
       "inactive": false,
@@ -783,83 +795,89 @@
       "firstSeen": "2026-09-04",
       "country": "BR",
       "utcOffset": -180,
-      "mightRoseOn": "2026-09-13",
+      "mightRoseOn": "2026-09-24",
       "mightFlatDays": 0,
-      "daysTracked": 9,
-      "lastActive": "2026-09-13"
+      "daysTracked": 20,
+      "lastActive": "2026-09-23",
+      "previousNames": [
+        {
+          "name": "Aegrodan",
+          "until": "2026-09-18"
+        }
+      ]
     },
     {
-      "id": "1378684722389",
-      "name": "Urkunina",
-      "might": 185551,
-      "level": 14,
+      "id": "1378684628377",
+      "name": "PEFO",
+      "might": 277931,
+      "level": 17,
+      "rank": "Veteran",
+      "inTerritory": false,
+      "inactive": false,
+      "ingots": false,
+      "firstSeen": "2026-09-18",
+      "country": "AR",
+      "utcOffset": -180,
+      "mightRoseOn": "2026-09-24",
+      "mightFlatDays": 0,
+      "daysTracked": 7,
+      "lastActive": "2026-09-24"
+    },
+    {
+      "id": "1378684719021",
+      "name": "Arkayen",
+      "might": 266472,
+      "level": 15,
       "rank": "Veteran",
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-09-03",
-      "country": "CO",
-      "utcOffset": -300,
-      "mightRoseOn": "2026-09-13",
-      "mightFlatDays": 0,
-      "daysTracked": 10,
-      "lastActive": "2026-09-12"
-    },
-    {
-      "id": "1378684506286",
-      "name": "Luchneen",
-      "might": 173629,
-      "level": 15,
-      "rank": "Veteran",
-      "inTerritory": false,
-      "inactive": false,
-      "ingots": false,
-      "firstSeen": "2026-09-02",
-      "country": "BR",
-      "utcOffset": -180,
-      "mightRoseOn": "2026-09-13",
-      "mightFlatDays": 0,
-      "daysTracked": 11,
-      "lastActive": "2026-09-12"
-    },
-    {
-      "id": "1378684780597",
-      "name": "Arfiring",
-      "might": 159679,
-      "level": 14,
-      "rank": "Veteran",
-      "inTerritory": true,
-      "inactive": false,
-      "ingots": false,
-      "firstSeen": "2026-08-09",
-      "country": "GB",
+      "country": "ES",
       "utcOffset": 60,
-      "mightRoseOn": "2026-09-13",
+      "mightRoseOn": "2026-09-24",
       "mightFlatDays": 0,
-      "daysTracked": 35,
-      "lastActive": "2026-09-09"
+      "daysTracked": 22,
+      "lastActive": "2026-09-23"
     },
     {
-      "id": "1378684737498",
-      "name": "Morfir",
-      "might": 159221,
-      "level": 12,
+      "id": "1378684776561",
+      "name": "Kelera",
+      "might": 250232,
+      "level": 17,
       "rank": "Veteran",
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-09-02",
+      "firstSeen": "2026-09-18",
+      "country": "SE",
+      "utcOffset": 60,
+      "mightRoseOn": "2026-09-24",
+      "mightFlatDays": 0,
+      "daysTracked": 7,
+      "lastActive": "2026-09-24"
+    },
+    {
+      "id": "1378684512198",
+      "name": "Rebur",
+      "might": 234549,
+      "level": 16,
+      "rank": "Veteran",
+      "inTerritory": true,
+      "inactive": false,
+      "ingots": false,
+      "firstSeen": "2026-08-29",
       "country": "US",
-      "utcOffset": -360,
-      "mightRoseOn": "2026-09-10",
-      "mightFlatDays": 3,
-      "daysTracked": 12,
-      "lastActive": "2026-09-12"
+      "utcOffset": -420,
+      "mightRoseOn": "2026-09-24",
+      "mightFlatDays": 0,
+      "daysTracked": 26,
+      "lastActive": "2026-09-24"
     },
     {
       "id": "1378684598536",
       "name": "Ari",
-      "might": 157734,
+      "might": 224081,
       "level": 14,
       "rank": "Veteran",
       "inTerritory": true,
@@ -868,16 +886,50 @@
       "firstSeen": "2026-08-28",
       "country": "ES",
       "utcOffset": 60,
-      "mightRoseOn": "2026-09-13",
+      "mightRoseOn": "2026-09-18",
+      "mightFlatDays": 6,
+      "daysTracked": 28,
+      "lastActive": "2026-09-18"
+    },
+    {
+      "id": "1378684626681",
+      "name": "ironladyita",
+      "might": 222951,
+      "level": 18,
+      "rank": "Veteran",
+      "inTerritory": false,
+      "inactive": false,
+      "ingots": false,
+      "firstSeen": "2026-09-15",
+      "country": "IT",
+      "utcOffset": 60,
+      "mightRoseOn": "2026-09-24",
       "mightFlatDays": 0,
-      "daysTracked": 17,
-      "lastActive": "2026-09-11"
+      "daysTracked": 9,
+      "lastActive": "2026-09-23"
+    },
+    {
+      "id": "1378684514657",
+      "name": "Keralak",
+      "might": 221370,
+      "level": 14,
+      "rank": "Veteran",
+      "inTerritory": true,
+      "inactive": false,
+      "ingots": false,
+      "firstSeen": "2026-07-09",
+      "country": "AT",
+      "utcOffset": 60,
+      "mightRoseOn": "2026-09-24",
+      "mightFlatDays": 0,
+      "daysTracked": 48,
+      "lastActive": "2026-09-22"
     },
     {
       "id": "1378684502926",
       "name": "Daik",
-      "might": 156269,
-      "level": 13,
+      "might": 220125,
+      "level": 14,
       "rank": "Veteran",
       "inTerritory": true,
       "inactive": false,
@@ -885,50 +937,16 @@
       "firstSeen": "2026-08-25",
       "country": "DE",
       "utcOffset": 60,
-      "mightRoseOn": "2026-09-13",
+      "mightRoseOn": "2026-09-24",
       "mightFlatDays": 0,
-      "daysTracked": 20,
-      "lastActive": "2026-09-12"
-    },
-    {
-      "id": "1378684719021",
-      "name": "Arkayen",
-      "might": 155203,
-      "level": 13,
-      "rank": "Veteran",
-      "inTerritory": true,
-      "inactive": false,
-      "ingots": false,
-      "firstSeen": "2026-09-03",
-      "country": "ES",
-      "utcOffset": 60,
-      "mightRoseOn": "2026-09-13",
-      "mightFlatDays": 0,
-      "daysTracked": 11,
-      "lastActive": "2026-09-12"
-    },
-    {
-      "id": "1378684690306",
-      "name": "Ildanen",
-      "might": 154524,
-      "level": 15,
-      "rank": "Veteran",
-      "inTerritory": true,
-      "inactive": false,
-      "ingots": false,
-      "firstSeen": "2026-08-31",
-      "country": "AR",
-      "utcOffset": -180,
-      "mightRoseOn": "2026-09-11",
-      "mightFlatDays": 2,
-      "daysTracked": 14,
-      "lastActive": "2026-09-12"
+      "daysTracked": 31,
+      "lastActive": "2026-09-24"
     },
     {
       "id": "1378684777316",
       "name": "Galafiren",
-      "might": 152505,
-      "level": 12,
+      "might": 219870,
+      "level": 13,
       "rank": "Veteran",
       "inTerritory": true,
       "inactive": false,
@@ -936,67 +954,50 @@
       "firstSeen": "2026-09-01",
       "country": "MT",
       "utcOffset": 60,
-      "mightRoseOn": "2026-09-13",
+      "mightRoseOn": "2026-09-24",
       "mightFlatDays": 0,
-      "daysTracked": 13,
-      "lastActive": "2026-09-13"
-    },
-    {
-      "id": "1378684512198",
-      "name": "Rebur",
-      "might": 147376,
-      "level": 13,
-      "rank": "Veteran",
-      "inTerritory": true,
-      "inactive": false,
-      "ingots": false,
-      "firstSeen": "2026-08-29",
-      "country": "US",
-      "utcOffset": -420,
-      "mightRoseOn": "2026-09-13",
-      "mightFlatDays": 0,
-      "daysTracked": 15,
-      "lastActive": "2026-09-12"
-    },
-    {
-      "id": "1378684720666",
-      "name": "Sador",
-      "might": 143027,
-      "level": 13,
-      "rank": "Veteran",
-      "inTerritory": true,
-      "inactive": false,
-      "ingots": false,
-      "firstSeen": "2026-07-10",
-      "country": "ES",
-      "utcOffset": 60,
-      "mightRoseOn": "2026-09-13",
-      "mightFlatDays": 0,
-      "daysTracked": 37,
-      "lastActive": "2026-09-12"
+      "daysTracked": 24,
+      "lastActive": "2026-09-24"
     },
     {
       "id": "1378684712650",
       "name": "Mogis",
-      "might": 134619,
-      "level": 13,
-      "rank": "Soldier",
-      "inTerritory": false,
+      "might": 207307,
+      "level": 14,
+      "rank": "Veteran",
+      "inTerritory": true,
       "inactive": false,
       "ingots": false,
       "firstSeen": "2026-09-04",
       "country": "ES",
       "utcOffset": 60,
-      "mightRoseOn": "2026-09-13",
+      "mightRoseOn": "2026-09-24",
       "mightFlatDays": 0,
-      "daysTracked": 9,
-      "lastActive": "2026-09-12"
+      "daysTracked": 20,
+      "lastActive": "2026-09-23"
+    },
+    {
+      "id": "1378684506197",
+      "name": "Aegfinod",
+      "might": 206439,
+      "level": 22,
+      "rank": "Veteran",
+      "inTerritory": true,
+      "inactive": false,
+      "ingots": false,
+      "firstSeen": "2026-08-20",
+      "country": "SK",
+      "utcOffset": 60,
+      "mightRoseOn": "2026-09-22",
+      "mightFlatDays": 2,
+      "daysTracked": 35,
+      "lastActive": "2026-09-22"
     },
     {
       "id": "1378684614935",
       "name": "Torin",
-      "might": 132774,
-      "level": 13,
+      "might": 204645,
+      "level": 14,
       "rank": "Veteran",
       "inTerritory": false,
       "inactive": false,
@@ -1004,16 +1005,84 @@
       "firstSeen": "2026-09-05",
       "country": "US",
       "utcOffset": -480,
-      "mightRoseOn": "2026-09-13",
+      "mightRoseOn": "2026-09-24",
       "mightFlatDays": 0,
-      "daysTracked": 9,
-      "lastActive": "2026-09-13"
+      "daysTracked": 20,
+      "lastActive": "2026-09-24"
+    },
+    {
+      "id": "1378684506286",
+      "name": "Luchneen",
+      "might": 204563,
+      "level": 15,
+      "rank": "Veteran",
+      "inTerritory": true,
+      "inactive": false,
+      "ingots": false,
+      "firstSeen": "2026-09-02",
+      "country": "BR",
+      "utcOffset": -180,
+      "mightRoseOn": "2026-09-23",
+      "mightFlatDays": 1,
+      "daysTracked": 22,
+      "lastActive": "2026-09-23"
+    },
+    {
+      "id": "1378684780597",
+      "name": "Arfiring",
+      "might": 200254,
+      "level": 16,
+      "rank": "Veteran",
+      "inTerritory": true,
+      "inactive": false,
+      "ingots": false,
+      "firstSeen": "2026-08-09",
+      "country": "GB",
+      "utcOffset": 60,
+      "mightRoseOn": "2026-09-22",
+      "mightFlatDays": 2,
+      "daysTracked": 46,
+      "lastActive": "2026-09-20"
+    },
+    {
+      "id": "1378684690306",
+      "name": "Ildanen",
+      "might": 195883,
+      "level": 20,
+      "rank": "Veteran",
+      "inTerritory": true,
+      "inactive": false,
+      "ingots": false,
+      "firstSeen": "2026-08-31",
+      "country": "AR",
+      "utcOffset": -180,
+      "mightRoseOn": "2026-09-24",
+      "mightFlatDays": 0,
+      "daysTracked": 25,
+      "lastActive": "2026-09-22"
+    },
+    {
+      "id": "1378684773294",
+      "name": "Felor",
+      "might": 175894,
+      "level": 14,
+      "rank": "Veteran",
+      "inTerritory": true,
+      "inactive": false,
+      "ingots": false,
+      "firstSeen": "2026-09-13",
+      "country": "US",
+      "utcOffset": -300,
+      "mightRoseOn": "2026-09-24",
+      "mightFlatDays": 0,
+      "daysTracked": 11,
+      "lastActive": "2026-09-24"
     },
     {
       "id": "1378684725045",
       "name": "Frostterror",
-      "might": 101681,
-      "level": 12,
+      "might": 167337,
+      "level": 15,
       "rank": "Veteran",
       "inTerritory": true,
       "inactive": false,
@@ -1021,44 +1090,61 @@
       "firstSeen": "2026-08-12",
       "country": "US",
       "utcOffset": -300,
-      "mightRoseOn": "2026-09-13",
+      "mightRoseOn": "2026-09-24",
       "mightFlatDays": 0,
-      "daysTracked": 33,
-      "lastActive": "2026-09-12"
+      "daysTracked": 44,
+      "lastActive": "2026-09-23"
     },
     {
-      "id": "1378684652205",
-      "name": "Megrond",
-      "might": 95099,
-      "level": 11,
+      "id": "1378684697100",
+      "name": "Rain",
+      "might": 164456,
+      "level": 13,
+      "rank": "Veteran",
+      "inTerritory": false,
+      "inactive": false,
+      "ingots": false,
+      "firstSeen": "2026-07-26",
+      "country": "PE",
+      "utcOffset": -300,
+      "mightRoseOn": "2026-09-24",
+      "mightFlatDays": 0,
+      "daysTracked": 48,
+      "lastActive": "2026-09-24"
+    },
+    {
+      "id": "1378684727394",
+      "name": "Steelkiller",
+      "might": 160503,
+      "level": 14,
       "rank": "Veteran",
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-08-20",
-      "country": "CA",
-      "utcOffset": -300,
-      "mightRoseOn": "2026-09-12",
-      "mightFlatDays": 1,
-      "daysTracked": 25,
-      "lastActive": "2026-09-10"
+      "firstSeen": "2026-09-16",
+      "country": "NL",
+      "utcOffset": 120,
+      "mightRoseOn": "2026-09-24",
+      "mightFlatDays": 0,
+      "daysTracked": 9,
+      "lastActive": "2026-09-24"
     },
     {
-      "id": "1378684730172",
-      "name": "PeterPower",
-      "might": 88463,
-      "level": 11,
-      "rank": "Soldier",
+      "id": "1378684737498",
+      "name": "Morfir",
+      "might": 159381,
+      "level": 12,
+      "rank": "Veteran",
       "inTerritory": true,
       "inactive": false,
       "ingots": false,
-      "firstSeen": "2026-09-09",
-      "country": "NL",
-      "utcOffset": 60,
-      "mightRoseOn": "2026-09-11",
-      "mightFlatDays": 2,
-      "daysTracked": 4,
-      "lastActive": "2026-09-12"
+      "firstSeen": "2026-09-02",
+      "country": "US",
+      "utcOffset": -360,
+      "mightRoseOn": "2026-09-20",
+      "mightFlatDays": 4,
+      "daysTracked": 23,
+      "lastActive": "2026-09-23"
     },
     {
       "id": "1378684604636",
@@ -1073,31 +1159,14 @@
       "country": "ES",
       "utcOffset": 60,
       "mightRoseOn": "2026-09-01",
-      "mightFlatDays": 12,
-      "daysTracked": 22,
+      "mightFlatDays": 23,
+      "daysTracked": 33,
       "lastActive": "2026-09-01"
-    },
-    {
-      "id": "1378684697100",
-      "name": "Rain",
-      "might": 86870,
-      "level": 11,
-      "rank": "Veteran",
-      "inTerritory": false,
-      "inactive": false,
-      "ingots": false,
-      "firstSeen": "2026-07-26",
-      "country": "PE",
-      "utcOffset": -300,
-      "mightRoseOn": "2026-09-13",
-      "mightFlatDays": 0,
-      "daysTracked": 37,
-      "lastActive": "2026-09-12"
     },
     {
       "id": "1378684786515",
       "name": "Kazilrajas",
-      "might": 63265,
+      "might": 63415,
       "level": 9,
       "rank": "Veteran",
       "inTerritory": true,
@@ -1106,13 +1175,73 @@
       "firstSeen": "2026-08-17",
       "country": "BR",
       "utcOffset": -180,
-      "mightRoseOn": "2026-09-13",
-      "mightFlatDays": 0,
-      "daysTracked": 28,
-      "lastActive": "2026-09-11"
+      "mightRoseOn": "2026-09-18",
+      "mightFlatDays": 6,
+      "daysTracked": 39,
+      "lastActive": "2026-09-18"
     }
   ],
   "formerMembers": [
+    {
+      "id": "1378684652205",
+      "name": "Megrond",
+      "rank": "Veteran",
+      "might": 102674,
+      "joined": "2026-08-20",
+      "lastSeen": "2026-09-23",
+      "via": "roster"
+    },
+    {
+      "id": "1378684730172",
+      "name": "PeterPower",
+      "rank": "Veteran",
+      "might": 106670,
+      "joined": "2026-09-09",
+      "lastSeen": "2026-09-20",
+      "via": "roster"
+    },
+    {
+      "id": "1378684794055",
+      "name": "T",
+      "rank": "Officer",
+      "might": 6533481,
+      "joined": "2026-08-24",
+      "lastSeen": "2026-09-17",
+      "via": "roster",
+      "previousNames": [
+        {
+          "name": "Glelinil",
+          "until": "2026-08-26"
+        }
+      ]
+    },
+    {
+      "id": "1378684736429",
+      "name": "Ironshaper",
+      "rank": "Soldier",
+      "might": 704720,
+      "joined": "2026-08-05",
+      "lastSeen": "2026-09-16",
+      "via": "roster"
+    },
+    {
+      "id": "1378684792656",
+      "name": "Elrining",
+      "rank": "Veteran",
+      "might": 331253,
+      "joined": "2026-07-25",
+      "lastSeen": "2026-09-16",
+      "via": "roster"
+    },
+    {
+      "id": "1378684680597",
+      "name": "Metilar",
+      "rank": "Soldier",
+      "might": 812659,
+      "joined": "2026-09-12",
+      "lastSeen": "2026-09-14",
+      "via": "roster"
+    },
     {
       "id": "1378684763225",
       "name": "Lorduing",
@@ -1121,12 +1250,6 @@
       "joined": "2026-08-05",
       "lastSeen": "2026-09-13",
       "via": "roster"
-    },
-    {
-      "id": "1378684690315",
-      "name": "Comand",
-      "lastSeen": "2026-09-13",
-      "via": "contributions"
     },
     {
       "id": "1378684747176",
@@ -1489,7 +1612,7 @@
       "via": "contributions"
     }
   ],
-  "currentWeek": "2026-09-14",
+  "currentWeek": "2026-09-21",
   "weeks": {
     "2026-08-03": {
       "start": "2026-08-03",
@@ -1516,7 +1639,7 @@
         "1378684514657": 82968,
         "1378684720666": 62977,
         "1378684706132": 56174,
-        "1378684780597": 159679,
+        "1378684780597": 200254,
         "1378684697100": 42657,
         "1378684670695": 51922,
         "1378684670914": 57605,
@@ -1879,6 +2002,7 @@
           "Ballalace",
           "Bantrius",
           "Bladefont",
+          "Ironshaper",
           "igorinus I"
         ],
         "chests": [
@@ -1887,10 +2011,12 @@
           "Bantrius",
           "Buririel",
           "Cefym",
+          "Elrining",
           "Elrodad",
           "Elrohan",
           "Goshura",
           "Ilvenel",
+          "Ironshaper",
           "Kathrirana",
           "Mirador",
           "Nimloting",
@@ -1902,6 +2028,7 @@
           "Bantrius",
           "Cewyn",
           "Direwalker",
+          "Emil",
           "Enaning",
           "Goshura",
           "Kathrirana",
@@ -1934,7 +2061,7 @@
         "1378684514657": 83468,
         "1378684720666": 63183,
         "1378684706132": 56174,
-        "1378684780597": 159679,
+        "1378684780597": 200254,
         "1378684697100": 42657,
         "1378684670695": 52542,
         "1378684670914": 57605,
@@ -1976,39 +2103,37 @@
         "1378684537558",
         "1378684591930",
         "1378684799791",
-        "1378684736429",
         "1378684639872",
-        "1378684546217",
         "1378684780963",
-        "1378684792656",
+        "1378684720666",
         "1378684773181",
+        "1378684546217",
         "1378684514657",
-        "1378684780597",
-        "1378684720666"
+        "1378684780597"
       ],
-      "territoryOf": 20,
+      "territoryOf": 18,
       "territoryGuessed": 1
     },
     "2026-07-27": {
       "start": "2026-07-27",
       "mights": {
-        "1378684787925": 11890572,
-        "1378684568874": 6074426,
-        "1378684656971": 1438778,
-        "1378684591930": 911722,
-        "1378684749987": 801485,
-        "1378684571224": 424846,
-        "1378684546217": 343742,
-        "1378684780963": 309065,
-        "1378684613683": 271438,
-        "1378684792656": 304413,
+        "1378684787925": 13382765,
+        "1378684568874": 7469576,
+        "1378684656971": 3616635,
+        "1378684591930": 1073540,
+        "1378684749987": 1125652,
+        "1378684571224": 539599,
+        "1378684546217": 401705,
+        "1378684780963": 459493,
+        "1378684613683": 311902,
+        "1378684792656": 331253,
         "1378684747176": 229197,
         "1378684697174": 215425,
-        "1378684773181": 240816,
-        "1378684514657": 190243,
-        "1378684720666": 143027,
+        "1378684773181": 410193,
+        "1378684514657": 221370,
+        "1378684720666": 436120,
         "1378684706132": 98897,
-        "1378684697100": 86870,
+        "1378684697100": 164456,
         "1378684670695": 57992,
         "1378684670914": 70494,
         "1378684801426": 59893,
@@ -2152,23 +2277,23 @@
         "1378684736721": 51
       },
       "endMights": {
-        "1378684787925": 11890572,
-        "1378684568874": 6074426,
-        "1378684656971": 1438778,
-        "1378684591930": 911722,
-        "1378684749987": 801485,
-        "1378684571224": 424846,
-        "1378684546217": 343742,
-        "1378684780963": 309065,
-        "1378684613683": 271438,
-        "1378684792656": 304413,
+        "1378684787925": 13382765,
+        "1378684568874": 7469576,
+        "1378684656971": 3616635,
+        "1378684591930": 1073540,
+        "1378684749987": 1125652,
+        "1378684571224": 539599,
+        "1378684546217": 401705,
+        "1378684780963": 459493,
+        "1378684613683": 311902,
+        "1378684792656": 331253,
         "1378684747176": 229197,
         "1378684697174": 215425,
-        "1378684773181": 240816,
-        "1378684514657": 190243,
-        "1378684720666": 143027,
+        "1378684773181": 410193,
+        "1378684514657": 221370,
+        "1378684720666": 436120,
         "1378684706132": 98897,
-        "1378684697100": 86870,
+        "1378684697100": 164456,
         "1378684670695": 57992,
         "1378684670914": 70494,
         "1378684801426": 59893,
@@ -2204,19 +2329,18 @@
         "1378684787925",
         "1378684568874",
         "1378684656971",
-        "1378684591930",
         "1378684749987",
+        "1378684591930",
         "1378684571224",
-        "1378684546217",
         "1378684780963",
-        "1378684792656",
-        "1378684613683",
+        "1378684720666",
         "1378684773181",
-        "1378684514657",
-        "1378684720666"
+        "1378684546217",
+        "1378684613683",
+        "1378684514657"
       ],
-      "territoryOf": 14,
-      "territoryGuessed": 14,
+      "territoryOf": 13,
+      "territoryGuessed": 13,
       "former": {
         "donors": [
           "Ballalace",
@@ -2231,6 +2355,7 @@
           "Bladefont",
           "Cefym",
           "Direwalker",
+          "Elrining",
           "Enfir",
           "Fabrinir",
           "Forceworm",
@@ -2248,21 +2373,21 @@
     "2026-07-20": {
       "start": "2026-07-20",
       "mights": {
-        "1378684787925": 11890572,
-        "1378684568874": 6074426,
-        "1378684656971": 1438778,
-        "1378684591930": 911722,
-        "1378684571224": 424846,
-        "1378684546217": 343742,
-        "1378684780963": 309065,
-        "1378684792656": 304413,
+        "1378684787925": 13382765,
+        "1378684568874": 7469576,
+        "1378684656971": 3616635,
+        "1378684591930": 1073540,
+        "1378684571224": 539599,
+        "1378684546217": 401705,
+        "1378684780963": 459493,
+        "1378684792656": 331253,
         "1378684747176": 229197,
         "1378684697174": 215425,
-        "1378684773181": 240816,
-        "1378684514657": 190243,
-        "1378684720666": 143027,
+        "1378684773181": 410193,
+        "1378684514657": 221370,
+        "1378684720666": 436120,
         "1378684706132": 98897,
-        "1378684697100": 86870,
+        "1378684697100": 164456,
         "1378684670695": 57992,
         "1378684670914": 70494,
         "1378684801426": 59893,
@@ -2324,21 +2449,21 @@
         "1378684787925": 29
       },
       "endMights": {
-        "1378684787925": 11890572,
-        "1378684568874": 6074426,
-        "1378684656971": 1438778,
-        "1378684591930": 911722,
-        "1378684571224": 424846,
-        "1378684546217": 343742,
-        "1378684780963": 309065,
-        "1378684792656": 304413,
+        "1378684787925": 13382765,
+        "1378684568874": 7469576,
+        "1378684656971": 3616635,
+        "1378684591930": 1073540,
+        "1378684571224": 539599,
+        "1378684546217": 401705,
+        "1378684780963": 459493,
+        "1378684792656": 331253,
         "1378684747176": 229197,
         "1378684697174": 215425,
-        "1378684773181": 240816,
-        "1378684514657": 190243,
-        "1378684720666": 143027,
+        "1378684773181": 410193,
+        "1378684514657": 221370,
+        "1378684720666": 436120,
         "1378684706132": 98897,
-        "1378684697100": 86870,
+        "1378684697100": 164456,
         "1378684670695": 57992,
         "1378684670914": 70494,
         "1378684801426": 59893,
@@ -2368,15 +2493,14 @@
         "1378684656971",
         "1378684591930",
         "1378684571224",
-        "1378684546217",
         "1378684780963",
-        "1378684792656",
+        "1378684720666",
         "1378684773181",
-        "1378684514657",
-        "1378684720666"
+        "1378684546217",
+        "1378684514657"
       ],
-      "territoryOf": 12,
-      "territoryGuessed": 12,
+      "territoryOf": 11,
+      "territoryGuessed": 11,
       "former": {
         "donors": [
           "Bantrius",
@@ -2866,6 +2990,7 @@
           "Bantrius",
           "Elrodad",
           "Elrohan",
+          "Ironshaper",
           "Kathrirana",
           "Lirosin",
           "igorinus I"
@@ -2876,10 +3001,12 @@
           "Bantrius",
           "Cefym",
           "Direwalker",
+          "Elrining",
           "Elrodad",
           "Elrohan",
-          "Enaning",
+          "Emil",
           "Goshura",
+          "Ironshaper",
           "Kathrirana",
           "Lorduing",
           "Rainterror",
@@ -2891,8 +3018,9 @@
           "Bladefont",
           "Direwalker",
           "Elrohan",
-          "Enaning",
+          "Emil",
           "Goshura",
+          "Ironshaper",
           "Kathrirana",
           "Lirosin",
           "Luchneen",
@@ -2963,31 +3091,37 @@
         "1378684568874",
         "1378684656971",
         "1378684537558",
+        "1378684749987",
         "1378684591930",
         "1378684799791",
-        "1378684749987",
-        "1378684736429",
         "1378684680194",
         "1378684639872",
-        "1378684546217",
         "1378684780963",
-        "1378684792656",
+        "1378684720666",
         "1378684773181",
+        "1378684546217",
         "1378684514657",
-        "1378684780597",
-        "1378684720666"
+        "1378684780597"
       ],
-      "territoryOf": 24,
+      "territoryOf": 22,
       "territoryGuessed": 0,
       "dragonCoins": {
         "1378684639872": {
           "2026-08-11": 1250
         },
         "1378684568874": {
-          "2026-08-15": 17523
+          "2026-08-15": 10000
         },
         "1378684787925": {
-          "2026-08-15": 17528
+          "2026-08-15": 10000
+        }
+      },
+      "dragonCoinsReceived": {
+        "1378684568874": {
+          "2026-08-15": 7523
+        },
+        "1378684787925": {
+          "2026-08-15": 7528
         }
       }
     },
@@ -3540,15 +3674,19 @@
       "former": {
         "donors": [
           "Bantrius",
+          "Elrining",
+          "Ironshaper",
           "Lorduing",
           "igorinus I"
         ],
         "chests": [
           "Aydaen",
           "Bantrius",
+          "Elrining",
           "Elrodad",
           "Elrohan",
           "Goshura",
+          "Ironshaper",
           "Rainterror",
           "Tugore",
           "igorinus I"
@@ -3625,29 +3763,27 @@
         "1378684568874",
         "1378684656971",
         "1378684537558",
+        "1378684749987",
         "1378684591930",
         "1378684799791",
-        "1378684749987",
-        "1378684580491",
-        "1378684736429",
         "1378684680194",
+        "1378684580491",
         "1378684639872",
-        "1378684546217",
         "1378684780963",
-        "1378684792656",
+        "1378684720666",
+        "1378684730919",
+        "1378684773181",
+        "1378684546217",
         "1378684677949",
+        "1378684748097",
         "1378684613683",
         "1378684521491",
-        "1378684748097",
-        "1378684773181",
-        "1378684730919",
         "1378684514657",
         "1378684780597",
-        "1378684720666",
         "1378684604636",
         "1378684786515"
       ],
-      "territoryOf": 36,
+      "territoryOf": 33,
       "territoryGuessed": 0
     },
     "2026-08-24": {
@@ -3685,7 +3821,7 @@
         "1378684514657": 127818,
         "1378684748097": 113079,
         "1378684730919": 83828,
-        "1378684637563": 313382,
+        "1378684637563": 409799,
         "1378684502926": 116485,
         "1378684506197": 84625,
         "1378684720666": 88735,
@@ -4268,18 +4404,25 @@
         "1378684707081": 804
       },
       "former": {
-        "donors": [],
+        "donors": [
+          "Elrining",
+          "T"
+        ],
         "chests": [
           "Bantrius",
+          "Elrining",
           "Elrohan",
           "Goshura",
           "Lelinil",
+          "Megrond",
           "Rainterror",
+          "T",
           "igorinus I",
           "\u041c\u0438\u043b\u044c\u0433\u0435\u043b\u044c\u0440\u0435\u043d"
         ],
         "speedups": [
-          "Direwalker"
+          "Direwalker",
+          "T"
         ]
       },
       "endMights": {
@@ -4315,7 +4458,7 @@
         "1378684514657": 141898,
         "1378684748097": 153262,
         "1378684730919": 122403,
-        "1378684637563": 313382,
+        "1378684637563": 409799,
         "1378684502926": 122182,
         "1378684506197": 94345,
         "1378684720666": 115323,
@@ -4348,43 +4491,39 @@
       "inTerritory": [
         "1378684787925",
         "1378684568874",
-        "1378684794055",
-        "1378684707081",
         "1378684656971",
+        "1378684737098",
+        "1378684707081",
         "1378684537558",
+        "1378684749987",
         "1378684591930",
         "1378684799791",
-        "1378684749987",
-        "1378684580491",
-        "1378684736429",
         "1378684680194",
+        "1378684580491",
         "1378684639872",
-        "1378684737098",
         "1378684571224",
         "1378684666635",
-        "1378684546217",
-        "1378684637563",
         "1378684780963",
-        "1378684792656",
-        "1378684677949",
-        "1378684613683",
-        "1378684691643",
-        "1378684521491",
-        "1378684748097",
-        "1378684773181",
-        "1378684730919",
-        "1378684506197",
-        "1378684514657",
-        "1378684780597",
-        "1378684598536",
-        "1378684512198",
         "1378684720666",
+        "1378684691643",
+        "1378684730919",
+        "1378684773181",
+        "1378684637563",
+        "1378684546217",
+        "1378684677949",
+        "1378684748097",
+        "1378684613683",
+        "1378684521491",
+        "1378684512198",
+        "1378684598536",
+        "1378684514657",
+        "1378684506197",
+        "1378684780597",
         "1378684725045",
-        "1378684652205",
         "1378684604636",
         "1378684786515"
       ],
-      "territoryOf": 41,
+      "territoryOf": 37,
       "territoryGuessed": 1,
       "dragonCoins": {
         "1378684568874": {
@@ -5274,11 +5413,17 @@
         "1378684749987": 129
       },
       "former": {
-        "donors": [],
+        "donors": [
+          "Elrining",
+          "Megrond",
+          "T"
+        ],
         "chests": [
+          "Elrining",
           "Elrohan",
           "Goshura",
-          "Lorduing"
+          "Lorduing",
+          "T"
         ],
         "speedups": [
           "Elrohan"
@@ -5365,60 +5510,56 @@
       "inTerritory": [
         "1378684787925",
         "1378684568874",
-        "1378684794055",
-        "1378684707081",
         "1378684656971",
+        "1378684737098",
+        "1378684707081",
+        "1378684797730",
         "1378684537558",
         "1378684519676",
+        "1378684749987",
+        "1378684798233",
         "1378684591930",
         "1378684799791",
-        "1378684797730",
-        "1378684749987",
-        "1378684580491",
-        "1378684736429",
         "1378684680194",
-        "1378684639872",
-        "1378684737098",
+        "1378684580491",
+        "1378684566364",
         "1378684782941",
         "1378684545780",
-        "1378684798233",
-        "1378684566364",
+        "1378684639872",
         "1378684571224",
         "1378684666635",
-        "1378684546217",
-        "1378684637563",
         "1378684780963",
-        "1378684792656",
-        "1378684677949",
+        "1378684720666",
+        "1378684722389",
+        "1378684691643",
+        "1378684730919",
+        "1378684773181",
+        "1378684637563",
+        "1378684546217",
         "1378684784647",
         "1378684665159",
-        "1378684613683",
-        "1378684691643",
-        "1378684521491",
+        "1378684677949",
         "1378684748097",
         "1378684521861",
-        "1378684773181",
-        "1378684730919",
+        "1378684613683",
         "1378684603397",
-        "1378684506197",
-        "1378684514657",
+        "1378684521491",
         "1378684622857",
-        "1378684722389",
-        "1378684780597",
-        "1378684737498",
-        "1378684598536",
-        "1378684502926",
         "1378684719021",
-        "1378684690306",
-        "1378684777316",
         "1378684512198",
-        "1378684720666",
+        "1378684598536",
+        "1378684514657",
+        "1378684502926",
+        "1378684777316",
+        "1378684506197",
+        "1378684780597",
+        "1378684690306",
         "1378684725045",
-        "1378684652205",
+        "1378684737498",
         "1378684604636",
         "1378684786515"
       ],
-      "territoryOf": 63,
+      "territoryOf": 59,
       "territoryGuessed": 0,
       "dragonCoins": {
         "1378684794055": {
@@ -5494,24 +5635,32 @@
         "1378684697100": 77396,
         "1378684712650": 72805,
         "1378684786515": 57241,
-        "1378684730172": 87188
+        "1378684730172": 87188,
+        "1378684680597": 812659,
+        "1378684690315": 906641,
+        "1378684773294": 175894
       },
       "donations": {
         "1378684787925": {
           "tractates": 255684,
-          "food": 159616670,
-          "lumber": 28118490,
+          "food": 205192818,
+          "lumber": 46617369,
           "silver": 3374000,
-          "stone": 23804375,
-          "iron": 26632072
+          "stone": 24863917,
+          "iron": 27869284
         },
         "1378684797730": {
-          "tractates": 250000
+          "tractates": 250000,
+          "stone": 1018800,
+          "food": 2704000,
+          "lumber": 1270245,
+          "iron": 1022499,
+          "silver": 527006
         },
         "1378684646883": {
           "tractates": 252095,
-          "silver": 3074114,
-          "food": 5615245,
+          "silver": 3756473,
+          "food": 5898488,
           "lumber": 1766054,
           "stone": 650018,
           "iron": 613943
@@ -5532,27 +5681,27 @@
           "tractates": 26
         },
         "1378684637563": {
-          "lumber": 6480000,
-          "iron": 9760000,
-          "food": 21976000,
+          "lumber": 8128000,
+          "iron": 10584000,
+          "food": 24448000,
           "silver": 6480000,
           "stone": 10568000
         },
         "1378684677949": {
-          "lumber": 9273926,
+          "lumber": 11680480,
           "iron": 5734633,
           "food": 15107688,
-          "stone": 11131549,
+          "stone": 15018790,
           "silver": 592760,
           "tractates": 257
         },
         "1378684591930": {
           "food": 4650000,
-          "stone": 4092114,
-          "iron": 3923077,
-          "lumber": 3757931,
+          "stone": 4398085,
+          "iron": 4209779,
+          "lumber": 4043454,
           "tractates": 1259,
-          "silver": 500000
+          "silver": 2365821
         },
         "1378684656971": {
           "tractates": 251840,
@@ -5612,18 +5761,19 @@
           "iron": 2255221
         },
         "1378684665159": {
-          "food": 7671435,
+          "food": 8471435,
           "silver": 4440000,
           "lumber": 6892489,
           "stone": 4116000,
           "iron": 3930685
         },
         "1378684737498": {
-          "lumber": 1669815,
+          "lumber": 5109815,
           "iron": 3456000,
-          "food": 6768000,
+          "food": 13504000,
           "tractates": 20,
-          "stone": 3408000
+          "stone": 3408000,
+          "silver": 1648000
         },
         "1378684792656": {
           "food": 1704000,
@@ -5640,23 +5790,24 @@
         "1378684566364": {
           "iron": 1733170,
           "stone": 1049934,
-          "food": 1845000,
-          "silver": 334261
+          "food": 3744000,
+          "silver": 334261,
+          "lumber": 322756
         },
         "1378684519676": {
-          "silver": 715580,
-          "iron": 817786,
-          "lumber": 753304,
-          "food": 811503,
-          "stone": 717948,
+          "silver": 924473,
+          "iron": 1020393,
+          "lumber": 954555,
+          "food": 1030929,
+          "stone": 925787,
           "tractates": 250000
         },
         "1378684537558": {
-          "food": 21034732,
-          "lumber": 6659060,
-          "stone": 4436706,
+          "food": 22960732,
+          "lumber": 8585060,
+          "stone": 5479980,
           "silver": 2902235,
-          "iron": 5715159,
+          "iron": 6773131,
           "tractates": 413
         },
         "1378684580491": {
@@ -5670,7 +5821,7 @@
         "1378684782941": {
           "silver": 3798000,
           "lumber": 3798000,
-          "stone": 3798000,
+          "stone": 5724000,
           "iron": 5724000,
           "food": 5724000,
           "tractates": 935
@@ -5684,26 +5835,27 @@
           "tractates": 28
         },
         "1378684748097": {
-          "lumber": 12096000,
+          "lumber": 13792000,
           "silver": 3424000,
           "iron": 10048000,
-          "stone": 10240000,
-          "food": 7072000,
+          "stone": 12032000,
+          "food": 8768000,
           "tractates": 145
         },
         "1378684622857": {
-          "food": 3036287,
-          "stone": 1827340,
-          "lumber": 1475201,
-          "iron": 1298238,
+          "food": 4007386,
+          "stone": 2801063,
+          "lumber": 3472517,
+          "iron": 2256213,
           "tractates": 50
         },
         "1378684691643": {
           "food": 1998000,
-          "iron": 187672,
-          "lumber": 710548,
+          "iron": 2131672,
+          "lumber": 2744548,
           "tractates": 126,
-          "silver": 10932000
+          "silver": 10932000,
+          "stone": 101975
         },
         "1378684514657": {
           "lumber": 379861,
@@ -5712,7 +5864,7 @@
           "food": 353550
         },
         "1378684680194": {
-          "stone": 2377826,
+          "stone": 3568340,
           "silver": 400000,
           "food": 4198130,
           "lumber": 4101132,
@@ -5747,7 +5899,7 @@
           "tractates": 276925
         },
         "1378684784647": {
-          "food": 404179,
+          "food": 1672223,
           "tractates": 210,
           "iron": 27871,
           "stone": 31262,
@@ -5769,11 +5921,11 @@
         },
         "1378684798233": {
           "stone": 524142,
-          "iron": 1266460,
+          "iron": 1409098,
           "food": 5507027,
           "tractates": 106,
-          "lumber": 2017165,
-          "silver": 106868
+          "lumber": 2159199,
+          "silver": 183903
         },
         "1378684521861": {
           "silver": 9135000,
@@ -5782,9 +5934,11 @@
           "tractates": 138
         },
         "1378684545780": {
-          "food": 3852000,
+          "food": 4852000,
           "tractates": 919,
-          "stone": 500000
+          "stone": 500000,
+          "iron": 700000,
+          "lumber": 800000
         },
         "1378684780597": {
           "food": 30000,
@@ -5832,7 +5986,8 @@
           "silver": 107960,
           "tractates": 91,
           "stone": 119368,
-          "iron": 94837
+          "iron": 94837,
+          "lumber": 144736
         },
         "1378684666635": {
           "tractates": 112,
@@ -5841,9 +5996,9 @@
           "lumber": 451957
         },
         "1378684571224": {
-          "stone": 1863000,
+          "stone": 3726000,
           "lumber": 3726000,
-          "iron": 1863000,
+          "iron": 3726000,
           "food": 1863000,
           "silver": 1863000
         },
@@ -5859,12 +6014,22 @@
         "1378684730172": {
           "tractates": 40
         },
-        "1378684712650": {},
+        "1378684712650": {
+          "stone": 9975,
+          "iron": 9177,
+          "lumber": 10941,
+          "food": 8733
+        },
         "1378684613683": {
           "iron": 461319,
           "lumber": 554047
         },
-        "1378684542793": {},
+        "1378684542793": {
+          "lumber": 235469,
+          "food": 410089,
+          "stone": 217013,
+          "iron": 289692
+        },
         "1378684725045": {
           "stone": 10000,
           "iron": 10000,
@@ -5873,7 +6038,15 @@
           "food": 10000
         },
         "1378684614935": {
-          "stone": 1030583
+          "stone": 1030583,
+          "food": 501641,
+          "silver": 100932
+        },
+        "1378684690315": {
+          "food": 300000,
+          "lumber": 15897,
+          "iron": 14926,
+          "stone": 50000
         },
         "1378684521491": {
           "silver": 1000000,
@@ -5881,6 +6054,15 @@
           "stone": 1000000,
           "iron": 1000000,
           "food": 1000000
+        },
+        "1378684773294": {
+          "lumber": 599671,
+          "stone": 408371
+        },
+        "1378684598536": {
+          "stone": 100000,
+          "lumber": 100000,
+          "iron": 100000
         }
       },
       "chests": {
@@ -5890,7 +6072,8 @@
           "2026-09-09": 35,
           "2026-09-10": 25,
           "2026-09-11": 18,
-          "2026-09-12": 22
+          "2026-09-12": 22,
+          "2026-09-13": 10
         },
         "1378684720666": {
           "2026-09-07": 21,
@@ -5898,7 +6081,8 @@
           "2026-09-09": 24,
           "2026-09-10": 21,
           "2026-09-11": 5,
-          "2026-09-12": 7
+          "2026-09-12": 7,
+          "2026-09-13": 10
         },
         "1378684797730": {
           "2026-09-07": 5,
@@ -5914,7 +6098,8 @@
           "2026-09-09": 9,
           "2026-09-10": 9,
           "2026-09-11": 12,
-          "2026-09-12": 6
+          "2026-09-12": 6,
+          "2026-09-13": 5
         },
         "1378684784647": {
           "2026-09-07": 4,
@@ -5922,7 +6107,8 @@
           "2026-09-09": 3,
           "2026-09-10": 2,
           "2026-09-11": 2,
-          "2026-09-12": 2
+          "2026-09-12": 2,
+          "2026-09-13": 4
         },
         "1378684571224": {
           "2026-09-07": 4,
@@ -5931,7 +6117,7 @@
           "2026-09-10": 1,
           "2026-09-11": 3,
           "2026-09-12": 2,
-          "2026-09-13": 1
+          "2026-09-13": 6
         },
         "1378684622857": {
           "2026-09-07": 3,
@@ -5940,7 +6126,7 @@
           "2026-09-10": 8,
           "2026-09-11": 6,
           "2026-09-12": 6,
-          "2026-09-13": 2
+          "2026-09-13": 9
         },
         "1378684591930": {
           "2026-09-07": 23,
@@ -5948,7 +6134,8 @@
           "2026-09-09": 18,
           "2026-09-10": 12,
           "2026-09-11": 31,
-          "2026-09-12": 8
+          "2026-09-12": 8,
+          "2026-09-13": 21
         },
         "1378684537558": {
           "2026-09-07": 15,
@@ -5956,7 +6143,8 @@
           "2026-09-09": 3,
           "2026-09-10": 6,
           "2026-09-11": 11,
-          "2026-09-12": 4
+          "2026-09-12": 4,
+          "2026-09-13": 10
         },
         "1378684712650": {
           "2026-09-07": 3,
@@ -5964,7 +6152,8 @@
           "2026-09-09": 6,
           "2026-09-10": 3,
           "2026-09-11": 5,
-          "2026-09-12": 4
+          "2026-09-12": 4,
+          "2026-09-13": 2
         },
         "1378684690306": {
           "2026-09-07": 1,
@@ -5994,7 +6183,7 @@
           "2026-09-08": 1,
           "2026-09-09": 1,
           "2026-09-10": 1,
-          "2026-09-13": 2
+          "2026-09-13": 3
         },
         "1378684749987": {
           "2026-09-07": 9,
@@ -6002,7 +6191,8 @@
           "2026-09-09": 3,
           "2026-09-10": 1,
           "2026-09-11": 3,
-          "2026-09-12": 4
+          "2026-09-12": 4,
+          "2026-09-13": 2
         },
         "1378684677949": {
           "2026-09-07": 9,
@@ -6010,7 +6200,8 @@
           "2026-09-09": 9,
           "2026-09-10": 14,
           "2026-09-11": 18,
-          "2026-09-12": 10
+          "2026-09-12": 10,
+          "2026-09-13": 14
         },
         "1378684512198": {
           "2026-09-07": 3,
@@ -6040,7 +6231,8 @@
           "2026-09-09": 1,
           "2026-09-10": 4,
           "2026-09-11": 1,
-          "2026-09-12": 3
+          "2026-09-12": 3,
+          "2026-09-13": 1
         },
         "1378684699264": {
           "2026-09-07": 14,
@@ -6049,7 +6241,7 @@
           "2026-09-10": 15,
           "2026-09-11": 19,
           "2026-09-12": 14,
-          "2026-09-13": 1
+          "2026-09-13": 7
         },
         "1378684680194": {
           "2026-09-07": 2,
@@ -6057,7 +6249,8 @@
           "2026-09-09": 11,
           "2026-09-10": 8,
           "2026-09-11": 6,
-          "2026-09-12": 16
+          "2026-09-12": 16,
+          "2026-09-13": 7
         },
         "1378684708040": {
           "2026-09-07": 5,
@@ -6065,7 +6258,8 @@
           "2026-09-09": 7,
           "2026-09-10": 10,
           "2026-09-11": 3,
-          "2026-09-12": 17
+          "2026-09-12": 17,
+          "2026-09-13": 3
         },
         "1378684545780": {
           "2026-09-07": 8,
@@ -6073,7 +6267,8 @@
           "2026-09-09": 13,
           "2026-09-10": 12,
           "2026-09-11": 15,
-          "2026-09-12": 7
+          "2026-09-12": 7,
+          "2026-09-13": 9
         },
         "1378684737098": {
           "2026-09-07": 2,
@@ -6081,7 +6276,8 @@
           "2026-09-09": 3,
           "2026-09-10": 7,
           "2026-09-11": 13,
-          "2026-09-12": 7
+          "2026-09-12": 7,
+          "2026-09-13": 8
         },
         "1378684568874": {
           "2026-09-07": 3,
@@ -6089,7 +6285,8 @@
           "2026-09-09": 23,
           "2026-09-10": 228,
           "2026-09-11": 124,
-          "2026-09-12": 5
+          "2026-09-12": 5,
+          "2026-09-13": 1
         },
         "1378684697100": {
           "2026-09-07": 2,
@@ -6104,7 +6301,8 @@
           "2026-09-09": 2,
           "2026-09-10": 6,
           "2026-09-11": 6,
-          "2026-09-12": 3
+          "2026-09-12": 3,
+          "2026-09-13": 3
         },
         "1378684799791": {
           "2026-09-07": 11,
@@ -6119,7 +6317,8 @@
           "2026-09-09": 2,
           "2026-09-10": 1,
           "2026-09-11": 3,
-          "2026-09-12": 5
+          "2026-09-12": 5,
+          "2026-09-13": 14
         },
         "1378684502926": {
           "2026-09-07": 4,
@@ -6127,7 +6326,8 @@
           "2026-09-09": 6,
           "2026-09-10": 2,
           "2026-09-11": 6,
-          "2026-09-12": 1
+          "2026-09-12": 1,
+          "2026-09-13": 1
         },
         "1378684773181": {
           "2026-09-07": 3,
@@ -6135,7 +6335,8 @@
           "2026-09-09": 6,
           "2026-09-10": 5,
           "2026-09-11": 3,
-          "2026-09-12": 2
+          "2026-09-12": 2,
+          "2026-09-13": 2
         },
         "1378684798233": {
           "2026-09-07": 8,
@@ -6151,14 +6352,14 @@
           "2026-09-10": 9,
           "2026-09-11": 2,
           "2026-09-12": 1,
-          "2026-09-13": 1
+          "2026-09-13": 6
         },
         "1378684506197": {
           "2026-09-07": 3,
           "2026-09-09": 3,
           "2026-09-10": 2,
           "2026-09-11": 2,
-          "2026-09-13": 1
+          "2026-09-13": 3
         },
         "1378684792656": {
           "2026-09-07": 7,
@@ -6166,7 +6367,8 @@
           "2026-09-09": 2,
           "2026-09-10": 3,
           "2026-09-11": 4,
-          "2026-09-12": 5
+          "2026-09-12": 5,
+          "2026-09-13": 3
         },
         "1378684777316": {
           "2026-09-07": 1,
@@ -6175,7 +6377,7 @@
           "2026-09-10": 4,
           "2026-09-12": 5,
           "2026-09-11": 2,
-          "2026-09-13": 3
+          "2026-09-13": 7
         },
         "1378684521491": {
           "2026-09-07": 2,
@@ -6183,7 +6385,8 @@
           "2026-09-09": 7,
           "2026-09-10": 2,
           "2026-09-11": 1,
-          "2026-09-12": 2
+          "2026-09-12": 2,
+          "2026-09-13": 3
         },
         "1378684782941": {
           "2026-09-07": 3,
@@ -6191,14 +6394,16 @@
           "2026-09-09": 8,
           "2026-09-10": 6,
           "2026-09-11": 6,
-          "2026-09-12": 1
+          "2026-09-12": 1,
+          "2026-09-13": 2
         },
         "1378684639872": {
           "2026-09-07": 2,
           "2026-09-09": 4,
           "2026-09-10": 1,
           "2026-09-11": 4,
-          "2026-09-12": 16
+          "2026-09-12": 16,
+          "2026-09-13": 2
         },
         "1378684519676": {
           "2026-09-07": 2,
@@ -6206,14 +6411,16 @@
           "2026-09-09": 4,
           "2026-09-10": 3,
           "2026-09-11": 1,
-          "2026-09-12": 29
+          "2026-09-12": 29,
+          "2026-09-13": 5
         },
         "1378684719021": {
           "2026-09-07": 2,
           "2026-09-08": 1,
           "2026-09-09": 1,
           "2026-09-10": 1,
-          "2026-09-11": 1
+          "2026-09-11": 1,
+          "2026-09-13": 2
         },
         "1378684546217": {
           "2026-09-07": 3,
@@ -6221,7 +6428,8 @@
           "2026-09-09": 2,
           "2026-09-10": 3,
           "2026-09-11": 3,
-          "2026-09-12": 1
+          "2026-09-12": 1,
+          "2026-09-13": 2
         },
         "1378684780963": {
           "2026-09-07": 3,
@@ -6229,7 +6437,8 @@
           "2026-09-09": 7,
           "2026-09-10": 7,
           "2026-09-11": 10,
-          "2026-09-12": 1
+          "2026-09-12": 1,
+          "2026-09-13": 9
         },
         "1378684787925": {
           "2026-09-07": 17,
@@ -6238,14 +6447,15 @@
           "2026-09-11": 13,
           "2026-09-10": 1,
           "2026-09-12": 13,
-          "2026-09-13": 3
+          "2026-09-13": 4
         },
         "1378684542793": {
           "2026-09-07": 2,
           "2026-09-08": 4,
           "2026-09-09": 2,
           "2026-09-10": 1,
-          "2026-09-12": 1
+          "2026-09-12": 1,
+          "2026-09-13": 5
         },
         "1378684637563": {
           "2026-09-07": 1,
@@ -6253,19 +6463,21 @@
           "2026-09-09": 3,
           "2026-09-10": 5,
           "2026-09-11": 1,
-          "2026-09-12": 3
+          "2026-09-12": 3,
+          "2026-09-13": 1
         },
         "1378684748097": {
           "2026-09-08": 1,
           "2026-09-09": 2,
           "2026-09-11": 3,
-          "2026-09-12": 1
+          "2026-09-12": 1,
+          "2026-09-13": 2
         },
         "1378684691643": {
           "2026-09-08": 4,
           "2026-09-09": 1,
           "2026-09-11": 2,
-          "2026-09-13": 2,
+          "2026-09-13": 6,
           "2026-09-12": 1
         },
         "1378684665159": {
@@ -6280,7 +6492,8 @@
           "2026-09-08": 1,
           "2026-09-09": 9,
           "2026-09-10": 1,
-          "2026-09-12": 11
+          "2026-09-12": 11,
+          "2026-09-13": 2
         },
         "1378684794055": {
           "2026-09-08": 16,
@@ -6288,65 +6501,80 @@
           "2026-09-10": 28,
           "2026-09-11": 49,
           "2026-09-12": 65,
-          "2026-09-13": 2
+          "2026-09-13": 17
         },
         "1378684598536": {
           "2026-09-08": 2,
           "2026-09-09": 7,
           "2026-09-10": 4,
-          "2026-09-11": 5
+          "2026-09-11": 5,
+          "2026-09-13": 3
         },
         "1378684521861": {
           "2026-09-08": 1,
           "2026-09-10": 1,
           "2026-09-11": 5,
-          "2026-09-12": 1
+          "2026-09-12": 1,
+          "2026-09-13": 2
         },
         "1378684742203": {
           "2026-09-09": 1,
           "2026-09-10": 3,
           "2026-09-11": 4,
-          "2026-09-12": 1
+          "2026-09-12": 1,
+          "2026-09-13": 1
         },
         "1378684603397": {
           "2026-09-09": 2,
           "2026-09-08": 1,
           "2026-09-10": 5,
           "2026-09-11": 3,
-          "2026-09-12": 4
+          "2026-09-12": 4,
+          "2026-09-13": 2
         },
         "1378684730172": {
           "2026-09-11": 1,
-          "2026-09-12": 1
+          "2026-09-12": 1,
+          "2026-09-13": 2
         },
         "1378684737498": {
           "2026-09-12": 1
+        },
+        "1378684690315": {
+          "2026-09-13": 19
+        },
+        "1378684780597": {
+          "2026-09-13": 1
+        },
+        "1378684773294": {
+          "2026-09-13": 3
         }
       },
       "speedups": {
         "1378684580491": 879,
         "1378684546217": 692,
         "1378684591930": 566,
-        "1378684680194": 638,
+        "1378684680194": 639,
         "1378684708040": 229,
-        "1378684545780": 291,
+        "1378684545780": 409,
         "1378684568874": 881,
         "1378684571224": 445,
         "1378684725045": 129,
         "1378684748097": 1115,
         "1378684691643": 443,
         "1378684742203": 201,
-        "1378684787925": 869,
+        "1378684787925": 941,
         "1378684782941": 587,
-        "1378684677949": 745,
+        "1378684677949": 903,
         "1378684566364": 143,
         "1378684690306": 67,
-        "1378684521491": 77,
+        "1378684521491": 320,
         "1378684737498": 72,
         "1378684749987": 736,
         "1378684720666": 620,
         "1378684773181": 81,
-        "1378684646883": 74
+        "1378684646883": 74,
+        "1378684780963": 690
       },
       "endMights": {
         "1378684787925": 11890572,
@@ -6414,70 +6642,84 @@
         "1378684697100": 86870,
         "1378684712650": 134619,
         "1378684786515": 63265,
-        "1378684730172": 88463
+        "1378684730172": 88463,
+        "1378684680597": 812659,
+        "1378684690315": 906641,
+        "1378684773294": 175894
       },
       "inTerritory": [
         "1378684787925",
         "1378684568874",
-        "1378684794055",
-        "1378684707081",
         "1378684656971",
+        "1378684737098",
+        "1378684707081",
+        "1378684797730",
         "1378684537558",
         "1378684519676",
+        "1378684646883",
+        "1378684749987",
+        "1378684798233",
         "1378684591930",
         "1378684799791",
-        "1378684797730",
-        "1378684749987",
-        "1378684580491",
-        "1378684646883",
-        "1378684736429",
         "1378684680194",
-        "1378684639872",
-        "1378684737098",
+        "1378684690315",
+        "1378684580491",
+        "1378684566364",
         "1378684782941",
         "1378684545780",
-        "1378684798233",
-        "1378684566364",
         "1378684708040",
+        "1378684639872",
         "1378684571224",
         "1378684666635",
-        "1378684546217",
-        "1378684637563",
         "1378684780963",
-        "1378684792656",
-        "1378684677949",
-        "1378684784647",
-        "1378684665159",
-        "1378684613683",
+        "1378684720666",
+        "1378684722389",
         "1378684691643",
+        "1378684730919",
+        "1378684773181",
+        "1378684637563",
+        "1378684546217",
+        "1378684784647",
         "1378684699264",
-        "1378684521491",
+        "1378684665159",
+        "1378684677949",
         "1378684748097",
         "1378684521861",
-        "1378684773181",
-        "1378684730919",
+        "1378684613683",
         "1378684603397",
-        "1378684506197",
-        "1378684514657",
+        "1378684521491",
         "1378684622857",
-        "1378684722389",
-        "1378684780597",
-        "1378684737498",
-        "1378684598536",
-        "1378684502926",
         "1378684719021",
-        "1378684690306",
-        "1378684777316",
         "1378684512198",
-        "1378684720666",
+        "1378684598536",
+        "1378684514657",
+        "1378684502926",
+        "1378684777316",
+        "1378684506197",
+        "1378684780597",
+        "1378684690306",
+        "1378684773294",
         "1378684725045",
-        "1378684652205",
-        "1378684730172",
+        "1378684737498",
         "1378684604636",
         "1378684786515"
       ],
-      "territoryOf": 64,
-      "territoryGuessed": 0,
+      "territoryOf": 61,
+      "territoryGuessed": 2,
+      "former": {
+        "donors": [
+          "Elrining",
+          "Megrond",
+          "PeterPower",
+          "T"
+        ],
+        "chests": [
+          "Elrining",
+          "PeterPower",
+          "T"
+        ],
+        "speedups": []
+      },
       "dragonCoins": {
         "1378684797730": {
           "2026-09-07": 1250
@@ -6499,201 +6741,2043 @@
     "2026-09-14": {
       "start": "2026-09-14",
       "mights": {
-        "1378684787925": 11890572,
-        "1378684568874": 6074426,
-        "1378684794055": 5487286,
-        "1378684707081": 1565651,
-        "1378684656971": 1438778,
-        "1378684537558": 1039284,
-        "1378684519676": 961381,
-        "1378684591930": 911722,
-        "1378684799791": 894599,
-        "1378684797730": 868778,
-        "1378684749987": 801485,
-        "1378684580491": 734124,
-        "1378684646883": 708658,
+        "1378684787925": 11922882,
+        "1378684568874": 6217236,
+        "1378684794055": 5788956,
+        "1378684707081": 1569276,
+        "1378684656971": 1444648,
+        "1378684537558": 1051564,
+        "1378684519676": 1052341,
+        "1378684591930": 931552,
+        "1378684799791": 904729,
+        "1378684797730": 871848,
+        "1378684749987": 836568,
+        "1378684580491": 763979,
+        "1378684646883": 783376,
         "1378684736429": 704720,
-        "1378684680194": 700010,
-        "1378684639872": 699736,
-        "1378684737098": 591375,
-        "1378684782941": 552659,
-        "1378684545780": 529286,
-        "1378684798233": 519620,
-        "1378684566364": 505881,
-        "1378684708040": 457118,
-        "1378684571224": 424846,
-        "1378684666635": 377153,
-        "1378684546217": 343742,
-        "1378684742203": 330752,
-        "1378684637563": 313382,
-        "1378684780963": 309065,
-        "1378684792656": 304413,
-        "1378684677949": 294978,
-        "1378684784647": 286548,
-        "1378684665159": 286354,
-        "1378684613683": 271438,
-        "1378684691643": 262825,
-        "1378684699264": 254464,
-        "1378684521491": 245673,
-        "1378684748097": 245552,
-        "1378684521861": 242807,
-        "1378684773181": 240816,
-        "1378684730919": 216416,
-        "1378684603397": 205471,
-        "1378684542793": 199359,
-        "1378684506197": 198182,
-        "1378684514657": 190243,
-        "1378684622857": 188411,
-        "1378684722389": 185551,
-        "1378684506286": 173629,
-        "1378684780597": 159679,
+        "1378684680194": 711987,
+        "1378684639872": 701001,
+        "1378684737098": 652035,
+        "1378684782941": 567704,
+        "1378684545780": 566406,
+        "1378684798233": 570259,
+        "1378684566364": 513936,
+        "1378684708040": 462048,
+        "1378684571224": 434301,
+        "1378684666635": 398923,
+        "1378684546217": 349152,
+        "1378684742203": 338002,
+        "1378684637563": 385582,
+        "1378684780963": 315460,
+        "1378684792656": 330283,
+        "1378684677949": 302743,
+        "1378684784647": 291712,
+        "1378684665159": 293802,
+        "1378684613683": 278132,
+        "1378684691643": 284925,
+        "1378684699264": 262139,
+        "1378684521491": 253628,
+        "1378684748097": 246832,
+        "1378684521861": 255407,
+        "1378684773181": 246291,
+        "1378684730919": 222925,
+        "1378684603397": 212215,
+        "1378684542793": 216326,
+        "1378684506197": 200584,
+        "1378684514657": 196050,
+        "1378684622857": 195320,
+        "1378684722389": 195086,
+        "1378684506286": 176367,
+        "1378684780597": 178144,
         "1378684737498": 159221,
-        "1378684598536": 157734,
-        "1378684502926": 156269,
-        "1378684719021": 155203,
-        "1378684690306": 154524,
-        "1378684777316": 152505,
-        "1378684512198": 147376,
-        "1378684720666": 143027,
-        "1378684712650": 134619,
-        "1378684614935": 132774,
-        "1378684725045": 101681,
-        "1378684652205": 95099,
-        "1378684730172": 88463,
+        "1378684598536": 190091,
+        "1378684502926": 166531,
+        "1378684719021": 162666,
+        "1378684690306": 155979,
+        "1378684777316": 168966,
+        "1378684512198": 150692,
+        "1378684720666": 207880,
+        "1378684712650": 139203,
+        "1378684614935": 138455,
+        "1378684725045": 121442,
+        "1378684652205": 95239,
+        "1378684730172": 97199,
         "1378684604636": 87411,
-        "1378684697100": 86870,
-        "1378684786515": 63265
+        "1378684697100": 140415,
+        "1378684786515": 63315,
+        "1378684680597": 812659,
+        "1378684690315": 194305,
+        "1378684773294": 119694,
+        "1378684626681": 180404,
+        "1378684727394": 159680,
+        "1378684628377": 255375,
+        "1378684776561": 232259,
+        "1378684651878": 245963
       },
-      "donations": {},
-      "chests": {},
-      "speedups": {},
+      "donations": {
+        "1378684677949": {
+          "stone": 11386486,
+          "food": 9783000,
+          "lumber": 8737443,
+          "iron": 13358498,
+          "tractates": 113
+        },
+        "1378684546217": {
+          "stone": 400000,
+          "iron": 480000,
+          "lumber": 35000,
+          "food": 520000
+        },
+        "1378684637563": {
+          "food": 23896000,
+          "lumber": 8240000,
+          "iron": 6592000,
+          "silver": 8240000,
+          "stone": 5768000
+        },
+        "1378684566364": {
+          "lumber": 2251717,
+          "stone": 1081782,
+          "tractates": 517503,
+          "food": 1161473,
+          "iron": 458490
+        },
+        "1378684591930": {
+          "food": 6200000,
+          "stone": 4100000,
+          "lumber": 3900000,
+          "iron": 3350000,
+          "silver": 3000000,
+          "tractates": 1211
+        },
+        "1378684742203": {
+          "food": 10300000,
+          "silver": 8224391,
+          "lumber": 8250000,
+          "stone": 6190000,
+          "tractates": 2913,
+          "iron": 2070000
+        },
+        "1378684690315": {
+          "stone": 12478430,
+          "lumber": 12256584,
+          "iron": 13111257,
+          "silver": 7452000,
+          "tractates": 267215,
+          "food": 8444430
+        },
+        "1378684799791": {
+          "silver": 45250,
+          "food": 45250,
+          "lumber": 45250,
+          "iron": 45250,
+          "stone": 45250,
+          "tractates": 1338
+        },
+        "1378684603397": {
+          "lumber": 596847,
+          "iron": 508793,
+          "stone": 462906,
+          "tractates": 104,
+          "food": 226761
+        },
+        "1378684773294": {
+          "food": 4984903,
+          "stone": 117668,
+          "silver": 146455,
+          "lumber": 1240485,
+          "tractates": 33
+        },
+        "1378684519676": {
+          "food": 1344500,
+          "iron": 1223703,
+          "stone": 1264213,
+          "silver": 1361605,
+          "lumber": 1349871,
+          "tractates": 250748
+        },
+        "1378684613683": {
+          "food": 3888000,
+          "iron": 546636,
+          "lumber": 107497,
+          "stone": 117305
+        },
+        "1378684773181": {
+          "food": 406818,
+          "silver": 317822,
+          "lumber": 310057,
+          "iron": 303141,
+          "stone": 303989,
+          "tractates": 34
+        },
+        "1378684782941": {
+          "silver": 1926000,
+          "food": 3906000,
+          "iron": 2932859,
+          "stone": 1926000,
+          "tractates": 664
+        },
+        "1378684697100": {
+          "silver": 4192391,
+          "lumber": 1016207,
+          "food": 2287489,
+          "iron": 5144683,
+          "stone": 3122550
+        },
+        "1378684787925": {
+          "food": 55517586,
+          "lumber": 26263561,
+          "iron": 18988755,
+          "stone": 23556983,
+          "tractates": 257040,
+          "silver": 6362590
+        },
+        "1378684719021": {
+          "lumber": 765351,
+          "iron": 410777,
+          "stone": 2175336,
+          "silver": 30007,
+          "food": 1958073
+        },
+        "1378684506197": {
+          "stone": 75000,
+          "iron": 90000,
+          "food": 60000,
+          "silver": 35000,
+          "lumber": 52000
+        },
+        "1378684680194": {
+          "food": 3142000,
+          "lumber": 12373175,
+          "stone": 10180922,
+          "iron": 14203024,
+          "silver": 299356,
+          "tractates": 968
+        },
+        "1378684521861": {
+          "food": 5589000,
+          "tractates": 264,
+          "silver": 3726000
+        },
+        "1378684545780": {
+          "silver": 200000,
+          "stone": 4400000,
+          "lumber": 2100000,
+          "iron": 2700000,
+          "food": 13456000
+        },
+        "1378684690306": {
+          "stone": 86620
+        },
+        "1378684699264": {
+          "lumber": 1344183,
+          "stone": 1382489,
+          "iron": 1030460,
+          "food": 909876,
+          "silver": 139332,
+          "tractates": 79
+        },
+        "1378684580491": {
+          "food": 5917813,
+          "iron": 13097049,
+          "lumber": 3696026,
+          "tractates": 153,
+          "stone": 6908031
+        },
+        "1378684798233": {
+          "food": 24536000,
+          "iron": 3971943,
+          "lumber": 4983478,
+          "stone": 2074345,
+          "tractates": 62,
+          "silver": 684176
+        },
+        "1378684722389": {
+          "silver": 844357,
+          "stone": 300663,
+          "lumber": 411022,
+          "tractates": 1048,
+          "iron": 212227
+        },
+        "1378684571224": {
+          "food": 14904000,
+          "silver": 5486266,
+          "iron": 1048359,
+          "stone": 3719011,
+          "tractates": 399
+        },
+        "1378684691643": {
+          "food": 6003000,
+          "silver": 22414243,
+          "tractates": 81
+        },
+        "1378684748097": {
+          "food": 6880000,
+          "iron": 8480000,
+          "lumber": 5088000,
+          "stone": 6880000,
+          "tractates": 2906
+        },
+        "1378684646883": {
+          "food": 10678500,
+          "lumber": 1291219,
+          "iron": 1155619,
+          "stone": 1629692,
+          "tractates": 253087,
+          "silver": 4032000
+        },
+        "1378684794055": {
+          "tractates": 283564
+        },
+        "1378684665159": {
+          "food": 3400000,
+          "stone": 710000,
+          "silver": 50000,
+          "iron": 810000
+        },
+        "1378684614935": {
+          "lumber": 3027799,
+          "iron": 971306,
+          "silver": 1220218,
+          "food": 506684,
+          "stone": 1023298
+        },
+        "1378684730172": {
+          "lumber": 125744,
+          "iron": 153503,
+          "stone": 585145,
+          "food": 1009923,
+          "tractates": 12
+        },
+        "1378684626681": {
+          "food": 1539663,
+          "lumber": 342992,
+          "silver": 42239,
+          "stone": 142912,
+          "iron": 81880
+        },
+        "1378684537558": {
+          "stone": 6338050,
+          "silver": 1022696,
+          "food": 6824214,
+          "lumber": 5015808,
+          "iron": 6255778,
+          "tractates": 1000550
+        },
+        "1378684780963": {
+          "lumber": 498762,
+          "stone": 154191,
+          "iron": 316169
+        },
+        "1378684656971": {
+          "tractates": 251112,
+          "stone": 22000000,
+          "iron": 12000000,
+          "lumber": 12000000,
+          "silver": 3000000,
+          "food": 12000000
+        },
+        "1378684777316": {
+          "silver": 807729,
+          "food": 924000,
+          "iron": 105641,
+          "tractates": 19
+        },
+        "1378684707081": {
+          "tractates": 251416,
+          "lumber": 2931485,
+          "iron": 3136000,
+          "silver": 3276000
+        },
+        "1378684737098": {
+          "silver": 2082924,
+          "tractates": 255036,
+          "food": 35384,
+          "stone": 30401,
+          "iron": 29901,
+          "lumber": 29363
+        },
+        "1378684568874": {
+          "tractates": 254349
+        },
+        "1378684797730": {
+          "tractates": 250000,
+          "stone": 8112000,
+          "iron": 8112000,
+          "lumber": 8112000,
+          "food": 5408000,
+          "silver": 834442
+        },
+        "1378684784647": {
+          "food": 1036668,
+          "silver": 400000,
+          "tractates": 36,
+          "iron": 25000,
+          "stone": 29831,
+          "lumber": 25000
+        },
+        "1378684749987": {
+          "stone": 1008006,
+          "lumber": 1015815,
+          "iron": 1010296,
+          "tractates": 129
+        },
+        "1378684622857": {
+          "food": 2099678,
+          "stone": 2099679,
+          "lumber": 2141674,
+          "iron": 2133799,
+          "tractates": 127
+        },
+        "1378684792656": {
+          "stone": 1656000
+        },
+        "1378684666635": {
+          "tractates": 673,
+          "food": 926241
+        },
+        "1378684514657": {
+          "tractates": 35,
+          "lumber": 301259,
+          "iron": 305834,
+          "silver": 348158
+        },
+        "1378684730919": {
+          "tractates": 4
+        },
+        "1378684502926": {
+          "tractates": 44,
+          "iron": 8428,
+          "food": 8425,
+          "lumber": 8428,
+          "stone": 8425
+        },
+        "1378684521491": {
+          "tractates": 274,
+          "silver": 1000000,
+          "lumber": 1000000,
+          "iron": 1000000,
+          "stone": 1000000,
+          "food": 1000000
+        },
+        "1378684786515": {
+          "lumber": 824000,
+          "iron": 824000,
+          "food": 824000
+        },
+        "1378684727394": {
+          "lumber": 8000,
+          "iron": 8000,
+          "stone": 8000
+        },
+        "1378684776561": {
+          "food": 1035667,
+          "lumber": 1007558,
+          "stone": 172711
+        },
+        "1378684737498": {
+          "lumber": 1648000,
+          "food": 3392000,
+          "iron": 1696000,
+          "silver": 1648000,
+          "stone": 1648000
+        },
+        "1378684639872": {
+          "silver": 159016,
+          "food": 371985,
+          "lumber": 126413,
+          "iron": 94388,
+          "tractates": 17000,
+          "stone": 22364
+        },
+        "1378684780597": {
+          "iron": 184584,
+          "lumber": 37988,
+          "stone": 16201
+        },
+        "1378684712650": {
+          "stone": 14210,
+          "iron": 16572,
+          "lumber": 21671,
+          "food": 10480
+        },
+        "1378684628377": {
+          "silver": 49850,
+          "iron": 204082,
+          "stone": 200714,
+          "lumber": 202799,
+          "food": 300347
+        },
+        "1378684542793": {
+          "lumber": 25684,
+          "iron": 23329,
+          "food": 777466,
+          "stone": 27831
+        },
+        "1378684725045": {
+          "iron": 6500,
+          "lumber": 6500,
+          "stone": 6500,
+          "food": 80000,
+          "silver": 7000
+        },
+        "1378684720666": {
+          "stone": 43200,
+          "iron": 14400,
+          "lumber": 14390,
+          "food": 14400
+        },
+        "1378684651878": {
+          "stone": 450942,
+          "iron": 354428,
+          "silver": 317200,
+          "food": 804908,
+          "lumber": 711792
+        }
+      },
+      "chests": {
+        "1378684622857": {
+          "2026-09-14": 8,
+          "2026-09-16": 6,
+          "2026-09-15": 4,
+          "2026-09-18": 4,
+          "2026-09-17": 1,
+          "2026-09-19": 5,
+          "2026-09-20": 1
+        },
+        "1378684591930": {
+          "2026-09-14": 20,
+          "2026-09-16": 21,
+          "2026-09-15": 11,
+          "2026-09-18": 15,
+          "2026-09-17": 2,
+          "2026-09-20": 27,
+          "2026-09-19": 4
+        },
+        "1378684699264": {
+          "2026-09-14": 14,
+          "2026-09-15": 10,
+          "2026-09-16": 14,
+          "2026-09-18": 13,
+          "2026-09-17": 12,
+          "2026-09-20": 16
+        },
+        "1378684545780": {
+          "2026-09-14": 15,
+          "2026-09-15": 13,
+          "2026-09-16": 19,
+          "2026-09-18": 16,
+          "2026-09-17": 2,
+          "2026-09-20": 6,
+          "2026-09-19": 1
+        },
+        "1378684677949": {
+          "2026-09-14": 7,
+          "2026-09-15": 18,
+          "2026-09-16": 11,
+          "2026-09-18": 15,
+          "2026-09-20": 19
+        },
+        "1378684680194": {
+          "2026-09-14": 11,
+          "2026-09-15": 10,
+          "2026-09-16": 4,
+          "2026-09-18": 10,
+          "2026-09-19": 7,
+          "2026-09-20": 6
+        },
+        "1378684773181": {
+          "2026-09-14": 7,
+          "2026-09-15": 2,
+          "2026-09-16": 8,
+          "2026-09-18": 4,
+          "2026-09-20": 2
+        },
+        "1378684519676": {
+          "2026-09-14": 17,
+          "2026-09-15": 7,
+          "2026-09-16": 4,
+          "2026-09-18": 1,
+          "2026-09-20": 18
+        },
+        "1378684568874": {
+          "2026-09-14": 427,
+          "2026-09-15": 6,
+          "2026-09-16": 8,
+          "2026-09-18": 2,
+          "2026-09-17": 5
+        },
+        "1378684656971": {
+          "2026-09-14": 5,
+          "2026-09-15": 28,
+          "2026-09-16": 6,
+          "2026-09-18": 29,
+          "2026-09-17": 10,
+          "2026-09-19": 10,
+          "2026-09-20": 14
+        },
+        "1378684646883": {
+          "2026-09-14": 17,
+          "2026-09-15": 26,
+          "2026-09-16": 11,
+          "2026-09-18": 23,
+          "2026-09-20": 16
+        },
+        "1378684725045": {
+          "2026-09-14": 11,
+          "2026-09-15": 1,
+          "2026-09-16": 1,
+          "2026-09-18": 6,
+          "2026-09-20": 5
+        },
+        "1378684690315": {
+          "2026-09-14": 13,
+          "2026-09-15": 9,
+          "2026-09-16": 25,
+          "2026-09-18": 39,
+          "2026-09-17": 4,
+          "2026-09-19": 6,
+          "2026-09-20": 34
+        },
+        "1378684614935": {
+          "2026-09-14": 1,
+          "2026-09-15": 1,
+          "2026-09-18": 4,
+          "2026-09-20": 2
+        },
+        "1378684580491": {
+          "2026-09-14": 3,
+          "2026-09-15": 4,
+          "2026-09-16": 1,
+          "2026-09-18": 3,
+          "2026-09-19": 2
+        },
+        "1378684665159": {
+          "2026-09-14": 5,
+          "2026-09-15": 1,
+          "2026-09-16": 3,
+          "2026-09-18": 2,
+          "2026-09-19": 2
+        },
+        "1378684799791": {
+          "2026-09-14": 6,
+          "2026-09-15": 3,
+          "2026-09-16": 8,
+          "2026-09-18": 9,
+          "2026-09-20": 5
+        },
+        "1378684697100": {
+          "2026-09-14": 8,
+          "2026-09-15": 4,
+          "2026-09-16": 4,
+          "2026-09-17": 3
+        },
+        "1378684506286": {
+          "2026-09-14": 17,
+          "2026-09-15": 9,
+          "2026-09-16": 3,
+          "2026-09-18": 11,
+          "2026-09-17": 2,
+          "2026-09-20": 14,
+          "2026-09-19": 1
+        },
+        "1378684708040": {
+          "2026-09-14": 2,
+          "2026-09-16": 4,
+          "2026-09-15": 5,
+          "2026-09-18": 17,
+          "2026-09-20": 3
+        },
+        "1378684773294": {
+          "2026-09-14": 3,
+          "2026-09-15": 1,
+          "2026-09-16": 3,
+          "2026-09-18": 1,
+          "2026-09-20": 3
+        },
+        "1378684613683": {
+          "2026-09-14": 6,
+          "2026-09-16": 3,
+          "2026-09-19": 2
+        },
+        "1378684749987": {
+          "2026-09-14": 2,
+          "2026-09-15": 3,
+          "2026-09-16": 1,
+          "2026-09-18": 5,
+          "2026-09-20": 3,
+          "2026-09-19": 3
+        },
+        "1378684722389": {
+          "2026-09-14": 4,
+          "2026-09-15": 3,
+          "2026-09-16": 1,
+          "2026-09-18": 8,
+          "2026-09-20": 1
+        },
+        "1378684521491": {
+          "2026-09-14": 7,
+          "2026-09-15": 10,
+          "2026-09-16": 10,
+          "2026-09-18": 6,
+          "2026-09-17": 1,
+          "2026-09-20": 2
+        },
+        "1378684780963": {
+          "2026-09-14": 6,
+          "2026-09-16": 7,
+          "2026-09-15": 4,
+          "2026-09-18": 5,
+          "2026-09-20": 5,
+          "2026-09-19": 2
+        },
+        "1378684566364": {
+          "2026-09-14": 2,
+          "2026-09-15": 1,
+          "2026-09-16": 3,
+          "2026-09-18": 4,
+          "2026-09-20": 4
+        },
+        "1378684797730": {
+          "2026-09-14": 1,
+          "2026-09-16": 2,
+          "2026-09-15": 6,
+          "2026-09-18": 1,
+          "2026-09-19": 47,
+          "2026-09-20": 1
+        },
+        "1378684792656": {
+          "2026-09-14": 2,
+          "2026-09-15": 1,
+          "2026-09-16": 1
+        },
+        "1378684787925": {
+          "2026-09-14": 5,
+          "2026-09-15": 2,
+          "2026-09-16": 5,
+          "2026-09-17": 1,
+          "2026-09-18": 3,
+          "2026-09-20": 80,
+          "2026-09-19": 6
+        },
+        "1378684798233": {
+          "2026-09-14": 1,
+          "2026-09-16": 2,
+          "2026-09-15": 3,
+          "2026-09-18": 28,
+          "2026-09-20": 15,
+          "2026-09-19": 3
+        },
+        "1378684502926": {
+          "2026-09-14": 7,
+          "2026-09-16": 1,
+          "2026-09-18": 2,
+          "2026-09-19": 1
+        },
+        "1378684712650": {
+          "2026-09-14": 4,
+          "2026-09-15": 1,
+          "2026-09-16": 3,
+          "2026-09-18": 6,
+          "2026-09-19": 2
+        },
+        "1378684598536": {
+          "2026-09-14": 2,
+          "2026-09-15": 1,
+          "2026-09-16": 6,
+          "2026-09-17": 3,
+          "2026-09-18": 1
+        },
+        "1378684784647": {
+          "2026-09-14": 2,
+          "2026-09-15": 2,
+          "2026-09-16": 2,
+          "2026-09-18": 3,
+          "2026-09-20": 2
+        },
+        "1378684719021": {
+          "2026-09-14": 6,
+          "2026-09-16": 1,
+          "2026-09-17": 1,
+          "2026-09-18": 1,
+          "2026-09-19": 2
+        },
+        "1378684537558": {
+          "2026-09-14": 16,
+          "2026-09-16": 4,
+          "2026-09-15": 9,
+          "2026-09-18": 10,
+          "2026-09-17": 1,
+          "2026-09-19": 8,
+          "2026-09-20": 15
+        },
+        "1378684571224": {
+          "2026-09-14": 11,
+          "2026-09-15": 3,
+          "2026-09-16": 1,
+          "2026-09-18": 6,
+          "2026-09-20": 11
+        },
+        "1378684707081": {
+          "2026-09-14": 2,
+          "2026-09-15": 8,
+          "2026-09-16": 4,
+          "2026-09-18": 6,
+          "2026-09-20": 5
+        },
+        "1378684666635": {
+          "2026-09-14": 3,
+          "2026-09-16": 2,
+          "2026-09-18": 2,
+          "2026-09-19": 2,
+          "2026-09-20": 3
+        },
+        "1378684680597": {
+          "2026-09-14": 3
+        },
+        "1378684777316": {
+          "2026-09-14": 3,
+          "2026-09-16": 3,
+          "2026-09-17": 2,
+          "2026-09-18": 1,
+          "2026-09-20": 4
+        },
+        "1378684794055": {
+          "2026-09-14": 1,
+          "2026-09-15": 56,
+          "2026-09-16": 4,
+          "2026-09-18": 43,
+          "2026-09-17": 6
+        },
+        "1378684691643": {
+          "2026-09-14": 1,
+          "2026-09-18": 2,
+          "2026-09-19": 1,
+          "2026-09-20": 1
+        },
+        "1378684737098": {
+          "2026-09-14": 2,
+          "2026-09-15": 2,
+          "2026-09-16": 12,
+          "2026-09-18": 9,
+          "2026-09-17": 4,
+          "2026-09-19": 2,
+          "2026-09-20": 5
+        },
+        "1378684720666": {
+          "2026-09-14": 4,
+          "2026-09-16": 10,
+          "2026-09-15": 6,
+          "2026-09-18": 5,
+          "2026-09-17": 2,
+          "2026-09-20": 15,
+          "2026-09-19": 3
+        },
+        "1378684748097": {
+          "2026-09-14": 1,
+          "2026-09-15": 3,
+          "2026-09-16": 12,
+          "2026-09-19": 1
+        },
+        "1378684542793": {
+          "2026-09-14": 4,
+          "2026-09-15": 4,
+          "2026-09-16": 3,
+          "2026-09-17": 1,
+          "2026-09-20": 12,
+          "2026-09-19": 1
+        },
+        "1378684730172": {
+          "2026-09-14": 1,
+          "2026-09-15": 1,
+          "2026-09-16": 1,
+          "2026-09-18": 2,
+          "2026-09-20": 1
+        },
+        "1378684546217": {
+          "2026-09-14": 1,
+          "2026-09-15": 1,
+          "2026-09-18": 1,
+          "2026-09-17": 1,
+          "2026-09-19": 1
+        },
+        "1378684521861": {
+          "2026-09-14": 1,
+          "2026-09-20": 2
+        },
+        "1378684506197": {
+          "2026-09-14": 2,
+          "2026-09-15": 1,
+          "2026-09-16": 1,
+          "2026-09-18": 1,
+          "2026-09-20": 1
+        },
+        "1378684782941": {
+          "2026-09-16": 2,
+          "2026-09-15": 7,
+          "2026-09-18": 1
+        },
+        "1378684603397": {
+          "2026-09-16": 8,
+          "2026-09-15": 2,
+          "2026-09-18": 4,
+          "2026-09-20": 5,
+          "2026-09-19": 4
+        },
+        "1378684512198": {
+          "2026-09-16": 3,
+          "2026-09-19": 3,
+          "2026-09-20": 2
+        },
+        "1378684730919": {
+          "2026-09-15": 1,
+          "2026-09-16": 4,
+          "2026-09-19": 1,
+          "2026-09-20": 1
+        },
+        "1378684514657": {
+          "2026-09-15": 4,
+          "2026-09-18": 9,
+          "2026-09-20": 2
+        },
+        "1378684727394": {
+          "2026-09-16": 117,
+          "2026-09-18": 2,
+          "2026-09-19": 1,
+          "2026-09-20": 1
+        },
+        "1378684637563": {
+          "2026-09-16": 3,
+          "2026-09-17": 1,
+          "2026-09-20": 2
+        },
+        "1378684626681": {
+          "2026-09-16": 5,
+          "2026-09-18": 9,
+          "2026-09-17": 1,
+          "2026-09-19": 3,
+          "2026-09-20": 2
+        },
+        "1378684742203": {
+          "2026-09-16": 3,
+          "2026-09-18": 4
+        },
+        "1378684628377": {
+          "2026-09-18": 1,
+          "2026-09-19": 2
+        },
+        "1378684651878": {
+          "2026-09-18": 3,
+          "2026-09-19": 7,
+          "2026-09-20": 5
+        },
+        "1378684776561": {
+          "2026-09-19": 2,
+          "2026-09-20": 3
+        },
+        "1378684639872": {
+          "2026-09-20": 2,
+          "2026-09-19": 2
+        },
+        "1378684780597": {
+          "2026-09-20": 1
+        }
+      },
+      "speedups": {
+        "1378684545780": 428,
+        "1378684787925": 544,
+        "1378684782941": 880,
+        "1378684680194": 605,
+        "1378684646883": 258,
+        "1378684656971": 1818,
+        "1378684699264": 540,
+        "1378684690315": 198,
+        "1378684571224": 311,
+        "1378684521491": 1147,
+        "1378684566364": 179,
+        "1378684784647": 451,
+        "1378684591930": 462,
+        "1378684707081": 708,
+        "1378684773181": 30,
+        "1378684748097": 190,
+        "1378684519676": 234,
+        "1378684568874": 763,
+        "1378684626681": 16,
+        "1378684580491": 200
+      },
       "endMights": {
-        "1378684787925": 11890572,
-        "1378684568874": 6074426,
-        "1378684794055": 5487286,
-        "1378684707081": 1565651,
-        "1378684656971": 1438778,
-        "1378684537558": 1039284,
-        "1378684519676": 961381,
-        "1378684591930": 911722,
-        "1378684799791": 894599,
-        "1378684797730": 868778,
-        "1378684749987": 801485,
-        "1378684580491": 734124,
-        "1378684646883": 708658,
+        "1378684787925": 12985065,
+        "1378684568874": 7038906,
+        "1378684794055": 6533481,
+        "1378684707081": 2080856,
+        "1378684656971": 3147180,
+        "1378684537558": 1213895,
+        "1378684519676": 1277711,
+        "1378684591930": 1010135,
+        "1378684799791": 957854,
+        "1378684797730": 905738,
+        "1378684749987": 1091102,
+        "1378684580491": 877584,
+        "1378684646883": 1042209,
         "1378684736429": 704720,
-        "1378684680194": 700010,
-        "1378684639872": 699736,
-        "1378684737098": 591375,
-        "1378684782941": 552659,
-        "1378684545780": 529286,
-        "1378684798233": 519620,
-        "1378684566364": 505881,
-        "1378684708040": 457118,
-        "1378684571224": 424846,
-        "1378684666635": 377153,
-        "1378684546217": 343742,
-        "1378684742203": 330752,
-        "1378684637563": 313382,
-        "1378684780963": 309065,
-        "1378684792656": 304413,
-        "1378684677949": 294978,
-        "1378684784647": 286548,
-        "1378684665159": 286354,
-        "1378684613683": 271438,
-        "1378684691643": 262825,
-        "1378684699264": 254464,
-        "1378684521491": 245673,
-        "1378684748097": 245552,
-        "1378684521861": 242807,
-        "1378684773181": 240816,
-        "1378684730919": 216416,
-        "1378684603397": 205471,
-        "1378684542793": 199359,
-        "1378684506197": 198182,
-        "1378684514657": 190243,
-        "1378684622857": 188411,
-        "1378684722389": 185551,
-        "1378684506286": 173629,
-        "1378684780597": 159679,
-        "1378684737498": 159221,
-        "1378684598536": 157734,
-        "1378684502926": 156269,
-        "1378684719021": 155203,
-        "1378684690306": 154524,
-        "1378684777316": 152505,
-        "1378684512198": 147376,
-        "1378684720666": 143027,
-        "1378684712650": 134619,
-        "1378684614935": 132774,
-        "1378684725045": 101681,
-        "1378684652205": 95099,
-        "1378684730172": 88463,
+        "1378684680194": 835583,
+        "1378684639872": 717488,
+        "1378684737098": 2187877,
+        "1378684782941": 742051,
+        "1378684545780": 722971,
+        "1378684798233": 782485,
+        "1378684566364": 644759,
+        "1378684708040": 634682,
+        "1378684571224": 508256,
+        "1378684666635": 461042,
+        "1378684546217": 363677,
+        "1378684742203": 369347,
+        "1378684637563": 403774,
+        "1378684780963": 428368,
+        "1378684792656": 331253,
+        "1378684677949": 332003,
+        "1378684784647": 362917,
+        "1378684665159": 350751,
+        "1378684613683": 297322,
+        "1378684691643": 385950,
+        "1378684699264": 330074,
+        "1378684521491": 285084,
+        "1378684748097": 287915,
+        "1378684521861": 273515,
+        "1378684773181": 375349,
+        "1378684730919": 288925,
+        "1378684603397": 284720,
+        "1378684542793": 319583,
+        "1378684506197": 206059,
+        "1378684514657": 205390,
+        "1378684622857": 275387,
+        "1378684722389": 345671,
+        "1378684506286": 190070,
+        "1378684780597": 199494,
+        "1378684737498": 159381,
+        "1378684598536": 224081,
+        "1378684502926": 173097,
+        "1378684719021": 229328,
+        "1378684690306": 189224,
+        "1378684777316": 202483,
+        "1378684512198": 196870,
+        "1378684720666": 290650,
+        "1378684712650": 169821,
+        "1378684614935": 156010,
+        "1378684725045": 143897,
+        "1378684652205": 102674,
+        "1378684730172": 106670,
         "1378684604636": 87411,
-        "1378684697100": 86870,
-        "1378684786515": 63265
+        "1378684697100": 145120,
+        "1378684786515": 63415,
+        "1378684680597": 812659,
+        "1378684690315": 693081,
+        "1378684773294": 137035,
+        "1378684626681": 204125,
+        "1378684727394": 159814,
+        "1378684628377": 271957,
+        "1378684776561": 234282,
+        "1378684651878": 278481
       },
       "inTerritory": [
         "1378684787925",
         "1378684568874",
-        "1378684794055",
-        "1378684707081",
         "1378684656971",
+        "1378684737098",
+        "1378684707081",
+        "1378684797730",
         "1378684537558",
         "1378684519676",
+        "1378684646883",
+        "1378684749987",
+        "1378684798233",
         "1378684591930",
         "1378684799791",
-        "1378684797730",
-        "1378684749987",
-        "1378684580491",
-        "1378684646883",
-        "1378684736429",
         "1378684680194",
-        "1378684639872",
-        "1378684737098",
+        "1378684690315",
+        "1378684580491",
+        "1378684566364",
         "1378684782941",
         "1378684545780",
-        "1378684798233",
-        "1378684566364",
         "1378684708040",
+        "1378684639872",
         "1378684571224",
         "1378684666635",
-        "1378684546217",
-        "1378684637563",
         "1378684780963",
-        "1378684792656",
-        "1378684677949",
-        "1378684784647",
-        "1378684665159",
-        "1378684613683",
+        "1378684720666",
+        "1378684722389",
         "1378684691643",
+        "1378684730919",
+        "1378684773181",
+        "1378684637563",
+        "1378684546217",
+        "1378684784647",
         "1378684699264",
-        "1378684521491",
+        "1378684665159",
+        "1378684677949",
         "1378684748097",
         "1378684521861",
-        "1378684773181",
-        "1378684730919",
+        "1378684613683",
         "1378684603397",
-        "1378684506197",
-        "1378684514657",
+        "1378684521491",
         "1378684622857",
-        "1378684722389",
-        "1378684780597",
-        "1378684737498",
-        "1378684598536",
-        "1378684502926",
         "1378684719021",
-        "1378684690306",
-        "1378684777316",
+        "1378684776561",
         "1378684512198",
-        "1378684720666",
+        "1378684598536",
+        "1378684514657",
+        "1378684502926",
+        "1378684777316",
+        "1378684712650",
+        "1378684506197",
+        "1378684506286",
+        "1378684780597",
+        "1378684690306",
+        "1378684773294",
         "1378684725045",
-        "1378684652205",
-        "1378684730172",
+        "1378684727394",
+        "1378684737498",
         "1378684604636",
         "1378684786515"
       ],
-      "territoryOf": 64,
+      "territoryOf": 66,
+      "territoryGuessed": 0,
+      "former": {
+        "donors": [
+          "Elrining",
+          "PeterPower",
+          "T"
+        ],
+        "chests": [
+          "Elrining",
+          "Metilar",
+          "PeterPower",
+          "T"
+        ],
+        "speedups": []
+      },
+      "dragonCoins": {
+        "1378684794055": {
+          "2026-09-15": 4500
+        },
+        "1378684737098": {
+          "2026-09-17": 1880
+        },
+        "1378684787925": {
+          "2026-09-20": 10000
+        }
+      },
+      "dragonCoinsReceived": {
+        "1378684639872": {
+          "2026-09-20": 1250
+        },
+        "1378684787925": {
+          "2026-09-20": 10000
+        },
+        "1378684568874": {
+          "2026-09-20": 13000
+        },
+        "1378684797730": {
+          "2026-09-20": 1250
+        },
+        "1378684646883": {
+          "2026-09-20": 1250
+        },
+        "1378684707081": {
+          "2026-09-20": 1250
+        },
+        "1378684737098": {
+          "2026-09-20": 3760
+        },
+        "1378684665159": {
+          "2026-09-20": 18000
+        }
+      }
+    },
+    "2026-09-21": {
+      "start": "2026-09-21",
+      "mights": {
+        "1378684787925": 13157605,
+        "1378684568874": 7094946,
+        "1378684656971": 3150180,
+        "1378684737098": 2303807,
+        "1378684707081": 2083656,
+        "1378684519676": 1321341,
+        "1378684537558": 1310315,
+        "1378684749987": 1096982,
+        "1378684646883": 1058039,
+        "1378684591930": 1015345,
+        "1378684799791": 967659,
+        "1378684797730": 953828,
+        "1378684580491": 890604,
+        "1378684680194": 862753,
+        "1378684798233": 838295,
+        "1378684782941": 742191,
+        "1378684545780": 729531,
+        "1378684639872": 720775,
+        "1378684566364": 782647,
+        "1378684690315": 795606,
+        "1378684708040": 655302,
+        "1378684571224": 515144,
+        "1378684666635": 471565,
+        "1378684780963": 428368,
+        "1378684637563": 409654,
+        "1378684691643": 410880,
+        "1378684773181": 375954,
+        "1378684742203": 369997,
+        "1378684784647": 365897,
+        "1378684546217": 366337,
+        "1378684720666": 357440,
+        "1378684665159": 352201,
+        "1378684699264": 348341,
+        "1378684722389": 349156,
+        "1378684677949": 333003,
+        "1378684748097": 326760,
+        "1378684542793": 352681,
+        "1378684730919": 329662,
+        "1378684613683": 307322,
+        "1378684521491": 285634,
+        "1378684603397": 285493,
+        "1378684651878": 284829,
+        "1378684622857": 280217,
+        "1378684521861": 281785,
+        "1378684628377": 272327,
+        "1378684776561": 244246,
+        "1378684719021": 229328,
+        "1378684598536": 224081,
+        "1378684514657": 211400,
+        "1378684506197": 206189,
+        "1378684626681": 209485,
+        "1378684777316": 202483,
+        "1378684780597": 199494,
+        "1378684512198": 196870,
+        "1378684506286": 196360,
+        "1378684690306": 189544,
+        "1378684712650": 178846,
+        "1378684502926": 191482,
+        "1378684727394": 159972,
+        "1378684737498": 159381,
+        "1378684614935": 156015,
+        "1378684697100": 158236,
+        "1378684725045": 144087,
+        "1378684773294": 140270,
+        "1378684652205": 102674,
+        "1378684604636": 87411,
+        "1378684786515": 63415,
+        "1378684571585": 625229
+      },
+      "donations": {
+        "1378684680194": {
+          "food": 3942000,
+          "iron": 7256842,
+          "stone": 7244419,
+          "lumber": 4896290,
+          "tractates": 359,
+          "silver": 500000
+        },
+        "1378684591930": {
+          "iron": 9600000,
+          "stone": 4500000,
+          "lumber": 4770000,
+          "food": 13468000,
+          "silver": 6582000,
+          "tractates": 3450
+        },
+        "1378684506197": {
+          "food": 75000,
+          "lumber": 31000,
+          "iron": 46000,
+          "stone": 47000
+        },
+        "1378684665159": {
+          "food": 1940000,
+          "silver": 40000
+        },
+        "1378684798233": {
+          "food": 6006000,
+          "iron": 2027733,
+          "tractates": 914
+        },
+        "1378684748097": {
+          "lumber": 1792000,
+          "food": 3520000,
+          "iron": 3392000,
+          "stone": 5120000,
+          "tractates": 87
+        },
+        "1378684566364": {
+          "silver": 1890108,
+          "lumber": 2371198,
+          "food": 2968000,
+          "iron": 1663988,
+          "tractates": 255795,
+          "stone": 466528
+        },
+        "1378684568874": {
+          "silver": 1008693,
+          "food": 24075000,
+          "lumber": 1607875,
+          "stone": 1147899,
+          "iron": 709129,
+          "tractates": 513472
+        },
+        "1378684697100": {
+          "silver": 3485793,
+          "food": 1061653
+        },
+        "1378684787925": {
+          "iron": 1943501,
+          "food": 23782901,
+          "tractates": 513036,
+          "silver": 1763438,
+          "stone": 47951258
+        },
+        "1378684637563": {
+          "food": 10744000,
+          "lumber": 1648000,
+          "tractates": 124
+        },
+        "1378684699264": {
+          "food": 3918033,
+          "silver": 566049,
+          "lumber": 1122414,
+          "tractates": 353,
+          "iron": 178587
+        },
+        "1378684545780": {
+          "iron": 8032000,
+          "stone": 15008000,
+          "lumber": 18896000,
+          "food": 4888000
+        },
+        "1378684626681": {
+          "stone": 133780,
+          "lumber": 68156,
+          "silver": 78129,
+          "iron": 51356,
+          "food": 50910,
+          "tractates": 248
+        },
+        "1378684773181": {
+          "silver": 411268,
+          "food": 429067,
+          "stone": 407328,
+          "iron": 413969,
+          "lumber": 402437,
+          "tractates": 624
+        },
+        "1378684737098": {
+          "food": 1035240,
+          "tractates": 513389
+        },
+        "1378684776561": {
+          "food": 1027234,
+          "lumber": 585600,
+          "silver": 500027
+        },
+        "1378684719021": {
+          "food": 3842281,
+          "silver": 844691,
+          "lumber": 705472,
+          "iron": 266529,
+          "tractates": 416
+        },
+        "1378684799791": {
+          "silver": 48000,
+          "stone": 48000,
+          "lumber": 48000,
+          "iron": 48000,
+          "food": 48000
+        },
+        "1378684784647": {
+          "iron": 230051,
+          "tractates": 250902
+        },
+        "1378684537558": {
+          "silver": 5778000,
+          "tractates": 254611,
+          "stone": 1016665,
+          "iron": 1223777,
+          "lumber": 1214408,
+          "food": 1011866
+        },
+        "1378684521861": {
+          "silver": 3726000,
+          "tractates": 50
+        },
+        "1378684722389": {
+          "stone": 133870,
+          "food": 977995,
+          "silver": 382793,
+          "tractates": 3510
+        },
+        "1378684613683": {
+          "lumber": 25945,
+          "iron": 68586,
+          "tractates": 129
+        },
+        "1378684506286": {
+          "iron": 399875,
+          "stone": 100000,
+          "food": 248929,
+          "lumber": 10000,
+          "tractates": 53
+        },
+        "1378684773294": {
+          "food": 1244901,
+          "stone": 46006,
+          "lumber": 8978,
+          "tractates": 10,
+          "iron": 48602,
+          "silver": 117173
+        },
+        "1378684707081": {
+          "food": 3136000,
+          "stone": 3276000,
+          "lumber": 3136000,
+          "silver": 2571753,
+          "iron": 3136000,
+          "tractates": 252244
+        },
+        "1378684546217": {
+          "food": 110000,
+          "iron": 122000,
+          "stone": 119000,
+          "lumber": 1060000,
+          "silver": 245000
+        },
+        "1378684720666": {
+          "food": 1120000
+        },
+        "1378684677949": {
+          "iron": 3870000,
+          "lumber": 1129592,
+          "stone": 87268,
+          "tractates": 73,
+          "food": 2025000
+        },
+        "1378684571224": {
+          "silver": 8797480,
+          "lumber": 7560000,
+          "iron": 1863000,
+          "stone": 3726000
+        },
+        "1378684782941": {
+          "food": 1935000,
+          "stone": 1720679,
+          "iron": 1003699,
+          "tractates": 174
+        },
+        "1378684512198": {
+          "lumber": 84536,
+          "stone": 85079,
+          "iron": 97498
+        },
+        "1378684777316": {
+          "food": 1672000,
+          "lumber": 113192,
+          "iron": 103440,
+          "stone": 104155,
+          "silver": 509974
+        },
+        "1378684580491": {
+          "food": 2016000,
+          "stone": 3423981,
+          "lumber": 1962000,
+          "tractates": 186
+        },
+        "1378684730919": {
+          "lumber": 2509711,
+          "iron": 2020628,
+          "stone": 1004807,
+          "food": 1513317,
+          "tractates": 163
+        },
+        "1378684646883": {
+          "food": 5976000,
+          "silver": 5886000,
+          "tractates": 252405,
+          "lumber": 4086000,
+          "stone": 3996000,
+          "iron": 6426000
+        },
+        "1378684742203": {
+          "food": 4140000,
+          "tractates": 23
+        },
+        "1378684519676": {
+          "stone": 626603,
+          "food": 1224794,
+          "silver": 622599,
+          "lumber": 603409,
+          "iron": 621879,
+          "tractates": 251428
+        },
+        "1378684614935": {
+          "lumber": 1003528,
+          "silver": 1014842,
+          "iron": 974259
+        },
+        "1378684708040": {
+          "iron": 250000,
+          "lumber": 280894,
+          "food": 400000,
+          "tractates": 20
+        },
+        "1378684690306": {
+          "stone": 128912,
+          "food": 369989,
+          "iron": 212402
+        },
+        "1378684622857": {
+          "iron": 1917000,
+          "stone": 1917000,
+          "food": 1917000,
+          "lumber": 1917000,
+          "tractates": 184
+        },
+        "1378684690315": {
+          "tractates": 256746,
+          "stone": 5486000,
+          "iron": 5486000,
+          "lumber": 5486000
+        },
+        "1378684725045": {
+          "tractates": 26
+        },
+        "1378684797730": {
+          "tractates": 502887
+        },
+        "1378684691643": {
+          "silver": 1971000,
+          "tractates": 899
+        },
+        "1378684656971": {
+          "tractates": 508048
+        },
+        "1378684628377": {
+          "food": 249946
+        },
+        "1378684521491": {
+          "tractates": 321
+        },
+        "1378684639872": {
+          "tractates": 1858
+        },
+        "1378684571585": {
+          "silver": 1006352,
+          "food": 1816113,
+          "stone": 1007702
+        },
+        "1378684651878": {
+          "tractates": 81
+        },
+        "1378684780963": {
+          "tractates": 333
+        },
+        "1378684603397": {
+          "tractates": 119
+        },
+        "1378684502926": {
+          "tractates": 8
+        },
+        "1378684712650": {
+          "tractates": 58
+        },
+        "1378684727394": {
+          "silver": 20000
+        },
+        "1378684737498": {
+          "lumber": 1680000,
+          "food": 1728000,
+          "stone": 1680000
+        },
+        "1378684749987": {
+          "iron": 1620885,
+          "lumber": 1019273,
+          "tractates": 223
+        },
+        "1378684666635": {
+          "tractates": 348
+        }
+      },
+      "chests": {
+        "1378684646883": {
+          "2026-09-21": 31,
+          "2026-09-22": 26,
+          "2026-09-23": 21
+        },
+        "1378684797730": {
+          "2026-09-21": 25,
+          "2026-09-22": 8,
+          "2026-09-23": 9,
+          "2026-09-24": 10
+        },
+        "1378684720666": {
+          "2026-09-21": 19,
+          "2026-09-22": 13,
+          "2026-09-23": 13,
+          "2026-09-24": 2
+        },
+        "1378684680194": {
+          "2026-09-21": 6,
+          "2026-09-22": 5,
+          "2026-09-23": 3,
+          "2026-09-24": 3
+        },
+        "1378684521491": {
+          "2026-09-21": 5,
+          "2026-09-22": 7,
+          "2026-09-23": 11,
+          "2026-09-24": 4
+        },
+        "1378684677949": {
+          "2026-09-21": 12,
+          "2026-09-22": 9,
+          "2026-09-23": 7,
+          "2026-09-24": 3
+        },
+        "1378684506197": {
+          "2026-09-21": 1
+        },
+        "1378684722389": {
+          "2026-09-21": 3,
+          "2026-09-23": 2,
+          "2026-09-22": 1,
+          "2026-09-24": 1
+        },
+        "1378684697100": {
+          "2026-09-21": 6,
+          "2026-09-22": 1,
+          "2026-09-23": 2,
+          "2026-09-24": 2
+        },
+        "1378684622857": {
+          "2026-09-21": 7,
+          "2026-09-22": 7,
+          "2026-09-23": 11
+        },
+        "1378684591930": {
+          "2026-09-21": 24,
+          "2026-09-22": 13,
+          "2026-09-23": 10,
+          "2026-09-24": 8
+        },
+        "1378684776561": {
+          "2026-09-21": 3,
+          "2026-09-24": 1
+        },
+        "1378684519676": {
+          "2026-09-21": 11,
+          "2026-09-22": 53,
+          "2026-09-23": 10
+        },
+        "1378684566364": {
+          "2026-09-21": 5,
+          "2026-09-22": 12,
+          "2026-09-23": 10
+        },
+        "1378684614935": {
+          "2026-09-21": 7,
+          "2026-09-22": 2,
+          "2026-09-23": 7,
+          "2026-09-24": 2
+        },
+        "1378684639872": {
+          "2026-09-21": 14,
+          "2026-09-22": 11,
+          "2026-09-23": 2
+        },
+        "1378684545780": {
+          "2026-09-21": 10,
+          "2026-09-22": 8,
+          "2026-09-23": 8
+        },
+        "1378684784647": {
+          "2026-09-21": 3,
+          "2026-09-22": 4,
+          "2026-09-23": 6,
+          "2026-09-24": 6
+        },
+        "1378684737098": {
+          "2026-09-21": 41,
+          "2026-09-22": 9,
+          "2026-09-23": 15,
+          "2026-09-24": 8
+        },
+        "1378684603397": {
+          "2026-09-21": 7,
+          "2026-09-23": 3
+        },
+        "1378684730919": {
+          "2026-09-21": 1
+        },
+        "1378684514657": {
+          "2026-09-21": 2,
+          "2026-09-22": 6
+        },
+        "1378684568874": {
+          "2026-09-21": 221,
+          "2026-09-22": 3,
+          "2026-09-23": 15,
+          "2026-09-24": 17
+        },
+        "1378684537558": {
+          "2026-09-21": 9,
+          "2026-09-22": 16,
+          "2026-09-23": 13
+        },
+        "1378684780963": {
+          "2026-09-21": 2,
+          "2026-09-22": 4,
+          "2026-09-23": 4
+        },
+        "1378684787925": {
+          "2026-09-21": 1,
+          "2026-09-22": 13,
+          "2026-09-23": 12,
+          "2026-09-24": 16
+        },
+        "1378684626681": {
+          "2026-09-21": 4,
+          "2026-09-22": 5,
+          "2026-09-23": 10
+        },
+        "1378684699264": {
+          "2026-09-21": 6,
+          "2026-09-22": 8,
+          "2026-09-23": 10
+        },
+        "1378684773294": {
+          "2026-09-21": 6,
+          "2026-09-23": 3,
+          "2026-09-22": 1
+        },
+        "1378684773181": {
+          "2026-09-21": 7,
+          "2026-09-22": 3,
+          "2026-09-23": 3
+        },
+        "1378684542793": {
+          "2026-09-21": 9,
+          "2026-09-22": 3,
+          "2026-09-23": 5
+        },
+        "1378684656971": {
+          "2026-09-21": 7,
+          "2026-09-22": 7,
+          "2026-09-23": 27,
+          "2026-09-24": 21
+        },
+        "1378684799791": {
+          "2026-09-21": 21,
+          "2026-09-22": 5,
+          "2026-09-23": 5
+        },
+        "1378684719021": {
+          "2026-09-21": 3,
+          "2026-09-22": 1,
+          "2026-09-23": 9
+        },
+        "1378684725045": {
+          "2026-09-21": 7,
+          "2026-09-22": 7,
+          "2026-09-23": 9
+        },
+        "1378684637563": {
+          "2026-09-21": 1,
+          "2026-09-22": 4,
+          "2026-09-23": 2
+        },
+        "1378684571224": {
+          "2026-09-21": 9,
+          "2026-09-22": 2,
+          "2026-09-23": 5,
+          "2026-09-24": 1
+        },
+        "1378684690315": {
+          "2026-09-21": 4,
+          "2026-09-22": 19,
+          "2026-09-23": 10,
+          "2026-09-24": 2
+        },
+        "1378684506286": {
+          "2026-09-21": 3,
+          "2026-09-22": 3,
+          "2026-09-23": 6
+        },
+        "1378684708040": {
+          "2026-09-21": 3,
+          "2026-09-22": 2,
+          "2026-09-23": 3,
+          "2026-09-24": 2
+        },
+        "1378684742203": {
+          "2026-09-21": 1,
+          "2026-09-22": 2,
+          "2026-09-23": 1
+        },
+        "1378684546217": {
+          "2026-09-21": 3,
+          "2026-09-22": 3,
+          "2026-09-23": 3,
+          "2026-09-24": 3
+        },
+        "1378684749987": {
+          "2026-09-21": 8,
+          "2026-09-22": 2,
+          "2026-09-23": 2
+        },
+        "1378684651878": {
+          "2026-09-21": 6,
+          "2026-09-22": 12,
+          "2026-09-23": 16,
+          "2026-09-24": 3
+        },
+        "1378684691643": {
+          "2026-09-21": 5,
+          "2026-09-22": 2,
+          "2026-09-23": 4
+        },
+        "1378684666635": {
+          "2026-09-21": 3,
+          "2026-09-22": 2,
+          "2026-09-23": 3
+        },
+        "1378684580491": {
+          "2026-09-21": 3,
+          "2026-09-22": 6,
+          "2026-09-23": 5,
+          "2026-09-24": 1
+        },
+        "1378684777316": {
+          "2026-09-22": 5,
+          "2026-09-21": 5,
+          "2026-09-23": 3,
+          "2026-09-24": 2
+        },
+        "1378684521861": {
+          "2026-09-22": 1
+        },
+        "1378684628377": {
+          "2026-09-22": 4,
+          "2026-09-23": 1,
+          "2026-09-24": 1
+        },
+        "1378684512198": {
+          "2026-09-22": 2,
+          "2026-09-21": 2,
+          "2026-09-23": 4,
+          "2026-09-24": 2
+        },
+        "1378684782941": {
+          "2026-09-22": 10,
+          "2026-09-23": 2,
+          "2026-09-24": 17
+        },
+        "1378684665159": {
+          "2026-09-21": 2,
+          "2026-09-22": 5,
+          "2026-09-23": 2,
+          "2026-09-24": 2
+        },
+        "1378684798233": {
+          "2026-09-21": 3,
+          "2026-09-23": 12
+        },
+        "1378684613683": {
+          "2026-09-22": 1,
+          "2026-09-23": 2
+        },
+        "1378684502926": {
+          "2026-09-22": 1,
+          "2026-09-23": 2,
+          "2026-09-24": 1
+        },
+        "1378684707081": {
+          "2026-09-22": 3
+        },
+        "1378684727394": {
+          "2026-09-23": 2,
+          "2026-09-24": 2
+        },
+        "1378684748097": {
+          "2026-09-23": 2,
+          "2026-09-22": 1
+        },
+        "1378684712650": {
+          "2026-09-22": 1,
+          "2026-09-23": 3
+        },
+        "1378684571585": {
+          "2026-09-23": 2
+        }
+      },
+      "speedups": {
+        "1378684680194": 228,
+        "1378684773181": 157,
+        "1378684626681": 436,
+        "1378684787925": 281,
+        "1378684691643": 1165,
+        "1378684521491": 407,
+        "1378684591930": 334,
+        "1378684545780": 573,
+        "1378684646883": 383,
+        "1378684749987": 144,
+        "1378684725045": 105,
+        "1378684566364": 305,
+        "1378684699264": 827,
+        "1378684742203": 137,
+        "1378684677949": 1,
+        "1378684777316": 412,
+        "1378684580491": 1010,
+        "1378684776561": 24,
+        "1378684665159": 9,
+        "1378684637563": 1381,
+        "1378684690315": 330,
+        "1378684656971": 503,
+        "1378684748097": 313,
+        "1378684782941": 306,
+        "1378684708040": 487,
+        "1378684707081": 1058,
+        "1378684537558": 48,
+        "1378684546217": 931,
+        "1378684568874": 205,
+        "1378684651878": 46
+      },
+      "endMights": {
+        "1378684787925": 13382765,
+        "1378684568874": 7469576,
+        "1378684656971": 3616635,
+        "1378684737098": 2409547,
+        "1378684707081": 2114661,
+        "1378684519676": 1374361,
+        "1378684537558": 1456647,
+        "1378684749987": 1125652,
+        "1378684646883": 1145719,
+        "1378684591930": 1073540,
+        "1378684799791": 986619,
+        "1378684797730": 1518598,
+        "1378684580491": 899049,
+        "1378684680194": 965148,
+        "1378684798233": 1119839,
+        "1378684782941": 800696,
+        "1378684545780": 800453,
+        "1378684639872": 728460,
+        "1378684566364": 881711,
+        "1378684690315": 906641,
+        "1378684708040": 738367,
+        "1378684571224": 539599,
+        "1378684666635": 496950,
+        "1378684780963": 459493,
+        "1378684637563": 409799,
+        "1378684691643": 423515,
+        "1378684773181": 410193,
+        "1378684742203": 370472,
+        "1378684784647": 396311,
+        "1378684546217": 401705,
+        "1378684720666": 436120,
+        "1378684665159": 367616,
+        "1378684699264": 390411,
+        "1378684722389": 435619,
+        "1378684677949": 344013,
+        "1378684748097": 332980,
+        "1378684542793": 426069,
+        "1378684730919": 410257,
+        "1378684613683": 311902,
+        "1378684521491": 288204,
+        "1378684603397": 294316,
+        "1378684651878": 320962,
+        "1378684622857": 288150,
+        "1378684521861": 326385,
+        "1378684628377": 277931,
+        "1378684776561": 250232,
+        "1378684719021": 266472,
+        "1378684598536": 224081,
+        "1378684514657": 221370,
+        "1378684506197": 206439,
+        "1378684626681": 222951,
+        "1378684777316": 219870,
+        "1378684780597": 200254,
+        "1378684512198": 234549,
+        "1378684506286": 204563,
+        "1378684690306": 195883,
+        "1378684712650": 207307,
+        "1378684502926": 220125,
+        "1378684727394": 160503,
+        "1378684737498": 159381,
+        "1378684614935": 204645,
+        "1378684697100": 164456,
+        "1378684725045": 167337,
+        "1378684773294": 175894,
+        "1378684652205": 102674,
+        "1378684604636": 87411,
+        "1378684786515": 63415,
+        "1378684571585": 625229
+      },
+      "inTerritory": [
+        "1378684787925",
+        "1378684568874",
+        "1378684656971",
+        "1378684737098",
+        "1378684707081",
+        "1378684797730",
+        "1378684537558",
+        "1378684519676",
+        "1378684646883",
+        "1378684749987",
+        "1378684798233",
+        "1378684591930",
+        "1378684799791",
+        "1378684680194",
+        "1378684690315",
+        "1378684580491",
+        "1378684566364",
+        "1378684782941",
+        "1378684545780",
+        "1378684708040",
+        "1378684639872",
+        "1378684571585",
+        "1378684571224",
+        "1378684666635",
+        "1378684780963",
+        "1378684720666",
+        "1378684722389",
+        "1378684691643",
+        "1378684730919",
+        "1378684773181",
+        "1378684637563",
+        "1378684546217",
+        "1378684784647",
+        "1378684699264",
+        "1378684665159",
+        "1378684677949",
+        "1378684748097",
+        "1378684521861",
+        "1378684613683",
+        "1378684603397",
+        "1378684521491",
+        "1378684622857",
+        "1378684719021",
+        "1378684776561",
+        "1378684512198",
+        "1378684598536",
+        "1378684514657",
+        "1378684502926",
+        "1378684777316",
+        "1378684712650",
+        "1378684506197",
+        "1378684506286",
+        "1378684780597",
+        "1378684690306",
+        "1378684773294",
+        "1378684725045",
+        "1378684727394",
+        "1378684737498",
+        "1378684604636",
+        "1378684786515"
+      ],
+      "territoryOf": 67,
       "territoryGuessed": 0
     }
   },
@@ -7031,133 +9115,139 @@
       "mights": {
         "1378684787925": 1992176,
         "1378684568874": 1805449,
-        "1378684794055": 52496,
-        "1378684707081": 358343,
         "1378684656971": 466428,
+        "1378684737098": 116001,
+        "1378684707081": 358343,
+        "1378684797730": 208576,
         "1378684537558": 387454,
-        "1378684519676": 961381,
+        "1378684519676": 1374361,
+        "1378684646883": 1145719,
+        "1378684749987": 73824,
+        "1378684798233": 1119839,
         "1378684591930": 204363,
         "1378684799791": 319620,
-        "1378684797730": 208576,
-        "1378684749987": 73824,
-        "1378684580491": 270919,
-        "1378684646883": 708658,
-        "1378684736429": 533047,
         "1378684680194": 145940,
-        "1378684639872": 258264,
-        "1378684737098": 116001,
-        "1378684782941": 552659,
-        "1378684545780": 529286,
-        "1378684798233": 519620,
-        "1378684566364": 505881,
+        "1378684690315": 906641,
+        "1378684580491": 270919,
+        "1378684566364": 881711,
+        "1378684782941": 800696,
+        "1378684545780": 800453,
         "1378684708040": 151701,
+        "1378684639872": 258264,
+        "1378684571585": 625229,
         "1378684571224": 58924,
         "1378684666635": 233849,
-        "1378684546217": 141986,
-        "1378684742203": 243056,
-        "1378684637563": 107618,
         "1378684780963": 101357,
-        "1378684792656": 64086,
-        "1378684677949": 110166,
-        "1378684784647": 45433,
-        "1378684665159": 286354,
-        "1378684613683": 94229,
-        "1378684691643": 141753,
-        "1378684699264": 254464,
-        "1378684521491": 96951,
-        "1378684748097": 53602,
-        "1378684521861": 242807,
-        "1378684773181": 104464,
-        "1378684730919": 83524,
-        "1378684603397": 205471,
-        "1378684542793": 199359,
-        "1378684506197": 77335,
-        "1378684514657": 82968,
-        "1378684622857": 188411,
-        "1378684722389": 185551,
-        "1378684506286": 173629,
-        "1378684780597": 47556,
-        "1378684737498": 159221,
-        "1378684598536": 44811,
-        "1378684502926": 116485,
-        "1378684719021": 155203,
-        "1378684690306": 118503,
-        "1378684777316": 152505,
-        "1378684512198": 67523,
         "1378684720666": 62977,
-        "1378684712650": 134619,
-        "1378684614935": 132774,
+        "1378684722389": 435619,
+        "1378684542793": 426069,
+        "1378684691643": 141753,
+        "1378684730919": 83524,
+        "1378684773181": 104464,
+        "1378684637563": 107618,
+        "1378684546217": 141986,
+        "1378684784647": 45433,
+        "1378684699264": 390411,
+        "1378684742203": 243056,
+        "1378684665159": 367616,
+        "1378684677949": 110166,
+        "1378684748097": 53602,
+        "1378684521861": 326385,
+        "1378684651878": 320962,
+        "1378684613683": 94229,
+        "1378684603397": 294316,
+        "1378684521491": 96951,
+        "1378684622857": 288150,
+        "1378684628377": 277931,
+        "1378684719021": 266472,
+        "1378684776561": 250232,
+        "1378684512198": 67523,
+        "1378684598536": 44811,
+        "1378684626681": 222951,
+        "1378684514657": 82968,
+        "1378684502926": 116485,
+        "1378684777316": 219870,
+        "1378684712650": 207307,
+        "1378684506197": 77335,
+        "1378684614935": 204645,
+        "1378684506286": 204563,
+        "1378684780597": 47556,
+        "1378684690306": 118503,
+        "1378684773294": 175894,
         "1378684725045": 28195,
-        "1378684652205": 47908,
-        "1378684730172": 88463,
-        "1378684604636": 82959,
         "1378684697100": 42657,
+        "1378684727394": 160503,
+        "1378684737498": 159381,
+        "1378684604636": 82959,
         "1378684786515": 41347
       },
       "endMights": {
         "1378684787925": 8837967,
         "1378684568874": 4499509,
-        "1378684794055": 877843,
-        "1378684707081": 1188991,
         "1378684656971": 1281278,
+        "1378684737098": 230166,
+        "1378684707081": 1188991,
+        "1378684797730": 208576,
         "1378684537558": 883249,
-        "1378684519676": 961381,
+        "1378684519676": 1374361,
+        "1378684646883": 1145719,
+        "1378684749987": 616867,
+        "1378684798233": 1119839,
         "1378684591930": 568842,
         "1378684799791": 757309,
-        "1378684797730": 208576,
-        "1378684749987": 616867,
-        "1378684580491": 407809,
-        "1378684646883": 708658,
-        "1378684736429": 704720,
         "1378684680194": 376089,
-        "1378684639872": 529693,
-        "1378684737098": 230166,
-        "1378684782941": 552659,
-        "1378684545780": 529286,
-        "1378684798233": 519620,
-        "1378684566364": 505881,
+        "1378684690315": 906641,
+        "1378684580491": 407809,
+        "1378684566364": 881711,
+        "1378684782941": 800696,
+        "1378684545780": 800453,
         "1378684708040": 151701,
+        "1378684639872": 529693,
+        "1378684571585": 625229,
         "1378684571224": 310356,
         "1378684666635": 295958,
-        "1378684546217": 293651,
-        "1378684742203": 283667,
-        "1378684637563": 107618,
         "1378684780963": 268099,
-        "1378684792656": 222763,
-        "1378684677949": 188817,
-        "1378684784647": 158626,
-        "1378684665159": 286354,
-        "1378684613683": 229308,
-        "1378684691643": 226805,
-        "1378684699264": 254464,
-        "1378684521491": 210371,
-        "1378684748097": 154862,
-        "1378684521861": 242807,
-        "1378684773181": 195918,
-        "1378684730919": 123276,
-        "1378684603397": 205471,
-        "1378684542793": 199359,
-        "1378684506197": 94922,
-        "1378684514657": 142268,
-        "1378684622857": 188411,
-        "1378684722389": 185551,
-        "1378684506286": 173629,
-        "1378684780597": 92559,
-        "1378684737498": 159221,
-        "1378684598536": 50100,
-        "1378684502926": 122682,
-        "1378684719021": 155203,
-        "1378684690306": 118503,
-        "1378684777316": 152505,
-        "1378684512198": 68709,
         "1378684720666": 116197,
-        "1378684712650": 134619,
-        "1378684614935": 132774,
+        "1378684722389": 435619,
+        "1378684542793": 426069,
+        "1378684691643": 226805,
+        "1378684730919": 123276,
+        "1378684773181": 195918,
+        "1378684637563": 107618,
+        "1378684546217": 293651,
+        "1378684784647": 158626,
+        "1378684699264": 390411,
+        "1378684742203": 283667,
+        "1378684665159": 367616,
+        "1378684677949": 188817,
+        "1378684748097": 154862,
+        "1378684521861": 326385,
+        "1378684651878": 320962,
+        "1378684613683": 229308,
+        "1378684603397": 294316,
+        "1378684521491": 210371,
+        "1378684622857": 288150,
+        "1378684628377": 277931,
+        "1378684719021": 266472,
+        "1378684776561": 250232,
+        "1378684512198": 68709,
+        "1378684598536": 50100,
+        "1378684626681": 222951,
+        "1378684514657": 142268,
+        "1378684502926": 122682,
+        "1378684777316": 219870,
+        "1378684712650": 207307,
+        "1378684506197": 94922,
+        "1378684614935": 204645,
+        "1378684506286": 204563,
+        "1378684780597": 92559,
+        "1378684690306": 118503,
+        "1378684773294": 175894,
         "1378684725045": 80289,
-        "1378684652205": 80871,
-        "1378684730172": 88463,
-        "1378684604636": 87121,
         "1378684697100": 66088,
+        "1378684727394": 160503,
+        "1378684737498": 159381,
+        "1378684604636": 87121,
         "1378684786515": 55446
       },
       "lastDay": "2026-08-31",
@@ -7166,11 +9256,14 @@
         "Bantrius",
         "Bellona",
         "Bladefont",
+        "Elrining",
         "Elrodad",
         "Elrohan",
+        "Ironshaper",
         "Kathrirana",
         "Lirosin",
         "Lorduing",
+        "T",
         "igorinus I"
       ],
       "closed": true
@@ -7257,136 +9350,142 @@
         }
       },
       "mights": {
-        "1378684787925": 11890572,
-        "1378684568874": 6074426,
-        "1378684794055": 5487286,
-        "1378684707081": 1565651,
-        "1378684656971": 1438778,
-        "1378684537558": 1039284,
-        "1378684519676": 961381,
-        "1378684591930": 911722,
-        "1378684799791": 894599,
-        "1378684797730": 868778,
-        "1378684749987": 801485,
-        "1378684580491": 734124,
-        "1378684646883": 708658,
-        "1378684736429": 704720,
-        "1378684680194": 700010,
-        "1378684639872": 699736,
-        "1378684737098": 591375,
-        "1378684782941": 552659,
-        "1378684545780": 529286,
-        "1378684798233": 519620,
-        "1378684566364": 505881,
-        "1378684708040": 457118,
-        "1378684571224": 424846,
-        "1378684666635": 377153,
-        "1378684546217": 343742,
-        "1378684742203": 330752,
-        "1378684637563": 313382,
-        "1378684780963": 309065,
-        "1378684792656": 304413,
-        "1378684677949": 294978,
-        "1378684784647": 286548,
-        "1378684665159": 286354,
-        "1378684613683": 271438,
-        "1378684691643": 262825,
-        "1378684699264": 254464,
-        "1378684521491": 245673,
-        "1378684748097": 245552,
-        "1378684521861": 242807,
-        "1378684773181": 240816,
-        "1378684730919": 216416,
-        "1378684603397": 205471,
-        "1378684542793": 199359,
-        "1378684506197": 198182,
-        "1378684514657": 190243,
-        "1378684622857": 188411,
-        "1378684722389": 185551,
-        "1378684506286": 173629,
-        "1378684780597": 159679,
-        "1378684737498": 159221,
-        "1378684598536": 157734,
-        "1378684502926": 156269,
-        "1378684719021": 155203,
-        "1378684690306": 154524,
-        "1378684777316": 152505,
-        "1378684512198": 147376,
-        "1378684720666": 143027,
-        "1378684712650": 134619,
-        "1378684614935": 132774,
-        "1378684725045": 101681,
-        "1378684652205": 95099,
-        "1378684730172": 88463,
+        "1378684787925": 13382765,
+        "1378684568874": 7469576,
+        "1378684656971": 3616635,
+        "1378684737098": 2409547,
+        "1378684707081": 2114661,
+        "1378684797730": 1518598,
+        "1378684537558": 1456647,
+        "1378684519676": 1374361,
+        "1378684646883": 1145719,
+        "1378684749987": 1125652,
+        "1378684798233": 1119839,
+        "1378684591930": 1073540,
+        "1378684799791": 986619,
+        "1378684680194": 965148,
+        "1378684690315": 906641,
+        "1378684580491": 899049,
+        "1378684566364": 881711,
+        "1378684782941": 800696,
+        "1378684545780": 800453,
+        "1378684708040": 738367,
+        "1378684639872": 728460,
+        "1378684571585": 625229,
+        "1378684571224": 539599,
+        "1378684666635": 496950,
+        "1378684780963": 459493,
+        "1378684720666": 436120,
+        "1378684722389": 435619,
+        "1378684542793": 426069,
+        "1378684691643": 423515,
+        "1378684730919": 410257,
+        "1378684773181": 410193,
+        "1378684637563": 409799,
+        "1378684546217": 401705,
+        "1378684784647": 396311,
+        "1378684699264": 390411,
+        "1378684742203": 370472,
+        "1378684665159": 367616,
+        "1378684677949": 344013,
+        "1378684748097": 332980,
+        "1378684521861": 326385,
+        "1378684651878": 320962,
+        "1378684613683": 311902,
+        "1378684603397": 294316,
+        "1378684521491": 288204,
+        "1378684622857": 288150,
+        "1378684628377": 277931,
+        "1378684719021": 266472,
+        "1378684776561": 250232,
+        "1378684512198": 234549,
+        "1378684598536": 224081,
+        "1378684626681": 222951,
+        "1378684514657": 221370,
+        "1378684502926": 220125,
+        "1378684777316": 219870,
+        "1378684712650": 207307,
+        "1378684506197": 206439,
+        "1378684614935": 204645,
+        "1378684506286": 204563,
+        "1378684780597": 200254,
+        "1378684690306": 195883,
+        "1378684773294": 175894,
+        "1378684725045": 167337,
+        "1378684697100": 164456,
+        "1378684727394": 160503,
+        "1378684737498": 159381,
         "1378684604636": 87411,
-        "1378684697100": 86870,
-        "1378684786515": 63265
+        "1378684786515": 63415
       },
       "endMights": {
-        "1378684787925": 11890572,
-        "1378684568874": 6074426,
-        "1378684794055": 5487286,
-        "1378684707081": 1565651,
-        "1378684656971": 1438778,
-        "1378684537558": 1039284,
-        "1378684519676": 961381,
-        "1378684591930": 911722,
-        "1378684799791": 894599,
-        "1378684797730": 868778,
-        "1378684749987": 801485,
-        "1378684580491": 734124,
-        "1378684646883": 708658,
-        "1378684736429": 704720,
-        "1378684680194": 700010,
-        "1378684639872": 699736,
-        "1378684737098": 591375,
-        "1378684782941": 552659,
-        "1378684545780": 529286,
-        "1378684798233": 519620,
-        "1378684566364": 505881,
-        "1378684708040": 457118,
-        "1378684571224": 424846,
-        "1378684666635": 377153,
-        "1378684546217": 343742,
-        "1378684742203": 330752,
-        "1378684637563": 313382,
-        "1378684780963": 309065,
-        "1378684792656": 304413,
-        "1378684677949": 294978,
-        "1378684784647": 286548,
-        "1378684665159": 286354,
-        "1378684613683": 271438,
-        "1378684691643": 262825,
-        "1378684699264": 254464,
-        "1378684521491": 245673,
-        "1378684748097": 245552,
-        "1378684521861": 242807,
-        "1378684773181": 240816,
-        "1378684730919": 216416,
-        "1378684603397": 205471,
-        "1378684542793": 199359,
-        "1378684506197": 198182,
-        "1378684514657": 190243,
-        "1378684622857": 188411,
-        "1378684722389": 185551,
-        "1378684506286": 173629,
-        "1378684780597": 159679,
-        "1378684737498": 159221,
-        "1378684598536": 157734,
-        "1378684502926": 156269,
-        "1378684719021": 155203,
-        "1378684690306": 154524,
-        "1378684777316": 152505,
-        "1378684512198": 147376,
-        "1378684720666": 143027,
-        "1378684712650": 134619,
-        "1378684614935": 132774,
-        "1378684725045": 101681,
-        "1378684652205": 95099,
-        "1378684730172": 88463,
+        "1378684787925": 13382765,
+        "1378684568874": 7469576,
+        "1378684656971": 3616635,
+        "1378684737098": 2409547,
+        "1378684707081": 2114661,
+        "1378684797730": 1518598,
+        "1378684537558": 1456647,
+        "1378684519676": 1374361,
+        "1378684646883": 1145719,
+        "1378684749987": 1125652,
+        "1378684798233": 1119839,
+        "1378684591930": 1073540,
+        "1378684799791": 986619,
+        "1378684680194": 965148,
+        "1378684690315": 906641,
+        "1378684580491": 899049,
+        "1378684566364": 881711,
+        "1378684782941": 800696,
+        "1378684545780": 800453,
+        "1378684708040": 738367,
+        "1378684639872": 728460,
+        "1378684571585": 625229,
+        "1378684571224": 539599,
+        "1378684666635": 496950,
+        "1378684780963": 459493,
+        "1378684720666": 436120,
+        "1378684722389": 435619,
+        "1378684542793": 426069,
+        "1378684691643": 423515,
+        "1378684730919": 410257,
+        "1378684773181": 410193,
+        "1378684637563": 409799,
+        "1378684546217": 401705,
+        "1378684784647": 396311,
+        "1378684699264": 390411,
+        "1378684742203": 370472,
+        "1378684665159": 367616,
+        "1378684677949": 344013,
+        "1378684748097": 332980,
+        "1378684521861": 326385,
+        "1378684651878": 320962,
+        "1378684613683": 311902,
+        "1378684603397": 294316,
+        "1378684521491": 288204,
+        "1378684622857": 288150,
+        "1378684628377": 277931,
+        "1378684719021": 266472,
+        "1378684776561": 250232,
+        "1378684512198": 234549,
+        "1378684598536": 224081,
+        "1378684626681": 222951,
+        "1378684514657": 221370,
+        "1378684502926": 220125,
+        "1378684777316": 219870,
+        "1378684712650": 207307,
+        "1378684506197": 206439,
+        "1378684614935": 204645,
+        "1378684506286": 204563,
+        "1378684780597": 200254,
+        "1378684690306": 195883,
+        "1378684773294": 175894,
+        "1378684725045": 167337,
+        "1378684697100": 164456,
+        "1378684727394": 160503,
+        "1378684737498": 159381,
         "1378684604636": 87411,
-        "1378684697100": 86870,
-        "1378684786515": 63265
+        "1378684786515": 63415
       },
       "lastDay": "2026-07-31",
       "former": [
@@ -7401,142 +9500,146 @@
       "start": "2026-09",
       "donations": {
         "1378684677949": {
-          "lumber": 16484924,
-          "iron": 18575242,
-          "stone": 18117193,
-          "food": 25465596,
+          "lumber": 28758513,
+          "iron": 35803740,
+          "stone": 33478188,
+          "food": 37273596,
           "silver": 1749113,
-          "tractates": 420
+          "tractates": 606
         },
         "1378684637563": {
-          "lumber": 13752000,
-          "iron": 16303245,
-          "food": 31672000,
-          "tractates": 618,
-          "silver": 7288000,
-          "stone": 10568000
+          "lumber": 25288000,
+          "iron": 23719245,
+          "food": 68784000,
+          "tractates": 742,
+          "silver": 15528000,
+          "stone": 16336000
         },
         "1378684506197": {
-          "iron": 25700,
-          "stone": 68500,
-          "food": 133500,
-          "silver": 28400,
-          "lumber": 64700
+          "iron": 161700,
+          "stone": 190500,
+          "food": 268500,
+          "silver": 63400,
+          "lumber": 147700
         },
         "1378684591930": {
-          "stone": 9845934,
-          "iron": 9978931,
-          "lumber": 8424647,
-          "silver": 3400438,
-          "food": 10520000,
-          "tractates": 3412
+          "stone": 18751905,
+          "iron": 23215633,
+          "lumber": 17380170,
+          "silver": 14848259,
+          "food": 30188000,
+          "tractates": 8073
         },
         "1378684691643": {
-          "food": 7614000,
-          "lumber": 886528,
-          "iron": 187672,
-          "tractates": 126,
-          "silver": 10932000
+          "food": 13617000,
+          "lumber": 2920528,
+          "iron": 2131672,
+          "tractates": 1106,
+          "silver": 35317243,
+          "stone": 101975
         },
         "1378684537558": {
-          "silver": 43738134,
-          "food": 39900015,
-          "lumber": 18019850,
-          "iron": 13741072,
-          "stone": 13304722,
-          "tractates": 1151
+          "silver": 50538830,
+          "food": 49662095,
+          "lumber": 26176066,
+          "iron": 22278599,
+          "stone": 21702711,
+          "tractates": 1256312
         },
         "1378684512198": {
-          "iron": 98734,
-          "lumber": 554248,
-          "stone": 89874,
+          "iron": 196232,
+          "lumber": 638784,
+          "stone": 174953,
           "tractates": 16,
           "food": 993703
         },
         "1378684799791": {
-          "silver": 79975,
-          "lumber": 79975,
-          "iron": 41800,
-          "stone": 41800,
-          "food": 41800,
-          "tractates": 367
+          "silver": 173225,
+          "lumber": 173225,
+          "iron": 135050,
+          "stone": 135050,
+          "food": 135050,
+          "tractates": 1705
         },
         "1378684787925": {
-          "iron": 28263340,
-          "food": 196081884,
-          "lumber": 34721392,
-          "stone": 24840229,
-          "silver": 8428000,
-          "tractates": 255684
+          "iron": 50432808,
+          "food": 320958519,
+          "lumber": 79483832,
+          "stone": 97408012,
+          "silver": 16554028,
+          "tractates": 1025760
         },
         "1378684571224": {
-          "food": 6545403,
-          "iron": 4144575,
-          "lumber": 6078342,
-          "stone": 3745882,
-          "silver": 2820668,
-          "tractates": 231
+          "food": 21449403,
+          "iron": 8918934,
+          "lumber": 13638342,
+          "stone": 13053893,
+          "silver": 17104414,
+          "tractates": 630
         },
         "1378684748097": {
-          "lumber": 17184000,
-          "food": 14112000,
-          "iron": 16704000,
-          "stone": 18656000,
-          "tractates": 248,
+          "lumber": 25760000,
+          "food": 26208000,
+          "iron": 28576000,
+          "stone": 32448000,
+          "tractates": 3241,
           "silver": 5456846
         },
         "1378684568874": {
-          "iron": 2231672,
-          "stone": 2652556,
-          "lumber": 426440,
-          "food": 37828851,
-          "silver": 6895771,
-          "tractates": 282400
+          "iron": 2940801,
+          "stone": 3800455,
+          "lumber": 2034315,
+          "food": 61903851,
+          "silver": 7904464,
+          "tractates": 1050221
         },
         "1378684580491": {
-          "food": 18576488,
-          "stone": 5724790,
-          "lumber": 11664752,
-          "iron": 6601977,
+          "food": 26510301,
+          "stone": 16056802,
+          "lumber": 17322778,
+          "iron": 19699026,
           "silver": 1998456,
-          "tractates": 1580
+          "tractates": 1919
         },
         "1378684656971": {
-          "lumber": 24000000,
-          "iron": 24000000,
-          "food": 24000000,
-          "tractates": 258408,
-          "silver": 6000000,
-          "stone": 24000000
+          "lumber": 36000000,
+          "iron": 36000000,
+          "food": 36000000,
+          "tractates": 1017568,
+          "silver": 9000000,
+          "stone": 46000000
         },
         "1378684680194": {
-          "lumber": 5521429,
-          "food": 8823436,
-          "iron": 5311756,
-          "stone": 4372615,
-          "tractates": 490,
-          "silver": 757007
+          "lumber": 22790894,
+          "food": 15907436,
+          "iron": 26771622,
+          "stone": 22988470,
+          "tractates": 1817,
+          "silver": 1556363
         },
         "1378684737098": {
-          "lumber": 422794,
-          "tractates": 753531,
-          "silver": 615972,
-          "food": 693819,
-          "stone": 695556,
-          "iron": 709528
+          "lumber": 452157,
+          "tractates": 1521956,
+          "silver": 2698896,
+          "food": 1764443,
+          "stone": 725957,
+          "iron": 739429
         },
         "1378684797730": {
-          "stone": 863237,
-          "food": 3416291,
-          "silver": 755684,
-          "lumber": 538203,
-          "iron": 294707,
-          "tractates": 250000
+          "stone": 9994037,
+          "food": 11528291,
+          "silver": 2117132,
+          "lumber": 9920448,
+          "iron": 9429206,
+          "tractates": 1002887
         },
         "1378684613683": {
-          "lumber": 1772047,
+          "lumber": 1905489,
           "silver": 1023592,
-          "iron": 461319
+          "iron": 1076541,
+          "food": 3888000,
+          "stone": 117305,
+          "tractates": 129
         },
         "1378684604636": {
           "iron": 2569648,
@@ -7546,38 +9649,38 @@
           "food": 3248000
         },
         "1378684742203": {
-          "silver": 9442958,
-          "iron": 18704368,
-          "stone": 9872475,
-          "food": 9621116,
-          "lumber": 11333902,
-          "tractates": 176
+          "silver": 17667349,
+          "iron": 20774368,
+          "stone": 16062475,
+          "food": 24061116,
+          "lumber": 19583902,
+          "tractates": 3112
         },
         "1378684566364": {
-          "iron": 2708290,
-          "lumber": 608785,
-          "tractates": 154,
-          "food": 2350510,
-          "silver": 667680,
-          "stone": 1049934
+          "iron": 4830768,
+          "lumber": 5554456,
+          "tractates": 773452,
+          "food": 8378983,
+          "silver": 2557788,
+          "stone": 2598244
         },
         "1378684708040": {
-          "iron": 386652,
-          "lumber": 227232,
-          "food": 262574,
+          "iron": 636652,
+          "lumber": 508126,
+          "food": 662574,
           "stone": 255000,
-          "tractates": 5
+          "tractates": 25
         },
         "1378684773181": {
-          "tractates": 603,
-          "iron": 303549,
-          "lumber": 302374,
-          "silver": 304259,
-          "food": 306199,
-          "stone": 301983
+          "tractates": 1261,
+          "iron": 1020659,
+          "lumber": 1014868,
+          "silver": 1033349,
+          "food": 1142084,
+          "stone": 1013300
         },
         "1378684794055": {
-          "tractates": 294349,
+          "tractates": 577913,
           "stone": 6499991,
           "food": 13015440,
           "lumber": 6669329,
@@ -7585,211 +9688,227 @@
           "iron": 3522986
         },
         "1378684749987": {
-          "lumber": 219916,
-          "stone": 623321,
-          "tractates": 885,
-          "iron": 102302,
+          "lumber": 2255004,
+          "stone": 1631327,
+          "tractates": 1237,
+          "iron": 2733483,
           "food": 500038
         },
         "1378684707081": {
-          "silver": 10564000,
-          "stone": 10564000,
-          "food": 12472000,
-          "lumber": 9232241,
-          "iron": 10564000,
-          "tractates": 252713
+          "silver": 16411753,
+          "stone": 13840000,
+          "food": 15608000,
+          "lumber": 15299726,
+          "iron": 16836000,
+          "tractates": 756373
         },
         "1378684780597": {
-          "lumber": 98649,
+          "lumber": 136637,
           "food": 130000,
-          "stone": 117726,
-          "iron": 130000
+          "stone": 133927,
+          "iron": 314584
         },
         "1378684786515": {
           "stone": 1177500,
-          "food": 1985500,
-          "iron": 2777500,
-          "lumber": 3264000
+          "food": 2809500,
+          "iron": 3601500,
+          "lumber": 4088000
         },
         "1378684777316": {
-          "iron": 217898,
-          "stone": 139804,
-          "lumber": 48206,
-          "silver": 97522,
-          "food": 375951
+          "iron": 426979,
+          "stone": 243959,
+          "lumber": 161398,
+          "silver": 1415225,
+          "food": 2971951,
+          "tractates": 19
         },
         "1378684690306": {
           "lumber": 178213,
-          "iron": 235336,
-          "food": 1846631,
-          "stone": 791825,
+          "iron": 447738,
+          "food": 2216620,
+          "stone": 1007357,
           "silver": 359044,
           "tractates": 28
         },
         "1378684665159": {
-          "food": 11685435,
-          "iron": 3960685,
+          "food": 17825435,
+          "iron": 4770685,
           "lumber": 6922489,
-          "stone": 4146000,
-          "silver": 4450000
+          "stone": 4856000,
+          "silver": 4540000
         },
         "1378684506286": {
-          "food": 1173314,
-          "stone": 1689132,
+          "food": 1422243,
+          "stone": 1789132,
           "silver": 1005766,
-          "iron": 2330039,
-          "lumber": 1936815
+          "iron": 2729914,
+          "lumber": 1946815,
+          "tractates": 53
         },
         "1378684639872": {
-          "iron": 92784,
-          "tractates": 1894,
-          "silver": 126048,
-          "lumber": 118732,
-          "stone": 188481
+          "iron": 187172,
+          "tractates": 20752,
+          "silver": 285064,
+          "lumber": 245145,
+          "stone": 210845,
+          "food": 371985
         },
         "1378684546217": {
-          "stone": 97000,
-          "food": 1100000,
-          "iron": 97000,
-          "lumber": 97000,
+          "stone": 616000,
+          "food": 1730000,
+          "iron": 699000,
+          "lumber": 1192000,
           "tractates": 436,
-          "silver": 335000
+          "silver": 580000
         },
         "1378684699264": {
-          "silver": 4214749,
-          "lumber": 3321584,
-          "food": 5637520,
-          "stone": 2187761,
-          "iron": 2267534
+          "silver": 4920130,
+          "lumber": 5788181,
+          "food": 10465429,
+          "stone": 3570250,
+          "iron": 3476581,
+          "tractates": 432
         },
         "1378684521491": {
-          "silver": 1800000,
-          "iron": 1800000,
-          "stone": 1800000,
-          "lumber": 1800800,
-          "food": 1800800
+          "silver": 2800000,
+          "iron": 2800000,
+          "stone": 2800000,
+          "lumber": 2800800,
+          "food": 2800800,
+          "tractates": 595
         },
         "1378684798233": {
-          "food": 7729774,
-          "stone": 1166097,
-          "lumber": 2621662,
-          "iron": 1575901,
-          "tractates": 368,
-          "silver": 106868
+          "food": 38271774,
+          "stone": 3240442,
+          "lumber": 7747174,
+          "iron": 7718215,
+          "tractates": 1344,
+          "silver": 868079
         },
         "1378684697100": {
-          "silver": 5062901
+          "silver": 12741085,
+          "lumber": 1016207,
+          "food": 3349142,
+          "iron": 5144683,
+          "stone": 3122550
         },
         "1378684730919": {
-          "lumber": 3048380,
-          "iron": 1005660,
-          "stone": 2530461,
-          "tractates": 46,
-          "food": 1528650
+          "lumber": 5558091,
+          "iron": 3026288,
+          "stone": 3535268,
+          "tractates": 213,
+          "food": 3041967
         },
         "1378684545780": {
-          "food": 15024000,
-          "silver": 4776000,
-          "stone": 1500000,
-          "lumber": 900000,
-          "iron": 1100000,
+          "food": 34368000,
+          "silver": 4976000,
+          "stone": 20908000,
+          "lumber": 22696000,
+          "iron": 12532000,
           "tractates": 919
         },
         "1378684719021": {
-          "iron": 1283,
-          "food": 2212556,
-          "silver": 125285,
-          "lumber": 528836
+          "iron": 678589,
+          "food": 8012910,
+          "silver": 999983,
+          "lumber": 1999659,
+          "stone": 2175336,
+          "tractates": 416
         },
         "1378684514657": {
-          "lumber": 682041,
+          "lumber": 983300,
           "stone": 213564,
-          "iron": 784681,
-          "silver": 136622,
-          "food": 353550
+          "iron": 1090515,
+          "silver": 484780,
+          "food": 353550,
+          "tractates": 35
         },
         "1378684720666": {
           "tractates": 57,
-          "iron": 7626,
-          "stone": 7626,
-          "lumber": 7626,
-          "food": 516237,
+          "iron": 22026,
+          "stone": 50826,
+          "lumber": 22016,
+          "food": 1650637,
           "silver": 3030000
         },
         "1378684622857": {
-          "tractates": 126,
-          "lumber": 1515983,
-          "iron": 2206271,
-          "stone": 2439486,
-          "food": 3842290
+          "tractates": 437,
+          "lumber": 7571973,
+          "iron": 7215045,
+          "stone": 7429888,
+          "food": 8830067
         },
         "1378684519676": {
-          "silver": 828270,
-          "stone": 887020,
-          "lumber": 967308,
-          "food": 1028891,
-          "iron": 962490,
-          "tractates": 250323
+          "silver": 3021367,
+          "stone": 2985675,
+          "lumber": 3121839,
+          "food": 3817611,
+          "iron": 3010679,
+          "tractates": 752499
         },
         "1378684782941": {
           "lumber": 5046000,
-          "food": 8880000,
-          "stone": 10562539,
-          "iron": 6972000,
-          "silver": 3798000,
-          "tractates": 935
+          "food": 14721000,
+          "stone": 16135218,
+          "iron": 10908558,
+          "silver": 5724000,
+          "tractates": 1773
         },
         "1378684737498": {
-          "lumber": 3381815,
-          "iron": 5072000,
-          "food": 8432000,
+          "lumber": 10149815,
+          "iron": 6768000,
+          "food": 20288000,
           "tractates": 20,
-          "stone": 3408000
+          "stone": 6736000,
+          "silver": 3296000
         },
         "1378684780963": {
-          "lumber": 67834,
+          "lumber": 711332,
           "silver": 107960,
-          "tractates": 91,
-          "stone": 119368,
-          "iron": 94837
+          "tractates": 424,
+          "stone": 273559,
+          "iron": 411006
         },
         "1378684722389": {
-          "stone": 284842,
-          "iron": 69720,
-          "silver": 410026,
-          "food": 731214,
-          "lumber": 185849,
-          "tractates": 64
+          "stone": 719375,
+          "iron": 281947,
+          "silver": 1637176,
+          "food": 1709209,
+          "lumber": 596871,
+          "tractates": 4622
         },
         "1378684725045": {
-          "stone": 15000,
-          "food": 15000,
-          "silver": 15000,
-          "iron": 15000,
-          "lumber": 15000
+          "stone": 21500,
+          "food": 95000,
+          "silver": 22000,
+          "iron": 21500,
+          "lumber": 21500,
+          "tractates": 26
         },
         "1378684792656": {
           "tractates": 199,
-          "food": 1704000
+          "food": 1704000,
+          "stone": 1656000
         },
         "1378684784647": {
-          "tractates": 263,
-          "food": 704179,
-          "lumber": 46478,
-          "iron": 47871,
-          "stone": 51262
+          "tractates": 251201,
+          "food": 3008891,
+          "lumber": 71478,
+          "iron": 302922,
+          "stone": 81093,
+          "silver": 400000
         },
         "1378684646883": {
-          "silver": 3386106,
-          "iron": 1529435,
-          "stone": 1156937,
-          "food": 7154501,
-          "tractates": 252095,
-          "lumber": 1766054
+          "silver": 13986465,
+          "iron": 9111054,
+          "stone": 6782629,
+          "food": 24092244,
+          "tractates": 757587,
+          "lumber": 7143273
         },
         "1378684666635": {
-          "tractates": 381,
-          "food": 5343774,
+          "tractates": 1402,
+          "food": 6270015,
           "iron": 158388,
           "lumber": 451957
         },
@@ -7798,168 +9917,261 @@
           "food": 80895
         },
         "1378684598536": {
-          "tractates": 25
+          "tractates": 25,
+          "stone": 100000,
+          "lumber": 100000,
+          "iron": 100000
         },
         "1378684603397": {
-          "stone": 33610,
-          "food": 9000
+          "stone": 496516,
+          "food": 235761,
+          "lumber": 596847,
+          "iron": 508793,
+          "tractates": 223
         },
         "1378684502926": {
-          "stone": 14290,
-          "iron": 20767,
+          "stone": 22715,
+          "iron": 29195,
           "silver": 6477,
-          "tractates": 182,
-          "lumber": 7813,
-          "food": 7813
+          "tractates": 234,
+          "lumber": 16241,
+          "food": 16238
         },
         "1378684521861": {
-          "silver": 10962000,
+          "silver": 18414000,
           "lumber": 3654000,
-          "food": 20133000,
-          "tractates": 138
+          "food": 25722000,
+          "tractates": 452
         },
         "1378684730172": {
-          "tractates": 40
+          "tractates": 52,
+          "lumber": 125744,
+          "iron": 153503,
+          "stone": 585145,
+          "food": 1009923
         },
-        "1378684712650": {},
-        "1378684542793": {},
+        "1378684712650": {
+          "stone": 24185,
+          "iron": 25749,
+          "lumber": 32612,
+          "food": 19213,
+          "tractates": 58
+        },
+        "1378684542793": {
+          "lumber": 261153,
+          "food": 1187555,
+          "stone": 244844,
+          "iron": 313021
+        },
         "1378684614935": {
-          "stone": 1030583
+          "stone": 2053881,
+          "food": 1008325,
+          "silver": 2335992,
+          "lumber": 4031327,
+          "iron": 1945565
+        },
+        "1378684690315": {
+          "food": 8744430,
+          "lumber": 17758481,
+          "iron": 18612183,
+          "stone": 18014430,
+          "silver": 7452000,
+          "tractates": 523961
+        },
+        "1378684773294": {
+          "lumber": 1849134,
+          "stone": 572045,
+          "food": 6229804,
+          "silver": 263628,
+          "tractates": 43,
+          "iron": 48602
+        },
+        "1378684626681": {
+          "food": 1590573,
+          "lumber": 411148,
+          "silver": 120368,
+          "stone": 276692,
+          "iron": 133236,
+          "tractates": 248
+        },
+        "1378684727394": {
+          "lumber": 8000,
+          "iron": 8000,
+          "stone": 8000,
+          "silver": 20000
+        },
+        "1378684776561": {
+          "food": 2062901,
+          "lumber": 1593158,
+          "stone": 172711,
+          "silver": 500027
+        },
+        "1378684628377": {
+          "silver": 49850,
+          "iron": 204082,
+          "stone": 200714,
+          "lumber": 202799,
+          "food": 550293
+        },
+        "1378684651878": {
+          "stone": 450942,
+          "iron": 354428,
+          "silver": 317200,
+          "food": 804908,
+          "lumber": 711792,
+          "tractates": 81
+        },
+        "1378684571585": {
+          "silver": 1006352,
+          "food": 1816113,
+          "stone": 1007702
         }
       },
       "mights": {
         "1378684787925": 9059697,
         "1378684568874": 4607999,
-        "1378684794055": 1263187,
-        "1378684707081": 1242261,
         "1378684656971": 1323658,
+        "1378684737098": 230576,
+        "1378684707081": 1242261,
+        "1378684797730": 218165,
         "1378684537558": 917049,
         "1378684519676": 528669,
+        "1378684646883": 307873,
+        "1378684749987": 618737,
+        "1378684798233": 401824,
         "1378684591930": 606472,
         "1378684799791": 790259,
-        "1378684797730": 218165,
-        "1378684749987": 618737,
-        "1378684580491": 446294,
-        "1378684646883": 307873,
-        "1378684736429": 704720,
         "1378684680194": 409061,
-        "1378684639872": 530076,
-        "1378684737098": 230576,
+        "1378684690315": 194305,
+        "1378684580491": 446294,
+        "1378684566364": 325996,
         "1378684782941": 329436,
         "1378684545780": 429599,
-        "1378684798233": 401824,
-        "1378684566364": 325996,
         "1378684708040": 189482,
+        "1378684639872": 530076,
+        "1378684571585": 625229,
         "1378684571224": 320066,
         "1378684666635": 299798,
-        "1378684546217": 295311,
-        "1378684742203": 285165,
-        "1378684637563": 122134,
         "1378684780963": 282413,
-        "1378684792656": 223733,
-        "1378684677949": 204547,
-        "1378684784647": 159911,
-        "1378684665159": 159678,
-        "1378684613683": 237668,
+        "1378684720666": 116382,
+        "1378684722389": 121690,
+        "1378684542793": 171109,
         "1378684691643": 233411,
+        "1378684730919": 140077,
+        "1378684773181": 196270,
+        "1378684637563": 122134,
+        "1378684546217": 295311,
+        "1378684784647": 159911,
         "1378684699264": 200077,
-        "1378684521491": 211386,
+        "1378684742203": 285165,
+        "1378684665159": 159678,
+        "1378684677949": 204547,
         "1378684748097": 155512,
         "1378684521861": 174237,
-        "1378684773181": 196270,
-        "1378684730919": 140077,
+        "1378684651878": 245963,
+        "1378684613683": 237668,
         "1378684603397": 130017,
-        "1378684542793": 171109,
-        "1378684506197": 109732,
-        "1378684514657": 150958,
+        "1378684521491": 211386,
         "1378684622857": 125089,
-        "1378684722389": 121690,
+        "1378684628377": 255375,
+        "1378684719021": 72777,
+        "1378684776561": 232259,
+        "1378684512198": 74844,
+        "1378684598536": 52626,
+        "1378684626681": 180404,
+        "1378684514657": 150958,
+        "1378684502926": 124429,
+        "1378684777316": 68775,
+        "1378684712650": 66495,
+        "1378684506197": 109732,
+        "1378684614935": 118885,
         "1378684506286": 161605,
         "1378684780597": 92859,
-        "1378684737498": 87012,
-        "1378684598536": 52626,
-        "1378684502926": 124429,
-        "1378684719021": 72777,
         "1378684690306": 123580,
-        "1378684777316": 68775,
-        "1378684512198": 74844,
-        "1378684720666": 116382,
-        "1378684712650": 66495,
-        "1378684614935": 118885,
+        "1378684773294": 119694,
         "1378684725045": 87421,
-        "1378684652205": 84999,
-        "1378684730172": 87188,
-        "1378684604636": 87411,
         "1378684697100": 66263,
+        "1378684727394": 159680,
+        "1378684737498": 87012,
+        "1378684604636": 87411,
         "1378684786515": 55601
       },
       "endMights": {
-        "1378684787925": 11890572,
-        "1378684568874": 6074426,
-        "1378684794055": 5487286,
-        "1378684707081": 1565651,
-        "1378684656971": 1438778,
-        "1378684537558": 1039284,
-        "1378684519676": 961381,
-        "1378684591930": 911722,
-        "1378684799791": 894599,
-        "1378684797730": 868778,
-        "1378684749987": 801485,
-        "1378684580491": 734124,
-        "1378684646883": 708658,
-        "1378684736429": 704720,
-        "1378684680194": 700010,
-        "1378684639872": 699736,
-        "1378684737098": 591375,
-        "1378684782941": 552659,
-        "1378684545780": 529286,
-        "1378684798233": 519620,
-        "1378684566364": 505881,
-        "1378684708040": 457118,
-        "1378684571224": 424846,
-        "1378684666635": 377153,
-        "1378684546217": 343742,
-        "1378684742203": 330752,
-        "1378684637563": 313382,
-        "1378684780963": 309065,
-        "1378684792656": 304413,
-        "1378684677949": 294978,
-        "1378684784647": 286548,
-        "1378684665159": 286354,
-        "1378684613683": 271438,
-        "1378684691643": 262825,
-        "1378684699264": 254464,
-        "1378684521491": 245673,
-        "1378684748097": 245552,
-        "1378684521861": 242807,
-        "1378684773181": 240816,
-        "1378684730919": 216416,
-        "1378684603397": 205471,
-        "1378684542793": 199359,
-        "1378684506197": 198182,
-        "1378684514657": 190243,
-        "1378684622857": 188411,
-        "1378684722389": 185551,
-        "1378684506286": 173629,
-        "1378684780597": 159679,
-        "1378684737498": 159221,
-        "1378684598536": 157734,
-        "1378684502926": 156269,
-        "1378684719021": 155203,
-        "1378684690306": 154524,
-        "1378684777316": 152505,
-        "1378684512198": 147376,
-        "1378684720666": 143027,
-        "1378684712650": 134619,
-        "1378684614935": 132774,
-        "1378684725045": 101681,
-        "1378684652205": 95099,
-        "1378684730172": 88463,
+        "1378684787925": 13382765,
+        "1378684568874": 7469576,
+        "1378684656971": 3616635,
+        "1378684737098": 2409547,
+        "1378684707081": 2114661,
+        "1378684797730": 1518598,
+        "1378684537558": 1456647,
+        "1378684519676": 1374361,
+        "1378684646883": 1145719,
+        "1378684749987": 1125652,
+        "1378684798233": 1119839,
+        "1378684591930": 1073540,
+        "1378684799791": 986619,
+        "1378684680194": 965148,
+        "1378684690315": 906641,
+        "1378684580491": 899049,
+        "1378684566364": 881711,
+        "1378684782941": 800696,
+        "1378684545780": 800453,
+        "1378684708040": 738367,
+        "1378684639872": 728460,
+        "1378684571585": 625229,
+        "1378684571224": 539599,
+        "1378684666635": 496950,
+        "1378684780963": 459493,
+        "1378684720666": 436120,
+        "1378684722389": 435619,
+        "1378684542793": 426069,
+        "1378684691643": 423515,
+        "1378684730919": 410257,
+        "1378684773181": 410193,
+        "1378684637563": 409799,
+        "1378684546217": 401705,
+        "1378684784647": 396311,
+        "1378684699264": 390411,
+        "1378684742203": 370472,
+        "1378684665159": 367616,
+        "1378684677949": 344013,
+        "1378684748097": 332980,
+        "1378684521861": 326385,
+        "1378684651878": 320962,
+        "1378684613683": 311902,
+        "1378684603397": 294316,
+        "1378684521491": 288204,
+        "1378684622857": 288150,
+        "1378684628377": 277931,
+        "1378684719021": 266472,
+        "1378684776561": 250232,
+        "1378684512198": 234549,
+        "1378684598536": 224081,
+        "1378684626681": 222951,
+        "1378684514657": 221370,
+        "1378684502926": 220125,
+        "1378684777316": 219870,
+        "1378684712650": 207307,
+        "1378684506197": 206439,
+        "1378684614935": 204645,
+        "1378684506286": 204563,
+        "1378684780597": 200254,
+        "1378684690306": 195883,
+        "1378684773294": 175894,
+        "1378684725045": 167337,
+        "1378684697100": 164456,
+        "1378684727394": 160503,
+        "1378684737498": 159381,
         "1378684604636": 87411,
-        "1378684697100": 86870,
-        "1378684786515": 63265
+        "1378684786515": 63415
       },
-      "lastDay": "2026-09-13",
+      "lastDay": "2026-09-24",
+      "former": [
+        "Elrining",
+        "Megrond",
+        "PeterPower",
+        "T"
+      ],
       "closed": false
     }
   }

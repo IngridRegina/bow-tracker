@@ -2285,6 +2285,33 @@
   opacity: 0.8;
 }
 
+/* Outstanding-payout tile: amber top edge when coins are still owed, green
+   once everyone is square. */
+.bt-stat-tile[data-tone="owed"] {
+  border-top-color: var(--bt-amber);
+}
+.bt-stat-tile[data-tone="clear"] {
+  border-top-color: var(--bt-green);
+}
+
+/* A member still owed dragon coins — the amount stands out and the row gets a
+   faint amber wash so the reconciliation table reads at a glance. */
+.bt-chest-row[data-owed="true"] {
+  background: var(--bt-amber-bg);
+}
+.bt-dragon-owed {
+  font-weight: 600;
+  color: var(--bt-amber-ink);
+}
+.bt-dragon-paid {
+  color: var(--bt-green-ink);
+}
+.bt-dragon-left {
+  color: var(--bt-ink-soft);
+  font-size: 12px;
+  opacity: 0.8;
+}
+
 @container (max-width: 620px) {
   .bt-stat-row {
     grid-template-columns: minmax(0, 1fr);
