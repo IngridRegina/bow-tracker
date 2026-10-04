@@ -1,0 +1,256 @@
+{
+  "_comment": "Clan prize pools (e.g. Dark Omens) that the game hands the whole clan as a single lump of dragon coins (a kind-9 event), which the leader then shares out by participation points. Each payout looks exactly like a normal tournament repayment in the captures (a kind-1 dragon-coin event), so build_state.py pulls the per-member shares recorded here out of 'received' and keeps them in a separate pool flow — otherwise they cancel tournament coins that were never actually repaid and hide who is still owed. 'coins' is what each member was paid from the pool; 'total' is what the clan received.",
+  "pools": [
+    {
+      "name": "Dark Omens",
+      "received": "2026-09-30",
+      "total": 210000,
+      "payouts": {
+        "1378684656971": {
+          "name": "Rili",
+          "coins": 73930
+        },
+        "1378684797730": {
+          "name": "Masho",
+          "coins": 28190
+        },
+        "1378684690315": {
+          "name": "RustyRagnar",
+          "coins": 24480
+        },
+        "1378684568874": {
+          "name": "Cordamath II",
+          "coins": 18670
+        },
+        "1378684737098": {
+          "name": "Katarina PL",
+          "coins": 8500
+        },
+        "1378684787925": {
+          "name": "Indira",
+          "coins": 7510
+        },
+        "1378684707081": {
+          "name": "Moondragon",
+          "coins": 5830
+        },
+        "1378684722389": {
+          "name": "Urkunina",
+          "coins": 3940
+        },
+        "1378684646883": {
+          "name": "Lilu",
+          "coins": 3000
+        },
+        "1378684537558": {
+          "name": "Morana",
+          "coins": 3000
+        },
+        "1378684545780": {
+          "name": "MrAlmizclero",
+          "coins": 2920
+        },
+        "1378684799791": {
+          "name": "Morgoth",
+          "coins": 2720
+        },
+        "1378684519676": {
+          "name": "Smoker",
+          "coins": 2390
+        },
+        "1378684749987": {
+          "name": "Felora",
+          "coins": 2240
+        },
+        "1378684666635": {
+          "name": "Eyvilas",
+          "coins": 1940
+        },
+        "1378684784647": {
+          "name": "Pentafilia",
+          "coins": 1940
+        },
+        "1378684713791": {
+          "name": "illy",
+          "coins": 1670
+        },
+        "1378684542024": {
+          "name": "rrrr4rr",
+          "coins": 1640
+        },
+        "1378684603397": {
+          "name": "Tylar",
+          "coins": 1290
+        },
+        "1378684798233": {
+          "name": "Wally505",
+          "coins": 1280
+        },
+        "1378684699264": {
+          "name": "Cohelm",
+          "coins": 1070
+        },
+        "1378684708040": {
+          "name": "Floyergus",
+          "coins": 970
+        },
+        "1378684521491": {
+          "name": "Meninad",
+          "coins": 950
+        },
+        "1378684591930": {
+          "name": "Mordriel",
+          "coins": 850
+        },
+        "1378684580491": {
+          "name": "Arelotilas",
+          "coins": 830
+        },
+        "1378684639872": {
+          "name": "Melinad",
+          "coins": 760
+        },
+        "1378684622857": {
+          "name": "Rod",
+          "coins": 640
+        },
+        "1378684680194": {
+          "name": "Karohan",
+          "coins": 630
+        },
+        "1378684780963": {
+          "name": "Painmoon",
+          "coins": 550
+        },
+        "1378684506286": {
+          "name": "Luchneen",
+          "coins": 520
+        },
+        "1378684665159": {
+          "name": "Serrallonga",
+          "coins": 470
+        },
+        "1378684773181": {
+          "name": "Taugal",
+          "coins": 440
+        },
+        "1378684776561": {
+          "name": "Kelera",
+          "coins": 420
+        },
+        "1378684566364": {
+          "name": "Eyneen",
+          "coins": 390
+        },
+        "1378684782941": {
+          "name": "Larry Michael",
+          "coins": 390
+        },
+        "1378684521861": {
+          "name": "Eyvilas",
+          "coins": 320
+        },
+        "1378684712650": {
+          "name": "Mogis",
+          "coins": 320
+        },
+        "1378684651878": {
+          "name": "Gavigar",
+          "coins": 300
+        },
+        "1378684730919": {
+          "name": "Nerneilas",
+          "coins": 250
+        },
+        "1378684720666": {
+          "name": "Sador",
+          "coins": 250
+        },
+        "1378684748097": {
+          "name": "Morad",
+          "coins": 200
+        },
+        "1378684626681": {
+          "name": "ironladyita",
+          "coins": 190
+        },
+        "1378684773294": {
+          "name": "Felor",
+          "coins": 160
+        },
+        "1378684637563": {
+          "name": "Xenos",
+          "coins": 160
+        },
+        "1378684677949": {
+          "name": "Zajac",
+          "coins": 140
+        },
+        "1378684691643": {
+          "name": "Sashura",
+          "coins": 120
+        },
+        "1378684719021": {
+          "name": "Arkayen",
+          "coins": 110
+        },
+        "1378684571224": {
+          "name": "Akinolabar",
+          "coins": 60
+        },
+        "1378684571585": {
+          "name": "Groshicage",
+          "coins": 60
+        },
+        "1378684546217": {
+          "name": "Tureglil",
+          "coins": 40
+        },
+        "1378684614935": {
+          "name": "Torin",
+          "coins": 30
+        },
+        "1378684502926": {
+          "name": "Daik",
+          "coins": 10
+        },
+        "1378684742203": {
+          "name": "Frostworker",
+          "coins": 10
+        },
+        "1378684554559": {
+          "name": "G0ku",
+          "coins": 10
+        },
+        "1378684777316": {
+          "name": "Galafiren",
+          "coins": 10
+        },
+        "1378684690306": {
+          "name": "Ildanen",
+          "coins": 10
+        },
+        "1378684613683": {
+          "name": "Keanef",
+          "coins": 10
+        },
+        "1378684514657": {
+          "name": "Keralak",
+          "coins": 10
+        },
+        "1378684737498": {
+          "name": "Morfir",
+          "coins": 10
+        },
+        "1378684727394": {
+          "name": "Steelkiller",
+          "coins": 10
+        },
+        "1378684512198": {
+          "name": "Zaddy",
+          "coins": 10
+        }
+      }
+    }
+  ]
+}

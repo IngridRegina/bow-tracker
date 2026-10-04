@@ -30,6 +30,12 @@ NAMES_FILE = "names.json"
 # someone used to be without this.
 NAME_HISTORY = "name-history.json"
 OVERRIDES_FILE = "overrides.json"
+# Clan prize pools (e.g. Dark Omens): a lump of dragon coins the game hands the
+# whole clan, shared out by the leader as ordinary-looking kind-1 payouts. The
+# per-member shares recorded here are lifted out of "received" so they don't
+# cancel tournament coins that were never actually repaid. See the dragon-coin
+# section in build() and prize-pools.json itself.
+PRIZE_POOLS_FILE = "prize-pools.json"
 # Who has ever been in the clan, and when we last saw them in it. The game
 # never says "X left" — departed members simply stop appearing in the roster —
 # so a leaving date can only be "the last day they were still listed".
@@ -434,6 +440,11 @@ def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
     if os.path.exists(OVERRIDES_FILE):
         overrides = {k: v for k, v in json.load(open(OVERRIDES_FILE, encoding="utf-8")).items() if k.isdigit()}
 
+    # Prize-pool distributions, pulled out of the dragon-coin reconciliation below.
+    prize_pools = {}
+    if os.path.exists(PRIZE_POOLS_FILE):
+        prize_pools = json.load(open(PRIZE_POOLS_FILE, encoding="utf-8"))
+
     prev_state = {}
     if os.path.exists(STATE_FILE):
         prev_state = json.load(open(STATE_FILE, encoding="utf-8"))
@@ -793,9 +804,15 @@ def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
     # ledger to protect — so the stale keys are cleared first and then replaced,
     # which keeps re-runs idempotent even for a week whose only event was a
     # distribution (and so no longer writes a dragonCoins entry at all).
+    #
+    # A third flow, "dragonCoinsPool", is carved out of received afterwards: a
+    # clan competition prize (see prize-pools.json) is paid out as kind-1 events
+    # indistinguishable from a tournament repayment, so left in received it would
+    # cancel tournament coins that were never actually repaid. It too is cleared
+    # and rebuilt each run.
     DRAGON_FIELDS = {4: "dragonCoins", 1: "dragonCoinsReceived"}
     for w in weeks.values():
-        for field in DRAGON_FIELDS.values():
+        for field in list(DRAGON_FIELDS.values()) + ["dragonCoinsPool"]:
             w.pop(field, None)
 
     from_dragon = {}
@@ -818,6 +835,56 @@ def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
         w = week_for(key)
         for field, per_player in fields.items():
             w[field] = per_player
+
+    # Carve each prize pool's per-member shares out of received and into their
+    # own flow. The shares are hand-recorded (prize-pools.json) because nothing
+    # in the capture tells a pool payout apart from a tournament repayment — both
+    # are kind-1 events on resource 31. We take the share off the member's
+    # received on the day the pool was paid, spilling to their other days that
+    # week only if a payout happened to be split across days, so what remains in
+    # received is the tournament repayment alone.
+    dragon_pools = []
+    for pool in prize_pools.get("pools", []):
+        pool_day = pool["received"]
+        w = week_for(pool_day)
+        received = w.get("dragonCoinsReceived", {})
+        pool_flow = w.setdefault("dragonCoinsPool", {})
+        distributed = 0
+        orphan = 0
+        for pid, info in pool.get("payouts", {}).items():
+            coins = info.get("coins", 0) if isinstance(info, dict) else info
+            if not coins:
+                continue
+            distributed += coins
+            remaining = coins
+            member_recv = received.get(pid, {})
+            # Pool day first, then the rest of the week, so a clean same-day
+            # payout is moved exactly and never dips into another day's coins.
+            for d in sorted(member_recv, key=lambda d: (d != pool_day, d)):
+                take = min(member_recv[d], remaining)
+                if not take:
+                    continue
+                member_recv[d] -= take
+                remaining -= take
+                day_flow = pool_flow.setdefault(pid, {})
+                day_flow[d] = day_flow.get(d, 0) + take
+                if member_recv[d] == 0:
+                    del member_recv[d]
+                if remaining == 0:
+                    break
+            if not member_recv:
+                received.pop(pid, None)
+            # A share with no matching received event (never captured, or paid
+            # outside the recorded flow) still counts as handed out.
+            if remaining:
+                day_flow = pool_flow.setdefault(pid, {})
+                day_flow[pool_day] = day_flow.get(pool_day, 0) + remaining
+                orphan += remaining
+        dragon_pools.append({"name": pool["name"], "received": pool_day,
+                             "total": pool.get("total", distributed), "distributed": distributed})
+        note = f"; {orphan} with no matching payout in the captures" if orphan else ""
+        print(f"prize pool '{pool['name']}': {distributed} of {pool.get('total', distributed)} "
+              f"distributed across {len(pool.get('payouts', {}))} member(s){note}")
 
     # The donation target is a share of might, and might climbs all week, so
     # measuring against the current figure moves the goalposts: give exactly
@@ -988,7 +1055,7 @@ def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
 
     state = {"generatedAt": generated_at, "capital": list(capital), "members": members,
              "formerMembers": former_members, "currentWeek": current, "weeks": weeks,
-             "months": months}
+             "months": months, "dragonPools": dragon_pools}
     json.dump(state, open("public/tracker-state.json", "w", encoding="utf-8"), indent=2)
 
     print(f"members: {len(members)}   weeks: {len(weeks)}   current: {current}")

@@ -213,6 +213,14 @@ const T = {
     dragonNoPlayers: "No coins earned in this span.",
     dragonNoReceived: "No coins distributed in this span.",
     dragonEmpty: "No dragon coin data yet.",
+    dragonPoolsTitle: "Prize pools",
+    dragonPoolsIntro: "Dragon coins a clan competition awarded to the whole clan at once, shared out by participation. Kept apart from the tournament payouts above — otherwise these shares cancel tournament coins that were never actually repaid and hide who is still owed.",
+    dragonPoolReceived: (date) => `received ${date}`,
+    dragonPoolTotal: "awarded to the clan",
+    dragonPoolDistributed: "shared out",
+    dragonPoolRemaining: "not yet shared",
+    dragonPoolShareCol: "From pool",
+    dragonPoolEmpty: "No prize pools recorded yet.",
     mapTitle: "Where the clan is",
     mapIntro: (c, n) => `${n} members across ${c} countries. Pick a country on the map or in the list to see who is there.`,
     mapHint: "Nothing selected yet.",
@@ -420,6 +428,14 @@ const T = {
     dragonNoPlayers: "No se ganaron monedas en este periodo.",
     dragonNoReceived: "No se repartieron monedas en este periodo.",
     dragonEmpty: "Todavía no hay monedas de dragón registradas.",
+    dragonPoolsTitle: "Botes de premio",
+    dragonPoolsIntro: "Monedas de dragón que una competición otorgó al clan entero de una vez, repartidas según la participación. Se mantienen aparte de los repartos de torneo de arriba — si no, estas partes cancelarían monedas de torneo que en realidad nunca se devolvieron y ocultarían a quién se le sigue debiendo.",
+    dragonPoolReceived: (date) => `recibido ${date}`,
+    dragonPoolTotal: "otorgadas al clan",
+    dragonPoolDistributed: "repartidas",
+    dragonPoolRemaining: "sin repartir aún",
+    dragonPoolShareCol: "Del bote",
+    dragonPoolEmpty: "Todavía no hay botes de premio registrados.",
     mapTitle: "Dónde está el clan",
     mapIntro: (c, n) => `${n} miembros en ${c} países. Elige un país en el mapa o en la lista para ver quién está allí.`,
     mapHint: "Nada seleccionado todavía.",
@@ -627,6 +643,14 @@ const T = {
     dragonNoPlayers: "Nie zdobyto monet w tym okresie.",
     dragonNoReceived: "Nie rozdano monet w tym okresie.",
     dragonEmpty: "Brak danych o smoczych monetach.",
+    dragonPoolsTitle: "Pule nagród",
+    dragonPoolsIntro: "Smocze monety, które konkurs klanowy przyznał całemu klanowi naraz, rozdane według udziału. Trzymane osobno od wypłat turniejowych powyżej — inaczej te udziały zniwelowałyby monety turniejowe, których tak naprawdę nigdy nie zwrócono, i ukryłyby, komu wciąż się należy.",
+    dragonPoolReceived: (date) => `otrzymano ${date}`,
+    dragonPoolTotal: "przyznane klanowi",
+    dragonPoolDistributed: "rozdane",
+    dragonPoolRemaining: "jeszcze nierozdane",
+    dragonPoolShareCol: "Z puli",
+    dragonPoolEmpty: "Brak zarejestrowanych pul nagród.",
     mapTitle: "Gdzie jest klan",
     mapIntro: (c, n) => `${n} członków w ${c} krajach. Wybierz kraj na mapie lub z listy, aby zobaczyć, kto tam jest.`,
     mapHint: "Nic jeszcze nie wybrano.",
@@ -2606,7 +2630,7 @@ export default function App() {
             )}
             {view === "dragon" && (
               <Suspense fallback={<p className="bt-empty">{t.loading}</p>}>
-                <DragonCoinStats t={t} lang={lang} members={state.members} formerMembers={state.formerMembers} weeks={state.weeks} />
+                <DragonCoinStats t={t} lang={lang} members={state.members} formerMembers={state.formerMembers} weeks={state.weeks} dragonPools={state.dragonPools} />
               </Suspense>
             )}
             {view === "map" && (

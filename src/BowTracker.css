@@ -2317,6 +2317,9 @@
   font-size: 12px;
   opacity: 0.8;
 }
+.bt-dragon-pool + .bt-dragon-pool {
+  margin-top: 20px;
+}
 
 @container (max-width: 620px) {
   .bt-stat-row {
