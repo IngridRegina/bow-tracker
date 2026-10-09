@@ -134,6 +134,47 @@ export default function DragonCoinStats({ t, lang, members, formerMembers = [], 
   }, [members, formerMembers]);
   const currentIds = useMemo(() => new Set((members || []).map((m) => m.id)), [members]);
 
+  /* Two members can share a name (two "Eyvilas", two "Luchneen"), so every
+     name cell carries a tooltip that tells them apart — might first, since
+     that is the readiest fingerprint, then country and, for someone who has
+     left, the date last seen. Might for a former member is their last recorded
+     end-of-week reading, since the member row itself no longer carries one. */
+  const meta = useMemo(() => {
+    const lastMight = new Map();
+    Object.keys(weeks || {})
+      .sort()
+      .forEach((wk) => {
+        const em = weeks[wk].endMights || weeks[wk].mights || {};
+        Object.entries(em).forEach(([id, v]) => {
+          if (v) lastMight.set(id, v);
+        });
+      });
+    const cur = new Map((members || []).map((m) => [m.id, m]));
+    const fmr = new Map((formerMembers || []).map((m) => [m.id, m]));
+    const tip = new Map();
+    const short = new Map(); // a compact disambiguator for the player picker
+    nameById.forEach((_name, id) => {
+      const m = cur.get(id);
+      const f = fmr.get(id);
+      const might = (m && m.might) || lastMight.get(id) || (f && f.might);
+      const country = m && m.country;
+      const parts = [];
+      if (might) parts.push(`${t.fMight} ${fmt(might)}`);
+      if (country) parts.push(country);
+      if (f && f.lastSeen) parts.push(`${t.dragonLeftTag} ${shortDate(f.lastSeen, lang)}`);
+      tip.set(id, parts.join(" · "));
+      short.set(id, country || (might ? fmt(might) : id));
+    });
+    return { tip, short };
+  }, [weeks, members, formerMembers, nameById, t, lang]);
+
+  /* Names shared by more than one member, so the picker can flag only those. */
+  const dupNames = useMemo(() => {
+    const seen = new Map();
+    nameById.forEach((name) => seen.set(name, (seen.get(name) || 0) + 1));
+    return new Set([...seen].filter(([, n]) => n > 1).map(([name]) => name));
+  }, [nameById]);
+
   /* All-time reconciliation: what each member earned vs what they've been
      handed back. Anyone with either figure is listed; those still owed sort to
      the top so a missed payout is the first thing you see. */
@@ -284,7 +325,7 @@ export default function DragonCoinStats({ t, lang, members, formerMembers = [], 
             <tbody>
               {recon.rows.map((r) => (
                 <tr key={r.id} className="bt-chest-row" data-owed={r.outstanding > 0 ? "true" : undefined}>
-                  <td className="bt-res-name">
+                  <td className="bt-res-name" title={meta.tip.get(r.id) || undefined}>
                     {r.name}
                     {r.former && <span className="bt-dragon-left"> · {t.dragonLeftTag}</span>}
                   </td>
@@ -353,7 +394,7 @@ export default function DragonCoinStats({ t, lang, members, formerMembers = [], 
                 <tbody>
                   {poolRows.map((r) => (
                     <tr key={r.id} className="bt-chest-row">
-                      <td className="bt-res-name">
+                      <td className="bt-res-name" title={meta.tip.get(r.id) || undefined}>
                         {r.name}
                         {r.former && <span className="bt-dragon-left"> · {t.dragonLeftTag}</span>}
                       </td>
@@ -423,8 +464,8 @@ export default function DragonCoinStats({ t, lang, members, formerMembers = [], 
             <h3 className="bt-chart-title">{activeRow ? t.dragonPlayerChart(activeRow.name) : t.chestsPickPlayer}</h3>
             <select className="bt-week-select bt-select-light" value={activeId || ""} onChange={(e) => setSelectedId(e.target.value)}>
               {rows.map((r) => (
-                <option key={r.id} value={r.id}>
-                  {r.name}
+                <option key={r.id} value={r.id} title={meta.tip.get(r.id) || undefined}>
+                  {dupNames.has(r.name) ? `${r.name} · ${meta.short.get(r.id)}` : r.name}
                 </option>
               ))}
             </select>
@@ -457,7 +498,7 @@ export default function DragonCoinStats({ t, lang, members, formerMembers = [], 
                     onClick={() => setSelectedId(r.id)}
                     onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && setSelectedId(r.id)}
                   >
-                    <td className="bt-res-name">{r.name}</td>
+                    <td className="bt-res-name" title={meta.tip.get(r.id) || undefined}>{r.name}</td>
                     <td className="bt-res-given">{fmt(r.total)}</td>
                     <td className="bt-res-given">{r.daily.toFixed(1)}</td>
                     <td className="bt-res-given">{(r.daily * 7).toFixed(1)}</td>
