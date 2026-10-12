@@ -213,6 +213,7 @@ export default function DragonCoinStats({ t, lang, members, formerMembers = [], 
     return rows;
   }, [pool, nameById, currentIds]);
 
+  const [poolsOpen, setPoolsOpen] = useState(false);
   const [flow, setFlow] = useState("earned");
   const active = flow === "received" ? received : earned;
 
@@ -351,7 +352,25 @@ export default function DragonCoinStats({ t, lang, members, formerMembers = [], 
           reconciliation above so they cannot mask a real tournament debt. */}
       {(dragonPools.length > 0 || poolRows.length > 0) && (
         <div className="bt-card bt-chests-card">
-          <h3 className="bt-chart-title">{t.dragonPoolsTitle}</h3>
+          {/* Collapsed by default: prize pools are a one-off aside, not the
+              headline the payout reconciliation above is. */}
+          <button
+            type="button"
+            className="bt-pool-head"
+            onClick={() => setPoolsOpen((o) => !o)}
+            aria-expanded={poolsOpen}
+          >
+            <h3 className="bt-chart-title">{t.dragonPoolsTitle}</h3>
+            {dragonPools.length > 0 && (
+              <span className="bt-dragon-left bt-pool-head-sum">
+                {dragonPools.map((p) => p.name).join(", ")}
+              </span>
+            )}
+            <span className="bt-slot-toggle">{poolsOpen ? "−" : "+"}</span>
+          </button>
+
+          {poolsOpen && (
+          <>
           <p className="bt-timing-intro">{t.dragonPoolsIntro}</p>
 
           {dragonPools.map((p) => {
@@ -404,6 +423,8 @@ export default function DragonCoinStats({ t, lang, members, formerMembers = [], 
                 </tbody>
               </table>
             </ScrollTable>
+          )}
+          </>
           )}
         </div>
       )}

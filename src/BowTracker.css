@@ -2320,6 +2320,31 @@
 .bt-dragon-pool + .bt-dragon-pool {
   margin-top: 20px;
 }
+.bt-pool-head {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  width: 100%;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+}
+.bt-pool-head .bt-chart-title {
+  margin: 0;
+}
+.bt-pool-head-sum {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.bt-pool-head .bt-slot-toggle {
+  margin-left: auto;
+}
 
 @container (max-width: 620px) {
   .bt-stat-row {
