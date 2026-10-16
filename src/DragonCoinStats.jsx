@@ -134,10 +134,10 @@ export default function DragonCoinStats({ t, lang, members, formerMembers = [], 
   const currentIds = useMemo(() => new Set((members || []).map((m) => m.id)), [members]);
 
   /* Two members can share a name (two "Eyvilas", two "Luchneen"), so every
-     name cell carries a tooltip that tells them apart — might first, since
-     that is the readiest fingerprint, then country and, for someone who has
-     left, the date last seen. Might for a former member is their last recorded
-     end-of-week reading, since the member row itself no longer carries one. */
+     name cell carries a tooltip that tells them apart — their might, and for
+     someone who has left, the date last seen. Might for a former member is
+     their last recorded end-of-week reading, since the member row itself no
+     longer carries one. */
   const meta = useMemo(() => {
     const lastMight = new Map();
     Object.keys(weeks || {})
@@ -156,13 +156,11 @@ export default function DragonCoinStats({ t, lang, members, formerMembers = [], 
       const m = cur.get(id);
       const f = fmr.get(id);
       const might = (m && m.might) || lastMight.get(id) || (f && f.might);
-      const country = m && m.country;
       const parts = [];
       if (might) parts.push(`${t.fMight} ${fmt(might)}`);
-      if (country) parts.push(country);
       if (f && f.lastSeen) parts.push(`${t.dragonLeftTag} ${shortDate(f.lastSeen, lang)}`);
       tip.set(id, parts.join(" · "));
-      short.set(id, country || (might ? fmt(might) : id));
+      short.set(id, might ? fmt(might) : id);
     });
     return { tip, short };
   }, [weeks, members, formerMembers, nameById, t, lang]);

@@ -1,12 +1,8 @@
 import React, { useState, useEffect, useMemo, useCallback, lazy, Suspense } from "react";
 import { Anvil, Stone, TreePine, Wheat, Coins, Book } from "lucide-react";
-import { fmt, compact, fmtHours, countryName, locale, shortDate, MAX_MEMBERS } from "./format.js";
+import { fmt, compact, fmtHours, locale, shortDate, MAX_MEMBERS } from "./format.js";
 import "./BowTracker.css";
 
-/* The map carries the world atlas with it — around half the built bundle — so
-   it is a separate chunk fetched the first time that tab is opened rather than
-   on every visit to the ledger. */
-const WorldMap = lazy(() => import("./WorldMap.jsx"));
 const ChestStats = lazy(() => import("./ChestStats.jsx"));
 const DragonCoinStats = lazy(() => import("./DragonCoinStats.jsx"));
 
@@ -169,7 +165,6 @@ const T = {
 
     tabLedger: "Ledger",
     tabTiming: "Good times",
-    tabMap: "Map",
     tabChests: "Chests",
     chestsTitle: "Chests, day by day",
     chestsIntro: "Every chest the clan has produced, by day — the clan's total and each member's own rate.",
@@ -222,14 +217,6 @@ const T = {
     dragonPoolShareCol: "From pool",
     dragonPoolUnpaid: "not yet paid",
     dragonPoolEmpty: "No prize pools recorded yet.",
-    mapTitle: "Where the clan is",
-    mapIntro: (c, n) => `${n} members across ${c} countries. Pick a country on the map or in the list to see who is there.`,
-    mapHint: "Nothing selected yet.",
-    memberCount: (n) => `${n} member${n === 1 ? "" : "s"}`,
-    noCountry: (n) => (n === 1 ? "1 member has" : `${n} members have`) + " no country in their profile.",
-    notOnMap: (list) => `Not drawable on this map: ${list}.`,
-    fCountry: "Country",
-    fTimezone: "Timezone",
     fLastActive: "Last contribution",
     fJoined: "Joined",
     fWasCalled: "Previously",
@@ -239,9 +226,7 @@ const T = {
     mightRose: (n) => (n === 0 ? "rose today" : n === 1 ? "rose yesterday" : `rose ${n} days ago`),
     mightUntracked: "only one day tracked",
     inactiveWhy: (n) => `Might has not moved in ${n} days, and nothing has been donated, sped up or chested in that time either. Might alone is not enough — a member can play all day without shifting it — so the badge needs both.`,
-    unknownField: "not set",
     daysAgo: (n) => (n === 0 ? "today" : n === 1 ? "yesterday" : `${n} days ago`),
-    localTimeNow: (s) => `${s} their time`,
     timingTitle: "When is the clan awake?",
     timingIntro: "How many members have a local clock between 09:00 and midnight at each hour. Times are on your own clock, with UTC alongside.",
     timingBest: (n, total, times) => `Best coverage is ${n} of ${total}, at ${times}.`,
@@ -257,11 +242,7 @@ const T = {
     excludedNote: (n) =>
       `${n} member${n === 1 ? "" : "s"} left out as probably not around: might flat for ${STALL_DAYS}+ days, or nothing contributed in ${STALL_DAYS}+ days.`,
     topNote: `Counting only the clan's top ${TOP_N} by quality score, the same ranking the Ledger sorts on, so the two always agree about who they are.`,
-    localNow: "local",
     noTimezone: (n) => (n === 1 ? "1 member has" : `${n} members have`) + " no timezone set in their profile, and are left out of the counts.",
-    tzCaveat: (n) =>
-      "Timezones come from each member's game profile, which stores whatever their clock said when they filled it in, so it does not follow daylight saving. Each one is corrected against their country's real offset today" +
-      (n > 0 ? `, which currently moves ${n} of them by an hour.` : "."),
 
     formerTitle: "No longer in the clan",
     formerCount: (n) => `${n} member${n === 1 ? "" : "s"}`,
@@ -385,7 +366,6 @@ const T = {
 
     tabLedger: "Registro",
     tabTiming: "Buenas horas",
-    tabMap: "Mapa",
     tabChests: "Cofres",
     chestsTitle: "Cofres, día a día",
     chestsIntro: "Todos los cofres que ha conseguido el clan, por día — el total del clan y el ritmo de cada miembro.",
@@ -438,14 +418,6 @@ const T = {
     dragonPoolShareCol: "Del bote",
     dragonPoolUnpaid: "sin pagar",
     dragonPoolEmpty: "Todavía no hay botes de premio registrados.",
-    mapTitle: "Dónde está el clan",
-    mapIntro: (c, n) => `${n} miembros en ${c} países. Elige un país en el mapa o en la lista para ver quién está allí.`,
-    mapHint: "Nada seleccionado todavía.",
-    memberCount: (n) => `${n} miembro${n === 1 ? "" : "s"}`,
-    noCountry: (n) => (n === 1 ? "1 miembro no tiene" : `${n} miembros no tienen`) + " país en su perfil.",
-    notOnMap: (list) => `No se pueden dibujar en este mapa: ${list}.`,
-    fCountry: "País",
-    fTimezone: "Zona horaria",
     fLastActive: "Última aportación",
     fJoined: "Se unió",
     fWasCalled: "Antes",
@@ -455,9 +427,7 @@ const T = {
     mightRose: (n) => (n === 0 ? "subió hoy" : n === 1 ? "subió ayer" : `subió hace ${n} días`),
     mightUntracked: "solo un día registrado",
     inactiveWhy: (n) => `El poder no se mueve desde hace ${n} días, y en ese tiempo tampoco ha donado, acelerado ni hecho cofres. El poder por sí solo no basta — se puede jugar a diario sin moverlo — así que la etiqueta exige ambas cosas.`,
-    unknownField: "sin definir",
     daysAgo: (n) => (n === 0 ? "hoy" : n === 1 ? "ayer" : `hace ${n} días`),
-    localTimeNow: (s) => `${s} su hora`,
     timingTitle: "¿Cuándo está despierto el clan?",
     timingIntro: "Cuántos miembros tienen su hora local entre las 09:00 y medianoche en cada hora. Las horas son las de tu reloj, con UTC al lado.",
     timingBest: (n, total, times) => `La mejor cobertura es ${n} de ${total}, a las ${times}.`,
@@ -473,11 +443,7 @@ const T = {
     excludedNote: (n) =>
       `${n} miembro${n === 1 ? "" : "s"} fuera del recuento por parecer ausentes: poder sin cambios ${STALL_DAYS}+ días, o sin aportar nada en ${STALL_DAYS}+ días.`,
     topNote: `Contando solo a los ${TOP_N} mejores del clan por puntuación de calidad, la misma que ordena el Registro, así que ambos coinciden en quiénes son.`,
-    localNow: "local",
     noTimezone: (n) => `${n} miembro${n === 1 ? "" : "s"} sin zona horaria en su perfil, no se cuentan.`,
-    tzCaveat: (n) =>
-      "Las zonas horarias vienen del perfil de cada miembro, que guarda lo que marcaba su reloj al rellenarlo, así que no siguen el horario de verano. Cada una se corrige con el desfase real de su país hoy" +
-      (n > 0 ? `, lo que ahora mueve ${n} una hora.` : "."),
 
     formerTitle: "Ya no están en el clan",
     formerCount: (n) => `${n} miembro${n === 1 ? "" : "s"}`,
@@ -601,7 +567,6 @@ const T = {
 
     tabLedger: "Rejestr",
     tabTiming: "Dobre pory",
-    tabMap: "Mapa",
     tabChests: "Skrzynie",
     chestsTitle: "Skrzynie, dzień po dniu",
     chestsIntro: "Wszystkie skrzynie wyprodukowane przez klan, dzień po dniu — łączny wynik klanu i tempo każdego członka.",
@@ -654,14 +619,6 @@ const T = {
     dragonPoolShareCol: "Z puli",
     dragonPoolUnpaid: "do wypłaty",
     dragonPoolEmpty: "Brak zarejestrowanych pul nagród.",
-    mapTitle: "Gdzie jest klan",
-    mapIntro: (c, n) => `${n} członków w ${c} krajach. Wybierz kraj na mapie lub z listy, aby zobaczyć, kto tam jest.`,
-    mapHint: "Nic jeszcze nie wybrano.",
-    memberCount: (n) => `${n} ${plForm(n, "członek", "członkowie", "członków")}`,
-    noCountry: (n) => `${n} ${plForm(n, "członek nie ma", "członkowie nie mają", "członków nie ma")} kraju w swoim profilu.`,
-    notOnMap: (list) => `Nie można narysować na tej mapie: ${list}.`,
-    fCountry: "Kraj",
-    fTimezone: "Strefa czasowa",
     fLastActive: "Ostatni wkład",
     fJoined: "Dołączył",
     fWasCalled: "Wcześniej",
@@ -671,9 +628,7 @@ const T = {
     mightRose: (n) => (n === 0 ? "wzrosła dzisiaj" : n === 1 ? "wzrosła wczoraj" : `wzrosła ${n} ${plForm(n, "dzień", "dni", "dni")} temu`),
     mightUntracked: "śledzony tylko jeden dzień",
     inactiveWhy: (n) => `Potęga nie drgnęła od ${n} dni, a w tym czasie nie było też żadnych datków, przyspieszeń ani skrzyń. Sama potęga nie wystarczy — można grać codziennie i jej nie ruszać — więc odznaka wymaga obu rzeczy.`,
-    unknownField: "nie ustawiono",
     daysAgo: (n) => (n === 0 ? "dzisiaj" : n === 1 ? "wczoraj" : `${n} ${plForm(n, "dzień", "dni", "dni")} temu`),
-    localTimeNow: (s) => `${s} ich czasu`,
     timingTitle: "Kiedy klan nie śpi?",
     timingIntro: "Ilu członków ma lokalny czas między 09:00 a północą w danej godzinie. Godziny są według twojego zegara, z UTC obok.",
     timingBest: (n, total, times) => `Najlepsze pokrycie to ${n} z ${total}, o ${times}.`,
@@ -689,11 +644,7 @@ const T = {
     excludedNote: (n) =>
       `${n} ${plForm(n, "członek pominięty", "członkowie pominięci", "członków pominiętych")} jako prawdopodobnie nieobecni: potęga bez zmian od ${STALL_DAYS}+ dni lub brak wkładu od ${STALL_DAYS}+ dni.`,
     topNote: `Liczy się tylko ${TOP_N} najlepszych w klanie według oceny jakości — tej samej, według której sortuje Rejestr — więc oba zawsze zgadzają się co do tego, kim są.`,
-    localNow: "lokalnie",
     noTimezone: (n) => `${n} ${plForm(n, "członek nie ma", "członkowie nie mają", "członków nie ma")} ustawionej strefy czasowej w profilu, więc ${plForm(n, "jest pomijany", "są pomijani", "są pomijani")} w zliczeniach.`,
-    tzCaveat: (n) =>
-      "Strefy czasowe pochodzą z profilu każdego członka, który zapisuje to, co wskazywał zegar przy wypełnianiu, więc nie uwzględnia czasu letniego. Każda jest korygowana o rzeczywiste przesunięcie kraju na dziś" +
-      (n > 0 ? `, co obecnie przesuwa ${n} z nich o godzinę.` : "."),
 
     formerTitle: "Już nie w klanie",
     formerCount: (n) => `${n} ${plForm(n, "członek", "członkowie", "członków")}`,
@@ -1403,90 +1354,6 @@ function MonthBoard({ t, lang, members, months }) {
   );
 }
 
-/* ---- timezones -------------------------------------------------
-   The offset in a member's game profile cannot be trusted for daylight
-   saving. It reads like a value frozen when the profile was filled in: a
-   German who registered in winter reads UTC+1 (CET) and a Brit who registered
-   in summer also reads UTC+1 (BST), so the same number means different things.
-   Measured against this roster, 22 members were on their winter offset, 16 on
-   their current one, 10 could be either.
-
-   Resolving through the country's IANA zone instead gives the offset that is
-   right today, and stays right through every future DST change without a
-   rebuild, since the lookup happens in the browser. Zones are listed
-   most-populated first: that is the tie-break when a reported offset matches
-   more than one zone in the same country (US −7 is both Los Angeles now and
-   Denver in winter). */
-const COUNTRY_ZONES = {
-  AR: ["America/Argentina/Buenos_Aires"], AT: ["Europe/Vienna"],
-  AU: ["Australia/Sydney", "Australia/Melbourne", "Australia/Brisbane", "Australia/Perth", "Australia/Adelaide", "Australia/Darwin"],
-  BE: ["Europe/Brussels"], BG: ["Europe/Sofia"],
-  BR: ["America/Sao_Paulo", "America/Manaus", "America/Rio_Branco", "America/Noronha"],
-  CA: ["America/Toronto", "America/Vancouver", "America/Edmonton", "America/Winnipeg", "America/Halifax", "America/St_Johns"],
-  CH: ["Europe/Zurich"], CL: ["America/Santiago"], CN: ["Asia/Shanghai"], CO: ["America/Bogota"],
-  CZ: ["Europe/Prague"], DE: ["Europe/Berlin"], DK: ["Europe/Copenhagen"], DZ: ["Africa/Algiers"],
-  EE: ["Europe/Tallinn"], EG: ["Africa/Cairo"], ES: ["Europe/Madrid", "Atlantic/Canary"],
-  FI: ["Europe/Helsinki"], FR: ["Europe/Paris"], GB: ["Europe/London"], GR: ["Europe/Athens"],
-  HR: ["Europe/Zagreb"], HU: ["Europe/Budapest"], ID: ["Asia/Jakarta"], IE: ["Europe/Dublin"],
-  IL: ["Asia/Jerusalem"], IN: ["Asia/Kolkata"], IQ: ["Asia/Baghdad"], IR: ["Asia/Tehran"],
-  IT: ["Europe/Rome"], JP: ["Asia/Tokyo"], KR: ["Asia/Seoul"], KZ: ["Asia/Almaty"],
-  LT: ["Europe/Vilnius"], LV: ["Europe/Riga"], MA: ["Africa/Casablanca"], MX: ["America/Mexico_City", "America/Tijuana"],
-  MY: ["Asia/Kuala_Lumpur"], NG: ["Africa/Lagos"], NL: ["Europe/Amsterdam"], NO: ["Europe/Oslo"],
-  NZ: ["Pacific/Auckland"], PE: ["America/Lima"], PH: ["Asia/Manila"], PK: ["Asia/Karachi"],
-  PL: ["Europe/Warsaw"], PT: ["Europe/Lisbon", "Atlantic/Azores"], RO: ["Europe/Bucharest"],
-  RS: ["Europe/Belgrade"], RU: ["Europe/Moscow", "Asia/Yekaterinburg", "Asia/Novosibirsk", "Asia/Vladivostok"],
-  SA: ["Asia/Riyadh"], SE: ["Europe/Stockholm"], SG: ["Asia/Singapore"], SI: ["Europe/Ljubljana"],
-  SK: ["Europe/Bratislava"], TH: ["Asia/Bangkok"], TN: ["Africa/Tunis"], TR: ["Europe/Istanbul"],
-  UA: ["Europe/Kyiv"], UG: ["Africa/Kampala"],
-  US: ["America/New_York", "America/Chicago", "America/Los_Angeles", "America/Denver", "America/Phoenix", "America/Anchorage", "Pacific/Honolulu"],
-  UY: ["America/Montevideo"], VE: ["America/Caracas"], VN: ["Asia/Ho_Chi_Minh"],
-  YE: ["Asia/Aden"], ZA: ["Africa/Johannesburg"],
-};
-
-/* minutes east of UTC for a zone at an instant */
-function offsetAt(zone, date) {
-  try {
-    const name = new Intl.DateTimeFormat("en-GB", { timeZone: zone, timeZoneName: "longOffset" })
-      .formatToParts(date)
-      .find((p) => p.type === "timeZoneName").value;
-    const m = /GMT([+-])(\d{2}):(\d{2})/.exec(name);
-    return m ? (m[1] === "-" ? -1 : 1) * (+m[2] * 60 + +m[3]) : 0; // bare "GMT" is zero
-  } catch {
-    return null;
-  }
-}
-
-const zoneCache = new Map();
-function zoneInfo(zone) {
-  if (!zoneCache.has(zone)) {
-    const now = new Date();
-    const y = now.getUTCFullYear();
-    const cur = offsetAt(zone, now);
-    const jan = offsetAt(zone, new Date(Date.UTC(y, 0, 15)));
-    const jul = offsetAt(zone, new Date(Date.UTC(y, 6, 15)));
-    zoneCache.set(zone, cur == null ? null : { cur, std: Math.min(jan, jul), dst: cur - Math.min(jan, jul) });
-  }
-  return zoneCache.get(zone);
-}
-
-/* The offset to actually use for a member: their country's real offset right
-   now, falling back to the raw profile value when the country is unknown.
-   `matched` is false when the profile value lines up with no zone in that
-   country — the two pieces of self-reported data disagree, and we go with the
-   country. */
-function resolveOffset(country, reported) {
-  const zones = COUNTRY_ZONES[(country || "").toUpperCase()];
-  if (!zones) return { mins: reported, zone: null, matched: reported != null };
-  for (const z of zones) {
-    const i = zoneInfo(z);
-    if (i && (i.cur === reported || (i.std === reported && i.dst !== 0))) {
-      return { mins: i.cur, zone: z, matched: true };
-    }
-  }
-  const first = zoneInfo(zones[0]);
-  return first ? { mins: first.cur, zone: zones[0], matched: false } : { mins: reported, zone: null, matched: false };
-}
-
 /* ---- timing ---------------------------------------------------
    Which UTC hours fall inside most members' waking day. The window runs from
    09:00 local to midnight local, so — working in minutes past local midnight —
@@ -1539,21 +1406,10 @@ function looksInactive(m, asOf) {
   return quiet != null && quiet >= STALL_DAYS;
 }
 
-const nowUTCMinutes = () => {
-  const d = new Date();
-  return d.getUTCHours() * 60 + d.getUTCMinutes();
-};
-
-const offsetLabel = (mins) => {
-  const a = Math.abs(mins);
-  const rest = a % 60;
-  return `UTC${mins < 0 ? "−" : "+"}${Math.floor(a / 60)}${rest ? ":" + String(rest).padStart(2, "0") : ""}`;
-};
 
 function Timing({ t, members, week, prevWeek }) {
   const [order, setOrder] = useState("best");
   const [who, setWho] = useState("all");
-  const [open, setOpen] = useState(null);
 
   /* The clan's best members by the same quality score the ledger sorts on, so
      "top 15" means one thing across the whole site rather than two similar but
@@ -1591,43 +1447,30 @@ function Timing({ t, members, week, prevWeek }) {
     [who, isQuiet, topIds]
   );
 
-  // resolve each member to the offset that is correct today, not the one
-  // frozen in their profile
   const known = useMemo(
-    () =>
-      members
-        .filter(inScope)
-        .map((m) => ({ ...m, resolved: resolveOffset(m.country, m.utcOffset) }))
-        .filter((m) => m.resolved.mins != null),
+    () => members.filter(inScope).filter((m) => m.utcOffset != null),
     [members, inScope]
   );
   const counted = members.filter(inScope).length;
   const unknown = counted - known.length;
   const excluded = who === "active" ? members.length - counted : 0;
-  const shifted = known.filter((m) => m.utcOffset != null && m.resolved.mins !== m.utcOffset).length;
 
-  // one entry per distinct offset, so a row can explain its own number
+  // how many members sit at each UTC offset — counts only, never who
   const groups = useMemo(() => {
     const g = new Map();
-    known.forEach((m) => {
-      const off = m.resolved.mins;
-      if (!g.has(off)) g.set(off, []);
-      g.get(off).push(m.name);
-    });
-    return [...g.entries()]
-      .map(([off, names]) => ({ off, names: names.sort((a, b) => a.localeCompare(b)) }))
-      .sort((a, b) => a.off - b.off);
+    known.forEach((m) => g.set(m.utcOffset, (g.get(m.utcOffset) || 0) + 1));
+    return [...g.entries()].map(([off, count]) => ({ off, count }));
   }, [known]);
 
   const rows = useMemo(
     () =>
       Array.from({ length: 24 }, (_, hour) => {
-        const per = groups.map((g) => {
+        let n = 0;
+        groups.forEach((g) => {
           const local = (((hour * 60 + g.off) % 1440) + 1440) % 1440;
-          return { ...g, local, awake: local >= AWAKE_FROM };
+          if (local >= AWAKE_FROM) n += g.count;
         });
-        const n = per.reduce((a, g) => a + (g.awake ? g.names.length : 0), 0);
-        return { hour, per, n, pct: Math.round((n / Math.max(known.length, 1)) * 100) };
+        return { hour, n, pct: Math.round((n / Math.max(known.length, 1)) * 100) };
       }),
     [groups, known.length]
   );
@@ -1683,56 +1526,36 @@ function Timing({ t, members, week, prevWeek }) {
       </p>
 
       <div className="bt-slots">
-        {shown.map((r) => {
-          const isOpen = open === r.hour;
-          return (
-            <div
-              className="bt-slot"
-              key={r.hour}
-              data-tier={tierOf(r.pct)}
-              data-best={r.n === best ? "" : undefined}
-              data-reset={r.hour === BOUNDARY_UTC_HOUR ? "" : undefined}
-            >
-              <button className="bt-slot-head" onClick={() => setOpen(isOpen ? null : r.hour)} aria-expanded={isOpen}>
-                <span className="bt-slot-time">
-                  {hhmm(localOf(r.hour))}
-                  <span className="bt-slot-utc">({hhmm(r.hour * 60)} UTC)</span>
-                </span>
-                <span className="bt-slot-reset">{resetLabel(r.hour)}</span>
-                <span className="bt-slot-track">
-                  <span className="bt-slot-fill" style={{ "--bt-pct": `${r.pct}%` }} />
-                </span>
-                <span className="bt-slot-count">
-                  {r.n}
-                  <span className="bt-slot-total">/{known.length}</span> {t.membersAwake}
-                </span>
-                <span className="bt-slot-toggle">{isOpen ? "−" : "+"}</span>
-              </button>
-
-              {isOpen && (
-                <div className="bt-slot-detail">
-                  {r.per.map((g) => (
-                    <div className="bt-tzrow" key={g.off} data-awake={g.awake ? "" : undefined}>
-                      <span className="bt-tz-off">{offsetLabel(g.off)}</span>
-                      <span className="bt-tz-local">
-                        {hhmm(g.local)} {t.localNow}
-                      </span>
-                      <span className="bt-tz-names">{g.names.join(", ")}</span>
-                      <span className="bt-tz-flag">{g.awake ? "✓" : "✗"}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
+        {shown.map((r) => (
+          <div
+            className="bt-slot"
+            key={r.hour}
+            data-tier={tierOf(r.pct)}
+            data-best={r.n === best ? "" : undefined}
+            data-reset={r.hour === BOUNDARY_UTC_HOUR ? "" : undefined}
+          >
+            <div className="bt-slot-head">
+              <span className="bt-slot-time">
+                {hhmm(localOf(r.hour))}
+                <span className="bt-slot-utc">({hhmm(r.hour * 60)} UTC)</span>
+              </span>
+              <span className="bt-slot-reset">{resetLabel(r.hour)}</span>
+              <span className="bt-slot-track">
+                <span className="bt-slot-fill" style={{ "--bt-pct": `${r.pct}%` }} />
+              </span>
+              <span className="bt-slot-count">
+                {r.n}
+                <span className="bt-slot-total">/{known.length}</span> {t.membersAwake}
+              </span>
             </div>
-          );
-        })}
+          </div>
+        ))}
       </div>
 
       <p className="bt-rule-note">
         {who === "top" && `${t.topNote} `}
         {excluded > 0 && `${t.excludedNote(excluded)} `}
         {unknown > 0 && `${t.noTimezone(unknown)} `}
-        {t.tzCaveat(shifted)}
       </p>
     </section>
   );
@@ -1817,34 +1640,6 @@ function MemberRow({ t, lang, m, e, week, isOpen, onToggle, quality, spanLabel, 
           </table>
 
           <dl className="bt-facts">
-            <div className="bt-fact">
-              <dt>{t.fCountry}</dt>
-              <dd>
-                {m.country ? (
-                  <>
-                    {countryName(m.country, lang)}
-                    <span className="bt-fact-aside">{m.country.toUpperCase()}</span>
-                  </>
-                ) : (
-                  <span className="bt-fact-none">{t.unknownField}</span>
-                )}
-              </dd>
-            </div>
-            <div className="bt-fact">
-              <dt>{t.fTimezone}</dt>
-              <dd>
-                {resolveOffset(m.country, m.utcOffset).mins == null ? (
-                  <span className="bt-fact-none">{t.unknownField}</span>
-                ) : (
-                  <>
-                    {offsetLabel(resolveOffset(m.country, m.utcOffset).mins)}
-                    <span className="bt-fact-aside">
-                      {t.localTimeNow(hhmm(nowUTCMinutes() + resolveOffset(m.country, m.utcOffset).mins))}
-                    </span>
-                  </>
-                )}
-              </dd>
-            </div>
             <div className="bt-fact">
               <dt>{t.fLastActive}</dt>
               <dd>
@@ -2606,7 +2401,6 @@ export default function App() {
                 ["chests", t.tabChests],
                 ["dragon", t.tabDragon],
                 ["timing", t.tabTiming],
-                ["map", t.tabMap],
               ].map(([k, label]) => (
                 <button key={k} className="bt-viewtab" onClick={() => setView(k)} aria-current={view === k ? "page" : undefined}>
                   {label}
@@ -2634,11 +2428,6 @@ export default function App() {
             {view === "dragon" && (
               <Suspense fallback={<p className="bt-empty">{t.loading}</p>}>
                 <DragonCoinStats t={t} lang={lang} members={state.members} formerMembers={state.formerMembers} weeks={state.weeks} dragonPools={state.dragonPools} />
-              </Suspense>
-            )}
-            {view === "map" && (
-              <Suspense fallback={<p className="bt-empty">{t.loading}</p>}>
-                <WorldMap t={t} lang={lang} members={state.members} />
               </Suspense>
             )}
           </>

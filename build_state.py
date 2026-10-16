@@ -241,7 +241,6 @@ def read_hars(paths):
                             "level": row[7] if isinstance(row[7], int) else 0,
                             "clan": row[13] if isinstance(row[13], str) else "",
                             "coords": row[15] if isinstance(row[15], list) else None,
-                            "country": row[3] if isinstance(row[3], str) else "",
                             "tz": row[21] if len(row) > 21 and isinstance(row[21], str) else "",
                             "clan_entity": row[11][0] if isinstance(row[11], list) and row[11] else None,
                         }
@@ -356,8 +355,6 @@ def build_members(players, prev_members, old_by_name, ranks_by_id, ranks_by_name
             "inactive": prev.get("inactive", False),
             "ingots": prev.get("ingots", False),
             "firstSeen": joined or prev.get("firstSeen") or today,
-            # profile country, ISO 3166-1 alpha-2
-            "country": p.get("country") or prev.get("country") or "",
             # minutes east of UTC. What the game reports wins; overrides.json
             # fills in members who left the field blank in their profile, and
             # the previous state covers a capture that happened not to carry it

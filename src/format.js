@@ -1,6 +1,4 @@
-/* Formatting helpers shared between the ledger and the map. They live here so
-   the map can be a lazily-loaded chunk without importing back into
-   BowTracker.jsx and forming a cycle. */
+/* Formatting helpers shared across the tabs. */
 
 export const fmt = (n) => (n || 0).toLocaleString("en-US");
 
@@ -33,13 +31,3 @@ export const locale = (lang) => ({ es: "es-ES", pl: "pl-PL" }[lang] || "en-GB");
 
 export const shortDate = (dateStr, lang) =>
   new Date(dateStr + "T12:00:00Z").toLocaleDateString(locale(lang), { day: "numeric", month: "short" });
-
-/* No flag emoji anywhere: Windows has no glyphs for regional-indicator pairs,
-   so they fall back to the two bare letters and read as a typo beside the name. */
-export const countryName = (cc, lang) => {
-  try {
-    return new Intl.DisplayNames([["en", "es", "pl"].includes(lang) ? lang : "en"], { type: "region" }).of(cc.toUpperCase());
-  } catch {
-    return cc;
-  }
-};
