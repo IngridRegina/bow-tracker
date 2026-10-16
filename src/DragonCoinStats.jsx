@@ -121,7 +121,6 @@ const FLOWS = ["earned", "received"];
 export default function DragonCoinStats({ t, lang, members, formerMembers = [], weeks, dragonPools = [] }) {
   const earned = useMemo(() => aggregate(weeks, "dragonCoins"), [weeks]);
   const received = useMemo(() => aggregate(weeks, "dragonCoinsReceived"), [weeks]);
-  const pool = useMemo(() => aggregate(weeks, "dragonCoinsPool"), [weeks]);
 
   /* Names for the reconciliation, which spans anyone who ever earned or was
      paid — including members who have since left, whose coins would otherwise
@@ -200,18 +199,6 @@ export default function DragonCoinStats({ t, lang, members, formerMembers = [], 
     return { rows, totalEarned, totalReceived, totalOwed, owedCount: owed.length };
   }, [earned, received, nameById, currentIds]);
 
-  /* Per-member prize-pool shares, biggest first. Combined across every pool
-     on file — the per-pool headline figures come from dragonPools below. */
-  const poolRows = useMemo(() => {
-    const rows = [...pool.byMember.keys()].map((id) => ({
-      id,
-      name: nameById.get(id) || id,
-      former: !currentIds.has(id),
-      coins: sumMap(pool.byMember.get(id)),
-    }));
-    rows.sort((a, b) => b.coins - a.coins);
-    return rows;
-  }, [pool, nameById, currentIds]);
 
   const [poolsOpen, setPoolsOpen] = useState(false);
   const [flow, setFlow] = useState("earned");
@@ -349,8 +336,10 @@ export default function DragonCoinStats({ t, lang, members, formerMembers = [], 
       </div>
 
       {/* Prize pools: clan-competition winnings, kept out of the payout
-          reconciliation above so they cannot mask a real tournament debt. */}
-      {(dragonPools.length > 0 || poolRows.length > 0) && (
+          reconciliation above so they cannot mask a real tournament debt. Each
+          pool stands on its own — one may be fully handed out, the next still
+          sitting in storage — so each gets its own figures and share table. */}
+      {dragonPools.length > 0 && (
         <div className="bt-card bt-chests-card">
           {/* Collapsed by default: prize pools are a one-off aside, not the
               headline the payout reconciliation above is. */}
@@ -361,11 +350,9 @@ export default function DragonCoinStats({ t, lang, members, formerMembers = [], 
             aria-expanded={poolsOpen}
           >
             <h3 className="bt-chart-title">{t.dragonPoolsTitle}</h3>
-            {dragonPools.length > 0 && (
-              <span className="bt-dragon-left bt-pool-head-sum">
-                {dragonPools.map((p) => p.name).join(", ")}
-              </span>
-            )}
+            <span className="bt-dragon-left bt-pool-head-sum">
+              {dragonPools.map((p) => p.name).join(", ")}
+            </span>
             <span className="bt-slot-toggle">{poolsOpen ? "−" : "+"}</span>
           </button>
 
@@ -375,6 +362,7 @@ export default function DragonCoinStats({ t, lang, members, formerMembers = [], 
 
           {dragonPools.map((p) => {
             const remaining = Math.max(0, (p.total || 0) - (p.distributed || 0));
+            const payouts = p.payouts || [];
             return (
               <div key={p.name + p.received} className="bt-dragon-pool">
                 <h4 className="bt-chart-title">
@@ -397,33 +385,36 @@ export default function DragonCoinStats({ t, lang, members, formerMembers = [], 
                     <span className="bt-stat-label">{t.dragonPoolRemaining}</span>
                   </div>
                 </div>
+
+                {payouts.length > 0 && (
+                  <ScrollTable>
+                    <table className="bt-res-table bt-chest-table bt-recon-table">
+                      <thead>
+                        <tr>
+                          <th className="bt-res-name">{t.dragonReconName}</th>
+                          <th className="bt-res-given">{t.dragonPoolShareCol}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {payouts.map((r) => (
+                          <tr key={r.id} className="bt-chest-row" data-owed={r.paid ? undefined : "true"}>
+                            <td className="bt-res-name" title={meta.tip.get(r.id) || undefined}>
+                              {r.name}
+                              {!currentIds.has(r.id) && <span className="bt-dragon-left"> · {t.dragonLeftTag}</span>}
+                            </td>
+                            <td className="bt-res-given">
+                              {fmt(r.coins)}
+                              {!r.paid && <span className="bt-dragon-left"> · {t.dragonPoolUnpaid}</span>}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </ScrollTable>
+                )}
               </div>
             );
           })}
-
-          {poolRows.length > 0 && (
-            <ScrollTable>
-              <table className="bt-res-table bt-chest-table bt-recon-table">
-                <thead>
-                  <tr>
-                    <th className="bt-res-name">{t.dragonReconName}</th>
-                    <th className="bt-res-given">{t.dragonPoolShareCol}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {poolRows.map((r) => (
-                    <tr key={r.id} className="bt-chest-row">
-                      <td className="bt-res-name" title={meta.tip.get(r.id) || undefined}>
-                        {r.name}
-                        {r.former && <span className="bt-dragon-left"> · {t.dragonLeftTag}</span>}
-                      </td>
-                      <td className="bt-res-given">{fmt(r.coins)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </ScrollTable>
-          )}
           </>
           )}
         </div>

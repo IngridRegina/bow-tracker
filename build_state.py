@@ -836,55 +836,95 @@ def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
         for field, per_player in fields.items():
             w[field] = per_player
 
-    # Carve each prize pool's per-member shares out of received and into their
-    # own flow. The shares are hand-recorded (prize-pools.json) because nothing
-    # in the capture tells a pool payout apart from a tournament repayment — both
-    # are kind-1 events on resource 31. We take the share off the member's
-    # received on the day the pool was paid, spilling to their other days that
-    # week only if a payout happened to be split across days, so what remains in
-    # received is the tournament repayment alone.
+    # Clan prize pools (prize-pools.json). A clan competition hands the whole
+    # clan a lump of dragon coins — a kind-8 or kind-9 event — which the leader
+    # shares out by participation points. Those payouts are kind-1 events,
+    # indistinguishable in the capture from a tournament repayment, so the shares
+    # a pool has actually handed out are carved back out of received: otherwise
+    # they cancel tournament coins that were never repaid and hide who is owed.
+    #
+    # Two distribution styles, and carving the wrong one steals a real repayment:
+    #   itemised (default) — each share paid as its own kind-1 event for the exact
+    #     amount. Carve only a standalone event equal to a member's share, in the
+    #     pool's week; a share not yet paid simply finds no match and is left as
+    #     outstanding, and a same-week tournament repayment of a different amount
+    #     is never touched.
+    #   blended ("blended": true) — the share folded into a larger payment
+    #     alongside a tournament repayment (how Dark Omens went out), so no
+    #     standalone event exists. Take the share off the member's received for
+    #     that week, trusting that the payment on/around the pool day carried it.
+    #
+    # Either way the per-member table shows the full allocation; "distributed" is
+    # only what has actually been handed out so far, so a half-paid pool reads as
+    # half remaining.
     dragon_pools = []
     for pool in prize_pools.get("pools", []):
         pool_day = pool["received"]
-        w = week_for(pool_day)
-        received = w.get("dragonCoinsReceived", {})
-        pool_flow = w.setdefault("dragonCoinsPool", {})
-        distributed = 0
-        orphan = 0
+        pweek = week_start(pool_day)
+        paid_out = pool.get("paidOut", True)
+        blended = pool.get("blended", False)
+        received = week_for(pool_day).get("dragonCoinsReceived", {}) if paid_out else {}
+        shares = {pid: (info.get("coins", 0) if isinstance(info, dict) else info)
+                  for pid, info in pool.get("payouts", {}).items()}
+        settled = set()  # members whose share has been found in the captures
+
+        if paid_out and not blended:
+            # Match each member's share to one standalone kind-1 event of exactly
+            # that amount, inside the pool's week.
+            for ev in elog.values():
+                if ev["kind"] != 1:
+                    continue
+                pid = str(ev["player_id"])
+                amt = ev["amounts"].get(DRAGON_COIN_RESOURCE)
+                if pid in settled or not amt or shares.get(pid) != amt:
+                    continue
+                if week_start(game_day(ev["ts"])) != pweek:
+                    continue
+                day = game_day(ev["ts"])
+                member_recv = received.get(pid, {})
+                if member_recv.get(day, 0) >= amt:
+                    member_recv[day] -= amt
+                    if member_recv[day] == 0:
+                        del member_recv[day]
+                    if not member_recv:
+                        received.pop(pid, None)
+                    settled.add(pid)
+        elif paid_out:
+            for pid, coins in shares.items():
+                remaining = coins
+                member_recv = received.get(pid, {})
+                for d in sorted(member_recv, key=lambda d: (d != pool_day, d)):
+                    take = min(member_recv[d], remaining)
+                    if not take:
+                        continue
+                    member_recv[d] -= take
+                    remaining -= take
+                    if member_recv[d] == 0:
+                        del member_recv[d]
+                    if remaining == 0:
+                        break
+                if not member_recv:
+                    received.pop(pid, None)
+                if remaining < coins:
+                    settled.add(pid)
+
+        payouts = []
         for pid, info in pool.get("payouts", {}).items():
             coins = info.get("coins", 0) if isinstance(info, dict) else info
             if not coins:
                 continue
-            distributed += coins
-            remaining = coins
-            member_recv = received.get(pid, {})
-            # Pool day first, then the rest of the week, so a clean same-day
-            # payout is moved exactly and never dips into another day's coins.
-            for d in sorted(member_recv, key=lambda d: (d != pool_day, d)):
-                take = min(member_recv[d], remaining)
-                if not take:
-                    continue
-                member_recv[d] -= take
-                remaining -= take
-                day_flow = pool_flow.setdefault(pid, {})
-                day_flow[d] = day_flow.get(d, 0) + take
-                if member_recv[d] == 0:
-                    del member_recv[d]
-                if remaining == 0:
-                    break
-            if not member_recv:
-                received.pop(pid, None)
-            # A share with no matching received event (never captured, or paid
-            # outside the recorded flow) still counts as handed out.
-            if remaining:
-                day_flow = pool_flow.setdefault(pid, {})
-                day_flow[pool_day] = day_flow.get(pool_day, 0) + remaining
-                orphan += remaining
+            name = info.get("name") if isinstance(info, dict) else None
+            payouts.append({"id": pid, "name": name or name_of.get(pid, pid),
+                            "coins": coins, "paid": pid in settled})
+        payouts.sort(key=lambda r: (r["paid"], -r["coins"]))
+        allocated = sum(r["coins"] for r in payouts)
+        paid = sum(r["coins"] for r in payouts if r["paid"])
         dragon_pools.append({"name": pool["name"], "received": pool_day,
-                             "total": pool.get("total", distributed), "distributed": distributed})
-        note = f"; {orphan} with no matching payout in the captures" if orphan else ""
-        print(f"prize pool '{pool['name']}': {distributed} of {pool.get('total', distributed)} "
-              f"distributed across {len(pool.get('payouts', {}))} member(s){note}")
+                             "total": pool.get("total", allocated), "paidOut": paid_out,
+                             "distributed": paid, "payouts": payouts})
+        print(f"prize pool '{pool['name']}': {pool.get('total', allocated)} total, "
+              f"{allocated} allocated across {len(payouts)} member(s), "
+              f"{paid} handed out to {len(settled)}")
 
     # The donation target is a share of might, and might climbs all week, so
     # measuring against the current figure moves the goalposts: give exactly
