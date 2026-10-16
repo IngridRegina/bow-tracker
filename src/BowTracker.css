@@ -1164,7 +1164,6 @@
   grid-template-columns: 12.5em 11em minmax(80px, 1fr) 11em;
   align-items: center;
   gap: 12px;
-  width: 100%;
   text-align: left;
   padding: 10px 14px;
   font: inherit;
