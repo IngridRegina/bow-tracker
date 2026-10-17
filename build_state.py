@@ -1090,9 +1090,24 @@ def build(har_paths, merge_path=None, clan="BOW", ranks_path=None):
     # When this run happened, so the page can show "last updated".
     generated_at = datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
 
+    # Clan activity by UTC hour (0..23): the share of members whose local clock
+    # sits between 09:00 and midnight at that hour — the "good times" bars. It is
+    # computed here and the per-member timezone it comes from is then dropped
+    # from the published record, so neither a member count nor who-is-where ever
+    # reaches the site. 09:00 is AWAKE_FROM minutes past local midnight.
+    AWAKE_FROM = 9 * 60
+    offsets = [m["utcOffset"] for m in members if m.get("utcOffset") is not None]
+    timing = [
+        round(sum(1 for off in offsets if (h * 60 + off) % 1440 >= AWAKE_FROM) / len(offsets) * 100)
+        if offsets else 0
+        for h in range(24)
+    ]
+    for m in members:
+        m.pop("utcOffset", None)
+
     state = {"generatedAt": generated_at, "capital": list(capital), "members": members,
              "formerMembers": former_members, "currentWeek": current, "weeks": weeks,
-             "months": months, "dragonPools": dragon_pools}
+             "months": months, "dragonPools": dragon_pools, "timing": timing}
     json.dump(state, open("public/tracker-state.json", "w", encoding="utf-8"), indent=2)
 
     print(f"members: {len(members)}   weeks: {len(weeks)}   current: {current}")

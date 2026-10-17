@@ -26,8 +26,6 @@ const EXCEED_MARGIN = 0.5; // 50% past both targets earns the darker green
 // Days of unmoved might before a member is flagged. Mirrors STALL_DAYS in
 // build_state.py, which is what computes mightFlatDays.
 const STALL_DAYS = 3;
-// Size of the "the people who actually carry the clan" cut in Good times.
-const TOP_N = 15;
 
 /* ---- resource icons (lucide; colour comes from CSS) ----------- */
 const RES_ICON = {
@@ -228,21 +226,14 @@ const T = {
     inactiveWhy: (n) => `Might has not moved in ${n} days, and nothing has been donated, sped up or chested in that time either. Might alone is not enough — a member can play all day without shifting it — so the badge needs both.`,
     daysAgo: (n) => (n === 0 ? "today" : n === 1 ? "yesterday" : `${n} days ago`),
     timingTitle: "When is the clan awake?",
-    timingIntro: "How many members have a local clock between 09:00 and midnight at each hour. Times are on your own clock, with UTC alongside.",
-    timingBest: (n, total, times) => `Best coverage is ${n} of ${total}, at ${times}.`,
+    timingIntro: "How active the clan is at each hour — how much of it has a local clock between 09:00 and midnight. Times are on your own clock, with UTC alongside.",
+    timingBest: (times) => `The clan is most active at ${times}.`,
     atReset: "daily reset",
     beforeReset: (h) => `${h}h before reset`,
     afterReset: (h) => `${h}h after reset`,
-    membersAwake: "awake",
+    activityLevel: { best: "Peak", good: "High", ok: "Moderate", low: "Quiet" },
     rankBest: "Best first",
     rankClock: "By clock",
-    countAll: "Everyone",
-    countActive: "Active only",
-    countTop: `Top ${TOP_N}`,
-    excludedNote: (n) =>
-      `${n} member${n === 1 ? "" : "s"} left out as probably not around: might flat for ${STALL_DAYS}+ days, or nothing contributed in ${STALL_DAYS}+ days.`,
-    topNote: `Counting only the clan's top ${TOP_N} by quality score, the same ranking the Ledger sorts on, so the two always agree about who they are.`,
-    noTimezone: (n) => (n === 1 ? "1 member has" : `${n} members have`) + " no timezone set in their profile, and are left out of the counts.",
 
     formerTitle: "No longer in the clan",
     formerCount: (n) => `${n} member${n === 1 ? "" : "s"}`,
@@ -429,21 +420,14 @@ const T = {
     inactiveWhy: (n) => `El poder no se mueve desde hace ${n} días, y en ese tiempo tampoco ha donado, acelerado ni hecho cofres. El poder por sí solo no basta — se puede jugar a diario sin moverlo — así que la etiqueta exige ambas cosas.`,
     daysAgo: (n) => (n === 0 ? "hoy" : n === 1 ? "ayer" : `hace ${n} días`),
     timingTitle: "¿Cuándo está despierto el clan?",
-    timingIntro: "Cuántos miembros tienen su hora local entre las 09:00 y medianoche en cada hora. Las horas son las de tu reloj, con UTC al lado.",
-    timingBest: (n, total, times) => `La mejor cobertura es ${n} de ${total}, a las ${times}.`,
+    timingIntro: "Cómo de activo está el clan en cada hora — cuánto de él tiene su hora local entre las 09:00 y medianoche. Las horas son las de tu reloj, con UTC al lado.",
+    timingBest: (times) => `El clan está más activo a las ${times}.`,
     atReset: "reinicio diario",
     beforeReset: (h) => `${h}h antes del reinicio`,
     afterReset: (h) => `${h}h después del reinicio`,
-    membersAwake: "despiertos",
+    activityLevel: { best: "Máxima", good: "Alta", ok: "Media", low: "Baja" },
     rankBest: "Mejores primero",
     rankClock: "Por hora",
-    countAll: "Todos",
-    countActive: "Solo activos",
-    countTop: `Top ${TOP_N}`,
-    excludedNote: (n) =>
-      `${n} miembro${n === 1 ? "" : "s"} fuera del recuento por parecer ausentes: poder sin cambios ${STALL_DAYS}+ días, o sin aportar nada en ${STALL_DAYS}+ días.`,
-    topNote: `Contando solo a los ${TOP_N} mejores del clan por puntuación de calidad, la misma que ordena el Registro, así que ambos coinciden en quiénes son.`,
-    noTimezone: (n) => `${n} miembro${n === 1 ? "" : "s"} sin zona horaria en su perfil, no se cuentan.`,
 
     formerTitle: "Ya no están en el clan",
     formerCount: (n) => `${n} miembro${n === 1 ? "" : "s"}`,
@@ -630,21 +614,14 @@ const T = {
     inactiveWhy: (n) => `Potęga nie drgnęła od ${n} dni, a w tym czasie nie było też żadnych datków, przyspieszeń ani skrzyń. Sama potęga nie wystarczy — można grać codziennie i jej nie ruszać — więc odznaka wymaga obu rzeczy.`,
     daysAgo: (n) => (n === 0 ? "dzisiaj" : n === 1 ? "wczoraj" : `${n} ${plForm(n, "dzień", "dni", "dni")} temu`),
     timingTitle: "Kiedy klan nie śpi?",
-    timingIntro: "Ilu członków ma lokalny czas między 09:00 a północą w danej godzinie. Godziny są według twojego zegara, z UTC obok.",
-    timingBest: (n, total, times) => `Najlepsze pokrycie to ${n} z ${total}, o ${times}.`,
+    timingIntro: "Jak aktywny jest klan o każdej godzinie — jaka jego część ma lokalny czas między 09:00 a północą. Godziny są według twojego zegara, z UTC obok.",
+    timingBest: (times) => `Klan jest najaktywniejszy o ${times}.`,
     atReset: "dzienny reset",
     beforeReset: (h) => `${h}h przed resetem`,
     afterReset: (h) => `${h}h po resecie`,
-    membersAwake: "aktywni",
+    activityLevel: { best: "Szczyt", good: "Wysoka", ok: "Średnia", low: "Niska" },
     rankBest: "Najlepsi najpierw",
     rankClock: "Według zegara",
-    countAll: "Wszyscy",
-    countActive: "Tylko aktywni",
-    countTop: `Top ${TOP_N}`,
-    excludedNote: (n) =>
-      `${n} ${plForm(n, "członek pominięty", "członkowie pominięci", "członków pominiętych")} jako prawdopodobnie nieobecni: potęga bez zmian od ${STALL_DAYS}+ dni lub brak wkładu od ${STALL_DAYS}+ dni.`,
-    topNote: `Liczy się tylko ${TOP_N} najlepszych w klanie według oceny jakości — tej samej, według której sortuje Rejestr — więc oba zawsze zgadzają się co do tego, kim są.`,
-    noTimezone: (n) => `${n} ${plForm(n, "członek nie ma", "członkowie nie mają", "członków nie ma")} ustawionej strefy czasowej w profilu, więc ${plForm(n, "jest pomijany", "są pomijani", "są pomijani")} w zliczeniach.`,
 
     formerTitle: "Już nie w klanie",
     formerCount: (n) => `${n} ${plForm(n, "członek", "członkowie", "członków")}`,
@@ -1355,11 +1332,10 @@ function MonthBoard({ t, lang, members, months }) {
 }
 
 /* ---- timing ---------------------------------------------------
-   Which UTC hours fall inside most members' waking day. The window runs from
-   09:00 local to midnight local, so — working in minutes past local midnight —
-   a member is awake whenever their local time is at or past 09:00, since the
-   value is already reduced modulo a day. */
-const AWAKE_FROM = 9 * 60;
+   The clan's activity by UTC hour arrives precomputed from build_state — a
+   share 0..100 of the clan whose local clock is in its waking day at each hour.
+   The page only shapes it into bars and an activity label, so no per-member
+   timezone and no member count is ever shipped to it. */
 
 /* How good an hour is, as a share of the clan. Four bands rather than one
    highlight, so the shoulders either side of the peak are readable as "still
@@ -1407,84 +1383,22 @@ function looksInactive(m, asOf) {
 }
 
 
-function Timing({ t, members, week, prevWeek }) {
+function Timing({ t, timing }) {
   const [order, setOrder] = useState("best");
-  const [who, setWho] = useState("all");
 
-  /* The clan's best members by the same quality score the ledger sorts on, so
-     "top 15" means one thing across the whole site rather than two similar but
-     differing rankings. */
-  const topIds = useMemo(
-    () =>
-      new Set(
-        scoreRoster(members, week, prevWeek)
-          .sort((a, b) => b.q.score - a.q.score || b.e.might - a.e.might)
-          .slice(0, TOP_N)
-          .map((x) => x.m.id)
-      ),
-    [members, week, prevWeek]
-  );
+  // One activity value per UTC hour (0..23), precomputed in build_state.
+  const rows = (timing && timing.length === 24 ? timing : Array(24).fill(0)).map((pct, hour) => ({ hour, pct }));
 
-  /* "Quiet" means nothing has moved for a few days: might flat, or no
-     donation, speedup or chest. Measured against the freshest contribution in
-     the data rather than the wall clock, so the count does not creep upward
-     just because the page has been left open or the state file is a day old. */
-  const asOf = useMemo(
-    () => members.reduce((a, m) => (m.lastActive && m.lastActive > a ? m.lastActive : a), ""),
-    [members]
-  );
-  const isQuiet = useCallback(
-    (m) => {
-      if (m.mightFlatDays >= STALL_DAYS) return true;
-      if (!m.lastActive) return true;
-      return asOf ? daysBetween(m.lastActive, asOf) >= STALL_DAYS : false;
-    },
-    [asOf]
-  );
-
-  const inScope = useCallback(
-    (m) => (who === "active" ? !isQuiet(m) : who === "top" ? topIds.has(m.id) : true),
-    [who, isQuiet, topIds]
-  );
-
-  const known = useMemo(
-    () => members.filter(inScope).filter((m) => m.utcOffset != null),
-    [members, inScope]
-  );
-  const counted = members.filter(inScope).length;
-  const unknown = counted - known.length;
-  const excluded = who === "active" ? members.length - counted : 0;
-
-  // how many members sit at each UTC offset — counts only, never who
-  const groups = useMemo(() => {
-    const g = new Map();
-    known.forEach((m) => g.set(m.utcOffset, (g.get(m.utcOffset) || 0) + 1));
-    return [...g.entries()].map(([off, count]) => ({ off, count }));
-  }, [known]);
-
-  const rows = useMemo(
-    () =>
-      Array.from({ length: 24 }, (_, hour) => {
-        let n = 0;
-        groups.forEach((g) => {
-          const local = (((hour * 60 + g.off) % 1440) + 1440) % 1440;
-          if (local >= AWAKE_FROM) n += g.count;
-        });
-        return { hour, n, pct: Math.round((n / Math.max(known.length, 1)) * 100) };
-      }),
-    [groups, known.length]
-  );
-
-  // Times are shown on the reader's own clock, with UTC alongside. The rows
-  // are still keyed by UTC hour; only the label and the clock ordering shift.
+  // Times are shown on the reader's own clock, with UTC alongside. The rows are
+  // keyed by UTC hour; only the label and the clock ordering shift.
   const viewerOffset = -new Date().getTimezoneOffset();
   const localOf = (hour) => (((hour * 60 + viewerOffset) % 1440) + 1440) % 1440;
 
-  const best = rows.reduce((a, r) => Math.max(a, r.n), 0);
-  const bestHours = rows.filter((r) => r.n === best).map((r) => hhmm(localOf(r.hour)));
+  const best = rows.reduce((a, r) => Math.max(a, r.pct), 0);
+  const bestHours = rows.filter((r) => r.pct === best).map((r) => hhmm(localOf(r.hour)));
   const shown =
     order === "best"
-      ? [...rows].sort((a, b) => b.n - a.n || localOf(a.hour) - localOf(b.hour))
+      ? [...rows].sort((a, b) => b.pct - a.pct || localOf(a.hour) - localOf(b.hour))
       : [...rows].sort((a, b) => localOf(a.hour) - localOf(b.hour));
 
   // reset sits at BOUNDARY_UTC_HOUR; express every other hour relative to it
@@ -1503,15 +1417,6 @@ function Timing({ t, members, week, prevWeek }) {
         <div className="bt-timing-controls">
           <Segmented
             options={[
-              { value: "all", label: t.countAll },
-              { value: "active", label: t.countActive },
-              { value: "top", label: t.countTop },
-            ]}
-            value={who}
-            onChange={setWho}
-          />
-          <Segmented
-            options={[
               { value: "best", label: t.rankBest },
               { value: "clock", label: t.rankClock },
             ]}
@@ -1522,7 +1427,7 @@ function Timing({ t, members, week, prevWeek }) {
       </div>
 
       <p className="bt-timing-intro">
-        {t.timingIntro} {t.timingBest(best, known.length, bestHours.join(", "))}
+        {t.timingIntro} {t.timingBest(bestHours.join(", "))}
       </p>
 
       <div className="bt-slots">
@@ -1531,7 +1436,7 @@ function Timing({ t, members, week, prevWeek }) {
             className="bt-slot"
             key={r.hour}
             data-tier={tierOf(r.pct)}
-            data-best={r.n === best ? "" : undefined}
+            data-best={r.pct === best ? "" : undefined}
             data-reset={r.hour === BOUNDARY_UTC_HOUR ? "" : undefined}
           >
             <div className="bt-slot-head">
@@ -1543,20 +1448,11 @@ function Timing({ t, members, week, prevWeek }) {
               <span className="bt-slot-track">
                 <span className="bt-slot-fill" style={{ "--bt-pct": `${r.pct}%` }} />
               </span>
-              <span className="bt-slot-count">
-                {r.n}
-                <span className="bt-slot-total">/{known.length}</span> {t.membersAwake}
-              </span>
+              <span className="bt-slot-count">{t.activityLevel[tierOf(r.pct)]}</span>
             </div>
           </div>
         ))}
       </div>
-
-      <p className="bt-rule-note">
-        {who === "top" && `${t.topNote} `}
-        {excluded > 0 && `${t.excludedNote(excluded)} `}
-        {unknown > 0 && `${t.noTimezone(unknown)} `}
-      </p>
     </section>
   );
 }
@@ -2419,7 +2315,7 @@ export default function App() {
                 weekSelect={weekSelect}
               />
             )}
-            {view === "timing" && <Timing t={t} members={state.members} week={week} prevWeek={prevWeek} />}
+            {view === "timing" && <Timing t={t} timing={state.timing} />}
             {view === "chests" && (
               <Suspense fallback={<p className="bt-empty">{t.loading}</p>}>
                 <ChestStats t={t} lang={lang} members={state.members} weeks={state.weeks} />
